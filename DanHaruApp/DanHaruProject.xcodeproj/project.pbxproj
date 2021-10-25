@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */ = {isa = PBXBuildFile; fileRef = 828648E92726779500EA5CAF /* 3442-scroll.json */; };
+		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
 		B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FCAF272661570046E35A /* AppDelegate.swift */; };
 		B6C3FCB4272661570046E35A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FCB3272661570046E35A /* MainViewController.swift */; };
 		B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6C3FCB5272661570046E35A /* MainViewController.storyboard */; };
@@ -22,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		828648E92726779500EA5CAF /* 3442-scroll.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "3442-scroll.json"; sourceTree = "<group>"; };
 		B6C3FCAC272661570046E35A /* DanHaruProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanHaruProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3FCAF272661570046E35A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6C3FCB3272661570046E35A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -42,6 +45,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
+				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
 				B6C3FD51272667C60046E35A /* RadFrameworkPackage in Frameworks */,
 			);
@@ -50,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		828648E82726778200EA5CAF /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				828648E92726779500EA5CAF /* 3442-scroll.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		B6C3FCA3272661560046E35A = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +112,7 @@
 		B6C3FD1F272664540046E35A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				828648E82726778200EA5CAF /* Lottie */,
 				B6C3FCB8272661580046E35A /* Assets.xcassets */,
 				B6C3FCBD272661580046E35A /* Info.plist */,
 				B6C3FD6F27266A190046E35A /* DanHaru-Bridging-Header.h */,
@@ -168,6 +181,7 @@
 				B6C3FD26272665200046E35A /* Lottie */,
 				B6C3FD2A272665A60046E35A /* SkeletonView */,
 				B6C3FD50272667C60046E35A /* RadFrameworkPackage */,
+				828648EC272678C800EA5CAF /* SnapKit */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -200,6 +214,7 @@
 				B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				B6C3FD4F272667C60046E35A /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
+				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
 			projectDirPath = "";
@@ -216,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
+				828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */,
 				B6C3FCB9272661580046E35A /* Assets.xcassets in Resources */,
 				B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */,
 			);
@@ -443,6 +459,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -470,6 +494,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		828648EC272678C800EA5CAF /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		B6C3FD26272665200046E35A /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */;
