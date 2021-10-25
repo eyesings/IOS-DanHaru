@@ -9,9 +9,9 @@ import Foundation
 
 
 class ServiceExample {
-    func exampleFunc(completionHandler: @escaping (ExampleViewModel) -> Void) {
-        // URLSession을 통한 서버 통신 후 viewModel Return
+    static func exampleFunc(completionHandler: @escaping (NSDictionary?) -> Void) {
+        // URLSession을 통한 서버 통신 후 dictionary(ViewModel Init 가능한 타입) Return
         let dic: NSDictionary? = NSDictionary()
-        completionHandler(ExampleViewModel.init(withDic: dic))
+        completionHandler(dic)
     }
 }
