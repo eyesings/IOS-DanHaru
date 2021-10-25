@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Lottie",
+        "repositoryURL": "https://github.com/airbnb/lottie-ios",
+        "state": {
+          "branch": null,
+          "revision": "79a0b70547f7c40ea54c67487f935fa2f2eaaadc",
+          "version": "3.2.3"
+        }
+      },
+      {
+        "package": "importFramework",
+        "repositoryURL": "http://gitlab.ileadon.com/IOSDevApp/pubBinaryFramework.git",
+        "state": {
+          "branch": "master",
+          "revision": "ae031c87fab66b75a6b3ce895f7f22f4ea21c525",
+          "version": null
+        }
+      },
+      {
+        "package": "RadFrameworkPackage",
+        "repositoryURL": "http://gitlab.ileadon.com/IOSDevApp/RadPKGManager_IOS.git",
+        "state": {
+          "branch": "RadSPM_Dependency_ji_young",
+          "revision": "44976fe63c82699d516a71940749d8a242126f12",
+          "version": null
+        }
+      },
+      {
+        "package": "SkeletonView",
+        "repositoryURL": "https://github.com/Juanpe/SkeletonView.git",
+        "state": {
+          "branch": null,
+          "revision": "ff1a7e299b20786774c1951e2cce2276ac4b8463",
+          "version": "1.25.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
