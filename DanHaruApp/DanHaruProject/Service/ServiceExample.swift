@@ -15,3 +15,11 @@ class ServiceExample {
         completionHandler(dic)
     }
 }
+
+
+class ViewModelService {
+    static func userLoginService(completionHandler: @escaping (NSDictionary?) -> Void) {
+        let dic: NSDictionary? = NSDictionary()
+        completionHandler(dic)
+    }
+}

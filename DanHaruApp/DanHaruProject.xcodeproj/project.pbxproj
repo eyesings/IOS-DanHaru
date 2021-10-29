@@ -9,6 +9,19 @@
 /* Begin PBXBuildFile section */
 		828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */ = {isa = PBXBuildFile; fileRef = 828648E92726779500EA5CAF /* 3442-scroll.json */; };
 		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
+		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
+		B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A255EC272772A200C3EC14 /* HomeViewController.swift */; };
+		B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */; };
+		B6A255F527277C4100C3EC14 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F427277C4100C3EC14 /* Color.xcassets */; };
+		B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = B6A2560027278A0600C3EC14 /* loginAnimation.json */; };
+		B6A2560527278CF000C3EC14 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2560427278CF000C3EC14 /* UIColor+Extension.swift */; };
+		B6A2560927279ED200C3EC14 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2560827279ED200C3EC14 /* LoginViewController.swift */; };
+		B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A256122727BFBD00C3EC14 /* UserJoinSB.storyboard */; };
+		B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */; };
+		B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B604282728D2B400CD8453 /* UITextField+Extension.swift */; };
+		B6BF761E272B88620031F2C9 /* FindUserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BF761D272B88620031F2C9 /* FindUserInfoViewController.swift */; };
+		B6BF7621272B897B0031F2C9 /* UserLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BF7620272B897B0031F2C9 /* UserLoginModel.swift */; };
+		B6BF7624272B89A40031F2C9 /* UserLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BF7623272B89A40031F2C9 /* UserLoginViewModel.swift */; };
 		B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FCAF272661570046E35A /* AppDelegate.swift */; };
 		B6C3FCB4272661570046E35A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FCB3272661570046E35A /* MainViewController.swift */; };
 		B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6C3FCB5272661570046E35A /* MainViewController.storyboard */; };
@@ -25,6 +38,21 @@
 
 /* Begin PBXFileReference section */
 		828648E92726779500EA5CAF /* 3442-scroll.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "3442-scroll.json"; sourceTree = "<group>"; };
+		B62C2EE7272A1FCD00D8FF8B /* Configs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
+		B6A255EC272772A200C3EC14 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeSB.storyboard; sourceTree = "<group>"; };
+		B6A255F427277C4100C3EC14 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		B6A2560027278A0600C3EC14 /* loginAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loginAnimation.json; sourceTree = "<group>"; };
+		B6A2560427278CF000C3EC14 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		B6A2560827279ED200C3EC14 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B6A256122727BFBD00C3EC14 /* UserJoinSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserJoinSB.storyboard; sourceTree = "<group>"; };
+		B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewControllerr.swift; sourceTree = "<group>"; };
+		B6B604202728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		B6B604212728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainViewController.strings; sourceTree = "<group>"; };
+		B6B604282728D2B400CD8453 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		B6BF761D272B88620031F2C9 /* FindUserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindUserInfoViewController.swift; sourceTree = "<group>"; };
+		B6BF7620272B897B0031F2C9 /* UserLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginModel.swift; sourceTree = "<group>"; };
+		B6BF7623272B89A40031F2C9 /* UserLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLoginViewModel.swift; sourceTree = "<group>"; };
 		B6C3FCAC272661570046E35A /* DanHaruProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DanHaruProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6C3FCAF272661570046E35A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6C3FCB3272661570046E35A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -58,8 +86,38 @@
 			isa = PBXGroup;
 			children = (
 				828648E92726779500EA5CAF /* 3442-scroll.json */,
+				B6A2560027278A0600C3EC14 /* loginAnimation.json */,
 			);
 			path = Lottie;
+			sourceTree = "<group>";
+		};
+		B62A956027292B9D00A3A4BC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B6A2560427278CF000C3EC14 /* UIColor+Extension.swift */,
+				B6B604282728D2B400CD8453 /* UITextField+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		B6A255EF272772A600C3EC14 /* Login&Join */ = {
+			isa = PBXGroup;
+			children = (
+				B6A2560827279ED200C3EC14 /* LoginViewController.swift */,
+				B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */,
+				B6A256122727BFBD00C3EC14 /* UserJoinSB.storyboard */,
+				B6BF761D272B88620031F2C9 /* FindUserInfoViewController.swift */,
+			);
+			path = "Login&Join";
+			sourceTree = "<group>";
+		};
+		B6A2560B27279ED800C3EC14 /* HomeRoot */ = {
+			isa = PBXGroup;
+			children = (
+				B6A255EC272772A200C3EC14 /* HomeViewController.swift */,
+				B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */,
+			);
+			path = HomeRoot;
 			sourceTree = "<group>";
 		};
 		B6C3FCA3272661560046E35A = {
@@ -95,7 +153,9 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD202726645D0046E35A /* AppFirst */,
+				B6A2560B27279ED800C3EC14 /* HomeRoot */,
 				B6C3FD1D2726644B0046E35A /* Main */,
+				B6A255EF272772A600C3EC14 /* Login&Join */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -113,9 +173,10 @@
 			isa = PBXGroup;
 			children = (
 				828648E82726778200EA5CAF /* Lottie */,
-				B6C3FCB8272661580046E35A /* Assets.xcassets */,
 				B6C3FCBD272661580046E35A /* Info.plist */,
 				B6C3FD6F27266A190046E35A /* DanHaru-Bridging-Header.h */,
+				B6C3FCB8272661580046E35A /* Assets.xcassets */,
+				B6A255F427277C4100C3EC14 /* Color.xcassets */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -133,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD49272666C40046E35A /* ModelExample.swift */,
+				B6BF7620272B897B0031F2C9 /* UserLoginModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -141,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD4C272666CF0046E35A /* ViewModelExample.swift */,
+				B6BF7623272B89A40031F2C9 /* UserLoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -157,6 +220,8 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD7527266BD00046E35A /* CommonMethod.swift */,
+				B62C2EE7272A1FCD00D8FF8B /* Configs.swift */,
+				B62A956027292B9D00A3A4BC /* Extension */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -208,6 +273,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = B6C3FCA3272661560046E35A;
 			packageReferences = (
@@ -231,9 +297,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
+				B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */,
+				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
 				828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */,
+				B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */,
 				B6C3FCB9272661580046E35A /* Assets.xcassets in Resources */,
 				B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */,
+				B6A255F527277C4100C3EC14 /* Color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,12 +314,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A2560927279ED200C3EC14 /* LoginViewController.swift in Sources */,
+				B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */,
 				B6C3FCB4272661570046E35A /* MainViewController.swift in Sources */,
+				B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */,
+				B6BF7624272B89A40031F2C9 /* UserLoginViewModel.swift in Sources */,
 				B6C3FD4D272666CF0046E35A /* ViewModelExample.swift in Sources */,
+				B6BF761E272B88620031F2C9 /* FindUserInfoViewController.swift in Sources */,
+				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */,
+				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
 				B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */,
 				B6C3FD4A272666C40046E35A /* ModelExample.swift in Sources */,
 				B6C3FD47272666BA0046E35A /* ServiceExample.swift in Sources */,
+				B6BF7621272B897B0031F2C9 /* UserLoginModel.swift in Sources */,
+				B6A2560527278CF000C3EC14 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +339,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B6C3FCB6272661570046E35A /* Base */,
+				B6B604212728D0B100CD8453 /* ko */,
 			);
 			name = MainViewController.storyboard;
 			sourceTree = "<group>";
@@ -268,6 +348,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				B6C3FCBB272661580046E35A /* Base */,
+				B6B604202728D0B100CD8453 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -279,6 +360,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -340,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
