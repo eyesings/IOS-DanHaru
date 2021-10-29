@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="TodoListTableViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="TodoListTableViewCell" rowHeight="90" id="KGk-i7-Jjw" customClass="TodoListTableViewCell" customModule="DanHaruProject" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="479" height="90"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="479" height="90"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pSP-jq-xPo">
+                        <rect key="frame" x="0.0" y="5" width="479" height="80"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제목이 들어갈 위치 입니다" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zft-jE-6vL">
+                                <rect key="frame" x="20" y="15" width="335.5" height="28"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="등록날짜, 인증 여부 확인" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJw-zU-Se0">
+                                <rect key="frame" x="20" y="48" width="335.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qwX-cY-g9Y">
+                                <rect key="frame" x="383" y="12" width="86" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qwX-cY-g9Y" secondAttribute="height" multiplier="23:15" id="K0y-c7-tmK"/>
+                                </constraints>
+                                <state key="normal" title="버튼"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="skeletonCornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hJw-zU-Se0" firstAttribute="leading" secondItem="zft-jE-6vL" secondAttribute="leading" id="2dW-Ck-MyY"/>
+                            <constraint firstAttribute="trailing" secondItem="qwX-cY-g9Y" secondAttribute="trailing" constant="10" id="4Mr-74-F9x"/>
+                            <constraint firstItem="qwX-cY-g9Y" firstAttribute="width" secondItem="pSP-jq-xPo" secondAttribute="width" multiplier="0.18" id="Kgt-Ru-6VR"/>
+                            <constraint firstItem="qwX-cY-g9Y" firstAttribute="centerY" secondItem="pSP-jq-xPo" secondAttribute="centerY" id="ZUh-Cv-juO"/>
+                            <constraint firstItem="zft-jE-6vL" firstAttribute="top" secondItem="pSP-jq-xPo" secondAttribute="top" constant="15" id="dic-qm-j5h"/>
+                            <constraint firstItem="zft-jE-6vL" firstAttribute="leading" secondItem="pSP-jq-xPo" secondAttribute="leading" constant="20" id="hPu-Mv-2zP"/>
+                            <constraint firstItem="hJw-zU-Se0" firstAttribute="top" secondItem="zft-jE-6vL" secondAttribute="bottom" constant="5" id="kGt-jL-Gm8"/>
+                            <constraint firstItem="hJw-zU-Se0" firstAttribute="width" secondItem="zft-jE-6vL" secondAttribute="width" id="pU8-BV-IXs"/>
+                            <constraint firstItem="zft-jE-6vL" firstAttribute="height" secondItem="pSP-jq-xPo" secondAttribute="height" multiplier="0.35" id="pV7-VN-VOB"/>
+                            <constraint firstItem="zft-jE-6vL" firstAttribute="width" secondItem="pSP-jq-xPo" secondAttribute="width" multiplier="0.7" id="rwF-Yr-5pU"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="skeletonCornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="pSP-jq-xPo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="F2U-Lb-jyA"/>
+                    <constraint firstItem="pSP-jq-xPo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jSz-gQ-gNQ"/>
+                    <constraint firstAttribute="bottom" secondItem="pSP-jq-xPo" secondAttribute="bottom" constant="5" id="lCg-3a-y7E"/>
+                    <constraint firstAttribute="trailing" secondItem="pSP-jq-xPo" secondAttribute="trailing" id="t89-UN-M2S"/>
+                </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="number" keyPath="skeletonCornerRadius">
+                        <real key="value" value="10"/>
+                    </userDefinedRuntimeAttribute>
+                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                </userDefinedRuntimeAttributes>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="cellBtn" destination="qwX-cY-g9Y" id="lpk-87-PeT"/>
+                <outlet property="rounderView" destination="pSP-jq-xPo" id="fza-U2-9j3"/>
+                <outlet property="subLabel" destination="hJw-zU-Se0" id="MIZ-62-jPw"/>
+                <outlet property="titleLabel" destination="zft-jE-6vL" id="eoZ-Xf-l11"/>
+            </connections>
+            <point key="canvasLocation" x="252.89855072463769" y="127.23214285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
