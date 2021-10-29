@@ -7,7 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */ = {isa = PBXBuildFile; fileRef = 828648E92726779500EA5CAF /* 3442-scroll.json */; };
+		82335D77272BBEC10004FA51 /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D76272BBEC10004FA51 /* TodoViewModel.swift */; };
+		82335D79272BBEDB0004FA51 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D78272BBEDB0004FA51 /* TodoModel.swift */; };
+		82335D7F272BBEF70004FA51 /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */; };
+		82335D80272BBEF70004FA51 /* MainViewController+function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7B272BBEF70004FA51 /* MainViewController+function.swift */; };
+		82335D81272BBEF70004FA51 /* MainViewController+tableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */; };
+		82335D82272BBEF70004FA51 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */; };
+		82335D83272BBEF70004FA51 /* TodoListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */; };
+		82335D86272BBF030004FA51 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D84272BBF030004FA51 /* BottomSheetViewController.swift */; };
+		82335D87272BBF030004FA51 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D85272BBF030004FA51 /* BottomSheetsViewController.swift */; };
+		82335D8A272BBF340004FA51 /* down-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 82335D88272BBF340004FA51 /* down-arrows.json */; };
+		82335D8B272BBF340004FA51 /* up-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 82335D89272BBF340004FA51 /* up-arrows.json */; };
 		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
 		B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A255EC272772A200C3EC14 /* HomeViewController.swift */; };
@@ -37,7 +47,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		828648E92726779500EA5CAF /* 3442-scroll.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "3442-scroll.json"; sourceTree = "<group>"; };
+		82335D76272BBEC10004FA51 /* TodoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TodoViewModel.swift; path = ../Model/TodoViewModel.swift; sourceTree = "<group>"; };
+		82335D78272BBEDB0004FA51 /* TodoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoModel.swift; path = "../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Model/TodoModel.swift"; sourceTree = "<group>"; };
+		82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+objc.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+objc.swift"; sourceTree = "<group>"; };
+		82335D7B272BBEF70004FA51 /* MainViewController+function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+function.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+function.swift"; sourceTree = "<group>"; };
+		82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+tableView.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+tableView.swift"; sourceTree = "<group>"; };
+		82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoListTableViewCell.swift; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/TodoListTableViewCell.swift"; sourceTree = "<group>"; };
+		82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TodoListTableViewCell.xib; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/TodoListTableViewCell.xib"; sourceTree = "<group>"; };
+		82335D84272BBF030004FA51 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomSheetViewController.swift; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/BottomSheetViewController.swift"; sourceTree = "<group>"; };
+		82335D85272BBF030004FA51 /* BottomSheetsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BottomSheetsViewController.swift; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/BottomSheetsViewController.swift"; sourceTree = "<group>"; };
+		82335D88272BBF340004FA51 /* down-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "down-arrows.json"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Resource/Lottie/down-arrows.json"; sourceTree = "<group>"; };
+		82335D89272BBF340004FA51 /* up-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "up-arrows.json"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Resource/Lottie/up-arrows.json"; sourceTree = "<group>"; };
 		B62C2EE7272A1FCD00D8FF8B /* Configs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
 		B6A255EC272772A200C3EC14 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeSB.storyboard; sourceTree = "<group>"; };
@@ -85,7 +105,8 @@
 		828648E82726778200EA5CAF /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				828648E92726779500EA5CAF /* 3442-scroll.json */,
+				82335D88272BBF340004FA51 /* down-arrows.json */,
+				82335D89272BBF340004FA51 /* up-arrows.json */,
 				B6A2560027278A0600C3EC14 /* loginAnimation.json */,
 			);
 			path = Lottie;
@@ -164,6 +185,13 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCB3272661570046E35A /* MainViewController.swift */,
+				82335D7B272BBEF70004FA51 /* MainViewController+function.swift */,
+				82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */,
+				82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */,
+				82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */,
+				82335D85272BBF030004FA51 /* BottomSheetsViewController.swift */,
+				82335D84272BBF030004FA51 /* BottomSheetViewController.swift */,
+				82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */,
 				B6C3FCB5272661570046E35A /* MainViewController.storyboard */,
 			);
 			path = Main;
@@ -194,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD49272666C40046E35A /* ModelExample.swift */,
+				82335D78272BBEDB0004FA51 /* TodoModel.swift */,
 				B6BF7620272B897B0031F2C9 /* UserLoginModel.swift */,
 			);
 			path = Model;
@@ -202,6 +231,7 @@
 		B6C3FD23272664720046E35A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				82335D76272BBEC10004FA51 /* TodoViewModel.swift */,
 				B6C3FD4C272666CF0046E35A /* ViewModelExample.swift */,
 				B6BF7623272B89A40031F2C9 /* UserLoginViewModel.swift */,
 			);
@@ -296,10 +326,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82335D83272BBEF70004FA51 /* TodoListTableViewCell.xib in Resources */,
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
+				82335D8B272BBF340004FA51 /* up-arrows.json in Resources */,
 				B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */,
+				82335D8A272BBF340004FA51 /* down-arrows.json in Resources */,
 				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
-				828648EA2726779500EA5CAF /* 3442-scroll.json in Resources */,
 				B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */,
 				B6C3FCB9272661580046E35A /* Assets.xcassets in Resources */,
 				B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */,
@@ -314,8 +346,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82335D77272BBEC10004FA51 /* TodoViewModel.swift in Sources */,
+				82335D86272BBF030004FA51 /* BottomSheetViewController.swift in Sources */,
+				82335D7F272BBEF70004FA51 /* MainViewController+objc.swift in Sources */,
+				82335D82272BBEF70004FA51 /* TodoListTableViewCell.swift in Sources */,
 				B6A2560927279ED200C3EC14 /* LoginViewController.swift in Sources */,
 				B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */,
+				82335D79272BBEDB0004FA51 /* TodoModel.swift in Sources */,
 				B6C3FCB4272661570046E35A /* MainViewController.swift in Sources */,
 				B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */,
 				B6BF7624272B89A40031F2C9 /* UserLoginViewModel.swift in Sources */,
@@ -324,11 +361,14 @@
 				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */,
 				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
+				82335D80272BBEF70004FA51 /* MainViewController+function.swift in Sources */,
 				B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */,
 				B6C3FD4A272666C40046E35A /* ModelExample.swift in Sources */,
 				B6C3FD47272666BA0046E35A /* ServiceExample.swift in Sources */,
 				B6BF7621272B897B0031F2C9 /* UserLoginModel.swift in Sources */,
 				B6A2560527278CF000C3EC14 /* UIColor+Extension.swift in Sources */,
+				82335D81272BBEF70004FA51 /* MainViewController+tableView.swift in Sources */,
+				82335D87272BBF030004FA51 /* BottomSheetsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
