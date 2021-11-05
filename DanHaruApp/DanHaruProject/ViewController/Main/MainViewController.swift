@@ -30,9 +30,35 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     let datePicker = UIDatePicker()
     let bottomTodoAddBtn = UIButton()
     
-    var dummyData = ["테스트1","테스트2","테스트3","테스트4","테스트5","테스트6","테스트7","테스트8","테스트9"]
+    //var dummyData = ["테스트1","테스트2","테스트3","테스트4","테스트5","테스트6","테스트7","테스트8","테스트9"]
     
-    var tableData: [String] = []
+    struct dummyModel {
+        var title: String?
+        var date: Date?
+    }
+    
+    var dummyData : [dummyModel] = [
+        dummyModel(title: "테스트1", date: Date()),
+        dummyModel(title: "테스트2", date: Date()),
+        dummyModel(title: "테스트3", date: Date()),
+        dummyModel(title: "테스트4", date: Date()),
+        dummyModel(title: "테스트5", date: Date()),
+        dummyModel(title: "테스트6", date: Date()),
+        dummyModel(title: "테스트7", date: Date()),
+        dummyModel(title: "테스트8", date: Date()),
+        dummyModel(title: "테스트9", date: Date()),
+        dummyModel(title: "테스트10", date: Date()),
+    ]
+    
+    
+    var tableData: [dummyModel] = []
+    
+    var todoListCellBackGroundColor: [UIColor] = [
+        UIColor.todoLightBlueColor,
+        UIColor.todoLightGreenColor,
+        UIColor.todoLightYellowColor,
+        UIColor.todoHotPickColor
+    ]
     
     //lazy var bottomVC = BottomSheetViewController(contentViewController: bottomSheetViewController)
     // 캘린더 화면 노출 여부
@@ -44,7 +70,7 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.view.backgroundColor = Configs.mainBackgroundColor
+        self.view.backgroundColor = .backgroundColor
         
         self.setUI()
         todoListTableView.showSkeleton()
@@ -77,16 +103,6 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
 
