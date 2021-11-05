@@ -7,19 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		82335D79272BBEDB0004FA51 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D78272BBEDB0004FA51 /* TodoModel.swift */; };
-		82335D7F272BBEF70004FA51 /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */; };
-		82335D80272BBEF70004FA51 /* MainViewController+function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7B272BBEF70004FA51 /* MainViewController+function.swift */; };
-		82335D81272BBEF70004FA51 /* MainViewController+tableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */; };
-		82335D82272BBEF70004FA51 /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */; };
-		82335D83272BBEF70004FA51 /* TodoListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */; };
-		82335D8A272BBF340004FA51 /* down-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 82335D88272BBF340004FA51 /* down-arrows.json */; };
-		82335D8B272BBF340004FA51 /* up-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 82335D89272BBF340004FA51 /* up-arrows.json */; };
 		82335D8E272BC5C00004FA51 /* TodoListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82335D8D272BC5C00004FA51 /* TodoListDetailViewController.swift */; };
 		826C05242733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826C05222733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift */; };
 		826C05252733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */; };
 		827C1E642734F4B80043756D /* BottomSheetsViewController+function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827C1E632734F4B70043756D /* BottomSheetsViewController+function.swift */; };
-		827C1E662734F7B50043756D /* MainViewController+table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827C1E652734F7B50043756D /* MainViewController+table.swift */; };
 		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
 		8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */; };
 		8293DFB9273206D90053FD41 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */; };
@@ -63,22 +54,23 @@
 		B6C3FD51272667C60046E35A /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = B6C3FD50272667C60046E35A /* RadFrameworkPackage */; };
 		B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FD7527266BD00046E35A /* CommonMethod.swift */; };
 		B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E815AE2731232800809530 /* UIView+Extension.swift */; };
+		B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */; };
+		B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */; };
+		B6F6ED142734F89D00A4C88E /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */; };
+		B6F6ED192734F8FF00A4C88E /* MainViewController+table.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */; };
+		B6F6ED1C2734F92B00A4C88E /* TodoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED1B2734F92B00A4C88E /* TodoViewModel.swift */; };
+		B6F6ED1F2734F93500A4C88E /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED1E2734F93500A4C88E /* TodoModel.swift */; };
+		B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED212734F96700A4C88E /* down-arrows.json */; };
+		B6F6ED252734F96700A4C88E /* up-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED222734F96700A4C88E /* up-arrows.json */; };
+		B6F6ED262734F96700A4C88E /* mic.json in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED232734F96700A4C88E /* mic.json */; };
+		B6F6ED292734F9AE00A4C88E /* TodoListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED282734F9AE00A4C88E /* TodoListTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		82335D78272BBEDB0004FA51 /* TodoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoModel.swift; path = "../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Model/TodoModel.swift"; sourceTree = "<group>"; };
-		82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+objc.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+objc.swift"; sourceTree = "<group>"; };
-		82335D7B272BBEF70004FA51 /* MainViewController+function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+function.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+function.swift"; sourceTree = "<group>"; };
-		82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "MainViewController+tableView.swift"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/MainViewController+tableView.swift"; sourceTree = "<group>"; };
-		82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TodoListTableViewCell.swift; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/TodoListTableViewCell.swift"; sourceTree = "<group>"; };
-		82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TodoListTableViewCell.xib; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/ViewController/Main/TodoListTableViewCell.xib"; sourceTree = "<group>"; };
-		82335D88272BBF340004FA51 /* down-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "down-arrows.json"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Resource/Lottie/down-arrows.json"; sourceTree = "<group>"; };
-		82335D89272BBF340004FA51 /* up-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "up-arrows.json"; path = "../../../../../../Desktop/IOS-DanHaru/DanHaruApp/DanHaruProject/Resource/Lottie/up-arrows.json"; sourceTree = "<group>"; };
 		82335D8D272BC5C00004FA51 /* TodoListDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListDetailViewController.swift; sourceTree = "<group>"; };
 		826C05222733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListDetailCollectionViewCell.swift; sourceTree = "<group>"; };
 		826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodoListDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		827C1E632734F4B70043756D /* BottomSheetsViewController+function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+function.swift"; sourceTree = "<group>"; };
-		827C1E652734F7B50043756D /* MainViewController+table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+table.swift"; sourceTree = "<group>"; };
 		8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+objc.swift"; sourceTree = "<group>"; };
 		82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +115,16 @@
 		B6C3FD6F27266A190046E35A /* DanHaru-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DanHaru-Bridging-Header.h"; sourceTree = "<group>"; };
 		B6C3FD7527266BD00046E35A /* CommonMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMethod.swift; sourceTree = "<group>"; };
 		B6E815AE2731232800809530 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+function.swift"; sourceTree = "<group>"; };
+		B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+objc.swift"; sourceTree = "<group>"; };
+		B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
+		B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+table.swift"; sourceTree = "<group>"; };
+		B6F6ED1B2734F92B00A4C88E /* TodoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoViewModel.swift; sourceTree = "<group>"; };
+		B6F6ED1E2734F93500A4C88E /* TodoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoModel.swift; sourceTree = "<group>"; };
+		B6F6ED212734F96700A4C88E /* down-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "down-arrows.json"; sourceTree = "<group>"; };
+		B6F6ED222734F96700A4C88E /* up-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "up-arrows.json"; sourceTree = "<group>"; };
+		B6F6ED232734F96700A4C88E /* mic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mic.json; sourceTree = "<group>"; };
+		B6F6ED282734F9AE00A4C88E /* TodoListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TodoListTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,9 +156,10 @@
 		828648E82726778200EA5CAF /* Lottie */ = {
 			isa = PBXGroup;
 			children = (
-				82335D88272BBF340004FA51 /* down-arrows.json */,
-				82335D89272BBF340004FA51 /* up-arrows.json */,
 				B6A2560027278A0600C3EC14 /* loginAnimation.json */,
+				B6F6ED212734F96700A4C88E /* down-arrows.json */,
+				B6F6ED232734F96700A4C88E /* mic.json */,
+				B6F6ED222734F96700A4C88E /* up-arrows.json */,
 			);
 			path = Lottie;
 			sourceTree = "<group>";
@@ -283,12 +286,11 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCB3272661570046E35A /* MainViewController.swift */,
-				82335D7B272BBEF70004FA51 /* MainViewController+function.swift */,
-				82335D7A272BBEF70004FA51 /* MainViewController+objc.swift */,
-				82335D7C272BBEF70004FA51 /* MainViewController+tableView.swift */,
-				827C1E652734F7B50043756D /* MainViewController+table.swift */,
-				82335D7D272BBEF70004FA51 /* TodoListTableViewCell.swift */,
-				82335D7E272BBEF70004FA51 /* TodoListTableViewCell.xib */,
+				B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */,
+				B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */,
+				B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */,
+				B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */,
+				B6F6ED282734F9AE00A4C88E /* TodoListTableViewCell.xib */,
 				B6C3FCB5272661570046E35A /* MainViewController.storyboard */,
 			);
 			path = Main;
@@ -319,7 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FD49272666C40046E35A /* ModelExample.swift */,
-				82335D78272BBEDB0004FA51 /* TodoModel.swift */,
+				B6F6ED1E2734F93500A4C88E /* TodoModel.swift */,
 				B6BF7620272B897B0031F2C9 /* UserModel.swift */,
 			);
 			path = Model;
@@ -330,6 +332,7 @@
 			children = (
 				B6C3FD4C272666CF0046E35A /* ViewModelExample.swift */,
 				B6BF7623272B89A40031F2C9 /* UserViewModel.swift */,
+				B6F6ED1B2734F92B00A4C88E /* TodoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -423,15 +426,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82335D83272BBEF70004FA51 /* TodoListTableViewCell.xib in Resources */,
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
-				82335D8B272BBF340004FA51 /* up-arrows.json in Resources */,
 				B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */,
+				B6F6ED262734F96700A4C88E /* mic.json in Resources */,
 				826C05252733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib in Resources */,
-				82335D8A272BBF340004FA51 /* down-arrows.json in Resources */,
+				B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */,
 				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
 				B6BF763C272BCD610031F2C9 /* MyPageSB.storyboard in Resources */,
+				B6F6ED252734F96700A4C88E /* up-arrows.json in Resources */,
 				B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */,
+				B6F6ED292734F9AE00A4C88E /* TodoListTableViewCell.xib in Resources */,
 				B6BB84E22730AA0D00035C77 /* PieChartView.xib in Resources */,
 				B6C3FCB9272661580046E35A /* Assets.xcassets in Resources */,
 				B6C3FCB7272661570046E35A /* MainViewController.storyboard in Resources */,
@@ -450,28 +454,28 @@
 				B6BB84E52730AA2300035C77 /* PieChartView.swift in Sources */,
 				8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */,
 				8293DFB9273206D90053FD41 /* BottomSheetViewController.swift in Sources */,
-				82335D7F272BBEF70004FA51 /* MainViewController+objc.swift in Sources */,
 				826C05242733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift in Sources */,
-				82335D82272BBEF70004FA51 /* TodoListTableViewCell.swift in Sources */,
 				82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */,
 				B6A2560927279ED200C3EC14 /* LoginViewController.swift in Sources */,
 				B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */,
+				B6F6ED1C2734F92B00A4C88E /* TodoViewModel.swift in Sources */,
+				B6F6ED1F2734F93500A4C88E /* TodoModel.swift in Sources */,
 				B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */,
-				82335D79272BBEDB0004FA51 /* TodoModel.swift in Sources */,
 				B6C3FCB4272661570046E35A /* MainViewController.swift in Sources */,
 				B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */,
 				B6BF7624272B89A40031F2C9 /* UserViewModel.swift in Sources */,
 				B6C3FD4D272666CF0046E35A /* ViewModelExample.swift in Sources */,
-				827C1E662734F7B50043756D /* MainViewController+table.swift in Sources */,
+				B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */,
 				B6BF761E272B88620031F2C9 /* FindUserInfoViewController.swift in Sources */,
+				B6F6ED192734F8FF00A4C88E /* MainViewController+table.swift in Sources */,
 				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */,
 				B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */,
+				B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */,
 				B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */,
 				B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */,
 				B6BF763B272BCD610031F2C9 /* MyPageViewController.swift in Sources */,
 				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
-				82335D80272BBEF70004FA51 /* MainViewController+function.swift in Sources */,
 				B69B06B82732289B00E99BB2 /* SettingViewController.swift in Sources */,
 				B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */,
 				8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */,
@@ -482,10 +486,9 @@
 				B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */,
 				B6A2560527278CF000C3EC14 /* UIColor+Extension.swift in Sources */,
 				B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */,
-				82335D81272BBEF70004FA51 /* MainViewController+tableView.swift in Sources */,
 				B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */,
 				82335D8E272BC5C00004FA51 /* TodoListDetailViewController.swift in Sources */,
-				82335D81272BBEF70004FA51 /* MainViewController+tableView.swift in Sources */,
+				B6F6ED142734F89D00A4C88E /* TodoListTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
