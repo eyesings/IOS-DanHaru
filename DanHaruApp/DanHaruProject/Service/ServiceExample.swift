@@ -22,4 +22,9 @@ class ViewModelService {
         let dic: NSDictionary? = NSDictionary()
         completionHandler(dic)
     }
+    
+    static func userInfoService(_ id: String, _ pw: String, completionHandler: @escaping (NSDictionary?) -> Void) {
+        let dic: NSDictionary? = NSDictionary()
+        completionHandler(dic)
+    }
 }

@@ -13,13 +13,12 @@ class LoginViewController: UIViewController {
     @IBOutlet var textFields: [UITextField]!
     @IBOutlet var idInputTextField: UITextField!
     @IBOutlet var pwInputTextField: UITextField!
-    @IBOutlet var edgePanGestureRecong: UIScreenEdgePanGestureRecognizer!
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
+    
+    private var keyboardH: CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        edgePanGestureRecong.edges = .left
         
         for textField in textFields {
             textField.makesToCustomField()
@@ -55,8 +54,9 @@ class LoginViewController: UIViewController {
         } else if pwInputTextField.hasText == false {
             pwInputTextField.becomeFirstResponder()
         } else {
-            print("main으로 이동")
-//            self.navigationController?.popToRootViewController(animated: true)
+            view.endEditing(true)
+            UserModel = UserInfoViewModel("pw", "id").model
+            RadHelper.rootVcChangeToMain()
         }
         
         idInputTextField.updateUI()
@@ -89,13 +89,13 @@ class LoginViewController: UIViewController {
     
     @objc
     func keyboardShowAndHide(_ sender: Notification) {
-        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        if let keyboardFrame = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
+            let keyboardHeight = keyboardFrame.height
+            self.keyboardH = self.keyboardH > keyboardHeight ? self.keyboardH : keyboardHeight
             
             if sender.name == UIResponder.keyboardWillShowNotification {
-                startBtnBottomConst.constant = -(keyboardHeight - RadHelper.bottomSafeAreaHeight)
+                startBtnBottomConst.constant = -(self.keyboardH - RadHelper.bottomSafeAreaHeight)
             } else if sender.name == UIResponder.keyboardWillHideNotification {
                 startBtnBottomConst.constant = 0
             }
@@ -110,7 +110,6 @@ extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if textField.tag == InputType.pw.rawValue {
-            textField.resignFirstResponder()
             onTapStartBtn(UIButton())
             return true
         }
@@ -122,7 +121,7 @@ extension LoginViewController: UITextFieldDelegate {
             }
         }
         
-        return false
+        return true
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {

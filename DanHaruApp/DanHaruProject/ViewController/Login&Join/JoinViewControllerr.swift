@@ -53,6 +53,7 @@ class JoinViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    /// 로그인 VC에서 넘어온 경우 UI 변경
     func setLayoutMoveFromLogin() {
         preBtn?.isHidden = true
         closeBtn?.isHidden = false
@@ -100,7 +101,9 @@ class JoinViewController: UIViewController {
     
     @IBAction func onTapStartBtn(_ sender: UIButton) {
         print("main으로 이동")
-        self.navigationController?.popToRootViewController(animated: true)
+        print("user viewModel 필요")
+        UserModel = UserInfoViewModel("pw", "id").model
+        RadHelper.rootVcChangeToMain()
     }
     
     @IBAction func onTapScreenGesture(_ sender: UITapGestureRecognizer) {
@@ -127,6 +130,8 @@ class JoinViewController: UIViewController {
 
 // MARK: - UI Method
 extension JoinViewController {
+    
+    /// 회원가입 절차 Progress 뷰 UI 업데이트
     private func stepViewProgress() {
         for view in self.stepProgressViewArr
         {
@@ -142,6 +147,8 @@ extension JoinViewController {
         }
     }
     
+    /// 텍스트 필드 UI 변경
+    /// - Parameter type: 입력 받을 값
     private func changeTextField(type: InputType) {
         
         startBtn.isHidden = true
@@ -169,7 +176,7 @@ extension JoinViewController {
             inputTextField.textContentType = .password
             inputTextField.keyboardType = .asciiCapable
             inputTextField.placeholder = "비밀번호를 입력 해 주세요."
-        case .done:
+        case .done, .introduce, .nickName:
             inputTypeLabel.isHidden = true
             inputTextField.isHidden = true
             topNavView.isHidden = true

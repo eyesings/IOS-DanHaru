@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
     private let joinBtnTitle = "회원가입"
     private let nextBtnTitle = "다음에 할래요"
     
+    public var needMovePageID: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,6 +34,11 @@ class HomeViewController: UIViewController {
         
         initViewLayout()
         
+        if needMovePageID == StoryBoardRef.loginVC {
+            onTapLoginBtn()
+        } else if needMovePageID == StoryBoardRef.joinVC {
+            onTapJoinBtn()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +68,7 @@ extension HomeViewController {
     
     @objc
     func onTapNextTimeBtn() {
-        self.dismiss(animated: true, completion: nil)
+        RadHelper.rootVcChangeToMain()
     }
 }
 

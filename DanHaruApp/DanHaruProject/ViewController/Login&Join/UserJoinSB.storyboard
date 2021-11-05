@@ -166,7 +166,6 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="edgePanGestureRecong" destination="fpW-KH-zxW" id="XcX-mO-vdd"/>
                         <outlet property="idInputTextField" destination="WV9-Rg-oSA" id="2eT-91-XWg"/>
                         <outlet property="pwInputTextField" destination="xYc-Ie-ccE" id="C2l-3n-uAo"/>
                         <outlet property="startBtnBottomConst" destination="bxB-R7-rwK" id="n5p-bg-ZwF"/>
@@ -182,6 +181,7 @@
                     </connections>
                 </tapGestureRecognizer>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="fpW-KH-zxW">
+                    <rectEdge key="edges" left="YES"/>
                     <connections>
                         <action selector="panEdgeSwipeGesture:" destination="njU-kQ-e34" id="dHG-as-DvJ"/>
                         <outlet property="delegate" destination="njU-kQ-e34" id="yZD-VC-nQB"/>

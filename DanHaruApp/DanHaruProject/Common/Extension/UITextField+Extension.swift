@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 
 extension UITextField {
+    
+    /// 텍스트 필드 UI Custom
+    /// - Parameters:
+    ///   - h: UnderLine 높이
+    ///   - padding: 들여쓰기 값
     func makesToCustomField(lineHeight h: CGFloat = 1.0, padding: CGFloat = 10.0) {
         let border = CALayer()
         border.frame = CGRect(x: 0, y: self.frame.height - h, width: self.frame.width, height: h)
@@ -21,15 +26,14 @@ extension UITextField {
         self.leftViewMode = .always
     }
     
-    func changeFieldUnderLineColor(_ isNeedClear: Bool = false) {
+    /// 텍스트 필드 UI 업데이트
+    /// - Parameter isNeedClear: 색상 초기화 필요 여부
+    func updateUI(_ isNeedClear: Bool = false) {
+        
         if let borderLayer = self.layer.sublayers?.first {
             borderLayer.borderColor = self.hasText == false ? UIColor.red.cgColor : UIColor.heavyGrayColor.cgColor
             borderLayer.borderColor = isNeedClear ? UIColor.heavyGrayColor.cgColor : borderLayer.borderColor
         }
-    }
-    
-    func updateUI(_ isNeedClear: Bool = false) {
-        self.changeFieldUnderLineColor(isNeedClear)
         
         if let placeholderStr = self.placeholder {
             let nonHasPlaceholderAttr: NSAttributedString = {
@@ -45,6 +49,7 @@ extension UITextField {
         self.layoutIfNeeded()
     }
     
+    /// 이메일 텍스트 필드 값 없을 때 UI 변경 함수
     func fieldNotHasTextUI() {
         if self.isValidEmail() == false {
             if let borderLayer = self.layer.sublayers?.first {
@@ -63,17 +68,20 @@ extension UITextField {
         }
     }
     
+    /// 이메일 정규식 표현
+    /// - Returns: 이메일 정규식 여부
     func isValidEmail() -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: self.text)
     }
     
-    
+    /// 입력 값 존재 시 Placeholder  색상
     static var hasTextPlaceholderColorAttr: [NSAttributedString.Key : Any ] = {
         return [NSAttributedString.Key.foregroundColor : UIColor.lightGray]
     }()
     
+    /// 입력 값 미존재 시 Placeholder  색상
     static var noneHasTextPlaceholderColorAttr: [NSAttributedString.Key : Any ] = {
         return [NSAttributedString.Key.foregroundColor : UIColor.red]
     }()
