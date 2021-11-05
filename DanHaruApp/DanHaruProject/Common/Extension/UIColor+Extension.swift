@@ -37,4 +37,20 @@ extension UIColor {
     static var lightGrayColor = {
         return RadHelper.colorFromHex(hex: "BCBEBF")
     }()
+    
+    static var todoLightBlueColor = {
+        return RadHelper.colorFromHex(hex: "A0E7E5")
+    }()
+    
+    static var todoLightGreenColor = {
+        return RadHelper.colorFromHex(hex: "B4F8C8")
+    }()
+    
+    static var todoLightYellowColor = {
+        return RadHelper.colorFromHex(hex: "FBE7C6")
+    }()
+    
+    static var todoHotPickColor = {
+        return RadHelper.colorFromHex(hex: "FFAEBC")
+    }()
 }
