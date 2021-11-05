@@ -10,7 +10,7 @@ import Lottie
 import SnapKit
 import SkeletonView
 
-class MainViewController: UIViewController, UITextFieldDelegate {
+class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
     var dateLabel = UILabel()
 
@@ -84,6 +84,11 @@ class MainViewController: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if let toolBar = self.navigationController?.toolbar as? CustomToolBar {
+            toolBar.customDelegate = self
+            toolBar.setSelectMenu(.home)
+        }
+        
         if self.calendarShowOn {
             self.calendarAnimation.animation = .named("up-arrows")
             self.calendarAnimation.play()
@@ -103,6 +108,17 @@ class MainViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    
+    func ToolBarSelected(_ button: UIButton) {
+        // 바텀 체크...
+        if  button.tag == ToolBarBtnTag.myPage.rawValue {
+            
+            let myPageSB = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.myPageVC)
+            
+            self.navigationController?.pushViewController(myPageSB, animated: true)
+        }
+        
+    }
     
 }
 
