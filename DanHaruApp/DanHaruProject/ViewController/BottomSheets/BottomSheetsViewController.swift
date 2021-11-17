@@ -7,8 +7,10 @@
 
 import UIKit
 import SnapKit
+import Lottie
+import AVFoundation
 
-class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
+class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     /// 화면 딤 처리 부분
     let dimmedView: UIView = {
         let view = UIView()
@@ -44,6 +46,18 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
     let bottomTodoAddBtn = UIButton()
     
     
+    /// 오디오로 인증 UI 변수
+    let recordBtn = UIButton()
+    let pauseBtn = UIButton()
+    let stopBtn = UIButton()
+    let playBtn = UIButton()
+    let audioAnimation = AnimationView(name: "audio")
+    let recodeTimeLabel = UILabel()
+    
+    /// 오디오 변수
+    var audioRecorder: AVAudioRecorder?
+    var audioPlayer: AVAudioPlayer?
+    var soundURL: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +72,30 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
         viewPan.delaysTouchesBegan = false
         viewPan.delaysTouchesEnded = false
         view.addGestureRecognizer(viewPan)
+        
+        
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: .defaultToSpeaker)
+        } catch {
+            print("audioSession Error")
+        }
+        
+        let directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        let audioFileName = UUID().uuidString + ".m4a"
+        let audioFileUrl = directoryURL!.appendingPathComponent(audioFileName)
+        soundURL = audioFileName
+        
+        let recorderSetting = [AVFormatIDKey: NSNumber(value: kAudioFormatMPEG4AAC as UInt32),
+                                       AVSampleRateKey: 44100.0,
+                                       AVNumberOfChannelsKey: 2 ]
+        
+        audioRecorder = try? AVAudioRecorder(url: audioFileUrl, settings: recorderSetting)
+        audioRecorder?.delegate = self
+        audioPlayer?.delegate = self
+        audioRecorder?.isMeteringEnabled = true
+        //audioRecorder?.prepareToRecord()
         
         self.setUI()
         
@@ -95,16 +133,134 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
             make.height.equalTo(self.view)
         }
         
-        if self.checkShowUI == "" {
+        if self.checkShowUI == BottomViewCheck.todoAdd.rawValue {
             setLayout()
-        } else if checkShowUI == "startDate" || checkShowUI == "endDate" {
+        } else if checkShowUI == BottomViewCheck.startDate.rawValue || checkShowUI == BottomViewCheck.endDate.rawValue {
             setDateLayout()
-        } else if checkShowUI == "circleTime" {
+        } else if checkShowUI == BottomViewCheck.cycleTime.rawValue {
             setCirCleTimeLayout()
+        } else if checkShowUI == BottomViewCheck.audioRecode.rawValue {
+            setAudioRecodeLayout()
         }
         
     }
     
+    func setAudioRecodeLayout() {
+        
+        self.bottomSheetView.addSubview(bottomTitle)
+        bottomTitle.snp.makeConstraints { make in
+            make.top.equalTo(self.bottomSheetView).offset(10)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
+            make.centerX.equalTo(self.bottomSheetView)
+            make.height.equalTo(25)
+        }
+        bottomTitle.text = "녹음 인증하기"
+        bottomTitle.textAlignment = .center
+        bottomTitle.textColor = .black
+        bottomTitle.font = UIFont.boldSystemFont(ofSize: 25)
+        bottomTitle.adjustsFontSizeToFitWidth = true
+        
+        self.bottomSheetView.addSubview(audioAnimation)
+        audioAnimation.snp.makeConstraints { make in
+            make.top.equalTo(bottomTitle.snp.bottom)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.7)
+            make.height.equalTo(self.bottomSheetView).multipliedBy(0.15)
+            make.centerX.equalTo(self.bottomSheetView)
+        }
+        audioAnimation.play(toProgress: 0.0)
+        //audioAnimation.play()
+        audioAnimation.loopMode = .loop
+        audioAnimation.contentMode = .scaleAspectFit
+        
+        self.bottomSheetView.addSubview(recodeTimeLabel)
+        recodeTimeLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.audioAnimation.snp.bottom)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.5)
+            make.height.equalTo(15)
+            make.centerX.equalTo(self.audioAnimation)
+        }
+        recodeTimeLabel.text = "00:00"
+        recodeTimeLabel.adjustsFontSizeToFitWidth = true
+        recodeTimeLabel.textAlignment = .center
+        
+        self.bottomSheetView.addSubview(recordBtn)
+        recordBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.recodeTimeLabel.snp.bottom).offset(10)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.2)
+            make.height.equalTo(self.bottomSheetView).multipliedBy(0.06)
+            make.left.equalTo(self.bottomSheetView).offset(self.view.frame.width * 0.1)
+        }
+        recordBtn.setTitle("recode", for: .normal)
+        recordBtn.setTitleColor(.blue, for: .normal)
+        recordBtn.layer.borderWidth = 1.0
+        recordBtn.layer.borderColor = UIColor.black.cgColor
+        
+        self.bottomSheetView.addSubview(pauseBtn)
+        pauseBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.recordBtn)
+            make.width.equalTo(self.recordBtn)
+            make.height.equalTo(self.recordBtn)
+            make.leading.equalTo(self.recordBtn.snp.trailing).offset(self.view.frame.width * 0.1)
+        }
+        pauseBtn.setTitle("pause", for: .normal)
+        pauseBtn.setTitleColor(.blue, for: .normal)
+        pauseBtn.layer.borderColor = UIColor.black.cgColor
+        pauseBtn.layer.borderWidth = 1.0
+        
+        self.bottomSheetView.addSubview(stopBtn)
+        stopBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.recordBtn)
+            make.width.equalTo(self.recordBtn)
+            make.height.equalTo(self.recordBtn)
+            make.leading.equalTo(self.pauseBtn.snp.trailing).offset(self.view.frame.width * 0.1)
+        }
+        stopBtn.setTitle("stop", for: .normal)
+        stopBtn.setTitleColor(.blue, for: .normal)
+        stopBtn.layer.borderWidth = 1.0
+        stopBtn.layer.borderColor = UIColor.black.cgColor
+        
+        
+        self.bottomSheetView.addSubview(playBtn)
+        playBtn.snp.makeConstraints { make in
+            make.top.equalTo(self.recordBtn.snp.bottom).offset(10)
+            make.width.equalTo(self.view).multipliedBy(0.5)
+            make.height.equalTo(self.recordBtn)
+            make.centerX.equalTo(self.bottomSheetView)
+        }
+        playBtn.setTitle("play", for: .normal)
+        playBtn.setTitleColor(.blue, for: .normal)
+        playBtn.layer.cornerRadius = 20
+        playBtn.layer.borderColor = UIColor.black.cgColor
+        playBtn.layer.borderWidth = 1.0
+        
+        
+        self.bottomSheetView.addSubview(bottomTodoAddBtn)
+        bottomTodoAddBtn.snp.makeConstraints { make in
+            make.height.equalTo(60)
+            make.centerX.equalTo(self.bottomSheetView)
+            make.width.equalTo(self.bottomSheetView)
+            //make.top.equalTo(self.playBtn.snp.bottom).offset(self.view.frame.height / 2 - self.view.frame.height * 0.27 - 180)
+            make.bottom.equalTo(self.view)
+        }
+        bottomTodoAddBtn.backgroundColor = UIColor.darkGray
+        bottomTodoAddBtn.setTitle("확인", for: .normal)
+        bottomTodoAddBtn.setTitleColor(.white, for: .normal)
+        
+        
+    }
+    
+    @objc func recordBtnAction(_ sender: UIButton) {
+        
+        if let player = audioPlayer {
+            if player.isPlaying {
+                player.stop()
+                
+            }
+        }
+        
+    }
+    
+    /// 반복주기 UI 함수
     func setCirCleTimeLayout() {
         
         self.bottomSheetView.addSubview(bottomTitle)
@@ -153,9 +309,6 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
         Configs.formatter.dateFormat = "HH:mm"
         let changeTime = Configs.formatter.string(from: self.datePicker.date)
         
-        print("봅시다 \(changeTime)")
-        
-        
         let preVc = self.presentingViewController
         guard let vc = preVc as? TodoListDetailViewController else { return }
         vc.cycleTimeLabel.text = "\(changeTime)"
@@ -164,15 +317,16 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func bottomTodoCheckDate(_ sender: UIButton) {
+        
         let preVc = self.presentingViewController
         guard let vc = preVc as? TodoListDetailViewController else { return }
         
         Configs.formatter.dateFormat = "yyyy-MM-dd"
         let changeDate = Configs.formatter.string(from: self.datePicker.date)
         
-        if self.checkShowUI == "startDate" {
+        if self.checkShowUI == BottomViewCheck.startDate.rawValue {
             vc.startDateLabel.text = changeDate
-        } else if self.checkShowUI == "endDate" {
+        } else if self.checkShowUI == BottomViewCheck.endDate.rawValue {
             vc.endDateLabel.text = changeDate
         }
         
@@ -243,17 +397,21 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    
-    
-    
-    
     @objc func bottomTodoAddAction(_ sender: UIButton) {
         
         let titleText = self.titleTextField.text
         let startDate = self.datePicker.date
         
-        let preVc = self.presentingViewController
+        let preVc = RadHelper.getMainViewController()
         guard let vc = preVc as? MainViewController else { return }
+        
+        // FIXME: - 타이틀을 입력 안하면 처리
+        if titleText == "" {
+            
+            
+            
+            return;
+        }
         
         let addData = MainViewController.dummyModel(title: titleText, date: startDate)
         

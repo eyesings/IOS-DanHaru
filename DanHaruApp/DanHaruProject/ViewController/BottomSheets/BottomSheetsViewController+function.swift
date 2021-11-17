@@ -35,7 +35,6 @@ extension BottomSheetsViewController {
         cancelBtn.setTitle("X", for: .normal)
         cancelBtn.setTitleColor(UIColor.black, for: .normal)
         cancelBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        
         cancelBtn.addTarget(self, action: #selector(bottomSheetDismiss(_:)), for: .touchUpInside)
         
         self.bottomSheetView.addSubview(titleLabel)
@@ -60,7 +59,6 @@ extension BottomSheetsViewController {
         titleTextField.textColor = UIColor.black
         titleTextField.delegate = self
         titleTextField.adjustsFontSizeToFitWidth = true
-        titleTextField.makesToCustomField()
         
         self.bottomSheetView.addSubview(startDateLabel)
         startDateLabel.snp.makeConstraints { make in
@@ -120,9 +118,9 @@ extension BottomSheetsViewController {
             make.height.equalTo(25)
         }
         switch self.checkShowUI {
-        case "startDate":
+        case BottomViewCheck.startDate.rawValue:
             bottomTitle.text = "시작날짜 선택"
-        case "endDate":
+        case BottomViewCheck.endDate.rawValue:
             bottomTitle.text = "종료날짜 선택"
         default:
             print("UI 판단 문자 체크 불가 오류, 문자 확인")
@@ -165,6 +163,10 @@ extension BottomSheetsViewController {
         bottomTodoAddBtn.addTarget(self, action: #selector(bottomTodoCheckDate(_:)), for: .touchUpInside)
     }
     
+    override func viewDidLayoutSubviews() {
+        titleTextField.makesToCustomField()
+    }
+    
     /// 바텀 뷰 화면 노출
     func showBottomSheet() {
         
@@ -180,14 +182,15 @@ extension BottomSheetsViewController {
         }
         
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn) {
-            self.dimmedView.alpha = self.dimAlphaWithBottomSheetTopConstraint(value: constant)
+            //self.dimmedView.alpha = self.dimAlphaWithBottomSheetTopConstraint(value: constant)
+            self.dimmedView.alpha = 0.7
             self.view.layoutIfNeeded()
             
         } completion: { (_) in
             
         }
     }
-    
+    /*
     func dimAlphaWithBottomSheetTopConstraint(value: CGFloat) -> CGFloat {
         let fullDimAlpha:CGFloat = 0.7
         
@@ -208,6 +211,8 @@ extension BottomSheetsViewController {
         
         return fullDimAlpha * ( 1 - ((value - fullDimPosition) / (noDimPosition - fullDimPosition)))
     }
+    */
+    
     
     /// 바텀 시트 뷰 숨김
     func hideBottomSheetAndGoBack() {

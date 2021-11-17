@@ -12,9 +12,6 @@ extension MainViewController {
     
     @objc func calendarShowHideAction(_ sender: UIButton) {
         print("캘린더 상태 \(self.calendarShowOn)")
-        
-        
-        
         // 캘린더가 열려있는 경우
         if(self.calendarShowOn) {
             self.calendarShowOn = false
@@ -55,6 +52,7 @@ extension MainViewController {
         
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
+        bottomVC.checkShowUI = BottomViewCheck.todoAdd.rawValue
         self.present(bottomVC, animated: true, completion: nil)
     }
     
