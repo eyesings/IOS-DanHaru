@@ -52,6 +52,37 @@ enum ToolBarBtnTag: Int, CaseIterable {
     case myPage = 301
 }
 
+/// 바텀 뷰 재사용 코드
+enum BottomViewCheck: String {
+    case todoAdd = "todoAdd"
+    case startDate = "startDate"
+    case endDate = "endDate"
+    case cycleTime = "cycleTime"
+    case audioRecode = "audioRecode"
+}
+
+enum DateLabelTag: Int {
+    case startDateLabel = 1111
+    case endDateLabel = 2222
+}
+
+enum DayBtnTag: Int {
+    case monday = 111
+    case tuesday = 222
+    case wednesday = 333
+    case thursday = 444
+    case friday = 555
+    case saturday = 666
+    case sunday = 777
+    case everyday = 888
+}
+
+enum ImageDeleteBtnTag: Int {
+    case deleteImageView1 = 121
+    case deleteImageView2 = 122
+    case deleteImageView3 = 123
+}
+
 struct Configs {
     
     static var formatter = DateFormatter()

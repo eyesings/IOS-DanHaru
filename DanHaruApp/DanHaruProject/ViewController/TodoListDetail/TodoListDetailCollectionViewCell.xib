@@ -34,7 +34,7 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </button>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="personFill" translatesAutoresizingMaskIntoConstraints="NO" id="DWr-KJ-ImB">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profileNon" translatesAutoresizingMaskIntoConstraints="NO" id="DWr-KJ-ImB">
                         <rect key="frame" x="39" y="10" width="314" height="108"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
@@ -67,7 +67,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="personFill" width="64" height="64"/>
+        <image name="profileNon" width="128" height="128"/>
         <namedColor name="backgroundColor">
             <color red="1" green="0.9882352941176471" blue="0.9882352941176471" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
