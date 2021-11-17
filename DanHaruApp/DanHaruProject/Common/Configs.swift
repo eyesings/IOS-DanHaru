@@ -95,6 +95,7 @@ enum CollectionViewTag: Int {
 enum APIResultCode: String {
     case success = "0000"
     case failure = "9999"
+}
 
 /// 바텀 뷰 재사용 코드
 enum BottomViewCheck: String {
