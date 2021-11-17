@@ -40,6 +40,8 @@ class MyPageViewController: UIViewController {
         
         scrollView.contentSize = CGSize(width: screenwidth, height: screenheight + 20)
         scrollTopViewHeightConst.constant = screenheight
+        
+        pieChartViewInit()
     }
     
     
@@ -87,12 +89,8 @@ class MyPageViewController: UIViewController {
             }
         }
         
-        if let error = error {
-            print("error : \(error)")
-            showToasPopup("내 도전 현황 저장에 실패 하였습니다.")
-        } else {
-            showToasPopup("내 도전 현황 저장에 성공 하였습니다.")
-        }
+        print("error : \(String(describing: error))")
+        showToasPopup(error == nil ? RadMessage.MyPage.savePhotoSuccess : RadMessage.MyPage.savePhotoFail)
     }
     
 }
@@ -113,21 +111,10 @@ extension MyPageViewController {
         profileImgView.layer.cornerRadius = profileImgView.frame.height / 2
         profileImgView.backgroundColor = .clear
         profileImgView.image = RadHelper.getProfileImage() ?? #imageLiteral(resourceName: "profileNon")
-        profileUserName.text = UserModel.nickName ?? (UserModel.userIdx ?? "유저 이름")
-        profileUserIntroduce.text = UserModel.profileIntro ?? "단 하루라도 열심히 살자"
+        profileUserName.text = UserModel.profile_nm ?? UserModel.mem_id
+        profileUserIntroduce.text = UserModel.profile_into
         
         userScoreViewLayerInit()
-        
-        let totalCnt = CGFloat(UserModel.totalCnt ?? 99)
-        let todoCnt = CGFloat(UserModel.todoCnt ?? 35)
-        let challangeCnt = CGFloat(UserModel.challangeCnt ?? 20)
-        let doneCnt = todoCnt + challangeCnt
-        
-        totalCtn = totalCnt
-        
-        pieChartViewInit(todoCnt, toDoScoreView)
-        pieChartViewInit(challangeCnt, challengeScoreView)
-        pieChartViewInit(doneCnt, totalScoreView)
         
         if let toolBar = self.navigationController?.toolbar as? CustomToolBar {
             toolBar.customDelegate = self
@@ -143,7 +130,25 @@ extension MyPageViewController {
         userScoreView.layer.masksToBounds = false
     }
     
-    private func pieChartViewInit(_ doneCnt: CGFloat, _ onView: UIView) {
+    private func pieChartViewInit() {
+        // FIXME: set with MODEL!!
+        let totalCnt = CGFloat(99)//CGFloat(UserModel.totalCnt ?? 99)
+        let todoCnt = CGFloat(35)//CGFloat(UserModel.todoCnt ?? 35)
+        let challangeCnt = CGFloat(20)//CGFloat(UserModel.challangeCnt ?? 20)
+        let doneCnt = todoCnt + challangeCnt
+        
+        totalCtn = totalCnt
+        
+        drawPieChartView(todoCnt, toDoScoreView)
+        drawPieChartView(challangeCnt, challengeScoreView)
+        drawPieChartView(doneCnt, totalScoreView)
+    }
+    
+    private func drawPieChartView(_ doneCnt: CGFloat, _ onView: UIView) {
+        
+        if let pieChart = onView.subviews.first {
+            pieChart.removeFromSuperview()
+        }
         
         let pieChartView = PieChartView(frame: CGRect(origin: .zero, size: onView.frame.size))
         let pieChartVal = doneCnt / totalCtn

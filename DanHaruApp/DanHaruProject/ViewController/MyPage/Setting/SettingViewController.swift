@@ -16,7 +16,19 @@ class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
         initLayout()
+    }
+    
+    @IBAction func onTapAskBtn(_ sender: UIButton) {
+        
+        if let askVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.askVC) as? AskViewController {
+            self.navigationController?.pushViewController(askVC)
+        }
     }
     
     @IBAction func onTapUpdateBtn(_ sender: UIButton) {
@@ -28,7 +40,7 @@ class SettingViewController: UIViewController {
     }
     
     @IBAction func onTapLogout(_ sender: UIButton) {
-        RadAlertViewController.basicAlertControllerShow(WithTitle: "", message: "로그아웃하시겠습니까?", isNeedCancel: true, viewController: self) { isCheck in
+        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.logoutMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
                 self.navigationController?.popToMainViewController()
             }
@@ -36,7 +48,7 @@ class SettingViewController: UIViewController {
     }
     
     @IBAction func onTapUserDel(_ sender: UIButton) {
-        RadAlertViewController.basicAlertControllerShow(WithTitle: "", message: "회원 정보를 삭제하시겠습니까?", isNeedCancel: true, viewController: self) { isCheck in
+        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.accountDelMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
                 print("move to main? and remove user info")
             }
@@ -62,10 +74,8 @@ extension SettingViewController {
 //        updateBtn.isEnabled = false
 
         // MARK: 로그인 상태가 아닐 때
-        if !RadHelper.isLogin {
-            for view in userSettingMenuList {
-                view.isHidden = true
-            }
-        }
+//        for view in userSettingMenuList {
+//            view.isHidden = !RadHelper.isLogin
+//        }
     }
 }

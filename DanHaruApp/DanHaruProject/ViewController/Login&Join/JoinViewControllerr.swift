@@ -14,8 +14,7 @@ class JoinViewController: UIViewController {
     @IBOutlet var closeBtn: UIButton!
     @IBOutlet var inputTypeLabel: UILabel!
     @IBOutlet var inputTextField: UITextField!
-    @IBOutlet var edgePanGestureRecong: UIScreenEdgePanGestureRecognizer!
-    @IBOutlet var emailErrorInfoMsg: UILabel!
+    @IBOutlet var errorInfoMsgLabel: UILabel!
     
     @IBOutlet var topNavView: UIView!
     @IBOutlet var nextBtn: UIButton!
@@ -25,23 +24,23 @@ class JoinViewController: UIViewController {
     @IBOutlet var startBtn: UIButton!
     
     @IBOutlet var stepProgressView: UIView!
-    @IBOutlet var stepProgressViewArr: [UIView]!
+    @IBOutlet var stepProgressViewArr: [UIButton]!
     
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
     @IBOutlet var progressParentView: NSLayoutConstraint!
     
     public var isFromLoginVC: Bool = false
     
-    private var isEmailInputDone: Bool = false
-    private var isIdInputDone: Bool = false
-    private var isPWInputDone: Bool = false
     private var nowInputType: InputType = .email
     
+    private var emailInputText: String = ""
+    private var idInputText: String = ""
+    private var pwInputText: String = ""
+    
+    private var keyboardH: CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        edgePanGestureRecong.edges = .left
         
         closeBtn.isHidden = true
         inputTextField.makesToCustomField()
@@ -49,8 +48,15 @@ class JoinViewController: UIViewController {
         
         if isFromLoginVC { setLayoutMoveFromLogin() }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.registerKeyboardNotification()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showWelcomPage), name: Configs.NotificationName.userLoginSuccess, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: Configs.NotificationName.userLoginSuccess, object: nil)
     }
     
     /// 로그인 VC에서 넘어온 경우 UI 변경
@@ -59,26 +65,25 @@ class JoinViewController: UIViewController {
         closeBtn?.isHidden = false
     }
     
-    // MARK: - Private Method
     
     // MARK: - OBJC Method
     @IBAction func onTapPreBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func onTapNextBtn(_ sender: UIButton) {
+    @IBAction func onTapNextBtn(_ sender: UIButton = UIButton()) {
         
         if inputTextField.hasText {
             if nowInputType == .email {
                 if inputTextField.isValidEmail() {
-                    nowInputType = .id
+                    self.checkIsValidValue()
                 } else {
                     print("이메일 형식이 아님")
                     inputTextField.fieldNotHasTextUI()
                     return
                 }
             } else if nowInputType == .id {
-                nowInputType = .pw
+                self.checkIsValidValue()
             } else if nowInputType == .pw {
                 nowInputType = .done
             }
@@ -100,9 +105,6 @@ class JoinViewController: UIViewController {
     }
     
     @IBAction func onTapStartBtn(_ sender: UIButton) {
-        print("main으로 이동")
-        print("user viewModel 필요")
-        UserModel = UserInfoViewModel("pw", "id").model
         RadHelper.rootVcChangeToMain()
     }
     
@@ -110,21 +112,52 @@ class JoinViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc
-    func keyboardShowAndHide(_ sender: Notification) {
-        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            
-            if sender.name == UIResponder.keyboardWillShowNotification {
-                startBtnBottomConst.constant = -(keyboardHeight - RadHelper.bottomSafeAreaHeight)
-            } else if sender.name == UIResponder.keyboardWillHideNotification {
-                startBtnBottomConst.constant = 0
-               
+    @IBAction func onTapProgressBtn(_ sender: UIButton) {
+        
+        if sender.tag > nowInputType.rawValue {
+            onTapNextBtn()
+        } else {
+            if let inputType = InputType.init(rawValue: sender.tag) {
+                nowInputType = inputType
+                changeTextField(type: nowInputType)
             }
-            self.view.layoutIfNeeded()
         }
+    }
+    
+    private func userJoin() {
+        RadHelper.getRootViewController()?.showLoadingView()
+        let _ = UserJoinViewModel.init(emailInputText, idInputText, pwInputText)
+    }
+    
+    @objc private func showWelcomPage() {
+        self.nowInputType = .done
+        self.showJoinSuccessPage()
+    }
+}
+
+// MARK: - Private Func
+extension JoinViewController {
+
+    private func checkIsValidValue() {
+        
+        guard let inputText = inputTextField.text else { return }
+        // FIXME: Server has character 0. ?
+//        UserInfoValidCheckViewModel.checkIsValid(inputText, nowInputType, emailInputText) { isValid in
+//            if !isValid {
+//                self.errorInfoMsgLabel.isHidden = false
+//                self.errorInfoMsgLabel.text = self.nowInputType == .email ? RadMessage.UserJoin.alreadyExistEmail : RadMessage.UserJoin.alreadyExistId
+//            } else {
+                if self.nowInputType == .email {
+                    self.emailInputText = self.inputTextField.text ?? ""
+                    self.nowInputType = .id
+                } else if self.nowInputType == .id {
+                    self.nowInputType = .pw
+                    self.idInputText = self.inputTextField.text ?? ""
+                }
+                
+                self.changeTextField(type: self.nowInputType)
+//            }
+//        }
     }
 }
 
@@ -133,17 +166,15 @@ extension JoinViewController {
     
     /// 회원가입 절차 Progress 뷰 UI 업데이트
     private func stepViewProgress() {
-        for view in self.stepProgressViewArr
+        for btn in self.stepProgressViewArr
         {
-            if let label = view as? UILabel
+            if let label = btn.titleLabel
             {
-                label.textColor = view.tag == self.nowInputType.rawValue ? .backgroundColor : .subLightColor
+                label.textColor = btn.tag == self.nowInputType.rawValue ? .backgroundColor : .subLightColor
             }
-            else
-            {
-                view.backgroundColor = view.tag == self.nowInputType.rawValue ? .subHeavyColor : .lightGrayColor
-                view.layer.cornerRadius = view.frame.width / 2
-            }
+            
+            btn.backgroundColor = btn.tag == self.nowInputType.rawValue ? .subHeavyColor : .lightGrayColor
+            btn.layer.cornerRadius = btn.frame.width / 2
         }
     }
     
@@ -154,46 +185,46 @@ extension JoinViewController {
         startBtn.isHidden = true
         signUpLabel.isHidden = true
         stepProgressView.isHidden = false
+        errorInfoMsgLabel.isHidden = true
         
-        inputTextField.text = nil
-        inputTextField.updateUI(true)
+        inputTextField.isSecureTextEntry = (type == .pw)
+        inputTextField.keyboardType = .asciiCapable
+        inputTextField.placeholder = type.name() + "\(type == .email ? "을 " : "를 ")" + RadMessage.UserJoin.placeHolderInfo
+        inputTypeLabel.text = type.name()
         
         switch type {
         case .email:
-            inputTypeLabel.text = "이메일"
-            inputTextField.isSecureTextEntry = false
             inputTextField.keyboardType = .emailAddress
-            inputTextField.placeholder = "이메일을 입력 해 주세요."
+            inputTextField.text = emailInputText
         case .id:
-            inputTypeLabel.text = "아이디"
-            inputTextField.isSecureTextEntry = false
             inputTextField.textContentType = .nickname
-            inputTextField.keyboardType = .asciiCapable
-            inputTextField.placeholder = "아이디를 입력 해 주세요."
+            inputTextField.text = idInputText
         case .pw:
-            inputTypeLabel.text = "비밀번호"
-            inputTextField.isSecureTextEntry = true
             inputTextField.textContentType = .password
-            inputTextField.keyboardType = .asciiCapable
-            inputTextField.placeholder = "비밀번호를 입력 해 주세요."
+            inputTextField.text = nil
         case .done, .introduce, .nickName:
-            inputTypeLabel.isHidden = true
-            inputTextField.isHidden = true
-            topNavView.isHidden = true
-            nextBtn.isHidden = true
-            notchBottomView.isHidden = true
-            
-            startBtn.isHidden = false
-            signUpLabel.isHidden = false
-            
-            startBtn.layer.cornerRadius = startBtn.frame.height / 2
-            
-            stepProgressView.isHidden = true
-            
-            view.endEditing(true)
+            userJoin()
         }
         
+        inputTextField.updateUI(true)
         stepViewProgress()
+    }
+    
+    private func showJoinSuccessPage() {
+        inputTypeLabel.isHidden = true
+        inputTextField.isHidden = true
+        topNavView.isHidden = true
+        nextBtn.isHidden = true
+        notchBottomView.isHidden = true
+        
+        startBtn.isHidden = false
+        signUpLabel.isHidden = false
+        
+        startBtn.layer.cornerRadius = startBtn.frame.height / 2
+        
+        stepProgressView.isHidden = true
+        
+        view.endEditing(true)
     }
 }
 
@@ -213,13 +244,29 @@ extension JoinViewController: UITextFieldDelegate {
         
         if nowInputType == .email {
             if let textCnt = textField.text?.count {
-                self.emailErrorInfoMsg.isHidden = textCnt > 0 ? textField.isValidEmail() : true
+                self.errorInfoMsgLabel.text = RadMessage.UserJoin.notValidEmail
+                self.errorInfoMsgLabel.isHidden = textCnt > 0 ? textField.isValidEmail() : true
             }
             textField.fieldNotHasTextUI()
+            emailInputText = textField.text ?? ""
+        } else if nowInputType == .id {
+            idInputText = textField.text ?? ""
+        } else if nowInputType == .pw {
+            pwInputText = textField.text ?? ""
         }
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.updateUI()
+    }
+}
+
+// MARK: - Keyboard Protocol
+extension JoinViewController: keyboardNotiRegistProtocol {
+    func keyboardShowAndHide(_ notification: Notification) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
+            self.view.layoutIfNeeded()
+        }
     }
 }

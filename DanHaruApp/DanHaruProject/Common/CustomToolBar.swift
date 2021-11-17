@@ -25,6 +25,8 @@ class CustomToolBar: UIToolbar {
         var newSize: CGSize = super.sizeThatFits(size)
         newSize.height = RadHelper.deviceHasNotch ? 50 : 80
         
+        if RadHelper.isIphoneSE1st { newSize.height = 60 }
+        
         return newSize
     }
     
@@ -87,7 +89,7 @@ extension CustomToolBar {
         baseView.snp.makeConstraints { view in
             view.centerX.equalTo(self)
             view.top.equalTo(self)
-            view.width.equalTo(self).multipliedBy(0.4)
+            view.width.equalTo(self).multipliedBy(RadHelper.isIphoneSE1st ? 0.45 : 0.4)
             view.height.equalTo(baseView.snp.width).multipliedBy(0.3)
         }
         
@@ -113,7 +115,7 @@ extension CustomToolBar {
         btn.setImage(type == .home ? #imageLiteral(resourceName: "mainOff") : #imageLiteral(resourceName: "userOff"), for: .normal)
         btn.setImage(type == .home ? #imageLiteral(resourceName: "mainOn") : #imageLiteral(resourceName: "userOn"), for: .selected)
         btn.setImage(type == .home ? #imageLiteral(resourceName: "mainOn") : #imageLiteral(resourceName: "userOn"), for: .highlighted)
-        btn.imageEdgeInsets = UIEdgeInsets(top: 10, left: type == .home ? 30 : 15, bottom: 15, right: type == .home ? 15 : 30)
+        btn.imageEdgeInsets = UIEdgeInsets(top: RadHelper.isIphoneSE1st ? 7 : 10, left: type == .home ? 30 : 15, bottom: 15, right: type == .home ? 15 : 30)
         
         baseView.addSubview(btn)
         

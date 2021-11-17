@@ -19,10 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.overrideUserInterfaceStyle = .light
         }
         
-        if UserDefaults.isFirstInstall != false {
+//        if UserDefaults.isFirstInstall != false {
             self.switchToHome()
             UserDefaults.standard.saveFirstInstall(false)
-        }
+//        }
         
         return true
     }

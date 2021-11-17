@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Lottie
 
 extension UINavigationController {
     
@@ -26,5 +27,35 @@ extension UINavigationController {
     func popToMainViewController() {
         self.setToolbarHidden(false, animated: true)
         self.popToRootViewController(animated: true)
+    }
+}
+
+
+extension UIViewController {
+    
+    func showLoadingView() {
+        let loadingView = AnimationView(name: "loading")
+        loadingView.loopMode = .loop
+        loadingView.play()
+        loadingView.backgroundColor = UIColor.mainColor.withAlphaComponent(0.1)
+        loadingView.layer.cornerRadius = 10
+        self.view.addSubview(loadingView)
+        
+        loadingView.snp.makeConstraints { view in
+            view.centerY.centerX.equalTo(self.view)
+            view.width.equalTo(self.view).multipliedBy(0.3)
+            view.height.equalTo(loadingView.snp.width)
+        }
+    }
+    
+    func hideLoadingView() {
+        DispatchQueue.main.async {
+            for subview in self.view.subviews {
+                if let loadingView = subview as? AnimationView {
+                    loadingView.stop()
+                    loadingView.removeFromSuperview()
+                }
+            }
+        }
     }
 }

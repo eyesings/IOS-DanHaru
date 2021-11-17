@@ -19,6 +19,7 @@ func Dprint(_ obj: Any..., function: String = #function) -> () {
     #endif
 }
 
+// MARK: - RadHelper
 extension RadHelper {
     
     /// 하단 SafeArea Indicator 영역
@@ -65,7 +66,7 @@ extension RadHelper {
     /// - Returns: 프로필 이미지
     static func getProfileImage() -> UIImage? {
         var image: UIImage?
-        RadServerNetwork.getDataFromServer(url: UserModel.profileImgUrl ?? "", type: .IMAGE) { dic in
+        RadServerNetwork.getDataFromServer(url: UserModel.profile_img ?? "", type: .IMAGE) { dic in
             if let dic = dic {
                 let img = dic["image"] as? UIImage
                 image = img
@@ -77,7 +78,48 @@ extension RadHelper {
         return image
     }
     
+    static func keyboardAnimation(_ noti: Notification, _ moveLayout: NSLayoutConstraint, forCustom: Bool = false, completionHandler: @escaping () -> Void) {
+        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            var keyboardHeight = keyboardRectangle.height
+            keyboardH = keyboardH > keyboardHeight ? keyboardH : keyboardHeight
+            if forCustom { completionHandler(); return }
+            
+            moveLayout.constant = noti.name == UIResponder.keyboardWillShowNotification ? -(keyboardH - RadHelper.bottomSafeAreaHeight + 50) : 0
+            completionHandler()
+        }
+    }
+    
     static var isLogin: Bool = {
-        return UserModel.userIdx != nil
+        return UserModel.mem_id != nil
     }()
+    
+    static var isIphoneSE1st: Bool = {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        return identifier == "iPhone8,4"
+    }()
+    
+    
+}
+
+// FIXME: move to protocol page
+@objc protocol keyboardNotiRegistProtocol: NSObjectProtocol {
+    func keyboardShowAndHide(_ notification: Notification)
+}
+
+extension keyboardNotiRegistProtocol {
+    func registerKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAndHide(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        keyboardH = 0.0
+    }
 }

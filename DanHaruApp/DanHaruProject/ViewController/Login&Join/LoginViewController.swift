@@ -24,8 +24,9 @@ class LoginViewController: UIViewController {
             textField.makesToCustomField()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.registerKeyboardNotification()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.moveToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +41,8 @@ class LoginViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         view.endEditing(true)
+        
+        NotificationCenter.default.removeObserver(self, name: Configs.NotificationName.userLoginSuccess, object: nil)
     }
     
     // MARK: - OBJC Method
@@ -55,8 +58,8 @@ class LoginViewController: UIViewController {
             pwInputTextField.becomeFirstResponder()
         } else {
             view.endEditing(true)
-            UserModel = UserInfoViewModel("pw", "id").model
-            RadHelper.rootVcChangeToMain()
+            let _ = UserInfoViewModel.init(idInputTextField.text!, pwInputTextField.text!)
+            RadHelper.getRootViewController()?.showLoadingView()
         }
         
         idInputTextField.updateUI()
@@ -86,21 +89,9 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
     
-    
     @objc
-    func keyboardShowAndHide(_ sender: Notification) {
-        if let keyboardFrame = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-        {
-            let keyboardHeight = keyboardFrame.height
-            self.keyboardH = self.keyboardH > keyboardHeight ? self.keyboardH : keyboardHeight
-            
-            if sender.name == UIResponder.keyboardWillShowNotification {
-                startBtnBottomConst.constant = -(self.keyboardH - RadHelper.bottomSafeAreaHeight)
-            } else if sender.name == UIResponder.keyboardWillHideNotification {
-                startBtnBottomConst.constant = 0
-            }
-            self.view.layoutIfNeeded()
-        }
+    private func moveToMain() {
+        RadHelper.rootVcChangeToMain()
     }
     
 }
@@ -130,5 +121,15 @@ extension LoginViewController: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.updateUI()
+    }
+}
+
+
+// MARK: - Keyboard Protocol
+extension LoginViewController: keyboardNotiRegistProtocol {
+    func keyboardShowAndHide(_ notification: Notification) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
+            self.view.layoutIfNeeded()
+        }
     }
 }

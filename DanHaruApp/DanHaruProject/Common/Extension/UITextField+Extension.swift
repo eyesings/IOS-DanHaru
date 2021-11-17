@@ -14,9 +14,9 @@ extension UITextField {
     /// - Parameters:
     ///   - h: UnderLine 높이
     ///   - padding: 들여쓰기 값
-    func makesToCustomField(lineHeight h: CGFloat = 1.0, padding: CGFloat = 10.0) {
+    func makesToCustomField(lineHeight h: CGFloat = 1.0, padding: CGFloat = 10.0, customWidth: CGFloat = screenwidth*0.8) {
         let border = CALayer()
-        border.frame = CGRect(x: 0, y: self.frame.height - h, width: self.frame.width, height: h)
+        border.frame = CGRect(x: 0, y: self.frame.height - h, width: customWidth, height: h)
         border.borderWidth = h
         border.backgroundColor = UIColor.heavyGrayColor.cgColor
         self.layer.addSublayer(border)
