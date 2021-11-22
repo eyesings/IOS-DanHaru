@@ -18,7 +18,26 @@ extension UserDefaults {
         }
     }
     
+    static var userInputId: String {
+        return RadHelper.AES256Decrypt(WithValue: self.standard.string(forKey: Configs.UserDefaultsKey.userInputID))
+    }
+    
+    static var userInputPw: String {
+        return RadHelper.AES256Decrypt(WithValue: self.standard.string(forKey: Configs.UserDefaultsKey.userInputPW))
+    }
+    
     func saveFirstInstall(_ isFirst: Bool) {
         self.set(isFirst, forKey: Configs.UserDefaultsKey.isFirstInstall)
+    }
+    
+    func saveUserInputVal(id: String, pw: String) {
+        self.set(id, forKey: Configs.UserDefaultsKey.userInputID)
+        self.set(pw, forKey: Configs.UserDefaultsKey.userInputPW)
+    }
+    
+    func rmUserInputVal() {
+        self.removeObject(forKey: Configs.UserDefaultsKey.userInputID)
+        self.removeObject(forKey: Configs.UserDefaultsKey.userInputPW)
+        UserModel = UserInfoModel()
     }
 }

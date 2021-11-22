@@ -37,8 +37,6 @@ class JoinViewController: UIViewController {
     private var idInputText: String = ""
     private var pwInputText: String = ""
     
-    private var keyboardH: CGFloat = 0.0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -85,7 +83,8 @@ class JoinViewController: UIViewController {
             } else if nowInputType == .id {
                 self.checkIsValidValue()
             } else if nowInputType == .pw {
-                nowInputType = .done
+                self.userJoin()
+                self.view.endEditing(true)
             }
             changeTextField(type: nowInputType)
         } else {
@@ -131,7 +130,7 @@ class JoinViewController: UIViewController {
     
     @objc private func showWelcomPage() {
         self.nowInputType = .done
-        self.showJoinSuccessPage()
+        changeTextField(type: nowInputType)
     }
 }
 
@@ -142,11 +141,11 @@ extension JoinViewController {
         
         guard let inputText = inputTextField.text else { return }
         // FIXME: Server has character 0. ?
-//        UserInfoValidCheckViewModel.checkIsValid(inputText, nowInputType, emailInputText) { isValid in
-//            if !isValid {
-//                self.errorInfoMsgLabel.isHidden = false
-//                self.errorInfoMsgLabel.text = self.nowInputType == .email ? RadMessage.UserJoin.alreadyExistEmail : RadMessage.UserJoin.alreadyExistId
-//            } else {
+        UserInfoValidCheckViewModel.checkIsValid(inputText, nowInputType, emailInputText) { isValid in
+            if !isValid {
+                self.errorInfoMsgLabel.isHidden = false
+                self.errorInfoMsgLabel.text = self.nowInputType == .email ? RadMessage.UserJoin.alreadyExistEmail : RadMessage.UserJoin.alreadyExistId
+            } else {
                 if self.nowInputType == .email {
                     self.emailInputText = self.inputTextField.text ?? ""
                     self.nowInputType = .id
@@ -156,8 +155,8 @@ extension JoinViewController {
                 }
                 
                 self.changeTextField(type: self.nowInputType)
-//            }
-//        }
+            }
+        }
     }
 }
 
@@ -188,22 +187,20 @@ extension JoinViewController {
         errorInfoMsgLabel.isHidden = true
         
         inputTextField.isSecureTextEntry = (type == .pw)
+        inputTextField.textContentType = .oneTimeCode
         inputTextField.keyboardType = .asciiCapable
         inputTextField.placeholder = type.name() + "\(type == .email ? "을 " : "를 ")" + RadMessage.UserJoin.placeHolderInfo
         inputTypeLabel.text = type.name()
         
         switch type {
         case .email:
-            inputTextField.keyboardType = .emailAddress
             inputTextField.text = emailInputText
         case .id:
-            inputTextField.textContentType = .nickname
             inputTextField.text = idInputText
         case .pw:
-            inputTextField.textContentType = .password
-            inputTextField.text = nil
+            inputTextField.text = pwInputText
         case .done, .introduce, .nickName:
-            userJoin()
+            self.showJoinSuccessPage()
         }
         
         inputTextField.updateUI(true)
@@ -217,14 +214,13 @@ extension JoinViewController {
         nextBtn.isHidden = true
         notchBottomView.isHidden = true
         
-        startBtn.isHidden = false
-        signUpLabel.isHidden = false
-        
-        startBtn.layer.cornerRadius = startBtn.frame.height / 2
-        
         stepProgressView.isHidden = true
         
         view.endEditing(true)
+        
+        startBtn.layer.cornerRadius = startBtn.frame.height / 2
+        startBtn.isHidden = false
+        signUpLabel.isHidden = false
     }
 }
 

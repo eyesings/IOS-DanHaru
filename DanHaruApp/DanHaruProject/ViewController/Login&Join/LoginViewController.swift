@@ -15,8 +15,6 @@ class LoginViewController: UIViewController {
     @IBOutlet var pwInputTextField: UITextField!
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
     
-    private var keyboardH: CGFloat = 0.0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +73,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func onTapFindInfoBtn(_ sender: UIButton) {
         if let findVC = RadHelper.getVCFromUserJoinSB(withID: StoryBoardRef.findVC) as? FindUserInfoViewController {
-            self.navigationController?.pushViewController(findVC, animated: true)
+            findVC.modalPresentationStyle = .fullScreen
+            self.present(findVC, animated: true, completion: nil)
         }
     }
     
@@ -128,7 +127,7 @@ extension LoginViewController: UITextFieldDelegate {
 // MARK: - Keyboard Protocol
 extension LoginViewController: keyboardNotiRegistProtocol {
     func keyboardShowAndHide(_ notification: Notification) {
-        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst, isUpdateToHihger: true) {
             self.view.layoutIfNeeded()
         }
     }

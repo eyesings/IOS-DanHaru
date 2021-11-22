@@ -66,7 +66,7 @@ extension RadHelper {
     /// - Returns: 프로필 이미지
     static func getProfileImage() -> UIImage? {
         var image: UIImage?
-        RadServerNetwork.getDataFromServer(url: UserModel.profile_img ?? "", type: .IMAGE) { dic in
+        RadServerNetwork.getDataFromServer(url: UserModel.profileImgUrl ?? "", type: .IMAGE) { dic in
             if let dic = dic {
                 let img = dic["image"] as? UIImage
                 image = img
@@ -78,21 +78,23 @@ extension RadHelper {
         return image
     }
     
-    static func keyboardAnimation(_ noti: Notification, _ moveLayout: NSLayoutConstraint, forCustom: Bool = false, completionHandler: @escaping () -> Void) {
+    static func keyboardAnimation(_ noti: Notification, _ moveLayout: NSLayoutConstraint, forCustom: Bool = false, isUpdateToHihger: Bool = false, completionHandler: @escaping () -> Void) {
         if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            var keyboardHeight = keyboardRectangle.height
+            let keyboardHeight = keyboardRectangle.height
+            
             keyboardH = keyboardH > keyboardHeight ? keyboardH : keyboardHeight
             if forCustom { completionHandler(); return }
             
-            moveLayout.constant = noti.name == UIResponder.keyboardWillShowNotification ? -(keyboardH - RadHelper.bottomSafeAreaHeight + 50) : 0
+            moveLayout.constant = noti.name == UIResponder.keyboardWillShowNotification ? -(isUpdateToHihger ? keyboardH : keyboardHeight - RadHelper.bottomSafeAreaHeight) : 0
+            if noti.name == UIResponder.keyboardWillHideNotification { keyboardH = 0.0 }
             completionHandler()
         }
     }
     
     static var isLogin: Bool = {
-        return UserModel.mem_id != nil
+        return UserModel.memberId != nil
     }()
     
     static var isIphoneSE1st: Bool = {
@@ -107,6 +109,13 @@ extension RadHelper {
         return identifier == "iPhone8,4"
     }()
     
+    static func AES256Encrypt(WithValue value: String?) -> String {
+        return RadHelper.AES256Encrypt(WithValue: value, baseKey: Configs.BASE64Key)
+    }
+    
+    static func AES256Decrypt(WithValue value: String?) -> String {
+        return RadHelper.AES256Decrypt(WithValue: value, baseKey: Configs.BASE64Key)
+    }
     
 }
 

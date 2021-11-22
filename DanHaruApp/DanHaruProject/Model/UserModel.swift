@@ -11,8 +11,23 @@ import Foundation
 /// 유저 정보 모델
 struct UserInfoModel: Codable {
     var mem_id: String?
+    var memberId: String? {
+        get { return mem_id != nil ? RadHelper.AES256Decrypt(WithValue: mem_id) : nil }
+    }
     var mem_email: String?
+    var memberEmail: String? {
+        get { return mem_email != nil ? RadHelper.AES256Decrypt(WithValue: mem_email) : nil }
+    }
     var profile_nm: String?
+    var profileName: String? {
+        get { return profile_nm != nil ? RadHelper.AES256Decrypt(WithValue: profile_nm) : nil }
+    }
     var profile_img: String?
+    var profileImgUrl: String? {
+        get { return profile_img != nil ? RadHelper.AES256Decrypt(WithValue: profile_img) : nil }
+    }
     var profile_into: String?
+    var profileIntroStr: String? {
+        get { return profile_into != nil ? RadHelper.AES256Decrypt(WithValue: profile_into) : nil }
+    }
 }

@@ -131,9 +131,12 @@ enum ImageDeleteBtnTag: Int {
 struct Configs {
     
     static var formatter = DateFormatter()
+    static let BASE64Key = "DanHaruoMJVisBbDHcRBJogBtryYmhuk"
     
     struct UserDefaultsKey {
         static let isFirstInstall = "IS_FIRST_INSTALL"
+        static let userInputID    = "USER_INPUT_ID"
+        static let userInputPW    = "USER_INPUT_PW"
     }
     
     struct NotificationName {
@@ -151,5 +154,5 @@ struct Configs {
     
 }
 
-var UserModel: UserInfoModel = UserInfoModel()
+var UserModel: UserInfoModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
 var keyboardH: CGFloat = 0

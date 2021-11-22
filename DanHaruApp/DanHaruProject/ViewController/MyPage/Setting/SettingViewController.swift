@@ -43,6 +43,7 @@ class SettingViewController: UIViewController {
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.logoutMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
                 self.navigationController?.popToMainViewController()
+                UserDefaults.standard.rmUserInputVal()
             }
         }
     }
@@ -51,6 +52,7 @@ class SettingViewController: UIViewController {
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.accountDelMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
                 print("move to main? and remove user info")
+                UserDefaults.standard.rmUserInputVal()
             }
         }
     }
@@ -74,8 +76,8 @@ extension SettingViewController {
 //        updateBtn.isEnabled = false
 
         // MARK: 로그인 상태가 아닐 때
-//        for view in userSettingMenuList {
-//            view.isHidden = !RadHelper.isLogin
-//        }
+        for view in userSettingMenuList {
+            view.isHidden = !RadHelper.isLogin
+        }
     }
 }

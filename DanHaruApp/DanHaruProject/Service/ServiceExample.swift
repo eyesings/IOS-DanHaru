@@ -29,6 +29,7 @@ class ViewModelService {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
                     completionHandler()
+                    NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
                 }
             }
         } errorHandler: { err in
@@ -75,6 +76,7 @@ class ViewModelService {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
             } else {
                 completionHandler(resultDic)
+                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
                 rootVC.hideLoadingView()
             }
         } errorHandler: { err in
