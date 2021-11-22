@@ -24,7 +24,7 @@ class LoginViewController: UIViewController {
         
         self.registerKeyboardNotification()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.moveToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeRootToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +89,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc
-    private func moveToMain() {
+    private func changeRootToMain() {
         RadHelper.rootVcChangeToMain()
     }
     

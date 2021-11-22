@@ -101,7 +101,7 @@ extension ProfileEditViewController {
         
         introduceField.makesToCustomField()
         introduceField.tag = InputType.introduce.rawValue
-        introduceField.text = UserModel.profile_into
+        introduceField.text = UserModel.profileIntroStr
     }
 }
 

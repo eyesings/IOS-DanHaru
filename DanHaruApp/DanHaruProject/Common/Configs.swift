@@ -154,5 +154,5 @@ struct Configs {
     
 }
 
-var UserModel: UserInfoModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
+var UserModel: UserInfoModel = UserInfoModel()
 var keyboardH: CGFloat = 0
