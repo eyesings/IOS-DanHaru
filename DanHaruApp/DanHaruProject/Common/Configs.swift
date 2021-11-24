@@ -150,6 +150,9 @@ struct Configs {
         static let validID    = checkValid + "id"
         static let join       = host + "/auth/register/member/email"
         static let login      = host + "/auth/login/member/email"
+        // SearchList
+        static let todoList   = host + "/todo/main/list"
+        static let createTodo = host + "/todo/main/create"
     }
     
 }

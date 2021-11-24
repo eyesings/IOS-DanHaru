@@ -51,4 +51,8 @@ extension RadMessage {
         static let inputReSetPW = "비밀번호로 재설정할 값을 입력해 주세요."
         static let copyID       = "아이디가 복사되었습니다."
     }
+    
+    struct PhotoEditor {
+        static let reqLibraryAuth = "단하루 앱에 이미지를 사용하기 위해 사진첩 접근 권한이 필요합니다. 확인을 누르시면 설정으로 이동됩니다."
+    }
 }

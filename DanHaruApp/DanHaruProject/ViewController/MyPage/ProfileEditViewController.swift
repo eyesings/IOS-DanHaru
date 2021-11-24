@@ -27,12 +27,38 @@ class ProfileEditViewController: UIViewController {
         self.registerKeyboardNotification()
     }
     
+    private func config() -> FMPhotoPickerConfig {
+        
+        var mediaTypes = [FMMediaType]()
+        mediaTypes.append(.image)
+        
+        var config = FMPhotoPickerConfig()
+        
+        config.selectMode = .multiple
+        config.maxImage = 10
+        
+        // 크롭비율 1:1 3:4 4:3
+        config.availableCrops = [
+            FMCrop.ratioSquare,
+            FMCrop.ratio3x4,
+            FMCrop.ratio4x3
+        ]
+        
+        
+        return config
+    }
+    
     // MARK: - OBJC Method
     @IBAction func onTapMoveBackBtn(_ sender: UIButton) {
         self.navigationController?.popViewController()
     }
     
     @IBAction func onTapImageSelectBtn(_ sender: UIButton) {
+        let vc = FMPhotoPickerViewController(config: config())
+        vc.modalPresentationStyle = .fullScreen
+        vc.delegate = self
+        vc.photoEditorDelegate = self
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func onTapSaveBtn(_ sender: UIButton) {
@@ -112,5 +138,20 @@ extension ProfileEditViewController: keyboardNotiRegistProtocol {
         RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
             self.view.layoutIfNeeded()
         }
+    }
+}
+
+
+extension ProfileEditViewController: FMPhotoPickerViewControllerDelegate, PhotoEditorDelegate {
+    func doneEditing(image: UIImage) {
+        print("done editing \(image)")
+    }
+    
+    func canceledEditing() {
+        print("cancel Editing")
+    }
+    
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+        print("photos \(photos)")
     }
 }

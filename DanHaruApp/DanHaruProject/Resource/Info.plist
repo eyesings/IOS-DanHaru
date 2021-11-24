@@ -29,6 +29,8 @@
 	<string>단,하루 앱에서 나의 도전 현황을 저장하시려면 승인해주세요.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>단.하루 앱에서 도전 인증을 위해 앨범 접근을 승인해주세요.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>단,하루 앱에서 촬영을 위해 카메라 접근을 승인해주세요.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

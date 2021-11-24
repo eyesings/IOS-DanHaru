@@ -1,0 +1,599 @@
+//
+//  FMPhotoPickerViewController.swift
+//  FMPhotoPicker
+//
+//  Created by c-nguyen on 2018/01/23.
+//  Copyright © 2018 Tribal Media House. All rights reserved.
+//
+
+import UIKit
+import Photos
+
+// MARK: - Delegate protocol
+public protocol FMPhotoPickerViewControllerDelegate: AnyObject {
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage])
+}
+
+public class FMPhotoPickerViewController: UIViewController {
+    // MARK: - Outlet
+    @IBOutlet weak var imageCollectionView: UICollectionView!
+    @IBOutlet weak var numberOfSelectedPhotoContainer: UIView!
+    @IBOutlet weak var numberOfSelectedPhoto: UILabel!
+    @IBOutlet weak var determineButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var currentAlbum: UIButton!
+    
+    // MARK: - Public
+    public weak var delegate: FMPhotoPickerViewControllerDelegate? = nil
+    public var photoEditorDelegate: PhotoEditorDelegate?
+    public var isCallMoveToSetting: Bool = false
+    // MARK: - Private
+    
+    // Index of photo that is currently displayed in PhotoPresenterViewController.
+    // Track this to calculate the destination frame for dismissal animation
+    // from PhotoPresenterViewController to this ViewController
+    private var presentedPhotoIndex: Int?
+
+    private var config: FMPhotoPickerConfig
+    
+    let picker = UIImagePickerController()
+    
+    // The controller for multiple select/deselect
+    private lazy var batchSelector: FMPhotoPickerBatchSelector = {
+        return FMPhotoPickerBatchSelector(viewController: self, collectionView: self.imageCollectionView, dataSource: self.dataSource)
+    }()
+    
+    private var dataSource: FMPhotosDataSource! {
+        didSet {
+            if self.config.selectMode == .multiple {
+                // Enable batchSelector in multiple selection mode only
+                self.batchSelector.enable()
+            }
+        }
+    }
+    
+    // MARK: - Init
+    public init(config: FMPhotoPickerConfig) {
+        self.config = config
+        super.init(nibName: "FMPhotoPickerViewController", bundle: Bundle(for: type(of: self)))
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Life cycle
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        picker.delegate = self
+        self.setupView()
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if self.dataSource == nil {
+            self.requestAndFetchAssets()
+        }
+    }
+    
+    // MARK: - Setup View
+    private func setupView() {
+        let reuseCellNib = UINib(nibName: "FMPhotoPickerImageCollectionViewCell", bundle: Bundle(for: self.classForCoder))
+        self.imageCollectionView.register(reuseCellNib, forCellWithReuseIdentifier: FMPhotoPickerImageCollectionViewCell.reuseId)
+        self.imageCollectionView.dataSource = self
+        self.imageCollectionView.delegate = self
+        
+        self.numberOfSelectedPhotoContainer.layer.cornerRadius = self.numberOfSelectedPhotoContainer.frame.size.width / 2
+        self.numberOfSelectedPhotoContainer.isHidden = true
+        self.determineButton.isHidden = true
+        
+        // set button title
+        self.cancelButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
+        self.determineButton.titleLabel!.font = UIFont.systemFont(ofSize: config.titleFontSize)
+    }
+    
+    // MARK: - Target Actions
+    @IBAction func onTapCancel(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
+    @IBAction func onTapDetermine(_ sender: Any) {
+        guard let photoIndex = dataSource.getSelectedPhotosIndex().first else { return }
+        self.presentedPhotoIndex = photoIndex
+        self.processDetermination()
+        self.dismiss(animated: true, completion: nil)
+//        guard let photoIndex = dataSource.getSelectedPhotosIndex().first else { return }
+//        let vc = FMPhotoPresenterViewController(config: self.config, dataSource: self.dataSource, initialPhotoIndex: photoIndex - 1)
+//        self.presentedPhotoIndex = photoIndex
+//        print("self.processDetermination() \(self.dataSource.getSelectedPhotos())")
+//        vc.didSelectPhotoHandler = { photoIndex in
+//            self.tryToAddPhotoToSelectedList(photoIndex: photoIndex)
+//        }
+//        vc.didDeselectPhotoHandler = { photoIndex in
+//            if let selectedIndex = self.dataSource.selectedIndexOfPhoto(atIndex: photoIndex) {
+//                self.dataSource.unsetSeclectedForPhoto(atIndex: photoIndex)
+//                self.reloadAffectedCellByChangingSelection(changedIndex: selectedIndex)
+//                self.imageCollectionView.reloadItems(at: [IndexPath(row: photoIndex, section: 0)])
+//                self.updateControlBar()
+//            }
+//        }
+//        vc.didMoveToViewControllerHandler = { vc, photoIndex in
+//            self.presentedPhotoIndex = photoIndex + 1
+//        }
+//        vc.didTapDetermine = {
+//            self.processDetermination()
+//        }
+//        self.config.photoMode = false
+//        vc.view.frame = self.view.frame
+//        vc.transitioningDelegate = self
+//        vc.modalPresentationStyle = .custom
+//        vc.modalPresentationCapturesStatusBarAppearance = true
+//        vc.isFromEditBtn = true
+//
+//        self.present(vc, animated: true)
+    }
+    
+    // MARK: - Logic
+    internal func requestAndFetchAssets() {
+        if HelperPhoto.canAccessPhotoLib() {
+            self.fetchPhotos()
+        } else {
+            HelperPhoto.requestAuthorizationForPhotoAccess {
+                self.fetchPhotos()
+            } rejected: {
+                if self.isCallMoveToSetting == false {
+                    self.isCallMoveToSetting = true
+                    HelperPhoto.moveToSettingForPhotoAccess(onVc: self)
+                }
+            }
+        }
+    }
+    
+    private func fetchPhotos() {
+
+        let photoAssets = HelperPhoto.getAssets()
+        let forceCropType = config.forceCropEnabled ? config.availableCrops.first! : nil
+        let fmPhotoAssets = photoAssets.map { FMPhotoAsset(asset: $0, forceCropType: forceCropType) }
+
+        self.dataSource = FMPhotosDataSource(photoAssets: fmPhotoAssets)
+        
+        if self.dataSource.numberOfPhotos > 0 {
+            self.imageCollectionView.reloadData()
+        }
+    }
+    
+    public func updateControlBar() {
+        if self.dataSource.numberOfSelectedPhoto() > 0 {
+            self.determineButton.isHidden = false
+            if self.config.selectMode == .multiple {
+                self.numberOfSelectedPhotoContainer.isHidden = true
+                self.numberOfSelectedPhoto.text = "\(self.dataSource.numberOfSelectedPhoto())"
+            }
+        } else {
+            self.determineButton.isHidden = true
+            self.numberOfSelectedPhotoContainer.isHidden = true
+        }
+    }
+    
+    private func processDetermination() {
+        
+        self.showLoadingView()
+        
+        var dict = [Int:UIImage]()
+        var dictAssets = [Int: PHAsset]()
+        var returnImgIndex = [Int:String]()
+        
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            let multiTask = DispatchGroup()
+            for (index, element) in self.dataSource.getSelectedPhotos().enumerated() {
+                multiTask.enter()
+                element.forPresent = true
+                element.requestFullSizePhoto(cropState: .edited, filterState: .edited) {
+                    guard var image = $0 else { return }
+
+                    let imageWidth = image.size.width
+                    let imageheight = image.size.height
+                    let imageRatio: Double = floor(Double((imageWidth / imageheight) * 100))
+                    
+                    if imageRatio != 100.0, imageRatio != 75.0, imageRatio != 133.0 {
+                        returnImgIndex[index] = "N"
+                        image = image.cropToBounds()
+                        //이미지 정확히 자르기 위해 다시 한번 리사이징
+                        image = image.resize()
+                    }
+                    
+                    dict[index] = image
+                    dictAssets[index] = element.asset
+                    element.forPresent = false
+                    multiTask.leave()
+                }
+            }
+            multiTask.wait()
+   
+            if self.config.photoMode {
+                Dprint("self.config.photoMode:::촬영 후 넘어옴")
+                Dprint("self.dataSource.getSelectedPhotos()::::\(self.dataSource.getSelectedPhotos())")
+                
+                for (index, element) in self.dataSource.getSelectedPhotos().enumerated() {
+                    //사진찍은거 삭제
+                    if index == 0 {
+                        
+                        element.asset!.requestContentEditingInput(with: PHContentEditingInputRequestOptions()) { (eidtingInput, info) in
+                          if let input = eidtingInput, let imgURL = input.fullSizeImageURL {
+                             Dprint("imgURL:::\(imgURL)")
+                           
+                          }
+                        }
+                        
+
+                    }
+                }
+
+            }
+            
+            let result = dict.sorted(by: { $0.key < $1.key }).map { $0.value }
+            
+            DispatchQueue.main.async {
+                self.hideLoadingView()
+                self.delegate?.fmPhotoPickerController(self, didFinishPickingPhotoWith: result)
+                
+            }
+        }
+    }
+    
+    @objc func addNewImage() {
+        if UIImagePickerController .isSourceTypeAvailable(.camera) {
+            picker.sourceType = .camera
+            present(picker, animated: false, completion: nil)
+        } else {
+            Dprint("Camera not available")
+        }
+    }
+    
+    @IBAction func photoAlbums(_ sender: UIButton) {
+        if let currentAlbumTitle = sender.title(for: .normal) {
+            self.currentAlbum.setTitle(currentAlbumTitle , for: .normal)
+        }
+        grabPhotos()
+        
+    }
+    
+    
+    
+    func grabPhotos(){
+        // 앨범리스트 담을 변수 설정
+        var albumList:[AlbumModel] = [AlbumModel]()
+        var albumImage: Array<UIImage> = Array()
+        // 옵션 값
+        let fetchOptions = PHFetchOptions()
+        //fetchAssetCollectionsWithType의 subtype 타입값을 설정하여 가지고 오고 싶은 앨범만 선택
+        let Customalbums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+        let SmartAlbumPanoramas = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumPanoramas, options: fetchOptions)
+        let SmartAlbumFavorites = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumFavorites, options: fetchOptions)
+        let SmartAlbumSelfPortraits = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumSelfPortraits, options: fetchOptions)
+        let SmartAlbumScreenshots = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenshots, options: fetchOptions)
+        let SmartAlbumBursts = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumBursts, options: fetchOptions)
+        let SmartAlbumRecentlyAdded = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumRecentlyAdded, options: fetchOptions)
+        let Cmeraroll = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: fetchOptions)
+        
+        // 각 앨범의 사진 타이틀이름, 수 가져오기
+        [Cmeraroll, SmartAlbumRecentlyAdded, SmartAlbumSelfPortraits, SmartAlbumFavorites, SmartAlbumBursts, SmartAlbumPanoramas, SmartAlbumScreenshots, Customalbums].forEach {
+            $0.enumerateObjects {
+                collection, index, stop in guard let album = collection as PHAssetCollection? else { return }
+                // PHAssetCollection 의 localizedTitle 을 이용해 앨범 타이틀 가져오기
+                let albumTitle : String = album.localizedTitle!
+                // 이미지만 가져오도록 옵션 설정
+                let fetchOptions2 = PHFetchOptions()
+                    fetchOptions2.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+                    let assetsFetchResult: PHFetchResult = PHAsset.fetchAssets(in: album, options: fetchOptions2)
+                // PHFetchResult 의 count 을 이용해 앨범 사진 갯수 가져오기
+                let albumCount = assetsFetchResult.count
+                
+                
+                ///////
+
+                guard let asset = assetsFetchResult.firstObject else {
+                    return
+                }
+
+                let options = PHImageRequestOptions()
+                options.resizeMode = .exact
+
+                let scale = UIScreen.main.scale
+                let dimension = CGFloat(78.0)
+                let size = CGSize(width: dimension * scale, height: dimension * scale)
+
+                PHImageManager.default().requestImage(for: asset, targetSize: size, contentMode: .aspectFill, options: options) { (image, info) in
+                    DispatchQueue.main.async {
+                        albumImage.append(image!)
+                    }
+                }
+                
+                // 저장
+                let newAlbum = AlbumModel(name:albumTitle, count: albumCount, collection:album)
+
+                
+                 //앨범 정보 추가
+                albumList.append(newAlbum)
+                
+                
+            }
+              
+          }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            let vc = AlbumsViewController(module: albumList)
+            vc.albumDelegate = self
+            vc.albumImage = albumImage
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true)
+        }
+    }
+    
+}
+
+
+// MARK: - UICollectionViewDataSource
+extension FMPhotoPickerViewController: UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let total = self.dataSource?.numberOfPhotos {
+            // indexPath 하나 늘림
+            return total + 1
+        }
+        return 0
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FMPhotoPickerImageCollectionViewCell.reuseId, for: indexPath) as? FMPhotoPickerImageCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+
+        if indexPath.section == 0 && indexPath.item == 0 {
+            
+            cell.cameraView.isHidden = false
+            cell.imageView.isHidden = true
+            cell.cellFilterContainer.isHidden = true
+            cell.selectButton.isHidden = true
+            cell.selectIdxLabel.isHidden = true
+            
+        } else {
+            cell.cameraView.isHidden = true
+            cell.imageView.isHidden = false
+            cell.loadView(photoAsset: self.dataSource.photo(atIndex: indexPath.item - 1)!,
+                          selectMode: self.config.selectMode,
+                          selectedIndex: self.dataSource.selectedIndexOfPhoto(atIndex: indexPath.item))
+            
+            cell.onTapSelect = { [unowned self, unowned cell] in
+                if let selectedIndex = self.dataSource.selectedIndexOfPhoto(atIndex: indexPath.item) {
+                    self.dataSource.unsetSeclectedForPhoto(atIndex: indexPath.item)
+                    cell.performSelectionAnimation(selectedIndex: nil)
+                    self.reloadAffectedCellByChangingSelection(changedIndex: selectedIndex)
+                } else {
+                    self.tryToAddPhotoToSelectedList(photoIndex: indexPath.item)
+                }
+                self.updateControlBar()
+            }
+        }
+        
+        return cell
+    }
+    
+    /**
+     Reload all photocells that behind the deselected photocell
+     - parameters:
+        - changedIndex: The index of the deselected photocell in the selected list
+     */
+    public func reloadAffectedCellByChangingSelection(changedIndex: Int) {
+        let affectedList = self.dataSource.affectedSelectedIndexs(changedIndex: changedIndex)
+        let indexPaths = affectedList.map { return IndexPath(row: $0, section: 0) }
+        self.imageCollectionView.reloadItems(at: indexPaths)
+    }
+    
+    /**
+     Try to insert the photo at specify index to selectd list.
+     In Single selection mode, it will remove all the previous selection and add new photo to the selected list.
+     In Multiple selection mode, If the current number of select image/video does not exceed the maximum number specified in the Config,
+     the photo will be added to selected list. Otherwise, a warning dialog will be displayed and NOTHING will be added.
+     */
+    public func tryToAddPhotoToSelectedList(photoIndex index: Int) {
+        if self.config.selectMode == .multiple {
+            
+            guard let fmMediaType = self.dataSource.mediaTypeForPhoto(atIndex: index - 1) else { return }
+
+            var canBeAdded = true
+            
+            switch fmMediaType {
+            case .image:
+                if self.dataSource.countSelectedPhoto(byType: .image) >= self.config.maxImage {
+                    canBeAdded = false
+                    let warning = WarningView.shared
+                    warning.message = String(format: config.strings["picker_warning_over_image_select_format"]!, self.config.maxImage)
+                    warning.showAndAutoHide()
+                }
+            case .unsupported:
+                break
+            }
+            
+            if canBeAdded {
+                self.dataSource.setSeletedForPhoto(atIndex: index)
+                self.imageCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+                self.updateControlBar()
+            }
+        } else {  // single selection mode
+            var indexPaths = [IndexPath]()
+            self.dataSource.getSelectedPhotos().forEach { photo in
+                guard let photoIndex = self.dataSource.index(ofPhoto: photo) else { return }
+                indexPaths.append(IndexPath(row: photoIndex, section: 0))
+                self.dataSource.unsetSeclectedForPhoto(atIndex: photoIndex)
+            }
+            
+            self.dataSource.setSeletedForPhoto(atIndex: index)
+            indexPaths.append(IndexPath(row: index, section: 0))
+            self.imageCollectionView.reloadItems(at: indexPaths)
+            self.updateControlBar()
+        }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension FMPhotoPickerViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.item == 0 {
+            self.addNewImage()
+        } else {
+            self.config.photoMode = false
+            let vc = FMPhotoPresenterViewController(config: self.config, dataSource: self.dataSource, initialPhotoIndex: indexPath.item - 1)
+            
+            self.presentedPhotoIndex = indexPath.item
+            
+            //에디터에서 체크 안되게 주석처리함
+            vc.didSelectPhotoHandler = { photoIndex in
+                self.tryToAddPhotoToSelectedList(photoIndex: photoIndex)
+            }
+            vc.didDeselectPhotoHandler = { photoIndex in
+                if let selectedIndex = self.dataSource.selectedIndexOfPhoto(atIndex: photoIndex) {
+                    self.dataSource.unsetSeclectedForPhoto(atIndex: photoIndex)
+                    self.reloadAffectedCellByChangingSelection(changedIndex: selectedIndex)
+                    self.imageCollectionView.reloadItems(at: [IndexPath(row: photoIndex, section: 0)])
+                    self.updateControlBar()
+                }
+            }
+            vc.didMoveToViewControllerHandler = { vc, photoIndex in
+                // dismiss 할때 thumbnail 과 싱크를 맞추기 위해 1 증가
+                self.presentedPhotoIndex = photoIndex + 1
+            }
+            vc.didTapDetermine = {
+                self.processDetermination()
+            }
+            
+            vc.view.frame = self.view.frame
+            vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .custom
+            vc.modalPresentationCapturesStatusBarAppearance = true
+            self.present(vc, animated: true)
+        }
+    }
+}
+
+// MARK: - UIViewControllerTransitioningDelegate
+extension FMPhotoPickerViewController: UIViewControllerTransitioningDelegate {
+    public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let animationController = FMZoomInAnimationController()
+        animationController.getOriginFrame = self.getOriginFrameForTransition
+        return animationController
+    }
+    
+    public func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let photoPresenterViewController = dismissed as? FMPhotoPresenterViewController else { return nil }
+        let animationController = FMZoomOutAnimationController(interactionController: photoPresenterViewController.swipeInteractionController)
+        animationController.getDestFrame = self.getOriginFrameForTransition
+        return animationController
+    }
+    
+    open func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animator = animator as? FMZoomOutAnimationController,
+            let interactionController = animator.interactionController,
+            interactionController.interactionInProgress
+            else {
+                return nil
+        }
+        
+        interactionController.animator = animator
+        return interactionController
+    }
+    
+    func getOriginFrameForTransition() -> CGRect {
+        guard let presentedPhotoIndex = self.presentedPhotoIndex,
+            let cell = self.imageCollectionView.cellForItem(at: IndexPath(row: presentedPhotoIndex, section: 0))
+            else {
+                return CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.size.width, height: self.view.frame.size.width)
+        }
+        return cell.convert(cell.bounds, to: self.view)
+    }
+}
+
+extension FMPhotoPickerViewController: FMPhotoPickerViewControllerDelegate, FMImageEditorViewControllerDelegate, PhotoAlbumsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    /// 앨범별 이미지지 Asset 이미지 가져옴
+    /// - Parameters:
+    ///   - albumAsset: 앨범별  Asset
+    ///   - titleStr: 앨범별 title
+    public func albumPhotoAsset(_ albumAsset: [PHAsset], title titleStr: String) {
+        self.currentAlbum.setTitle(titleStr + " v", for: .normal)
+        let forceCropType = config.forceCropEnabled ? config.availableCrops.first! : nil
+        let fmPhotoAssets = albumAsset.map { FMPhotoAsset(asset: $0, forceCropType: forceCropType) }
+
+        self.dataSource = FMPhotosDataSource(photoAssets: fmPhotoAssets)
+        
+        if self.dataSource.numberOfPhotos > 0 {
+            self.imageCollectionView.reloadData()
+
+        }
+    }
+    
+    public func fmImageEditorViewController(_ editor: FMImageEditorViewController, didFinishEdittingPhotoWith photo: UIImage) {
+        Dprint("FMImageEditorViewControllerDelegate=======\(photo)")
+        photoEditorDelegate?.doneEditing(image: photo)
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    public func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+        Dprint("FMPhotoPickerViewControllerDelegate=======\(photos)")
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        UIImageWriteToSavedPhotosAlbum((info[.originalImage] as? UIImage)!, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let _ = error {
+        } else {
+            self.fetchPhotos()
+            self.imageCollectionView.reloadData()
+            
+            self.config.photoMode = true
+            
+            self.tryToAddPhotoToSelectedList(photoIndex: 1)
+            
+            let vc = FMPhotoPresenterViewController(config: self.config, dataSource: self.dataSource, initialPhotoIndex: 0)
+            
+
+            vc.didDeselectPhotoHandler = { photoIndex in
+                if let selectedIndex = self.dataSource.selectedIndexOfPhoto(atIndex: photoIndex) {
+                    self.dataSource.unsetSeclectedForPhoto(atIndex: photoIndex)
+                    self.reloadAffectedCellByChangingSelection(changedIndex: selectedIndex)
+                    self.imageCollectionView.reloadItems(at: [IndexPath(row: photoIndex, section: 0)])
+                    self.updateControlBar()
+                }
+            }
+            vc.didMoveToViewControllerHandler = { vc, photoIndex in
+                // dismiss 할때 thumbnail 과 싱크를 맞추기 위해 1 증가
+                self.presentedPhotoIndex = photoIndex + 1
+            }
+            vc.didTapDetermine = {
+                self.processDetermination()
+            }
+            
+            
+            
+            vc.view.frame = self.view.frame
+            vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .custom
+            vc.modalPresentationCapturesStatusBarAppearance = true
+            self.present(vc, animated: true)
+
+        }
+    }
+}
