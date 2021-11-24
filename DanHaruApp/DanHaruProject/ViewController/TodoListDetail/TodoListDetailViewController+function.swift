@@ -349,10 +349,12 @@ extension TodoListDetailViewController {
         
         self.mainScrollView.addSubview(togetherFriendLabel)
         togetherFriendLabel.snp.makeConstraints { make in
+            
             make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
             make.width.equalTo(self.view).multipliedBy(0.5)
             make.leading.equalTo(self.authLable)
             make.height.equalTo(self.authLable)
+            
         }
         
         
@@ -455,6 +457,7 @@ extension TodoListDetailViewController {
         
         // 데일리 인증 화면 이동
         menuBtn.setImage(#imageLiteral(resourceName: "btnEdit"), for: .normal)
+        menuBtn.imageView?.contentMode = .scaleToFill
         
         // 하단 확인 버튼
         bottomBtn.setTitle("확인", for: .normal)

@@ -222,20 +222,110 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         
     }
     
-    // FIXME: - 이미지 삭제 후 UI 변경 작업 필요
+    // 이미지 삭제 버튼 클릭후 UI 변경
     @objc func deleteAuthImage(_ sender: UIButton) {
         
         if sender.tag == ImageDeleteBtnTag.deleteImageView1.rawValue {
             
+            authImageView1.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
             self.authImageView1.image = nil
+            
+            if authImageView2.image != nil {
+                authImageView2.snp.remakeConstraints { make in
+                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                    make.width.equalTo(self.view).multipliedBy(0.22)
+                    make.height.equalTo(self.view.frame.width * 0.22)
+                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                }
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView2.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+            }
             
         } else if sender.tag == ImageDeleteBtnTag.deleteImageView2.rawValue {
             
+            authImageView2.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
+            
             self.authImageView2.image = nil
+            
+            if authImageView3.image !=  nil {
+                
+                if authImageView2.image == nil && authImageView1.image == nil {
+                    
+                    authImageView3.snp.remakeConstraints { make in
+                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                        make.width.equalTo(self.view).multipliedBy(0.22)
+                        make.height.equalTo(self.view.frame.width * 0.22)
+                        make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                    }
+                    
+                } else {
+                    authImageView3.snp.remakeConstraints { make in
+                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                        make.width.equalTo(self.view).multipliedBy(0.22)
+                        make.height.equalTo(self.view.frame.width * 0.22)
+                        make.left.equalTo(authImageView1.snp.right).offset(self.view.frame.width * 0.02)
+                    }
+                    
+                }
+                
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+                
+            }
+            
+            
             
         } else if sender.tag == ImageDeleteBtnTag.deleteImageView3.rawValue {
             
+            authImageView3.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
+            
             self.authImageView3.image = nil
+            
+        }
+        
+        // 함께 도전 라벨, 모든 이미지가 존재 하지 않을 시
+        
+        if authImageView1.image == nil && authImageView2.image == nil && authImageView3.image == nil {
+            
+            togetherFriendLabel.snp.remakeConstraints { make in
+                
+                make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                make.width.equalTo(self.view).multipliedBy(0.5)
+                make.leading.equalTo(self.authLable)
+                make.height.equalTo(self.authLable)
+                
+            }
             
         }
         

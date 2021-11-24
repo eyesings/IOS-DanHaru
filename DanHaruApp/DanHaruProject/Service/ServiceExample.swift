@@ -36,6 +36,7 @@ class ViewModelService {
             rootVC.hideLoadingView()
         }
 
+        
     }
     
     static func userInputValidValueService(_ param: [String:Any], _ type: InputType, completionHandler: @escaping (Bool) -> Void) {
@@ -88,3 +89,4 @@ class ViewModelService {
         completionHandler(dic)
     }
 }
+
