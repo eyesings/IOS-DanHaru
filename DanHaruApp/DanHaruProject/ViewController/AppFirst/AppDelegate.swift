@@ -25,6 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.saveFirstInstall(false)
         }
         
+        UserModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
+        
         return true
     }
     

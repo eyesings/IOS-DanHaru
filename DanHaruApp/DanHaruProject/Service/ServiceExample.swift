@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 class ServiceExample {
@@ -29,6 +30,7 @@ class ViewModelService {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
                     completionHandler()
+                    NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
                 }
             }
         } errorHandler: { err in
@@ -65,7 +67,12 @@ class ViewModelService {
     
     static func userInfoService(_ id: String, _ pw: String, completionHandler: @escaping (NSDictionary?) -> Void) {
         
-        guard let rootVC = RadHelper.getRootViewController() else { print("rootVC 없음"); return }
+        
+        let rootVC = RadHelper.getRootViewController()
+        
+        func rootVCHideLoadingView() {
+            rootVC?.hideLoadingView()
+        }
         
         var param: [String:Any] = [:]
         param["id"] = id
@@ -73,14 +80,15 @@ class ViewModelService {
         
         RadServerNetwork.postDataFromServer(url: Configs.API.login, type: .JSON, parameters: param) { resultDic in
             if let msgStr = resultDic?["msg"] as? String {
-                RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
+                RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
             } else {
                 completionHandler(resultDic)
-                rootVC.hideLoadingView()
+                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
+                rootVCHideLoadingView()
             }
         } errorHandler: { err in
             print("error \(err)")
-            rootVC.hideLoadingView()
+            rootVCHideLoadingView()
         }
     }
     

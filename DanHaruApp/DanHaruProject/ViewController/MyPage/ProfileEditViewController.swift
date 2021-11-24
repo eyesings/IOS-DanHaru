@@ -41,7 +41,10 @@ class ProfileEditViewController: UIViewController {
         RadHelper.getRootViewController { vc in
             if let rootVc = vc
             {
-                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.ProfileEdit.saveProfile, isNeedCancel: false, viewController: rootVc)
+                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                                message: RadMessage.ProfileEdit.saveProfile,
+                                                                isNeedCancel: false,
+                                                                viewController: rootVc)
             }
         }
     }
@@ -94,11 +97,11 @@ extension ProfileEditViewController {
         
         nickNameField.makesToCustomField()
         nickNameField.tag = InputType.nickName.rawValue
-        nickNameField.text = UserModel.profile_nm ?? UserModel.mem_id
+        nickNameField.text = UserModel.profileName ?? UserModel.memberId
         
         introduceField.makesToCustomField()
         introduceField.tag = InputType.introduce.rawValue
-        introduceField.text = UserModel.profile_into
+        introduceField.text = UserModel.profileIntroStr
     }
 }
 

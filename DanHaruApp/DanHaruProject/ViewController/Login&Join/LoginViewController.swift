@@ -15,8 +15,6 @@ class LoginViewController: UIViewController {
     @IBOutlet var pwInputTextField: UITextField!
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
     
-    private var keyboardH: CGFloat = 0.0
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,7 +24,7 @@ class LoginViewController: UIViewController {
         
         self.registerKeyboardNotification()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.moveToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeRootToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +73,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func onTapFindInfoBtn(_ sender: UIButton) {
         if let findVC = RadHelper.getVCFromUserJoinSB(withID: StoryBoardRef.findVC) as? FindUserInfoViewController {
-            self.navigationController?.pushViewController(findVC, animated: true)
+            findVC.modalPresentationStyle = .fullScreen
+            self.present(findVC, animated: true, completion: nil)
         }
     }
     
@@ -90,7 +89,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc
-    private func moveToMain() {
+    private func changeRootToMain() {
         RadHelper.rootVcChangeToMain()
     }
     
@@ -128,7 +127,7 @@ extension LoginViewController: UITextFieldDelegate {
 // MARK: - Keyboard Protocol
 extension LoginViewController: keyboardNotiRegistProtocol {
     func keyboardShowAndHide(_ notification: Notification) {
-        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst, isUpdateToHihger: true) {
             self.view.layoutIfNeeded()
         }
     }

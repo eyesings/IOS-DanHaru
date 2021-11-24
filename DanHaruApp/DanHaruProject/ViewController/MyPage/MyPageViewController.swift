@@ -111,8 +111,8 @@ extension MyPageViewController {
         profileImgView.layer.cornerRadius = profileImgView.frame.height / 2
         profileImgView.backgroundColor = .clear
         profileImgView.image = RadHelper.getProfileImage() ?? #imageLiteral(resourceName: "profileNon")
-        profileUserName.text = UserModel.profile_nm ?? UserModel.mem_id
-        profileUserIntroduce.text = UserModel.profile_into
+        profileUserName.text = UserModel.profileName ?? UserModel.memberId
+        profileUserIntroduce.text = UserModel.profileIntroStr
         
         userScoreViewLayerInit()
         

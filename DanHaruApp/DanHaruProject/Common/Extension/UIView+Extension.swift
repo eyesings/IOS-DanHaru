@@ -34,4 +34,9 @@ extension UIView {
         self.layer.shadowRadius = radius ?? self.layer.cornerRadius
         self.layer.shadowOffset = offset
     }
+    
+    func findUserViewInit() {
+        self.layer.cornerRadius = 20
+        self.backgroundColor = UIColor.subLightColor.withAlphaComponent(0.7)
+    }
 }

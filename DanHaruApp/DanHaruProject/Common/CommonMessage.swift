@@ -10,11 +10,12 @@ import Foundation
 
 extension RadMessage {
     struct ASK {
-        static let askAddSuccess    = "문의가 정상 등록 되었습니다."
-        static let emailNotInputErr = "이메일을 입력해 주세요. 확인 버튼 클릭 시 현재 로그인한 계정으로 문의가 등록됩니다."
-        static let emailError       = "이메일 형식이 올바르지 않습니다."
-        static let askTextCntErr    = "문의 사항을 최소 10글자이상 등록해 주세요."
-        static let textViewInfoStr  = "* 영업일 기준 2~3일 이내에 답변이 완료 됩니다."
+        static let askAddSuccess             = "문의가 정상 등록 되었습니다."
+        static let emailNotInputErrIsLogin   = "이메일을 입력해 주세요. 확인 버튼 클릭 시 현재 로그인한 계정으로 문의가 등록됩니다."
+        static let emailNotInputErrNoneLogin = "답변을 받을 이메일을 입력 해 주세요."
+        static let emailError                = "이메일 형식이 올바르지 않습니다."
+        static let askTextCntErr             = "문의 사항을 최소 10글자이상 등록해 주세요."
+        static let textViewInfoStr           = "* 영업일 기준 2~3일 이내에 답변이 완료 됩니다."
     }
     
     struct Setting {
@@ -36,7 +37,18 @@ extension RadMessage {
         static let alreadyExistEmail = "* 이미 존재하는 이메일이에요."
         static let alreadyExistId    = "* 이미 존재하는 아이디예요."
         static let placeHolderInfo   = "입력해 주세요."
-        
-        
+    }
+    
+    struct AlertView {
+        static let inputPasswordTitle = "새로운 비밀번호를 입력해 주세요."
+        static let change             = "변경하기"
+    }
+    
+    struct FindUserInfo {
+        static let preFindId    = "발견한 아이디는 "
+        static let sufFindId    = " 입니다."
+        static let fontName     = "Menlo-Bold"
+        static let inputReSetPW = "비밀번호로 재설정할 값을 입력해 주세요."
+        static let copyID       = "아이디가 복사되었습니다."
     }
 }

@@ -55,15 +55,20 @@ extension AskDetailViewController {
     private func checkEmailInputTextField() -> Bool {
         
         if emailTextField.text?.isEmpty == true {
-            
-            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.ASK.emailNotInputErr, isNeedCancel: true, viewController: self) { isCheck in
+            let radMsgASK = RadMessage.ASK.self
+            let alertMsg = RadHelper.isLogin ? radMsgASK.emailNotInputErrIsLogin : radMsgASK.emailNotInputErrNoneLogin
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: alertMsg,
+                                                            isNeedCancel: true, viewController: self) { isCheck in
                 if isCheck
                 {
-                    print("현재 로그인한 계정으로 등록 됨")
-                    self.emailTextField.text = UserModel.mem_email
-                    self.onTapDoneBtn()
-                } else {
-                    print("이메일 계정 등록 되야함")
+                    if RadHelper.isLogin {
+                        print("현재 로그인한 계정으로 등록 됨")
+                        self.emailTextField.text = UserModel.memberEmail
+                        self.onTapDoneBtn()
+                    } else {
+                        self.emailTextField.becomeFirstResponder()
+                    }
                 }
             }
             return false
@@ -93,7 +98,7 @@ extension AskDetailViewController {
 extension AskDetailViewController {
     private func initLayout() {
         emailTextField.makesToCustomField(customWidth: screenwidth*0.5)
-        emailTextField.text = UserModel.mem_email
+        emailTextField.text = UserModel.memberEmail
         
         askInputTextView.layer.borderWidth = 0.5
         askInputTextView.layer.borderColor = UIColor.heavyGrayColor.cgColor

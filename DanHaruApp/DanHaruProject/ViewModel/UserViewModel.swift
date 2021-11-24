@@ -42,26 +42,37 @@ class UserInfoViewModel {
     
     init(_ id: String, _ pw: String) {
         ViewModelService.userInfoService(id, pw) { infoDic in
-            if let dic = infoDic
+            if let dic = infoDic as? [String:Any]
             {
+                var saveUserDic: [String: Any] = [:]
+                
+                for keyValue in [String](dic.keys) {
+                    if let strVal = dic[keyValue] as? String {
+                        let encryptStr = RadHelper.AES256Encrypt(WithValue: strVal)
+                        saveUserDic[keyValue] = encryptStr
+                    }
+                }
+                
+                UserDefaults.standard.saveUserInputVal(id: RadHelper.AES256Encrypt(WithValue: id),
+                                                       pw: RadHelper.AES256Encrypt(WithValue: pw))
+                
                 do {
                     self.model = try JSONDecoder().decode(UserInfoModel.self,
-                                                          from: JSONSerialization.data(withJSONObject: dic))
+                                                          from: JSONSerialization.data(withJSONObject: saveUserDic))
                 }
                 catch {
                     Dprint(error)
                     
-                    self.model.mem_id = dic["mem_id"] as? String
-                    self.model.mem_email = dic["mem_email"] as? String
-                    self.model.profile_nm = dic["profile_nm"] as? String
-                    self.model.profile_img = dic["profile_img"] as? String
-                    self.model.profile_into = dic["profile_into"] as? String
+                    self.model.mem_id = saveUserDic["mem_id"] as? String
+                    self.model.mem_email = saveUserDic["mem_email"] as? String
+                    self.model.profile_nm = saveUserDic["profile_nm"] as? String
+                    self.model.profile_img = saveUserDic["profile_img"] as? String
+                    self.model.profile_into = saveUserDic["profile_into"] as? String
                     
                     
                 }
                 
                 UserModel = self.model
-                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
             }
         }
     }
