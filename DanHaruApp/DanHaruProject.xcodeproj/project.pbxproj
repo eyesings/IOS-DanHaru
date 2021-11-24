@@ -20,6 +20,7 @@
 		8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */; };
 		8293DFB9273206D90053FD41 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */; };
 		8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */; };
+		829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */; };
 		82C553362742250700F35639 /* audio.json in Resources */ = {isa = PBXBuildFile; fileRef = 82C553352742250700F35639 /* audio.json */; };
 		82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB510E2734C33C009D3170 /* CALayer+Extension.swift */; };
 		B6166BE9274C7EB900C04898 /* FMZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B95274C7EB900C04898 /* FMZoomInAnimationController.swift */; };
@@ -81,7 +82,6 @@
 		B622FBB5274214E2002EC735 /* AskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB4274214E2002EC735 /* AskDetailViewController.swift */; };
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
-		B65044BF274378A00038AC80 /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = B65044BE274378A00038AC80 /* RadFrameworkPackage */; };
 		B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682101A2733A5CE001F56DD /* CustomToolBar.swift */; };
 		B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */; };
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
@@ -279,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B65044BF274378A00038AC80 /* RadFrameworkPackage in Frameworks */,
+				829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */,
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
@@ -751,7 +751,7 @@
 				B6C3FD26272665200046E35A /* Lottie */,
 				B6C3FD2A272665A60046E35A /* SkeletonView */,
 				828648EC272678C800EA5CAF /* SnapKit */,
-				B65044BE274378A00038AC80 /* RadFrameworkPackage */,
+				829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -785,7 +785,7 @@
 				B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
-				B65044BD274378A00038AC80 /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
+				829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
 			projectDirPath = "";
@@ -1160,7 +1160,7 @@
 				minimumVersion = 5.0.1;
 			};
 		};
-		B65044BD274378A00038AC80 /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */ = {
+		829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "http://gitlab.ileadon.com/IOSDevApp/RadPKGManager_IOS.git";
 			requirement = {
@@ -1192,9 +1192,9 @@
 			package = 828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		B65044BE274378A00038AC80 /* RadFrameworkPackage */ = {
+		829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B65044BD274378A00038AC80 /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */;
+			package = 829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */;
 			productName = RadFrameworkPackage;
 		};
 		B6C3FD26272665200046E35A /* Lottie */ = {
