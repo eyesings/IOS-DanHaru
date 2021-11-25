@@ -55,4 +55,8 @@ extension RadMessage {
     struct PhotoEditor {
         static let reqLibraryAuth = "단하루 앱에 이미지를 사용하기 위해 사진첩 접근 권한이 필요합니다. 확인을 누르시면 설정으로 이동됩니다."
     }
+    
+    struct Permission {
+        static let permissionDenied = "권한이 허용 되어있지 않습니다.\n 설정페이지로 이동하시겠습니까?"
+    }
 }
