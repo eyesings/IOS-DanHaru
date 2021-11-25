@@ -31,12 +31,6 @@ class FMCropMenuView: UIView {
         var tAvailableCrops = availableCrops
         tAvailableCrops = tAvailableCrops.count == 0 ? kDefaultAvailableCrops : tAvailableCrops
         
-        // if the force crop mode is enabled
-        // then only the first crop type in the avaiableCrops will be used
-        if config.forceCropEnabled {
-            tAvailableCrops = [tAvailableCrops.first!]
-        }
-        
         cropItems = tAvailableCrops
         
         

@@ -26,23 +26,16 @@
 		B6166BE9274C7EB900C04898 /* FMZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B95274C7EB900C04898 /* FMZoomInAnimationController.swift */; };
 		B6166BEA274C7EB900C04898 /* FMZoomOutAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B96274C7EB900C04898 /* FMZoomOutAnimationController.swift */; };
 		B6166BEB274C7EB900C04898 /* FMPhotoPickerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B98274C7EB900C04898 /* FMPhotoPickerConfig.swift */; };
-		B6166BEE274C7EB900C04898 /* UIView+FMPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B9B274C7EB900C04898 /* UIView+FMPhotoView.swift */; };
 		B6166BEF274C7EB900C04898 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */; };
-		B6166BF0274C7EB900C04898 /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B9D274C7EB900C04898 /* UIImageView+Alpha.swift */; };
-		B6166BF1274C7EB900C04898 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B9E274C7EB900C04898 /* TimeInterval+Extension.swift */; };
-		B6166BF2274C7EB900C04898 /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B9F274C7EB900C04898 /* UIView+Image.swift */; };
-		B6166BF3274C7EB900C04898 /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA0274C7EB900C04898 /* UIImage+Size.swift */; };
 		B6166BF4274C7EB900C04898 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA1274C7EB900C04898 /* Protocols.swift */; };
 		B6166BF5274C7EB900C04898 /* HelperPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA2274C7EB900C04898 /* HelperPhoto.swift */; };
 		B6166BF6274C7EB900C04898 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA3274C7EB900C04898 /* Const.swift */; };
-		B6166BF7274C7EB900C04898 /* InsertableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA4274C7EB900C04898 /* InsertableUIView.swift */; };
 		B6166BF9274C7EB900C04898 /* FMPhotoInteractionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BA7274C7EB900C04898 /* FMPhotoInteractionAnimator.swift */; };
 		B6166BFA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6166BAA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib */; };
 		B6166BFB274C7EB900C04898 /* FMPhotoPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6166BAB274C7EB900C04898 /* FMPhotoPickerViewController.xib */; };
 		B6166BFC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BAC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift */; };
 		B6166BFD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BAD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift */; };
 		B6166BFE274C7EB900C04898 /* FMPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BAE274C7EB900C04898 /* FMPhotoPickerViewController.swift */; };
-		B6166BFF274C7EB900C04898 /* FMPhotoPickerViewController+Noti.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BAF274C7EB900C04898 /* FMPhotoPickerViewController+Noti.swift */; };
 		B6166C00274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BB0274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.swift */; };
 		B6166C01274C7EB900C04898 /* AlbumsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BB2274C7EB900C04898 /* AlbumsTableViewCell.swift */; };
 		B6166C02274C7EB900C04898 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BB3274C7EB900C04898 /* AlbumModel.swift */; };
@@ -53,7 +46,6 @@
 		B6166C07274C7EB900C04898 /* FMScalingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BBA274C7EB900C04898 /* FMScalingImageView.swift */; };
 		B6166C08274C7EB900C04898 /* FMImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BBB274C7EB900C04898 /* FMImageViewController.swift */; };
 		B6166C09274C7EB900C04898 /* FMPhotoPresenterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6166BBC274C7EB900C04898 /* FMPhotoPresenterViewController.xib */; };
-		B6166C0A274C7EB900C04898 /* FMPresenterTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BBE274C7EB900C04898 /* FMPresenterTopView.swift */; };
 		B6166C0B274C7EB900C04898 /* FMPresenterBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BBF274C7EB900C04898 /* FMPresenterBottomView.swift */; };
 		B6166C0C274C7EB900C04898 /* FMPresenterEditMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BC0274C7EB900C04898 /* FMPresenterEditMenuView.swift */; };
 		B6166C0D274C7EB900C04898 /* FMPhotoPresenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BC1274C7EB900C04898 /* FMPhotoPresenterViewController.swift */; };
@@ -74,9 +66,6 @@
 		B6166C26274C7EBA00C04898 /* FMImageEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE0274C7EB900C04898 /* FMImageEditor.swift */; };
 		B6166C27274C7EBA00C04898 /* FMCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE2274C7EB900C04898 /* FMCrop.swift */; };
 		B6166C28274C7EBA00C04898 /* FMCroppable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE3274C7EB900C04898 /* FMCroppable.swift */; };
-		B6166C29274C7EBA00C04898 /* FMStickerable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE5274C7EB900C04898 /* FMStickerable.swift */; };
-		B6166C2A274C7EBA00C04898 /* FMFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE7274C7EB900C04898 /* FMFilter.swift */; };
-		B6166C2B274C7EBA00C04898 /* FMFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166BE8274C7EB900C04898 /* FMFilterable.swift */; };
 		B622FBAB2741EE78002EC735 /* AskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBAA2741EE78002EC735 /* AskViewController.swift */; };
 		B622FBB1274214C0002EC735 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB0274214C0002EC735 /* SettingViewController.swift */; };
 		B622FBB5274214E2002EC735 /* AskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB4274214E2002EC735 /* AskDetailViewController.swift */; };
@@ -86,6 +75,7 @@
 		B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */; };
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
+		B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69CECE3274F23890092F0C5 /* InsertableUIView.swift */; };
 		B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A255EC272772A200C3EC14 /* HomeViewController.swift */; };
 		B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */; };
 		B6A255F527277C4100C3EC14 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F427277C4100C3EC14 /* Color.xcassets */; };
@@ -164,23 +154,16 @@
 		B6166B95274C7EB900C04898 /* FMZoomInAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMZoomInAnimationController.swift; sourceTree = "<group>"; };
 		B6166B96274C7EB900C04898 /* FMZoomOutAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMZoomOutAnimationController.swift; sourceTree = "<group>"; };
 		B6166B98274C7EB900C04898 /* FMPhotoPickerConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPickerConfig.swift; sourceTree = "<group>"; };
-		B6166B9B274C7EB900C04898 /* UIView+FMPhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+FMPhotoView.swift"; sourceTree = "<group>"; };
 		B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
-		B6166B9D274C7EB900C04898 /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
-		B6166B9E274C7EB900C04898 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
-		B6166B9F274C7EB900C04898 /* UIView+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
-		B6166BA0274C7EB900C04898 /* UIImage+Size.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 		B6166BA1274C7EB900C04898 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		B6166BA2274C7EB900C04898 /* HelperPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperPhoto.swift; sourceTree = "<group>"; };
 		B6166BA3274C7EB900C04898 /* Const.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
-		B6166BA4274C7EB900C04898 /* InsertableUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertableUIView.swift; sourceTree = "<group>"; };
 		B6166BA7274C7EB900C04898 /* FMPhotoInteractionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoInteractionAnimator.swift; sourceTree = "<group>"; };
 		B6166BAA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMPhotoPickerImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		B6166BAB274C7EB900C04898 /* FMPhotoPickerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMPhotoPickerViewController.xib; sourceTree = "<group>"; };
 		B6166BAC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPickerBatchSelector.swift; sourceTree = "<group>"; };
 		B6166BAD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPickerImageCollectionViewLayout.swift; sourceTree = "<group>"; };
 		B6166BAE274C7EB900C04898 /* FMPhotoPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPickerViewController.swift; sourceTree = "<group>"; };
-		B6166BAF274C7EB900C04898 /* FMPhotoPickerViewController+Noti.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FMPhotoPickerViewController+Noti.swift"; sourceTree = "<group>"; };
 		B6166BB0274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPickerImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6166BB2274C7EB900C04898 /* AlbumsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsTableViewCell.swift; sourceTree = "<group>"; };
 		B6166BB3274C7EB900C04898 /* AlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
@@ -191,7 +174,6 @@
 		B6166BBA274C7EB900C04898 /* FMScalingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMScalingImageView.swift; sourceTree = "<group>"; };
 		B6166BBB274C7EB900C04898 /* FMImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMImageViewController.swift; sourceTree = "<group>"; };
 		B6166BBC274C7EB900C04898 /* FMPhotoPresenterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FMPhotoPresenterViewController.xib; sourceTree = "<group>"; };
-		B6166BBE274C7EB900C04898 /* FMPresenterTopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPresenterTopView.swift; sourceTree = "<group>"; };
 		B6166BBF274C7EB900C04898 /* FMPresenterBottomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPresenterBottomView.swift; sourceTree = "<group>"; };
 		B6166BC0274C7EB900C04898 /* FMPresenterEditMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPresenterEditMenuView.swift; sourceTree = "<group>"; };
 		B6166BC1274C7EB900C04898 /* FMPhotoPresenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMPhotoPresenterViewController.swift; sourceTree = "<group>"; };
@@ -212,9 +194,6 @@
 		B6166BE0274C7EB900C04898 /* FMImageEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMImageEditor.swift; sourceTree = "<group>"; };
 		B6166BE2274C7EB900C04898 /* FMCrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMCrop.swift; sourceTree = "<group>"; };
 		B6166BE3274C7EB900C04898 /* FMCroppable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMCroppable.swift; sourceTree = "<group>"; };
-		B6166BE5274C7EB900C04898 /* FMStickerable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMStickerable.swift; sourceTree = "<group>"; };
-		B6166BE7274C7EB900C04898 /* FMFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMFilter.swift; sourceTree = "<group>"; };
-		B6166BE8274C7EB900C04898 /* FMFilterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FMFilterable.swift; sourceTree = "<group>"; };
 		B622FBAA2741EE78002EC735 /* AskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskViewController.swift; sourceTree = "<group>"; };
 		B622FBB0274214C0002EC735 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		B622FBB4274214E2002EC735 /* AskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskDetailViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +203,7 @@
 		B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNonLoginViewController.swift; sourceTree = "<group>"; };
 		B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
+		B69CECE3274F23890092F0C5 /* InsertableUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertableUIView.swift; sourceTree = "<group>"; };
 		B6A255EC272772A200C3EC14 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeSB.storyboard; sourceTree = "<group>"; };
 		B6A255F427277C4100C3EC14 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
@@ -353,17 +333,11 @@
 		B6166B97274C7EB900C04898 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B69CECE3274F23890092F0C5 /* InsertableUIView.swift */,
 				B6166B98274C7EB900C04898 /* FMPhotoPickerConfig.swift */,
-				B6166B9B274C7EB900C04898 /* UIView+FMPhotoView.swift */,
-				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
-				B6166B9D274C7EB900C04898 /* UIImageView+Alpha.swift */,
-				B6166B9E274C7EB900C04898 /* TimeInterval+Extension.swift */,
-				B6166B9F274C7EB900C04898 /* UIView+Image.swift */,
-				B6166BA0274C7EB900C04898 /* UIImage+Size.swift */,
 				B6166BA1274C7EB900C04898 /* Protocols.swift */,
 				B6166BA2274C7EB900C04898 /* HelperPhoto.swift */,
 				B6166BA3274C7EB900C04898 /* Const.swift */,
-				B6166BA4274C7EB900C04898 /* InsertableUIView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -389,12 +363,11 @@
 			isa = PBXGroup;
 			children = (
 				B6166BAA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib */,
+				B6166BB0274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.swift */,
 				B6166BAB274C7EB900C04898 /* FMPhotoPickerViewController.xib */,
+				B6166BAE274C7EB900C04898 /* FMPhotoPickerViewController.swift */,
 				B6166BAC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift */,
 				B6166BAD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift */,
-				B6166BAE274C7EB900C04898 /* FMPhotoPickerViewController.swift */,
-				B6166BAF274C7EB900C04898 /* FMPhotoPickerViewController+Noti.swift */,
-				B6166BB0274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.swift */,
 				B6166BB1274C7EB900C04898 /* Albums */,
 			);
 			path = Picker;
@@ -437,7 +410,6 @@
 		B6166BBD274C7EB900C04898 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B6166BBE274C7EB900C04898 /* FMPresenterTopView.swift */,
 				B6166BBF274C7EB900C04898 /* FMPresenterBottomView.swift */,
 				B6166BC0274C7EB900C04898 /* FMPresenterEditMenuView.swift */,
 			);
@@ -448,8 +420,8 @@
 			isa = PBXGroup;
 			children = (
 				B6166BC4274C7EB900C04898 /* FMImageEditorViewController.xib */,
-				B6166BC5274C7EB900C04898 /* Views */,
 				B6166BDB274C7EB900C04898 /* FMImageEditorViewController.swift */,
+				B6166BC5274C7EB900C04898 /* Views */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -493,8 +465,6 @@
 			children = (
 				B6166BE0274C7EB900C04898 /* FMImageEditor.swift */,
 				B6166BE1274C7EB900C04898 /* Crop */,
-				B6166BE4274C7EB900C04898 /* Sticker */,
-				B6166BE6274C7EB900C04898 /* Filter */,
 			);
 			path = ImageEditor;
 			sourceTree = "<group>";
@@ -506,23 +476,6 @@
 				B6166BE3274C7EB900C04898 /* FMCroppable.swift */,
 			);
 			path = Crop;
-			sourceTree = "<group>";
-		};
-		B6166BE4274C7EB900C04898 /* Sticker */ = {
-			isa = PBXGroup;
-			children = (
-				B6166BE5274C7EB900C04898 /* FMStickerable.swift */,
-			);
-			path = Sticker;
-			sourceTree = "<group>";
-		};
-		B6166BE6274C7EB900C04898 /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				B6166BE7274C7EB900C04898 /* FMFilter.swift */,
-				B6166BE8274C7EB900C04898 /* FMFilterable.swift */,
-			);
-			path = Filter;
 			sourceTree = "<group>";
 		};
 		B622FBAD27421499002EC735 /* Setting */ = {
@@ -544,6 +497,7 @@
 				B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */,
 				B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */,
 				82CB510E2734C33C009D3170 /* CALayer+Extension.swift */,
+				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -711,10 +665,10 @@
 		B6C3FD7427266BC30046E35A /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B62A956027292B9D00A3A4BC /* Extension */,
 				B6166B93274C7EB900C04898 /* FMPhotoPicker */,
 				B6C3FD7527266BD00046E35A /* CommonMethod.swift */,
 				B62C2EE7272A1FCD00D8FF8B /* Configs.swift */,
-				B62A956027292B9D00A3A4BC /* Extension */,
 				B682101A2733A5CE001F56DD /* CustomToolBar.swift */,
 				B64ABEE127424F640058F161 /* CommonMessage.swift */,
 			);
@@ -867,19 +821,14 @@
 				B6BF7624272B89A40031F2C9 /* UserViewModel.swift in Sources */,
 				B6C3FD4D272666CF0046E35A /* ViewModelExample.swift in Sources */,
 				B6166BEA274C7EB900C04898 /* FMZoomOutAnimationController.swift in Sources */,
-				B6166BF0274C7EB900C04898 /* UIImageView+Alpha.swift in Sources */,
-				B6166C29274C7EBA00C04898 /* FMStickerable.swift in Sources */,
 				B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */,
 				B6BF761E272B88620031F2C9 /* FindUserInfoViewController.swift in Sources */,
 				B6166C1F274C7EBA00C04898 /* FMCropBackgroundView.swift in Sources */,
 				B6166BFE274C7EB900C04898 /* FMPhotoPickerViewController.swift in Sources */,
-				B6166C2A274C7EBA00C04898 /* FMFilter.swift in Sources */,
-				B6166BF1274C7EB900C04898 /* TimeInterval+Extension.swift in Sources */,
 				B6166BFD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift in Sources */,
 				B6166C05274C7EB900C04898 /* AlbumsViewController.swift in Sources */,
 				B6F6ED192734F8FF00A4C88E /* MainViewController+table.swift in Sources */,
 				B6166C0D274C7EB900C04898 /* FMPhotoPresenterViewController.swift in Sources */,
-				B6166C0A274C7EB900C04898 /* FMPresenterTopView.swift in Sources */,
 				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6166C07274C7EB900C04898 /* FMScalingImageView.swift in Sources */,
 				B6166C25274C7EBA00C04898 /* FMPhotosDataSource.swift in Sources */,
@@ -889,13 +838,11 @@
 				B6166C28274C7EBA00C04898 /* FMCroppable.swift in Sources */,
 				B6166C1C274C7EBA00C04898 /* FMCropTranslucencyView.swift in Sources */,
 				B622FBB1274214C0002EC735 /* SettingViewController.swift in Sources */,
-				B6166BFF274C7EB900C04898 /* FMPhotoPickerViewController+Noti.swift in Sources */,
 				B6166C08274C7EB900C04898 /* FMImageViewController.swift in Sources */,
 				B6166BEF274C7EB900C04898 /* UIImage+Extensions.swift in Sources */,
 				B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */,
 				B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */,
 				B6166C19274C7EBA00C04898 /* FMCropMenuView.swift in Sources */,
-				B6166BF3274C7EB900C04898 /* UIImage+Size.swift in Sources */,
 				B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */,
 				B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */,
 				B6166C0B274C7EB900C04898 /* FMPresenterBottomView.swift in Sources */,
@@ -912,11 +859,10 @@
 				827EC8D7273A2D2E00A60CCB /* TodoListDetailTableViewCell.swift in Sources */,
 				8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */,
 				B6166C1E274C7EBA00C04898 /* FMCropCropBoxCornersView.swift in Sources */,
-				B6166C2B274C7EBA00C04898 /* FMFilterable.swift in Sources */,
 				B6166BEB274C7EB900C04898 /* FMPhotoPickerConfig.swift in Sources */,
 				B6C3FD4A272666C40046E35A /* ModelExample.swift in Sources */,
-				B6166BF7274C7EB900C04898 /* InsertableUIView.swift in Sources */,
 				B6166C01274C7EB900C04898 /* AlbumsTableViewCell.swift in Sources */,
+				B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */,
 				B6C3FD47272666BA0046E35A /* ServiceExample.swift in Sources */,
 				B6166C18274C7EBA00C04898 /* FMCropCell.swift in Sources */,
 				B6BF7621272B897B0031F2C9 /* UserModel.swift in Sources */,
@@ -925,8 +871,6 @@
 				B6A2560527278CF000C3EC14 /* UIColor+Extension.swift in Sources */,
 				B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */,
 				B6166C0C274C7EB900C04898 /* FMPresenterEditMenuView.swift in Sources */,
-				B6166BEE274C7EB900C04898 /* UIView+FMPhotoView.swift in Sources */,
-				B6166BF2274C7EB900C04898 /* UIView+Image.swift in Sources */,
 				B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */,
 				82335D8E272BC5C00004FA51 /* TodoListDetailViewController.swift in Sources */,
 				B6F6ED142734F89D00A4C88E /* TodoListTableViewCell.swift in Sources */,

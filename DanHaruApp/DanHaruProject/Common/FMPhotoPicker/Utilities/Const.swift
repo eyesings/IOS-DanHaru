@@ -13,8 +13,7 @@ internal let kEnteringAnimationDuration: Double = 0.225
 internal let kLeavingAnimationDuration: Double = 0.195
 internal let kKeyframeAnimationDuration: Double = 2.0
 
-internal let kRedColor = UIColor.subHeavyColor
-internal let kGrayColor = UIColor(red: 114/255, green: 114/255, blue: 114/255, alpha: 1)
+internal let kHighLightColor = UIColor.subHeavyColor
 internal let kBackgroundColor = UIColor.backgroundColor
 internal let kTransparentBackgroundColor = UIColor(white: 1, alpha: 0.9)
 internal let kBorderColor = UIColor(red: 221/255, green: 221/255, blue: 221/255, alpha: 1)

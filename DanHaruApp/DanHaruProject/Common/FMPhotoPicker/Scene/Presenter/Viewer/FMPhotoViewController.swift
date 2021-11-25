@@ -42,10 +42,6 @@ class FMPhotoViewController: UIViewController {
         return nil
     }
     
-    public func getFilteredImage() -> UIImage? {
-        return nil
-    }
-    
     public func thumbImage() -> UIImage? {
         return nil
     }

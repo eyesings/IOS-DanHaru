@@ -13,10 +13,10 @@
             <connections>
                 <outlet property="cancelButton" destination="rww-s4-oBC" id="Gz8-I7-XQc"/>
                 <outlet property="currentAlbum" destination="UOI-uX-PpQ" id="tHB-0v-BoQ"/>
-                <outlet property="determineButton" destination="H3N-tL-aam" id="ULu-19-eTW"/>
                 <outlet property="imageCollectionView" destination="OL2-Hq-SBY" id="OEv-0k-kpd"/>
                 <outlet property="numberOfSelectedPhoto" destination="WUE-Oy-OeG" id="HpE-Xa-SeM"/>
                 <outlet property="numberOfSelectedPhotoContainer" destination="Sev-Wd-rWB" id="D5a-HJ-83x"/>
+                <outlet property="uploadButton" destination="H3N-tL-aam" id="ULu-19-eTW"/>
                 <outlet property="view" destination="iN0-l3-epB" id="8uH-TI-1jl"/>
             </connections>
         </placeholder>
@@ -48,11 +48,11 @@
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="bCk-Db-psT"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" title="다음">
+                            <state key="normal" title="업로드">
                                 <color key="titleColor" name="customBlackColor"/>
                             </state>
                             <connections>
-                                <action selector="onTapDetermine:" destination="-1" eventType="touchUpInside" id="6ZB-gm-DxN"/>
+                                <action selector="onTapUpload:" destination="-1" eventType="touchUpInside" id="qQM-lC-kb9"/>
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nuy-qK-tEa" userLabel="separator">
@@ -63,20 +63,20 @@
                             </constraints>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sev-Wd-rWB">
-                            <rect key="frame" x="273" y="8" width="28" height="28"/>
+                            <rect key="frame" x="284" y="9.5" width="25" height="25"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUE-Oy-OeG">
-                                    <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <color key="textColor" name="backgroundColor"/>
+                                    <color key="textColor" name="customBlackColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
-                            <color key="backgroundColor" name="subHeavyColor"/>
+                            <color key="backgroundColor" name="mainColor"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="28" id="4vw-sC-Rkl"/>
+                                <constraint firstAttribute="height" constant="25" id="4vw-sC-Rkl"/>
                                 <constraint firstAttribute="bottom" secondItem="WUE-Oy-OeG" secondAttribute="bottom" id="CPZ-lm-SZB"/>
-                                <constraint firstAttribute="width" constant="28" id="MXW-3K-hb9"/>
+                                <constraint firstAttribute="width" constant="25" id="MXW-3K-hb9"/>
                                 <constraint firstAttribute="trailing" secondItem="WUE-Oy-OeG" secondAttribute="trailing" id="S6a-e7-puc"/>
                                 <constraint firstItem="WUE-Oy-OeG" firstAttribute="leading" secondItem="Sev-Wd-rWB" secondAttribute="leading" id="fqC-Js-Iab"/>
                                 <constraint firstItem="WUE-Oy-OeG" firstAttribute="top" secondItem="Sev-Wd-rWB" secondAttribute="top" id="q5T-hx-GYu"/>
@@ -88,7 +88,7 @@
                                 <constraint firstAttribute="width" constant="200" id="n8g-M1-qfB"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <state key="normal" title="최근항목  v">
+                            <state key="normal" title="최근항목 ▼">
                                 <color key="titleColor" name="customBlackColor"/>
                             </state>
                             <connections>
@@ -110,7 +110,7 @@
                         <constraint firstItem="Nuy-qK-tEa" firstAttribute="leading" secondItem="mWw-fw-Ht8" secondAttribute="leading" id="UfX-h1-B4W"/>
                         <constraint firstItem="E6H-Nj-HHC" firstAttribute="trailing" secondItem="H3N-tL-aam" secondAttribute="trailing" constant="16" id="b9v-Do-VZI"/>
                         <constraint firstAttribute="height" constant="44" id="fbf-ig-YUX"/>
-                        <constraint firstItem="H3N-tL-aam" firstAttribute="leading" secondItem="Sev-Wd-rWB" secondAttribute="trailing" constant="18" id="ffm-TS-W2s"/>
+                        <constraint firstItem="H3N-tL-aam" firstAttribute="leading" secondItem="Sev-Wd-rWB" secondAttribute="trailing" constant="10" id="ffm-TS-W2s"/>
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="OL2-Hq-SBY">
@@ -142,8 +142,8 @@
         <namedColor name="customBlackColor">
             <color red="0.14509803921568629" green="0.19215686274509805" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="subHeavyColor">
-            <color red="0.61960784313725492" green="0.58039215686274515" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="mainColor">
+            <color red="0.81568627450980391" green="0.76078431372549016" blue="0.75686274509803919" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

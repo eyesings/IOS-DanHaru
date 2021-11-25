@@ -59,9 +59,6 @@ public class FMImageEditorViewController: UIViewController {
     // used to preview filters
     private var originalThumb: UIImage
     
-    // the full size image that is applied filter
-    private var filteredImage: UIImage
-    
     // the original image without any filter or crop
     private var originalImage: UIImage
     
@@ -78,17 +75,13 @@ public class FMImageEditorViewController: UIViewController {
     
     
     // MARK: - Init
-    public init(config: FMPhotoPickerConfig, fmPhotoAsset: FMPhotoAsset, filteredImage: UIImage, originalThumb: UIImage) {
+    public init(config: FMPhotoPickerConfig, fmPhotoAsset: FMPhotoAsset, originalImage: UIImage, originalThumb: UIImage) {
         self.config = config
         
         self.fmPhotoAsset = fmPhotoAsset
         
         self.originalThumb = originalThumb
-        
-        // set to filteredImage until the load original image done
-        self.originalImage = filteredImage
-        
-        self.filteredImage = filteredImage
+        self.originalImage = originalImage
         
         selectedCrop = fmPhotoAsset.getAppliedCrop()
         
@@ -102,14 +95,11 @@ public class FMImageEditorViewController: UIViewController {
     public init(config: FMPhotoPickerConfig, sourceImage: UIImage) {
         self.config = config
         
-        let forceCropType = config.forceCropEnabled ? config.availableCrops.first! : nil
-        let fmPhotoAsset = FMPhotoAsset(sourceImage: sourceImage, forceCropType: forceCropType)
+        let fmPhotoAsset = FMPhotoAsset(sourceImage: sourceImage)
         self.fmPhotoAsset = fmPhotoAsset
         
         self.originalThumb = sourceImage
-        
         self.originalImage = sourceImage
-        self.filteredImage = sourceImage
 
         selectedCrop = fmPhotoAsset.getAppliedCrop()
         
@@ -136,7 +126,7 @@ public class FMImageEditorViewController: UIViewController {
         subMenuContainer.isHidden = true
         cropSubMenuView.isHidden = true
         
-        cropView = FMCropView(image: filteredImage,
+        cropView = FMCropView(image: originalImage,
                               appliedCrop: fmPhotoAsset.getAppliedCrop(),
                               appliedCropArea: fmPhotoAsset.getAppliedCropArea())
         cropView.foregroundView.eclipsePreviewEnabled = self.config.eclipsePreviewEnabled
@@ -150,7 +140,7 @@ public class FMImageEditorViewController: UIViewController {
             self.cropSubMenuView.insert(toView: self.subMenuContainer)
             
             // get full size original image without any crop or filter applied
-            self.fmPhotoAsset.requestFullSizePhoto(cropState: .original, filterState: .original) { [weak self] image in
+            self.fmPhotoAsset.requestFullSizePhoto(cropState: .original) { [weak self] image in
                 guard let strongSelf = self,
                     let image = image else { return }
                 strongSelf.originalImage = image
@@ -159,10 +149,6 @@ public class FMImageEditorViewController: UIViewController {
         }
         
         if !isAnimatedPresent {
-            // Hide entire view view until the crop view image is located
-            // Because the crop view's frame is restore when view did appear
-            // It's neccssary to hide the initial view until the view's position restore is completed
-            // It will make the transition become more natural and smooth
             view.isHidden = true
         }
         
@@ -174,12 +160,6 @@ public class FMImageEditorViewController: UIViewController {
         // hide top and bottom menu
         bottomMenuBottomConstraint.constant = -bottomMenuContainer.frame.height
         topMenuTopConstraint.constant = -topMenuContainter.frame.height
-        
-        // show filter mode by default
-        // hide the crop corners before it is shown
-        // dissable pan and pinch has no effect at this time
-        // so we need call again in viewDidAppear to dissable them
-        cropView.isCropping = false
     }
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -229,13 +209,8 @@ public class FMImageEditorViewController: UIViewController {
     @IBAction func onTapDone(_ sender: Any) {
         cropView.isCropping = false
         
-        // crop 메뉴 미 선택시 (==ratioCustom) 기본 1x1로 상태 변경
-        if selectedCrop.identifier() == "ratioCustom" {
-            selectedCrop = FMCrop.ratioSquare
-        }
-        
         cropView.moveCropBoxToAspectFillContentFrame() {
-            // get crop data:
+            
             let cropArea = self.cropView.getCropArea()
             
             self.fmPhotoAsset.apply(crop: self.selectedCrop,
@@ -243,7 +218,7 @@ public class FMImageEditorViewController: UIViewController {
             
             if let delegate = self.delegate {
                 // In case that FMImageEditorViewController is used as standard-alone tool
-                self.fmPhotoAsset.requestFullSizePhoto(cropState: .edited, filterState: .edited) { image in
+                self.fmPhotoAsset.requestFullSizePhoto(cropState: .edited) { image in
                     if let image = image {
                         delegate.fmImageEditorViewController(self, didFinishEdittingPhotoWith: image)
                     }
@@ -256,7 +231,7 @@ public class FMImageEditorViewController: UIViewController {
             }
         }
         
-        self.hideAnimatedMenu() {}
+        self.hideAnimatedMenu()
     }
     
     @IBAction func onTapCancel(_ sender: Any) {
@@ -277,11 +252,9 @@ public class FMImageEditorViewController: UIViewController {
         cropSubMenuView.isHidden = false
         
         cropSubMenuView.alpha = 0
-        UIView.animate(withDuration: kEnteringAnimationDuration,
-                       animations: {
-                        self.cropSubMenuView.alpha = 1
-        },
-                       completion: { _ in })
+        UIView.animate(withDuration: kEnteringAnimationDuration) {
+            self.cropSubMenuView.alpha = 1
+        }
     }
     
     // crop 메뉴 열기
@@ -305,39 +278,30 @@ public class FMImageEditorViewController: UIViewController {
         bottomMenuContainer.alpha = 0
         UIView.animate(withDuration: kEnteringAnimationDuration,
                        delay: 0,
-                       options: .curveEaseOut,
-                       animations: {
-                        self.topMenuContainter.alpha = 1
-                        self.bottomMenuContainer.alpha = 1
-                        self.view.layoutIfNeeded()
-        },
-                       completion: nil)
+                       options: .curveEaseOut) {
+            self.topMenuContainter.alpha = 1
+            self.bottomMenuContainer.alpha = 1
+            self.view.layoutIfNeeded()
+        }
         
         self.topMenuTopConstraint.constant = 0
         self.bottomMenuBottomConstraint.constant = 0
     }
     
-    private func hideAnimatedMenu(completion: (() -> Void)?) {
+    private func hideAnimatedMenu(completion: (() -> Void)? = nil) {
         self.topMenuTopConstraint.constant = -self.topMenuContainter.frame.height
         self.bottomMenuBottomConstraint.constant = -self.bottomMenuContainer.frame.height
         UIView.animate(withDuration: kLeavingAnimationDuration,
                        delay: 0,
-                       options: .curveEaseOut,
-                       animations: {
-                        self.topMenuContainter.alpha = 0
-                        self.bottomMenuContainer.alpha = 0
-                        self.subMenuContainer.alpha = 0
-                        self.view.layoutIfNeeded()
-        },
-                       completion: { _ in
-                        completion?()
-        })
-    }
-    
-    private func beforeCrop() {
-        if selectedCrop.identifier() == "ratioCustom" {
-            cropView.changeRatio = true
+                       options: .curveEaseOut) {
+            self.topMenuContainter.alpha = 0
+            self.bottomMenuContainer.alpha = 0
+            self.subMenuContainer.alpha = 0
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            completion?()
         }
+
     }
     
     // MARK: - Logics
@@ -363,45 +327,7 @@ public class FMImageEditorViewController: UIViewController {
                       height: view.bounds.height - transparentViewHeightConstraint.constant - bottomMenuContainer.frame.height - subMenuContainer.frame.height - unsafeAreaBottomViewHeightConstraint.constant)
     }
     
-    private func contentFrameSticker() -> CGRect {
-        return CGRect(x: 0,
-                      y: transparentViewHeightConstraint.constant,
-                      width: view.bounds.width,
-                      height: view.bounds.height - transparentViewHeightConstraint.constant - bottomMenuContainer.frame.height - subMenuContainer.frame.height - unsafeAreaBottomViewHeightConstraint.constant)
-    }
-    
     private func contentFrameFullScreen() -> CGRect {
         return view.bounds
-    }
-    
-    // 화면이 작을때..... frame 깨짐 현상 -> 작은 device 인지 가져옴
-    private func getDeviceInfo() -> Bool {
-        if view.safeAreaInsets.top <= 0 {
-            return true
-        }
-        return false
-    }
-}
-
-extension UIImage {
-    
-    func rotate(radians: CGFloat) -> UIImage? {
-        var newSize = CGRect(origin: .zero, size: self.size).applying(CGAffineTransform(rotationAngle: radians)).size
-        
-        newSize.width = floor(newSize.width)
-        newSize.height = floor(newSize.height)
-        
-        UIGraphicsBeginImageContextWithOptions(newSize, false, self.scale)
-        let contenxt = UIGraphicsGetCurrentContext()!
-        
-        contenxt.translateBy(x: newSize.width / 2, y: newSize.height / 2)
-        contenxt.rotate(by: radians)
-        
-        self.draw(in: CGRect(x: -self.size.width / 2, y: -self.size.height / 2, width: self.size.width, height: self.size.height))
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
     }
 }

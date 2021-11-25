@@ -75,16 +75,14 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
                 self.selectButton.setImage(tintedImage, for: .normal)
                 self.selectButton.imageView?.tintColor = .mainColor
                 
-                self.selectIdxLabel.isHidden = false
                 self.selectIdxLabel.text = "\(selectedIdx + 1)"
             }
-            self.cellFilterContainer.isHidden = false
         } else {
             self.cellFilterContainer.layer.borderWidth = 0.0
-            self.cellFilterContainer.isHidden = true
             self.selectButton.setImage(UIImage(named: "check_off"), for: .normal)
-            
-            self.selectIdxLabel.isHidden = true
         }
+        
+        self.cellFilterContainer.isHidden = self.selectMode == .multiple
+        self.selectIdxLabel.isHidden = self.selectMode == .single
     }
 }

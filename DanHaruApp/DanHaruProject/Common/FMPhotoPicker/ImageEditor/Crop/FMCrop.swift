@@ -31,16 +31,6 @@ public enum FMCrop: FMCroppable {
             return FMCropRatio(width: 4, height: 3)
         case .ratioSquare:
             return FMCropRatio(width: 1, height: 1)
-        default:
-            return nil
-        }
-    }
-    
-    public func name(strings: [String: String]) -> String? {
-        switch self {
-        case .ratio3x4: return strings["editor_crop_ratio3x4"]
-        case .ratio4x3: return strings["editor_crop_ratio4x3"]
-        case .ratioSquare: return strings["editor_crop_ratioSquare"]
         }
     }
     

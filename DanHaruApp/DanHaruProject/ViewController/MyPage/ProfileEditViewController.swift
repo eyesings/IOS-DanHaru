@@ -28,22 +28,10 @@ class ProfileEditViewController: UIViewController {
     }
     
     private func config() -> FMPhotoPickerConfig {
-        
-        var mediaTypes = [FMMediaType]()
-        mediaTypes.append(.image)
-        
         var config = FMPhotoPickerConfig()
         
-        config.selectMode = .multiple
-        config.maxImage = 10
-        
-        // 크롭비율 1:1 3:4 4:3
-        config.availableCrops = [
-            FMCrop.ratioSquare,
-            FMCrop.ratio3x4,
-            FMCrop.ratio4x3
-        ]
-        
+        config.selectMode = .single
+        config.maxImage = 1
         
         return config
     }

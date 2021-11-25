@@ -18,71 +18,35 @@ public class FMPhotoAsset {
     // a fully edited thumbnail version of the image
     var editedThumb: UIImage?
     
-    // a filterd-only thumbnail version of the image
-    var filterdThumb: UIImage?
-    
-    var stickerImage: UIImage?
-    
     var originalImageSize: CGSize?
     
     var thumbRequestId: PHImageRequestID?
-    
-    var videoFrames: [CGImage]?
     
     var thumbChanged: (UIImage) -> Void = { _ in }
     
     var editedImage: UIImage?
     
-    var forPresent: Bool = false                // 이미지에 스티커 적용 여부에 관한 변수
-    
-    private var stickerImages: [UIView] = []    // 적용시킨 스티커 가지고 있을 배열
-    
     private var fullSizePhotoRequestId: PHImageRequestID?
     private var editor: FMImageEditor!
-    /**
-     Indicates whether the request for the full size image was canceled.
-     A workaround for this issue:
-     https://stackoverflow.com/questions/48657304/phimagemanagers-cancelimagerequest-does-not-work-as-expected?noredirect=1#comment84332723_48657304
-     */
+    
     private var canceledFullSizeRequest = false
     
-    init(asset: PHAsset, forceCropType: FMCroppable?) {
+    init(asset: PHAsset) {
         self.asset = asset
         self.mediaType = FMMediaType(withPHAssetMediaType: asset.mediaType)
         self.sourceImage = nil
         
-        self.editor = self.initializeEditor(for: forceCropType, imageSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight))
+        self.editor = FMImageEditor()
     }
     
-    init(sourceImage: UIImage, forceCropType: FMCroppable?) {
+    init(sourceImage: UIImage) {
         self.sourceImage = sourceImage
         self.mediaType = .image
         self.asset = nil
         
-        self.editor = self.initializeEditor(for: forceCropType, imageSize: sourceImage.size)
+        self.editor = FMImageEditor()
     }
     
-    private func initializeEditor(for forceCropType: FMCroppable?, imageSize: CGSize) -> FMImageEditor {
-        guard let forceCropType = forceCropType, let fmCropRatio = forceCropType.ratio() else {
-            return FMImageEditor()
-        }
-        
-        let imageRatio = CGFloat(imageSize.width) / CGFloat(imageSize.height)
-        let cropRatio = fmCropRatio.width / fmCropRatio.height
-        var scaleW, scaleH: CGFloat
-        if imageRatio > cropRatio {
-            scaleH = 1.0
-            scaleW = cropRatio / imageRatio
-        } else {
-            scaleW = 1.0
-            scaleH = imageRatio / cropRatio
-        }
-        let cropArea = FMCropArea(scaleX: (1 - scaleW) / 2,
-                                  scaleY: (1 - scaleH) / 2,
-                                  scaleW: scaleW,
-                                  scaleH: scaleH)
-        return FMImageEditor(crop: forceCropType, cropArea: cropArea)
-    }
     
     func requestThumb(refresh: Bool=false, desireSize: CGFloat = HelperPhoto.minimumCellSize, _ mode:deliveryMode = .opportunistic , _ complete: @escaping (UIImage?) -> Void) {
         if let editedThumb = self.editedThumb, !refresh {
@@ -99,7 +63,6 @@ public class FMPhotoAsset {
                     guard let image = image else { complete(nil); return }
                     
                     self.editedThumb    = self.editor.reproduce(source: image, cropState: .edited)
-                    self.filterdThumb   = self.editor.reproduce(source: image, cropState: .edited)
                     
                     DispatchQueue.main.async {
                         complete(self.editedThumb)
@@ -128,7 +91,7 @@ public class FMPhotoAsset {
         }
     }
     
-    func requestFullSizePhoto(cropState: FMImageEditState, filterState: FMImageEditState, complete: @escaping (UIImage?) -> Void) {
+    func requestFullSizePhoto(cropState: FMImageEditState, complete: @escaping (UIImage?) -> Void) {
         if let asset = asset {
             self.fullSizePhotoRequestId = HelperPhoto.getPhoto(by: asset, in: CGSize(width: asset.pixelWidth, height: asset.pixelHeight), with: .highQualityFormat){ image in
                 self.fullSizePhotoRequestId = nil
@@ -141,7 +104,6 @@ public class FMPhotoAsset {
                     // forThumbnail = ture 이면 스티커 까지 붙인 이미지 반환, false 이면 사진만 반환(스티커 적용x)
                     let result = self.editor.reproduce(source: image, cropState: cropState)
                     if cropState == .edited { self.editedImage = result }       // crop 이벤트 있을 때 해당 결과의 이미지 저장
-                    self.forPresent = false                                     // 값 초기화
                     complete(result)
                 }
             }

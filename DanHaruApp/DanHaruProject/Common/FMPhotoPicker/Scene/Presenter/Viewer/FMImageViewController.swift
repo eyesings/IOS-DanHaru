@@ -12,10 +12,6 @@ class FMImageViewController: FMPhotoViewController {
     // MARK: - Public
     public var scalingImageView: FMScalingImageView!
     public var smallImage: UIImage?
-    public var stickerImage: UIImage?
-    
-    // the full size image with filter applied
-    public var filteredImage: UIImage?
     
     public var originImgage: UIImage?
     
@@ -106,10 +102,6 @@ class FMImageViewController: FMPhotoViewController {
         return self.scalingImageView.image
     }
     
-    override func getFilteredImage() -> UIImage? {
-        return filteredImage
-    }
-    
     override func thumbImage() -> UIImage? {
         return self.smallImage
     }
@@ -120,33 +112,15 @@ class FMImageViewController: FMPhotoViewController {
     
     override func reloadPhoto(complete: @escaping () -> Void) {
         
-        // editor가 완료 되었을 때
-        self.photo.forPresent = self.forPresent
-        
-        // picker 뷰에서 해당 이미지 선택 하였을 때
-        if self.photo.isEdited() && self.photo.stickerImage != nil {
-            // 이미지가 편집 되었고, 스티커 이미지가 존재 하기 때문에 스티커 적용 시키기 위함
-            self.photo.forPresent = true
-        }
-        
-        self.photo.requestFullSizePhoto(cropState: .edited, filterState: .edited) { [weak self] image in
+        self.photo.requestFullSizePhoto(cropState: .edited) { [weak self] image in
             guard let strongSelf = self,
                   let image = image else { return complete() }
             //1:1자동자르기추가
-            strongSelf.scalingImageView.image = image.cropToBounds()
+            strongSelf.scalingImageView.image = strongSelf.photo.isEdited() ? image : image.cropToBounds()
             complete()
         }
         
-        // get filtered image
-        // prepare to show in edit screen
-        self.photo.requestFullSizePhoto(cropState: .original, filterState: .edited) { [weak self] image in
-            guard let strongSelf = self,
-                  let image = image else { return }
-            
-            strongSelf.filteredImage = image
-        }
-        
-        self.photo.requestFullSizePhoto(cropState: .original, filterState: .edited) { [weak self] (image) in
+        self.photo.requestFullSizePhoto(cropState: .original) { [weak self] (image) in
             guard let strongSelf = self,
                   let image = image else { return }
             
@@ -156,15 +130,12 @@ class FMImageViewController: FMPhotoViewController {
     
     override func reloadPresentImg(complete: @escaping () -> Void) {
         
-        self.photo.forPresent = true
-        
-        self.photo.requestFullSizePhoto(cropState: .edited, filterState: .edited) { [weak self] image in
+        self.photo.requestFullSizePhoto(cropState: .edited) { [weak self] image in
             guard let strongSelf = self,
                   let image = image else { return complete() }
             //1:1자동자르기추가
-            strongSelf.scalingImageView.image = image.cropToBounds()
+            strongSelf.scalingImageView.image = strongSelf.photo.isEdited() ? image : image.cropToBounds()
             complete()
-            self?.photo.forPresent = false
         }
     }
 }

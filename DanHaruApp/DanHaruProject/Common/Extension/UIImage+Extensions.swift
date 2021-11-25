@@ -56,47 +56,6 @@ extension UIImage {
         return newImage
     }
     
-    /// ratateImage
-    /// - Parameter image: UIimage
-    /// - Returns: UIimage
-    func rotate() -> UIImage {
-        if (self.imageOrientation == UIImage.Orientation.up) {
-            return self
-        }
-        UIGraphicsBeginImageContext(self.size)
-        self.draw(in: CGRect(origin: .zero, size: self.size))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
-    
-    /// 이미지 리사이징
-    /// 1:1 크기로 리사이즈
-    func resize() -> UIImage {
-        
-        var new_image: UIImage!
-        var sizeWidth: CGFloat
-        var sizeHeight: CGFloat
-        
-        if self.size.width > self.size.height {
-            sizeWidth = self.size.height
-            sizeHeight = self.size.height
-        } else {
-            sizeWidth = self.size.width
-            sizeHeight = self.size.width
-        }
-        
-        let size = CGSize(width: sizeWidth, height: sizeHeight)
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 1.0)
-        self.draw(in: rect)
-        new_image = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        return new_image
-    }
-    
     /// 1:1 자동자르기
     /// - Parameters:
     ///   - width: width description
@@ -112,36 +71,28 @@ extension UIImage {
         var cgwidth: CGFloat = CGFloat(width)
         var cgheight: CGFloat = CGFloat(height)
         
-        let imageWidth = contextSize.width
-        let imageheight = contextSize.height
-        let imageRatio: Double = Double((imageWidth / imageheight) * 100)
-        
         var image: UIImage = self
         
-        if floor(imageRatio) == 100 || floor(imageRatio) == 75 || floor(imageRatio) == 133 {
-            
+        // See what size is longer and create the center off of that
+        if contextSize.width > contextSize.height {
+            posX = ((contextSize.width - contextSize.height) / 2)
+            posY = 0
+            cgwidth = contextSize.height
+            cgheight = contextSize.height
         } else {
-            // See what size is longer and create the center off of that
-            if contextSize.width > contextSize.height {
-                posX = ((contextSize.width - contextSize.height) / 2)
-                posY = 0
-                cgwidth = contextSize.height
-                cgheight = contextSize.height
-            } else {
-                posX = 0
-                posY = ((contextSize.height - contextSize.width) / 2)
-                cgwidth = contextSize.width
-                cgheight = contextSize.width
-            }
-            
-            let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
-            
-            // Create bitmap image from context using the rect
-            let imageRef: CGImage = cgimage.cropping(to: rect)!
-            
-            // Create a new image based on the imageRef and rotate back to the original orientation
-            image = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
+            posX = 0
+            posY = ((contextSize.height - contextSize.width) / 2)
+            cgwidth = contextSize.width
+            cgheight = contextSize.width
         }
+        
+        let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
+        
+        // Create bitmap image from context using the rect
+        let imageRef: CGImage = cgimage.cropping(to: rect)!
+        
+        // Create a new image based on the imageRef and rotate back to the original orientation
+        image = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
         
         return image
     }

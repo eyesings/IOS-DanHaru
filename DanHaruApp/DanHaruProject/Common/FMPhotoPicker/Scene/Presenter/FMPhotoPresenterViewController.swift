@@ -112,12 +112,13 @@ class FMPhotoPresenterViewController: UIViewController {
         self.bottomView.onTapEditButton = { [unowned self] in
             guard let photo = self.dataSource.photo(atIndex: self.currentPhotoIndex),
                   let vc = self.pageViewController.viewControllers?.first as? FMPhotoViewController,
-                  let originalThumb = photo.filterdThumb,
-                  let filteredImage = vc.getFilteredImage()
+                  let originalThumb = photo.editedThumb,
+                  let originalImage = vc.getOriginImage()
             else { return }
+            
             let editorVC = FMImageEditorViewController(config: self.config,
                                                        fmPhotoAsset: photo,
-                                                       filteredImage: filteredImage,
+                                                       originalImage: originalImage,
                                                        originalThumb: originalThumb)
             editorVC.didEndEditting = { [unowned self] viewDidUpdate in
                 if let photoVC = self.pageViewController.viewControllers?.first as? FMPhotoViewController {
@@ -244,6 +245,7 @@ class FMPhotoPresenterViewController: UIViewController {
     @IBAction func onTapDetermine(_ sender: Any) {
         if config.selectMode == .single { self.didSelectPhotoHandler?(self.currentPhotoIndex) }
         didTapDetermine?()
+        self.dismiss(animated: true, completion: nil)
     }
     
 }
