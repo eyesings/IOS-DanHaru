@@ -18,7 +18,6 @@
 		827EC8DE273A446500A60CCB /* TodoListDetailViewController+collectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827EC8DD273A446500A60CCB /* TodoListDetailViewController+collectionView.swift */; };
 		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
 		8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */; };
-		8293DFB9273206D90053FD41 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */; };
 		8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */; };
 		829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */; };
 		82C553362742250700F35639 /* audio.json in Resources */ = {isa = PBXBuildFile; fileRef = 82C553352742250700F35639 /* audio.json */; };
@@ -103,7 +102,6 @@
 		827EC8DB273A444B00A60CCB /* TodoListDetailViewController+tableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+tableView.swift"; sourceTree = "<group>"; };
 		827EC8DD273A446500A60CCB /* TodoListDetailViewController+collectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+collectionView.swift"; sourceTree = "<group>"; };
 		8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+objc.swift"; sourceTree = "<group>"; };
-		82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsViewController.swift; sourceTree = "<group>"; };
 		82C553352742250700F35639 /* audio.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = audio.json; sourceTree = "<group>"; };
 		82CB510E2734C33C009D3170 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 			children = (
 				82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */,
 				827C1E632734F4B70043756D /* BottomSheetsViewController+function.swift */,
-				82A8B6AE2732060B0035D6A9 /* BottomSheetViewController.swift */,
 			);
 			path = BottomSheets;
 			sourceTree = "<group>";
@@ -527,7 +524,6 @@
 				B6BB84E52730AA2300035C77 /* PieChartView.swift in Sources */,
 				8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */,
 				827EC8DC273A444B00A60CCB /* TodoListDetailViewController+tableView.swift in Sources */,
-				8293DFB9273206D90053FD41 /* BottomSheetViewController.swift in Sources */,
 				826C05242733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift in Sources */,
 				827EC8DE273A446500A60CCB /* TodoListDetailViewController+collectionView.swift in Sources */,
 				82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */,

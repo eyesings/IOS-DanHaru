@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -25,11 +20,22 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>단,하루 앱에서 나의 도현 현황을 인증하기 위해 접근을 승인해주세요.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>단,하루 앱에서 나의 도전 현황을 저장하시려면 승인해주세요.</string>
+	<string>단,하루 앱에서 나의 도전 현황을 인증을 저장하시려면 승인해주세요.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>단.하루 앱에서 도전 인증을 위해 앨범 접근을 승인해주세요.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -51,4 +51,8 @@ extension RadMessage {
         static let inputReSetPW = "비밀번호로 재설정할 값을 입력해 주세요."
         static let copyID       = "아이디가 복사되었습니다."
     }
+    
+    struct Permission {
+        static let permissionDenied = "권한이 허용 되어있지 않습니다.\n 설정페이지로 이동하시겠습니까?"
+    }
 }

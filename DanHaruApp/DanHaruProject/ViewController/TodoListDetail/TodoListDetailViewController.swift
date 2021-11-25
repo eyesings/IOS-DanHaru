@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Lottie
+import AVFoundation
 
 class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate {
     // 상단, 하단 버튼
@@ -83,6 +84,10 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     var currentIdx: CGFloat = 0.0
     
+    // 오디오 재생 관련
+    var audioRecorder: AVAudioRecorder?
+    var audioPlayer: AVAudioPlayer?
+    
     // 위클리 데이트 프로그래스 바 색깔
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
@@ -104,8 +109,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         
         // Do any additional setup after loading the view.
     }
-    
-    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -131,7 +134,8 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
-        bottomVC.checkShowUI = BottomViewCheck.audioRecode.rawValue
+        bottomVC.checkShowUI = BottomViewCheck.audioRecord.rawValue
+        bottomVC.defaultHeight = self.view.frame.height / 3
         
         self.present(bottomVC, animated: true, completion: nil)
     }
@@ -254,6 +258,26 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
                 
             }
             
+            if authImageView2.image == nil && authImageView3.image != nil {
+                
+                authImageView3.snp.remakeConstraints { make in
+                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                    make.width.equalTo(self.view).multipliedBy(0.22)
+                    make.height.equalTo(self.view.frame.width * 0.22)
+                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                }
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+            }
+            
         } else if sender.tag == ImageDeleteBtnTag.deleteImageView2.rawValue {
             
             authImageView2.snp.remakeConstraints { make in
@@ -311,6 +335,16 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
             }
             
             self.authImageView3.image = nil
+            
+            if self.authImageView1.image != nil {
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+            }
             
         }
         

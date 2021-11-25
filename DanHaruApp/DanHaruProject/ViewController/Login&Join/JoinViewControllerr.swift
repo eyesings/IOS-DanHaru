@@ -187,7 +187,7 @@ extension JoinViewController {
         errorInfoMsgLabel.isHidden = true
         
         inputTextField.isSecureTextEntry = (type == .pw)
-        inputTextField.textContentType = .oneTimeCode
+        //inputTextField.textContentType = .oneTimeCode
         inputTextField.keyboardType = .asciiCapable
         inputTextField.placeholder = type.name() + "\(type == .email ? "을 " : "를 ")" + RadMessage.UserJoin.placeHolderInfo
         inputTypeLabel.text = type.name()

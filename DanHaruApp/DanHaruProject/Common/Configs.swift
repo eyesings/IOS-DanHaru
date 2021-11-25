@@ -103,7 +103,7 @@ enum BottomViewCheck: String {
     case startDate = "startDate"
     case endDate = "endDate"
     case cycleTime = "cycleTime"
-    case audioRecode = "audioRecode"
+    case audioRecord = "audioRecode"
 }
 
 enum DateLabelTag: Int {
