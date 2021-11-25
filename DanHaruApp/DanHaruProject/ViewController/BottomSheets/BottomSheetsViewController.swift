@@ -556,9 +556,11 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
             return;
         }
         
-        let addData = MainViewController.dummyModel(title: titleText, date: startDate)
+//        let addData = MainViewController.dummyModel(title: titleText, date: startDate)
+//
+//        vc.tableData.append(addData)
         
-        vc.tableData.append(addData)
+        // FIXME: model add
         
         vc.todoListTableView.reloadData()
         

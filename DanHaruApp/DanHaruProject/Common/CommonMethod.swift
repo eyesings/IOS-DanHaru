@@ -119,16 +119,53 @@ extension RadHelper {
     
 }
 
-// FIXME: move to protocol page
-@objc protocol keyboardNotiRegistProtocol: NSObjectProtocol {
-    func keyboardShowAndHide(_ notification: Notification)
-}
-
-extension keyboardNotiRegistProtocol {
-    func registerKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAndHide(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+extension RadServerNetwork {
+    static func postDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
-        keyboardH = 0.0
+        if let reqUrl = URL(string: url) {
+            
+            var request = URLRequest(url: reqUrl)
+            request.httpMethod = "post" //get : Get 방식, post : Post 방식
+            
+            if parameters.count > 0 {
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                } catch {
+                    successHandler(nil)
+                }
+            }
+            
+            let task = URLSession.shared.dataTask(with: request,
+                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                //error 일경우 종료
+                guard error == nil && data != nil else {
+                    
+                    if let err = error {
+                        errorHandler(err)
+                    }
+                    return
+                }
+                
+                
+                //data 가져오기
+                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                    //메인쓰레드에서 출력하기 위해
+                    DispatchQueue.main.async {
+                        do {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
+                            successHandler(jsonRst);
+                        }
+                        catch {
+                            errorHandler(error);
+                        }
+                        
+                    }
+                }
+            })
+            
+            task.resume()
+        }
     }
 }

@@ -12,7 +12,7 @@ import SkeletonView
 extension MainViewController: UITableViewDataSource, UITableViewDelegate,SkeletonTableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tableData.count
+        return self.todoListModel?.model.count ?? 0
     }
     
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -21,7 +21,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoListTableViewCell", for: indexPath) as! TodoListTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.reusableIdentifier,
+                                                       for: indexPath) as? TodoListTableViewCell
+        else { return UITableViewCell() }
         
         cell.selectionStyle = .none
         
@@ -32,9 +34,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
             cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row]
         }
         
-        cell.titleLabel.text = self.tableData[indexPath.row].title
-        cell.subLabel.text = "\(self.tableData[indexPath.row].date ?? Date())"
-        
+        cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
+        cell.subLabel.text = "오늘, 인증 없음"
+        cell.challengeTodoImgView.isHidden = false
         
         return cell
     }
@@ -45,34 +47,28 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
         detailVC.modalPresentationStyle = .fullScreen
         
-        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
+//        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
         
         
        
         self.present(detailVC, animated: true, completion: nil)
         
     }
-    /*
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if editingStyle == .delete {
-            self.tableData.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-        
-    }
-    */
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let action = UIContextualAction(style: .normal, title: nil) { action, view, complection in
-            self.tableData.remove(at: indexPath.row)
+        let action = UIContextualAction(style: .normal, title: nil) { action, View, complection in
+//            self.tableData.remove(at: indexPath.row)
+            // FIXME: model 삭제
             tableView.deleteRows(at: [indexPath], with: .fade)
             complection(true)
         }
         
+        let actionSize = screenwidth * 0.13
         action.backgroundColor = .backgroundColor
-        action.image = #imageLiteral(resourceName: "btnCloseUnSel")
+        action.image = UIGraphicsImageRenderer(size: CGSize(width: actionSize, height: actionSize)).image { _ in
+            UIImage(named: "btnCloseSel")!.draw(in: CGRect(x: -10, y: 0, width: actionSize, height: actionSize))
+        }
         
         let configuration = UISwipeActionsConfiguration(actions: [action])
         configuration.performsFirstActionWithFullSwipe = false
