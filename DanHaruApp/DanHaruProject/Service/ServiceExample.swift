@@ -92,6 +92,29 @@ class ViewModelService {
         }
     }
     
+    static func todoListService(searchDate date: String, completionHandler: @escaping ([NSDictionary]?) -> Void) {
+        var param: [String:Any] = [:]
+        param["mem_id"] = UserModel.memberId ?? UserDefaults.userInputId
+        param["fr_date"] = date
+        
+        RadServerNetwork.postDataFromServer(url: Configs.API.todoList, parameters: param) { resultData in
+            if let resultArr = resultData {
+                var resultDic: [NSDictionary]? = []
+                for dic in resultArr {
+                    if let infoDic = dic as? NSDictionary
+                    {
+                        if let _ = infoDic["result_code"] as? String { return }
+                        resultDic?.append(infoDic)
+                    }
+                }
+                completionHandler(resultDic)
+            }
+        } errorHandler: { error in
+            print("error \(error)")
+        }
+
+    }
+    
     static func todoCollectService(completionHandler: @escaping (NSDictionary?) -> Void) {
         let dic: NSDictionary? = NSDictionary()
         completionHandler(dic)

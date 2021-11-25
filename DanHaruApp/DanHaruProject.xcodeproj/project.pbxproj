@@ -76,6 +76,7 @@
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
 		B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69CECE3274F23890092F0C5 /* InsertableUIView.swift */; };
+		B69CECE8274F63640092F0C5 /* caution_black.json in Resources */ = {isa = PBXBuildFile; fileRef = B69CECE7274F63640092F0C5 /* caution_black.json */; };
 		B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A255EC272772A200C3EC14 /* HomeViewController.swift */; };
 		B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */; };
 		B6A255F527277C4100C3EC14 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F427277C4100C3EC14 /* Color.xcassets */; };
@@ -204,6 +205,7 @@
 		B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
 		B69CECE3274F23890092F0C5 /* InsertableUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertableUIView.swift; sourceTree = "<group>"; };
+		B69CECE7274F63640092F0C5 /* caution_black.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caution_black.json; sourceTree = "<group>"; };
 		B6A255EC272772A200C3EC14 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeSB.storyboard; sourceTree = "<group>"; };
 		B6A255F427277C4100C3EC14 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			children = (
 				B6C6D2752743807E006344BF /* loading.json */,
 				B6A2560027278A0600C3EC14 /* loginAnimation.json */,
+				B69CECE7274F63640092F0C5 /* caution_black.json */,
 				82C553352742250700F35639 /* audio.json */,
 				B6F6ED212734F96700A4C88E /* down-arrows.json */,
 				B6F6ED232734F96700A4C88E /* mic.json */,
@@ -756,6 +759,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
+				B69CECE8274F63640092F0C5 /* caution_black.json in Resources */,
 				B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */,
 				B6166BFA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib in Resources */,
 				B6F6ED262734F96700A4C88E /* mic.json in Resources */,

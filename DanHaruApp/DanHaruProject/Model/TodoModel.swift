@@ -6,12 +6,22 @@
 //
 
 import Foundation
-// 컬럼명을 확인을 못해서 임의로 작성
+
+
 struct TodoModel: Codable {
+    var mem_id: String?
+    var created_at: String?
     var title: String?
-    var checkAuth: String? // Y, N 으로 넘어오지 않을까 생각함
-    var together: String? // Y, N 으로 넘어오지 않을까 생각함, 아니면 FK 로 사용될수도 있음(확실하지 않음)
-    var Begin_date: Date?
-    var End_date: Date?
-    var ins_date: Date?
+    var ed_date: String?
+    var noti_time: String?
+    var challange_status: String?
+    var certi_yb: String?
+    var updated_user: String?
+    var updated_at: String?
+    var todo_id: Int?
+    var fr_date: String?
+    var noti_cycle: String?
+    var todo_status: String?
+    var chaluser_yn: String?
+    var created_user: String?
 }
