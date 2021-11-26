@@ -12,7 +12,8 @@ import SkeletonView
 extension MainViewController: UITableViewDataSource, UITableViewDelegate,SkeletonTableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.todoListModel?.model.count ?? 0
+        //return self.todoListModel?.model.count ?? 0
+        return self.dummyData.count
     }
     
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -27,14 +28,15 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
         cell.selectionStyle = .none
         
-        // 확인 필요
+        //FIXME: - 색상 확인
         if indexPath.row >= todoListCellBackGroundColor.count {
             cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row - todoListCellBackGroundColor.count * (indexPath.row / todoListCellBackGroundColor.count)]
         } else {
             cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row]
         }
         
-        cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
+        //cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
+        cell.titleLabel.text = self.dummyData[indexPath.row]
         cell.subLabel.text = "오늘, 인증 없음"
         cell.challengeTodoImgView.isHidden = false
         

@@ -9,15 +9,16 @@ import Foundation
 import UIKit
 
 extension MainViewController {
-    
+    /// 캘린더 보여주기, 숨김 처리
     @objc func calendarShowHideAction(_ sender: UIButton) {
-        // 캘린더가 열려있는 경우
+        
         calendarAnimation.animation = .named(calendarShowOn ? "down-arrows" : "up-arrows")
         calendarAnimation.play()
         calendarViewAnimation()
         calendarShowOn.toggle()
     }
     
+    /// 투두 추가 버튼
     @objc func addAction(_ button: UIButton) {
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen

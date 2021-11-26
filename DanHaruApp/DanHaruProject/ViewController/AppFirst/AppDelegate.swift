@@ -46,5 +46,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Configs.NotificationName.audioRecordContinue, object: nil, userInfo: nil)
+    }
+ 
+    func applicationWillTerminate(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Configs.NotificationName.audioRecordRemove, object: nil, userInfo: nil)
+    }
+    
 }
 

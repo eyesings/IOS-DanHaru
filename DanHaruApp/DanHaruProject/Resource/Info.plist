@@ -27,16 +27,20 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>단,하루 앱에서 촬영을 위해 카메라 접근을 승인해주세요.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>단,하루 앱에서 나의 도현 현황을 인증하기 위해 접근을 승인해주세요.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>단,하루 앱에서 나의 도전 현황을 인증을 저장하시려면 승인해주세요.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>단.하루 앱에서 도전 인증을 위해 앨범 접근을 승인해주세요.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>단,하루 앱에서 촬영을 위해 카메라 접근을 승인해주세요.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
