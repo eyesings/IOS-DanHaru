@@ -20,6 +20,11 @@
 		8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */; };
 		8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */; };
 		829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */; };
+		82A2617A27505B3500CBA4E3 /* BottomSheetsViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617927505B3500CBA4E3 /* BottomSheetsViewController+objc.swift */; };
+		82A2617C27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617B27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift */; };
+		82A2617E2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617D2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift */; };
+		82A261802750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */; };
+		82A261822750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */; };
 		82C553362742250700F35639 /* audio.json in Resources */ = {isa = PBXBuildFile; fileRef = 82C553352742250700F35639 /* audio.json */; };
 		82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB510E2734C33C009D3170 /* CALayer+Extension.swift */; };
 		B6166BE9274C7EB900C04898 /* FMZoomInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6166B95274C7EB900C04898 /* FMZoomInAnimationController.swift */; };
@@ -147,6 +152,11 @@
 		827EC8DB273A444B00A60CCB /* TodoListDetailViewController+tableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+tableView.swift"; sourceTree = "<group>"; };
 		827EC8DD273A446500A60CCB /* TodoListDetailViewController+collectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+collectionView.swift"; sourceTree = "<group>"; };
 		8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoListDetailViewController+objc.swift"; sourceTree = "<group>"; };
+		82A2617927505B3500CBA4E3 /* BottomSheetsViewController+objc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+objc.swift"; sourceTree = "<group>"; };
+		82A2617B27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+audio.swift"; sourceTree = "<group>"; };
+		82A2617D2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+circleTime.swift"; sourceTree = "<group>"; };
+		82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+todoAdd.swift"; sourceTree = "<group>"; };
+		82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+detailDate.swift"; sourceTree = "<group>"; };
 		82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsViewController.swift; sourceTree = "<group>"; };
 		82C553352742250700F35639 /* audio.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = audio.json; sourceTree = "<group>"; };
 		82CB510E2734C33C009D3170 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
@@ -276,11 +286,11 @@
 				827EC8DB273A444B00A60CCB /* TodoListDetailViewController+tableView.swift */,
 				827EC8DD273A446500A60CCB /* TodoListDetailViewController+collectionView.swift */,
 				827EC8D9273A405600A60CCB /* TodoListDetailViewController+function.swift */,
+				8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */,
 				827EC8D5273A2D2E00A60CCB /* TodoListDetailTableViewCell.swift */,
 				827EC8D6273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib */,
 				826C05222733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift */,
 				826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */,
-				8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */,
 			);
 			path = TodoListDetail;
 			sourceTree = "<group>";
@@ -303,7 +313,12 @@
 			isa = PBXGroup;
 			children = (
 				82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */,
+				82A2617927505B3500CBA4E3 /* BottomSheetsViewController+objc.swift */,
 				827C1E632734F4B70043756D /* BottomSheetsViewController+function.swift */,
+				82A2617B27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift */,
+				82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */,
+				82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */,
+				82A2617D2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift */,
 			);
 			path = BottomSheets;
 			sourceTree = "<group>";
@@ -824,6 +839,7 @@
 				B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */,
 				B6BF761E272B88620031F2C9 /* FindUserInfoViewController.swift in Sources */,
 				B6166C1F274C7EBA00C04898 /* FMCropBackgroundView.swift in Sources */,
+				82A261822750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift in Sources */,
 				B6166BFE274C7EB900C04898 /* FMPhotoPickerViewController.swift in Sources */,
 				B6166BFD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift in Sources */,
 				B6166C05274C7EB900C04898 /* AlbumsViewController.swift in Sources */,
@@ -831,6 +847,7 @@
 				B6166C0D274C7EB900C04898 /* FMPhotoPresenterViewController.swift in Sources */,
 				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6166C07274C7EB900C04898 /* FMScalingImageView.swift in Sources */,
+				82A2617A27505B3500CBA4E3 /* BottomSheetsViewController+objc.swift in Sources */,
 				B6166C25274C7EBA00C04898 /* FMPhotosDataSource.swift in Sources */,
 				B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */,
 				B6166BFC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift in Sources */,
@@ -838,10 +855,12 @@
 				B6166C28274C7EBA00C04898 /* FMCroppable.swift in Sources */,
 				B6166C1C274C7EBA00C04898 /* FMCropTranslucencyView.swift in Sources */,
 				B622FBB1274214C0002EC735 /* SettingViewController.swift in Sources */,
+				82A2617E2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift in Sources */,
 				B6166C08274C7EB900C04898 /* FMImageViewController.swift in Sources */,
 				B6166BEF274C7EB900C04898 /* UIImage+Extensions.swift in Sources */,
 				B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */,
 				B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */,
+				82A2617C27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift in Sources */,
 				B6166C19274C7EBA00C04898 /* FMCropMenuView.swift in Sources */,
 				B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */,
 				B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */,
@@ -855,6 +874,7 @@
 				B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */,
 				B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */,
 				B6166C27274C7EBA00C04898 /* FMCrop.swift in Sources */,
+				82A261802750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift in Sources */,
 				B6166BF4274C7EB900C04898 /* Protocols.swift in Sources */,
 				827EC8D7273A2D2E00A60CCB /* TodoListDetailTableViewCell.swift in Sources */,
 				8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */,

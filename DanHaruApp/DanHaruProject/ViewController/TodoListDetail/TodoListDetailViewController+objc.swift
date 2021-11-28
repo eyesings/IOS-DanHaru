@@ -8,9 +8,11 @@
 import Foundation
 import SnapKit
 import UIKit
+import AVFoundation
 
 extension TodoListDetailViewController {
     
+    /// 날짜 선택
     @objc func tapDateLabel(_ sender: UITapGestureRecognizer) {
         if let tag = sender.view?.tag {
             
@@ -176,9 +178,266 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 뒤로가기
     @objc func backBtnAction(_ sender: UIButton) {
+        
+        if let deleteUrl = self.audioRecorder?.url {
+            do {
+                try FileManager.default.removeItem(at: deleteUrl)
+            } catch _ {
+                print("audioFile remove failed")
+            }
+        } else {
+            print("audioRecorder url nil")
+        }
+        
         self.dismiss(animated: true, completion: nil)
     }
 
+    /// 반복주기 시간 선택
+    @objc func circleTimeLabelAction(_ tapGesture: UITapGestureRecognizer) {
+        let bottomVC = BottomSheetsViewController()
+        bottomVC.modalPresentationStyle = .overFullScreen
+        bottomVC.checkShowUI = BottomViewCheck.cycleTime.rawValue
+        // 선택한 시간을 넘겨줘야함
+        
+        self.present(bottomVC, animated: true, completion: nil)
+        
+    }
+    
+    /// 오디오 버튼 클릭
+    @objc func audioAuth(_ sender:UIButton) {
+        
+        let bottomVC = BottomSheetsViewController()
+        bottomVC.modalPresentationStyle = .overFullScreen
+        bottomVC.checkShowUI = BottomViewCheck.audioRecord.rawValue
+        bottomVC.defaultHeight = self.view.frame.height / 3
+        bottomVC.delegate = self
+        self.present(bottomVC, animated: true, completion: nil)
+    }
+    
+    /// 이미지 버튼 클릭
+    @objc func photoAlbumAuth(_ sender: UIButton) {
+        
+        self.present(self.imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    /// 이미지 삭제 버튼 클릭후 UI 변경
+    @objc func deleteAuthImage(_ sender: UIButton) {
+        
+        if sender.tag == ImageDeleteBtnTag.deleteImageView1.rawValue {
+            
+            authImageView1.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
+            self.authImageView1.image = nil
+            
+            if authImageView2.image != nil {
+                authImageView2.snp.remakeConstraints { make in
+                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                    make.width.equalTo(self.view).multipliedBy(0.22)
+                    make.height.equalTo(self.view.frame.width * 0.22)
+                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                }
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView2.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+            }
+            
+            if authImageView2.image == nil && authImageView3.image != nil {
+                
+                authImageView3.snp.remakeConstraints { make in
+                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                    make.width.equalTo(self.view).multipliedBy(0.22)
+                    make.height.equalTo(self.view.frame.width * 0.22)
+                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                }
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+            }
+            
+        } else if sender.tag == ImageDeleteBtnTag.deleteImageView2.rawValue {
+            
+            authImageView2.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
+            
+            self.authImageView2.image = nil
+            
+            if authImageView3.image !=  nil {
+                
+                if authImageView2.image == nil && authImageView1.image == nil {
+                    
+                    authImageView3.snp.remakeConstraints { make in
+                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                        make.width.equalTo(self.view).multipliedBy(0.22)
+                        make.height.equalTo(self.view.frame.width * 0.22)
+                        make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
+                    }
+                    
+                } else {
+                    authImageView3.snp.remakeConstraints { make in
+                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                        make.width.equalTo(self.view).multipliedBy(0.22)
+                        make.height.equalTo(self.view.frame.width * 0.22)
+                        make.left.equalTo(authImageView1.snp.right).offset(self.view.frame.width * 0.02)
+                    }
+                    
+                }
+                
+                
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    
+                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+                
+                
+            }
+            
+            
+            
+        } else if sender.tag == ImageDeleteBtnTag.deleteImageView3.rawValue {
+            
+            authImageView3.snp.remakeConstraints { make in
+                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
+                make.width.equalTo(0)
+                make.height.equalTo(0)
+                make.left.equalTo(self.view)
+            }
+            
+            self.authImageView3.image = nil
+            
+            if self.authImageView1.image != nil {
+                togetherFriendLabel.snp.remakeConstraints { make in
+                    make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                    make.width.equalTo(self.view).multipliedBy(0.5)
+                    make.leading.equalTo(self.authLable)
+                    make.height.equalTo(self.authLable)
+                    
+                }
+            }
+            
+        }
+        
+        // 함께 도전 라벨, 모든 이미지가 존재 하지 않을 시
+        if authImageView1.image == nil && authImageView2.image == nil && authImageView3.image == nil {
+            self.isImageAuth = false
+            togetherFriendLabel.snp.remakeConstraints { make in
+                make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                make.width.equalTo(self.view).multipliedBy(0.5)
+                make.leading.equalTo(self.authLable)
+                make.height.equalTo(self.authLable)
+            }
+            
+        }
+        
+    }
+    
+    @objc func updatePlayTime() {
+        if let player = self.audioPlayer {
+            self.audioProgressBar.progress = Float(player.currentTime / player.duration )
+        } else {
+            print("player nil")
+        }
+    }
+    
+    @objc func audioDeleteButtonAction(_ sender: UIButton) {
+        
+        RadAlertViewController.alertControllerShow(WithTitle: "알림", message: "정말로 삭제하시겠습니까?", isNeedCancel: true, viewController: self) { check in
+            
+            if check {
+                
+                if let deleteUrl = self.audioRecorder?.url {
+                    do {
+                        try FileManager.default.removeItem(at: deleteUrl)
+                    } catch _ {
+                        print("audioFile remove failed")
+                    }
+                } else {
+                    print("audioRecorder url nil")
+                }
+                
+            }
+            
+        }
+        
+        self.progressTimer.invalidate()
+        
+    }
+    
+    @objc func audioPlayStopButtonAction(_ sender: UIButton) {
+        
+        if sender.imageView?.image == UIImage(named: "btnPlay") {
+            
+            if let recorder = self.audioRecorder {
+                
+                self.audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+                
+                if let player = self.audioPlayer {
+                    player.delegate = self
+                    player.play()
+                    progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timePlayerSelector, userInfo: nil, repeats: true)
+                    sender.setImage(#imageLiteral(resourceName: "btnPause"), for: .normal)
+                } else {
+                    print("player nil error")
+                }
+                
+            }
+            
+            
+        } else {
+            if let recorder = self.audioRecorder {
+                self.audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+                if let player = self.audioPlayer {
+                    player.delegate = self
+                    player.pause()
+                    sender.setImage(#imageLiteral(resourceName: "btnPlay"), for: .normal)
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+    @objc func applicationWillTerminate(_ notification:UNNotification) {
+        
+        if let recorder = self.audioRecorder {
+            
+            do {
+                try FileManager.default.removeItem(at: recorder.url)
+            } catch _ {
+                print("TodoListDetailView audio file remove failed")
+            }
+            
+        }
+        
+    }
     
 }

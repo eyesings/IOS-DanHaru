@@ -49,6 +49,7 @@ extension MainViewController {
         }
         calendarShowHideBtn.addTarget(self, action: #selector(calendarShowHideAction(_:)), for: .touchUpInside)
         
+        /// 할일 추가
         self.view.addSubview(todoAddBtn)
         todoAddBtn.snp.makeConstraints { make in
             make.trailing.equalTo(self.view).offset(-pagePadding)
@@ -58,6 +59,7 @@ extension MainViewController {
         todoAddBtn.setImage(UIImage(named: "btnAdd"), for: .normal)
         todoAddBtn.addTarget(self, action: #selector(addAction(_:)), for: .touchUpInside)
         
+        /// 캘린더 뷰
         self.view.addSubview(calendarView)
         calendarView.backgroundColor = UIColor.blue
         calendarView.snp.makeConstraints { make in
@@ -67,6 +69,7 @@ extension MainViewController {
             make.height.equalTo(0)
         }
         
+        /// 투두 테이블 뷰
         self.view.addSubview(self.todoListTableView)
         todoListTableView.snp.makeConstraints { make in
             make.top.equalTo(self.calendarView.snp.bottom).offset(10)
