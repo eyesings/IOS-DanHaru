@@ -140,8 +140,8 @@ struct Configs {
     }
     
     struct NotificationName {
-        static let userLoginSuccess = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
-        static let todoListSuccess  = Notification.Name(rawValue: "TODO_LIST_SUCCESS")
+        static let userLoginSuccess  = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
+        static let todoListFetchDone = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
     }
     
     struct API {

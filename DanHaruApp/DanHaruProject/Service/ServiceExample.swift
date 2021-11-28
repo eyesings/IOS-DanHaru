@@ -108,6 +108,8 @@ class ViewModelService {
                     }
                 }
                 completionHandler(resultDic)
+            } else {
+                completionHandler(nil)
             }
         } errorHandler: { error in
             print("error \(error)")
