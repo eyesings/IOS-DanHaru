@@ -17,10 +17,7 @@ extension MainViewController {
         let pagePadding = screenwidth * 0.05
         
         self.view.addSubview(dateLabel)
-        Configs.formatter.dateFormat = "MM월 dd일"
-        let current_date_string = Configs.formatter.string(from: Date())
-        dateLabel.text = current_date_string
-        dateLabel.textAlignment = .left
+        dateLabel.text = DateFormatter().korDateString(dateFormatter: RadMessage.DateFormattor.monthDate)
         dateLabel.adjustsFontSizeToFitWidth = true
         dateLabel.font = .boldSystemFont(ofSize: screenwidth * 0.08)
         dateLabel.minimumScaleFactor = pagePadding
@@ -61,7 +58,6 @@ extension MainViewController {
         
         /// 캘린더 뷰
         self.view.addSubview(calendarView)
-        calendarView.backgroundColor = UIColor.blue
         calendarView.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom)
             make.leading.equalTo(self.dateLabel)
@@ -69,10 +65,19 @@ extension MainViewController {
             make.height.equalTo(0)
         }
         
+        calendar = CalendarView(frame: calendarView.frame)
+        calendar.delegate = self
+        calendar.dataSource = self
+        calendarView.addSubview(calendar)
+        
+        calendar.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(calendarView)
+        }
+        
         /// 투두 테이블 뷰
         self.view.addSubview(self.todoListTableView)
         todoListTableView.snp.makeConstraints { make in
-            make.top.equalTo(self.calendarView.snp.bottom).offset(10)
+            make.top.equalTo(self.calendarView.snp.bottom)
             make.bottom.leading.trailing.equalTo(self.view)
         }
         todoListTableView.backgroundColor = .backgroundColor
@@ -84,38 +89,86 @@ extension MainViewController {
         todoListTableView.isSkeletonable = true
         todoListTableView.rowHeight = 90
         todoListTableView.separatorStyle = .none
+        
+        todoListTableView.addSubview(cautionView)
     }
     
     internal func calendarViewAnimation() {
         
         UIView.animate(withDuration: 0.3) {
             self.calendarView.snp.updateConstraints { make in
-                make.height.equalTo(self.calendarShowOn ? 0 :screenwidth * 0.9)
+                make.height.equalTo(self.calendarShowOn ? 0 :screenwidth * 0.8)
             }
             self.calendarView.superview?.layoutIfNeeded()
         }
         
     }
     
-    internal func showNoneListView() {
-        let cautionView = UIView()
-        cautionView.backgroundColor = .systemBlue
-        self.view.addSubview(cautionView)
+    internal func showNoneListView(_ isSuccess: Bool) {
         
+        cautionView.isHidden = isSuccess
         cautionView.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom)
-            make.leading.trailing.bottom.equalTo(self.view)
+            make.top.leading.trailing.bottom.equalTo(self.todoListTableView)
+        }
+        
+        let infoLabel = UILabel()
+        infoLabel.font = .boldSystemFont(ofSize: 25.0)
+        infoLabel.text = RadMessage.Main.noneTodoListInfo
+        infoLabel.textColor = .customBlackColor
+        infoLabel.textAlignment = .center
+        cautionView.addSubview(infoLabel)
+        
+        infoLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(cautionView.snp.centerY)
+            make.centerX.equalTo(cautionView)
+            make.width.equalTo(cautionView).multipliedBy(0.9)
+            make.height.equalTo(cautionView).multipliedBy(0.05)
+        }
+        
+        let detailInfoLabel = UILabel()
+        detailInfoLabel.font = .systemFont(ofSize: screenwidth * 0.04)
+        detailInfoLabel.numberOfLines = 0
+        detailInfoLabel.text = RadMessage.Main.noneTodoListSubInfo
+        detailInfoLabel.textColor = .heavyGrayColor
+        detailInfoLabel.textAlignment = .center
+        cautionView.addSubview(detailInfoLabel)
+        
+        detailInfoLabel.snp.makeConstraints { make in
+            make.top.equalTo(cautionView.snp.centerY)
+            make.centerX.width.equalTo(infoLabel)
+            make.height.equalTo(screenheight * 0.1)
+        }
+        
+        let animateView = AnimationView(name: "idea")
+        animateView.play()
+        animateView.loopMode = .playOnce
+        animateView.contentMode = .scaleAspectFit
+        animateView.animationSpeed = 1.3
+        cautionView.addSubview(animateView)
+        
+        animateView.snp.makeConstraints { make in
+            make.centerX.equalTo(cautionView)
+            make.bottom.equalTo(infoLabel.snp.top)
+            make.width.equalTo(cautionView).multipliedBy(0.5)
+            make.height.equalTo(animateView.snp.width)
+        }
+        
+        
+        let dynamicSize = screenwidth * 0.045
+        let addTodoBtn = UIButton()
+        addTodoBtn.backgroundColor = .subHeavyColor
+        addTodoBtn.setTitle(RadMessage.Main.noneTodoListAddTodo, for: .normal)
+        addTodoBtn.setTitleColor(.backgroundColor, for: .normal)
+        addTodoBtn.titleLabel?.font = .systemFont(ofSize: dynamicSize)
+        addTodoBtn.layer.cornerRadius = dynamicSize * 1.2
+        addTodoBtn.addTarget(self, action: #selector(self.addAction), for: .touchUpInside)
+        cautionView.addSubview(addTodoBtn)
+        
+        addTodoBtn.snp.makeConstraints { make in
+            make.top.equalTo(detailInfoLabel.snp.bottom)
+            make.centerX.equalTo(infoLabel)
+            make.width.equalTo(infoLabel).multipliedBy(0.6)
+            make.height.equalTo(addTodoBtn.snp.width).multipliedBy(0.2)
         }
     }
-    
-    // MARK: - 키보드 처리
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
 }

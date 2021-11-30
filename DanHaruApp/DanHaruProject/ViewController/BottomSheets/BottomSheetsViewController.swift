@@ -108,19 +108,14 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         dimmedView.alpha = 0.0
         
         dimmedView.snp.makeConstraints { make in
-            make.top.equalTo(self.view)
-            make.bottom.equalTo(self.view)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
+            make.top.bottom.leading.trailing.equalTo(self.view)
         }
         
         let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
         
         bottomSheetView.snp.makeConstraints { make in
             make.top.equalTo(self.view).offset(topConstant)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.height.equalTo(self.view)
+            make.leading.trailing.height.equalTo(self.view)
         }
         
         if self.checkShowUI == BottomViewCheck.todoAdd.rawValue {

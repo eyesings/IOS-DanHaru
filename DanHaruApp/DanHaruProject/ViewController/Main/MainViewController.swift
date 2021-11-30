@@ -18,16 +18,19 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     let calendarShowHideBtn = UIButton()
     var todoAddBtn = UIButton()
     let calendarView = UIView()
+    var calendar = CalendarView()
     let todoListTableView = UITableView()
+    var cautionView = UIView()
     
-    var todoListModel: TodoViewModel!
-    
+    var todoListModel: TodoListViewModel!
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
         UIColor.todoLightGreenColor,
         UIColor.todoLightYellowColor,
         UIColor.todoHotPickColor
     ]
+    
+    var selectedDate: String = ""
     
 //    var dummyData = [
 //        "test01"
@@ -40,10 +43,12 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetUserModel),
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList(_:)),
                                                name: Configs.NotificationName.userLoginSuccess, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetTodoListModel(_:)),
                                                name: Configs.NotificationName.todoListFetchDone, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList),
+                                               name: Configs.NotificationName.todoListCreateNew, object: nil)
         
         self.setUI()
         
@@ -52,6 +57,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
             UserModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
             todoListTableView.showAnimatedGradientSkeleton()
         }
+        
+        selectedDate = DateFormatter().korDateString()
         
     }
     
@@ -67,6 +74,11 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         calendarAnimation.play()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.calendar.setDisplayDate(Date())
+    }
+    
     func ToolBarSelected(_ button: UIButton) {
         // 바텀 체크...
         if  button.tag == ToolBarBtnTag.myPage.rawValue {
@@ -76,18 +88,23 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
     }
     
-    @objc func doneSetUserModel() {
-        todoListModel = TodoViewModel.init(searchDate: "2021-11-24")
+    @objc func requestTodoList(_ noti: NSNotification) {
+        guard let isSuccess = noti.object as? Bool else { return }
+        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) }
+        else { RadHelper.getRootViewController()?.showNetworkErrorView() }
     }
     
     @objc func doneSetTodoListModel(_ noti: NSNotification) {
-        // FIXME: todo list fetch done objc need fix
         self.todoListTableView.reloadData()
         self.todoListTableView.hideSkeleton()
         
-        if let isSuccess = noti.object as? Bool, !isSuccess {
-            print("fail doing something")
+        if let isSuccess = noti.object as? Bool {
+            self.showNoneListView(isSuccess)
         }
+        
+        guard let rootVC = RadHelper.getRootViewController() else { return }
+        rootVC.hideLoadingView()
+        
     }
     
 }

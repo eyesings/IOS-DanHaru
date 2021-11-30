@@ -30,12 +30,13 @@ class ViewModelService {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
                     completionHandler()
-                    NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
+                    NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: true)
                 }
             }
         } errorHandler: { err in
             print("error \(err)")
             rootVC.hideLoadingView()
+            NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: false)
         }
 
         
@@ -61,6 +62,7 @@ class ViewModelService {
         } errorHandler: { err in
             Dprint("error \(err)")
             rootVC.hideLoadingView()
+            RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
         }
 
     }
@@ -83,12 +85,13 @@ class ViewModelService {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
             } else {
                 completionHandler(resultDic)
-                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: nil)
+                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: true)
                 rootVCHideLoadingView()
             }
         } errorHandler: { err in
-            print("error \(err)")
+            Dprint("error \(err)")
             rootVCHideLoadingView()
+            rootVC?.showNetworkErrorView(isNeedRetry: true)
         }
     }
     
@@ -112,9 +115,31 @@ class ViewModelService {
                 completionHandler(nil)
             }
         } errorHandler: { error in
-            print("error \(error)")
+            Dprint("error \(error)")
+            RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
         }
 
+    }
+    
+    static func todoRegisterService(param: [String:Any], completionHandler: @escaping () -> Void) {
+        
+        guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
+        
+        rootVC.showLoadingView()
+        
+        RadServerNetwork.postDataFromServer(url: Configs.API.createTodo, type: .JSON, parameters: param) { resultDic in
+            if let resultCode = resultDic?["result_code"] as? String,
+               resultCode == APIResultCode.failure.rawValue {
+                RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                           message: RadMessage.Network.reBuildLater,
+                                                           isNeedCancel: false,
+                                                           viewController: rootVC)
+            }
+            completionHandler()
+        } errorHandler: { err in
+            Dprint("error \(err)")
+            RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
+        }
     }
     
     static func todoCollectService(completionHandler: @escaping (NSDictionary?) -> Void) {

@@ -9,6 +9,17 @@ import Foundation
 
 
 extension RadMessage {
+    struct Network {
+        static let reBuildLater = "잠시후 다시 시도해 주세요."
+        static let networkErr   = "네트워크 오류"
+    }
+    
+    struct Main {
+        static let noneTodoListInfo    = "오늘의 목표가 없어요!"
+        static let noneTodoListSubInfo = "일정을 등록하여 손쉽게 관리하여 보세요.\n친구를 초대하여 같은 목표를 향해 함께 도전해 보세요."
+        static let noneTodoListAddTodo = "오늘 할 일 등록하러 가기"
+    }
+    
     struct ASK {
         static let askAddSuccess             = "문의가 정상 등록 되었습니다."
         static let emailNotInputErrIsLogin   = "이메일을 입력해 주세요. 확인 버튼 클릭 시 현재 로그인한 계정으로 문의가 등록됩니다."
@@ -58,5 +69,10 @@ extension RadMessage {
     
     struct Permission {
         static let permissionDenied = "권한이 허용 되어있지 않습니다.\n 설정페이지로 이동하시겠습니까?"
+    }
+    
+    struct DateFormattor {
+        static let monthDate    = "MM월 dd일"
+        static let apiParamType = "yyyy-MM-dd"
     }
 }

@@ -7,9 +7,9 @@
 
 import Foundation
 
-class TodoViewModel {
+class TodoListViewModel {
     var model: [TodoModel] = []
-    var todoModel = TodoModel()
+    private var todoModel = TodoModel()
     
     init(searchDate date: String) {
         ViewModelService.todoListService(searchDate: date) { infoArr in
@@ -21,10 +21,8 @@ class TodoViewModel {
             
             for todoListDic in todoListArr {
                 do {
-                    
                     self.todoModel = try JSONDecoder().decode(TodoModel.self,
                                                              from: JSONSerialization.data(withJSONObject: todoListDic))
-                    
                 }
                 catch {
                     Dprint(error)
@@ -44,11 +42,22 @@ class TodoViewModel {
                                                    todo_status: todoListDic["todo_status"] as? String,
                                                    chaluser_yn: todoListDic["chaluser_yn"] as? String,
                                                    created_user: todoListDic["created_user"] as? String)
-                    
                 }
+                self.model.append(self.todoModel)
             }
-            self.model.append(self.todoModel)
             NotificationCenter.default.post(name: Configs.NotificationName.todoListFetchDone, object: true)
+        }
+    }
+}
+
+
+class TodoResgisterViewModel {
+    var param: [String:Any] = [:]
+    
+    init(searchDate date: String, inputTitle: String) {
+        param = TodoRegisterModel.init(mem_id: UserModel.memberId, title: inputTitle, fr_date: date).makesToParam()
+        ViewModelService.todoRegisterService(param: param) {
+            NotificationCenter.default.post(name: Configs.NotificationName.todoListCreateNew, object: true)
         }
     }
 }

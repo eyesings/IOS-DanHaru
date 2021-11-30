@@ -25,3 +25,23 @@ struct TodoModel: Codable {
     var chaluser_yn: String?
     var created_user: String?
 }
+
+struct TodoRegisterModel {
+    var mem_id: String?
+    var title: String?
+    var fr_date: String?
+    
+    func makesToParam() -> [String:Any] {
+        let mirror = Mirror(reflecting: self)
+        
+        var dic: [String:Any] = [:]
+        
+        for (_, child) in mirror.children.enumerated() {
+            if let label = child.label, let value = child.value as? String {
+                dic[label] = value
+            }
+        }
+        
+        return dic
+    }
+}

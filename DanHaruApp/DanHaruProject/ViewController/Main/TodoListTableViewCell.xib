@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -22,7 +22,7 @@
                         <rect key="frame" x="36" y="4.5" width="407" height="81"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="오늘, 인증 없음" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJw-zU-Se0">
-                                <rect key="frame" x="16.5" y="42.5" width="84.5" height="17"/>
+                                <rect key="frame" x="16.5" y="40.5" width="84.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" name="customBlackColor"/>
                                 <nil key="highlightedColor"/>
@@ -31,7 +31,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="제목이 들어갈 위치 입니다" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zft-jE-6vL">
-                                <rect key="frame" x="16.5" y="15.5" width="194" height="23"/>
+                                <rect key="frame" x="16.5" y="17.5" width="194" height="23"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" name="customBlackColor"/>
                                 <nil key="highlightedColor"/>
@@ -40,7 +40,7 @@
                                 </userDefinedRuntimeAttributes>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="a0q-45-7MD">
-                                <rect key="frame" x="339.5" y="20" width="40.5" height="41"/>
+                                <rect key="frame" x="335.5" y="18" width="44.5" height="45"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="a0q-45-7MD" secondAttribute="height" multiplier="1:1" id="mLJ-lg-y0p"/>
@@ -50,9 +50,9 @@
                         <color key="backgroundColor" name="backgroundColor"/>
                         <constraints>
                             <constraint firstItem="zft-jE-6vL" firstAttribute="leading" secondItem="pSP-jq-xPo" secondAttribute="leadingMargin" multiplier="1.05" constant="8" id="0OQ-Z1-qpP"/>
-                            <constraint firstItem="hJw-zU-Se0" firstAttribute="top" secondItem="pSP-jq-xPo" secondAttribute="centerY" constant="2" id="7yG-KY-QNH"/>
-                            <constraint firstItem="zft-jE-6vL" firstAttribute="bottom" secondItem="pSP-jq-xPo" secondAttribute="centerY" constant="-2" id="9mK-yu-cZw"/>
-                            <constraint firstItem="a0q-45-7MD" firstAttribute="width" secondItem="pSP-jq-xPo" secondAttribute="width" multiplier="0.1" id="Csa-Ei-tiA"/>
+                            <constraint firstItem="a0q-45-7MD" firstAttribute="height" secondItem="pSP-jq-xPo" secondAttribute="height" multiplier="0.55" id="6cf-ak-EsC"/>
+                            <constraint firstItem="hJw-zU-Se0" firstAttribute="top" secondItem="pSP-jq-xPo" secondAttribute="centerY" id="7yG-KY-QNH"/>
+                            <constraint firstItem="zft-jE-6vL" firstAttribute="bottom" secondItem="pSP-jq-xPo" secondAttribute="centerY" id="9mK-yu-cZw"/>
                             <constraint firstItem="hJw-zU-Se0" firstAttribute="leading" secondItem="zft-jE-6vL" secondAttribute="leading" id="UJo-Pu-q3m"/>
                             <constraint firstItem="a0q-45-7MD" firstAttribute="centerY" secondItem="pSP-jq-xPo" secondAttribute="centerY" id="Xl0-FV-2fB"/>
                             <constraint firstAttribute="trailing" secondItem="a0q-45-7MD" secondAttribute="trailing" multiplier="1.05" constant="8" id="toR-ES-Iyw"/>

@@ -46,6 +46,7 @@ extension BottomSheetsViewController {
         }
         titleLabel.text = "목표 설정"
         titleLabel.textAlignment = .left
+        titleLabel.font = .systemFont(ofSize: 15.0)
         titleLabel.adjustsFontSizeToFitWidth = true
         
         self.bottomSheetView.addSubview(titleTextField)
@@ -56,7 +57,7 @@ extension BottomSheetsViewController {
             make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
         }
         titleTextField.placeholder = "할 일을 등록해 주세요."
-        titleTextField.textColor = UIColor.black
+        titleTextField.textColor = .customBlackColor
         titleTextField.delegate = self
         titleTextField.adjustsFontSizeToFitWidth = true
         
@@ -69,6 +70,7 @@ extension BottomSheetsViewController {
         }
         startDateLabel.text = "목표 일자 설정"
         startDateLabel.textAlignment = .left
+        startDateLabel.font = .systemFont(ofSize: 15.0)
         startDateLabel.adjustsFontSizeToFitWidth = true
         startDateLabel.textColor = UIColor.black
         
@@ -97,9 +99,9 @@ extension BottomSheetsViewController {
             make.height.equalTo(self.view.frame.height / 2 - self.view.frame.height * 0.43 + 10)
             make.bottom.equalTo(self.view)
         }
-        bottomTodoAddBtn.backgroundColor = UIColor.darkGray
+        bottomTodoAddBtn.backgroundColor = .subHeavyColor
         bottomTodoAddBtn.setTitle("등록 하기", for: .normal)
-        bottomTodoAddBtn.setTitleColor(.white, for: .normal)
+        bottomTodoAddBtn.setTitleColor(.backgroundColor, for: .normal)
         bottomTodoAddBtn.addTarget(self, action: #selector(bottomTodoAddAction(_:)), for: .touchUpInside)
         
         NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillShow),name: UIResponder.keyboardWillShowNotification,object: nil)
@@ -111,28 +113,12 @@ extension BottomSheetsViewController {
     //MARK: - Todo 추가 함수
     @objc func bottomTodoAddAction(_ sender: UIButton) {
         
-        let titleText = self.titleTextField.text
-        let startDate = self.datePicker.date
-        
-        let preVc = RadHelper.getMainViewController()
-        guard let vc = preVc as? MainViewController else { return }
+        let startDate = self.datePicker.date.dateToStr()
         
         // FIXME: - 타이틀을 입력 안하면 처리
-        if titleText == "" {
-            
-            return;
-        }
-        
-//        let addData = MainViewController.dummyModel(title: titleText, date: startDate)
-//
-//        vc.tableData.append(addData)
-        
-        // FIXME: model add
-        
-        vc.todoListTableView.reloadData()
-        
+        guard let titleText = self.titleTextField.text else { return }
+        _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: titleText)
         self.hideBottomSheetAndGoBack()
-        
     }
     
     //MARK: - 키보드 관련 함수

@@ -23,7 +23,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.reusableIdentifier,
-                                                       for: indexPath) as? TodoListTableViewCell
+                                                       for: indexPath) as? TodoListTableViewCell,
+              let todoTitle = self.todoListModel.model[indexPath.row].title
         else { return UITableViewCell() }
         
         cell.selectionStyle = .none
@@ -35,7 +36,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
             cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row]
         }
         
-        cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
+        cell.titleLabel.text = todoTitle
 //        cell.titleLabel.text = self.dummyData[indexPath.row]
         cell.subLabel.text = "오늘, 인증 없음"
         cell.challengeTodoImgView.isHidden = false
@@ -77,4 +78,43 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         return configuration
     }
     
+}
+
+
+extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
+    
+    func startDate() -> Date {
+        
+        var dateComponents = DateComponents()
+        dateComponents.month = -3
+        
+        let today = Date()
+        
+        return self.calendar.calendar.date(byAdding: dateComponents, to: today)!
+    }
+    
+    func endDate() -> Date {
+        
+        var dateComponents = DateComponents()
+        
+        dateComponents.month = 5
+        let today = Date()
+        
+        return self.calendar.calendar.date(byAdding: dateComponents, to: today)!
+        
+    }
+    
+    func calendar(_ calendar: CalendarView, didSelectDate date : Date) {
+        
+        print("Did Select: \(date)")
+        
+        guard let rootVC = RadHelper.getRootViewController() else { return }
+        rootVC.showLoadingView()
+        
+        let selectedDateStr = DateFormatter().korDateString(date: date)
+        selectedDate = selectedDateStr
+        self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
+        self.todoListModel = TodoListViewModel.init(searchDate: selectedDateStr)
+        
+    }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 extension MainViewController {
     /// 캘린더 보여주기, 숨김 처리
-    @objc func calendarShowHideAction(_ sender: UIButton) {
+    @objc func calendarShowHideAction(_ sender: UIButton = UIButton()) {
         
         calendarAnimation.animation = .named(calendarShowOn ? "down-arrows" : "up-arrows")
         calendarAnimation.play()
