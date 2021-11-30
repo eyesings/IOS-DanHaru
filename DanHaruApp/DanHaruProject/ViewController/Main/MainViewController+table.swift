@@ -13,7 +13,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.todoListModel?.model.count ?? 0
-//        return self.dummyData.count
     }
     
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -52,8 +51,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
 //        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
         
-        
-       
         self.present(detailVC, animated: true, completion: nil)
         
     }

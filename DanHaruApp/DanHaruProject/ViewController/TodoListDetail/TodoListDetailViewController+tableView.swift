@@ -10,7 +10,7 @@ import UIKit
 
 extension TodoListDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 15
+        return self.weeklyCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -42,6 +42,10 @@ extension TodoListDetailViewController: UITableViewDataSource, UITableViewDelega
         cell.weeklyBar.setProgress(0.8, animated: true)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableCellHeight
     }
 }
 

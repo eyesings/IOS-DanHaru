@@ -69,4 +69,40 @@ extension UIView {
             return snapshotView(afterScreenUpdates: true)!
         }
     }
+    
+    
+    enum ViewSide: String {
+            case Left = "Left", Right = "Right", Top = "Top", Bottom = "Bottom"
+        }
+    
+    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat) {
+        
+        let border = CALayer()
+        border.borderColor = color
+        border.name = side.rawValue
+        switch side {
+        case .Left: border.frame = CGRect(x: 0, y: 0, width: thickness, height: frame.height)
+        case .Right: border.frame = CGRect(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+        case .Top: border.frame = CGRect(x: 0, y: 0, width: frame.width, height: thickness)
+        case .Bottom: border.frame = CGRect(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+        }
+        
+        border.borderWidth = thickness
+        
+        layer.addSublayer(border)
+    }
+    
+    func removeBorder(toSide side: ViewSide) {
+        guard let sublayers = self.layer.sublayers else { return }
+        var layerForRemove: CALayer?
+        for layer in sublayers {
+            if layer.name == side.rawValue {
+                layerForRemove = layer
+            }
+        }
+        if let layer = layerForRemove {
+            layer.removeFromSuperlayer()
+        }
+    }
+    
 }

@@ -211,7 +211,8 @@ extension TodoListDetailViewController {
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
         bottomVC.checkShowUI = BottomViewCheck.audioRecord.rawValue
-        bottomVC.defaultHeight = self.view.frame.height / 3
+        //bottomVC.defaultHeight = self.view.frame.height / 2.8
+        bottomVC.defaultHeight = 280
         bottomVC.delegate = self
         self.present(bottomVC, animated: true, completion: nil)
     }
@@ -359,14 +360,6 @@ extension TodoListDetailViewController {
         
     }
     
-    @objc func updatePlayTime() {
-        if let player = self.audioPlayer {
-            self.audioProgressBar.progress = Float(player.currentTime / player.duration )
-        } else {
-            print("player nil")
-        }
-    }
-    
     @objc func audioDeleteButtonAction(_ sender: UIButton) {
         
         RadAlertViewController.alertControllerShow(WithTitle: "알림", message: "정말로 삭제하시겠습니까?", isNeedCancel: true, viewController: self) { check in
@@ -376,6 +369,15 @@ extension TodoListDetailViewController {
                 if let deleteUrl = self.audioRecorder?.url {
                     do {
                         try FileManager.default.removeItem(at: deleteUrl)
+                        
+                        self.audioPlayArea.snp.remakeConstraints { make in
+                            make.top.equalTo(self.authCheckBtn.snp.bottom).offset(25)
+                            make.width.equalTo(self.view).multipliedBy(0.8)
+                            make.height.equalTo(0)
+                            make.centerX.equalTo(self.view)
+                        }
+                        
+                        
                     } catch _ {
                         print("audioFile remove failed")
                     }
@@ -387,13 +389,15 @@ extension TodoListDetailViewController {
             
         }
         
-        self.progressTimer.invalidate()
+        if self.audioPlayer != nil {
+            self.progressTimer.invalidate()
+        }
         
     }
     
     @objc func audioPlayStopButtonAction(_ sender: UIButton) {
         
-        if sender.imageView?.image == UIImage(named: "btnPlay") {
+        if sender.imageView?.image == UIImage(named: "btnPlayCircle") {
             
             if let recorder = self.audioRecorder {
                 
@@ -402,8 +406,9 @@ extension TodoListDetailViewController {
                 if let player = self.audioPlayer {
                     player.delegate = self
                     player.play()
-                    progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timePlayerSelector, userInfo: nil, repeats: true)
-                    sender.setImage(#imageLiteral(resourceName: "btnPause"), for: .normal)
+                    progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timeRecordSelector, userInfo: nil, repeats: true)
+                    sender.setImage(UIImage(named: "btnPauseCircle"), for: .normal)
+                    
                 } else {
                     print("player nil error")
                 }
@@ -417,7 +422,7 @@ extension TodoListDetailViewController {
                 if let player = self.audioPlayer {
                     player.delegate = self
                     player.pause()
-                    sender.setImage(#imageLiteral(resourceName: "btnPlay"), for: .normal)
+                    sender.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
                 }
                 
             }
@@ -436,6 +441,15 @@ extension TodoListDetailViewController {
                 print("TodoListDetailView audio file remove failed")
             }
             
+        }
+        
+    }
+    
+    /// 오디오 녹음 시간 체크
+    @objc func updateRecordTime() {
+        
+        if let player = self.audioPlayer {
+            self.audioPlayTimeText.text = RadHelper.convertNSTimeInterval12String(player.currentTime)
         }
         
     }
