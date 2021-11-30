@@ -13,7 +13,11 @@ class TodoViewModel {
     
     init(searchDate date: String) {
         ViewModelService.todoListService(searchDate: date) { infoArr in
-            guard let todoListArr = infoArr else { return }
+            guard let todoListArr = infoArr
+            else {
+                NotificationCenter.default.post(name: Configs.NotificationName.todoListFetchDone, object: false)
+                return
+            }
             
             for todoListDic in todoListArr {
                 do {
@@ -44,7 +48,7 @@ class TodoViewModel {
                 }
             }
             self.model.append(self.todoModel)
-            NotificationCenter.default.post(name: Configs.NotificationName.todoListSuccess, object: nil)
+            NotificationCenter.default.post(name: Configs.NotificationName.todoListFetchDone, object: true)
         }
     }
 }

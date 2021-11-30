@@ -140,10 +140,10 @@ struct Configs {
     }
     
     struct NotificationName {
-        static let userLoginSuccess     = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
-        static let todoListSuccess      = Notification.Name(rawValue: "TODO_LIST_SUCCESS")
-        static let audioRecordContinue  = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
-        static let audioRecordRemove    = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
+        static let userLoginSuccess    = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
+        static let todoListFetchDone   = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
+        static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
+        static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
     }
     
     struct API {

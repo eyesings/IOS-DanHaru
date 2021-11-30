@@ -29,6 +29,10 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         UIColor.todoHotPickColor
     ]
     
+//    var dummyData = [
+//        "test01"
+//    ]
+    
     // 캘린더 화면 노출 여부
     var calendarShowOn = false
     
@@ -38,8 +42,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetUserModel),
                                                name: Configs.NotificationName.userLoginSuccess, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetTodoListModel),
-                                               name: Configs.NotificationName.todoListSuccess, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetTodoListModel(_:)),
+                                               name: Configs.NotificationName.todoListFetchDone, object: nil)
         
         self.setUI()
         
@@ -73,12 +77,17 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     }
     
     @objc func doneSetUserModel() {
-        todoListModel = TodoViewModel.init(searchDate: "2021-11-25")
+        todoListModel = TodoViewModel.init(searchDate: "2021-11-24")
     }
     
-    @objc func doneSetTodoListModel() {
+    @objc func doneSetTodoListModel(_ noti: NSNotification) {
+        // FIXME: todo list fetch done objc need fix
         self.todoListTableView.reloadData()
         self.todoListTableView.hideSkeleton()
+        
+        if let isSuccess = noti.object as? Bool, !isSuccess {
+            print("fail doing something")
+        }
     }
     
 }
