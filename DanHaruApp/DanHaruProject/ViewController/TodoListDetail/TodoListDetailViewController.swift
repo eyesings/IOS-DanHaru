@@ -10,7 +10,7 @@ import SnapKit
 import Lottie
 import AVFoundation
 
-class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate {
+class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate, UITextFieldDelegate {
     
     
     // 상단, 하단 버튼
@@ -28,7 +28,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let startDateLabel = UILabel()
     let endDateLabel = UILabel()
     let middleLabel = UILabel()
-    
     
     // 반복주기
     let cycleLabel = UILabel()
@@ -53,7 +52,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let authCheckBtn = UIButton()
     
     let audioPlayArea = UIView()
-    let audioProgressBar = UIProgressView()
+    var audioPlayTimeText = UILabel()
     let audioPlayStopBtn = UIButton()
     let recordDeleteBtn = UIButton()
     
@@ -94,7 +93,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 오디오 재생 관련
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
-    let timePlayerSelector: Selector = #selector(TodoListDetailViewController.updatePlayTime)
+    let timeRecordSelector: Selector = #selector(TodoListDetailViewController.updateRecordTime)
     var progressTimer: Timer!
     
     // 위클리 데이트 프로그래스 바 색깔
@@ -112,14 +111,33 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     var isAudioAuth = false
     var isCheckAuth = false
     
+    // 테이블 뷰
+    var tableViewHeight = 0
+    let tableCellHeight: CGFloat = 40
+    var weeklyCount = 7 // 추가한 친구 갯수
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
+        
         self.setUI()
         
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.delegate = self
         self.imagePicker.allowsEditing = false
+        
+        self.titleTextField.delegate = self
+        
+        /// 스크롤 뷰는 제스처 추가로 화면 터치시 키보드 숨김 처리를 해결해야 함
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapKeyboardHide(_:)))
+        singleTapGestureRecognizer.numberOfTapsRequired = 1
+        singleTapGestureRecognizer.isEnabled = true
+        singleTapGestureRecognizer.cancelsTouchesInView = false
+        mainScrollView.addGestureRecognizer(singleTapGestureRecognizer)
+        
+        /// 스크롤시 키보드 숨김 처리
+        mainScrollView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
@@ -134,8 +152,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         self.cycleTimeLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
     }
     
-    
-    
     /*
     // MARK: - Navigation
 
@@ -145,7 +161,26 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        if textField == titleTextField {
+            titleTextField.resignFirstResponder()
+        }
+        
+        return true
+    }
+    
+    /// 화면 터치시 키보드 숨김
+    @objc func tapKeyboardHide(_ sender: UITapGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
+    /// 화면 드래그시 키보드 숨김
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
 }
 
 

@@ -282,39 +282,37 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                 make.height.equalTo(0)
                 make.centerX.equalTo(self.view)
             }
-            //audioPlayArea.layer.borderWidth = 1.0
-            //audioPlayArea.layer.borderColor = UIColor.black.cgColor
             audioPlayArea.backgroundColor = .clear
             
-            self.audioPlayArea.addSubview(audioProgressBar)
-            audioProgressBar.snp.makeConstraints { make in
-                make.top.equalTo(self.audioPlayArea)
-                make.width.equalTo(self.audioPlayArea).multipliedBy(0.8)
-                make.height.equalTo(self.audioPlayArea).multipliedBy(0.1)
-                make.centerX.equalTo(self.audioPlayArea)
+            self.audioPlayArea.addSubview(audioPlayTimeText)
+            audioPlayTimeText.snp.makeConstraints { make in
+                make.width.equalTo(self.view).multipliedBy(0.2)
+                make.centerX.equalTo(audioPlayArea)
+                make.centerY.equalTo(audioPlayArea)
+                make.height.equalTo(self.audioPlayArea).multipliedBy(0.8)
             }
-            audioProgressBar.progress = 0.0
-            audioProgressBar.progressTintColor = .darkGray
+            audioPlayTimeText.adjustsFontSizeToFitWidth = true
+            audioPlayTimeText.textAlignment = .center
+            audioPlayTimeText.text = "00:00"
+            
             
             self.audioPlayArea.addSubview(audioPlayStopBtn)
             audioPlayStopBtn.snp.makeConstraints { make in
-                make.top.equalTo(self.audioProgressBar.snp.bottom).offset(5)
-                make.width.equalTo(self.view).multipliedBy(0.15)
-                make.centerX.equalTo(audioPlayArea)
-                make.height.equalTo(self.audioPlayArea).multipliedBy(0.8)
+                make.centerY.equalTo(self.audioPlayArea)
+                make.width.equalTo(self.view).multipliedBy(0.1)
+                make.trailing.equalTo(self.audioPlayTimeText.snp.leading)
+                make.height.equalTo(self.audioPlayArea)
             }
-            //audioPlayStopBtn.layer.borderWidth = 1.0
-            //audioPlayStopBtn.layer.borderColor = UIColor.black.cgColor
-            audioPlayStopBtn.setImage(#imageLiteral(resourceName: "btnPlay"), for: .normal)
-            audioPlayStopBtn.imageView?.contentMode = .scaleToFill
+            audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
+            audioPlayStopBtn.imageView?.contentMode = .scaleAspectFit
             audioPlayStopBtn.addTarget(self, action: #selector(audioPlayStopButtonAction(_:)), for: .touchUpInside)
             
             self.audioPlayArea.addSubview(recordDeleteBtn)
             recordDeleteBtn.snp.makeConstraints { make in
                 make.centerY.equalTo(self.audioPlayStopBtn)
                 make.width.equalTo(audioPlayStopBtn)
-                make.height.equalTo(audioPlayArea).multipliedBy(0.6)
-                make.trailing.equalTo(self.audioProgressBar)
+                make.height.equalTo(audioPlayArea)
+                make.leading.equalTo(self.audioPlayTimeText.snp.trailing)
             }
             recordDeleteBtn.setImage(#imageLiteral(resourceName: "btnTrash"), for: .normal)
             recordDeleteBtn.imageView?.contentMode = .scaleAspectFit
@@ -474,12 +472,11 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.width.equalTo(self.togetherFriendLabel)
         }
         
-        
         self.mainScrollView.addSubview(weeklyTableView)
         weeklyTableView.snp.makeConstraints { make in
             make.top.equalTo(weeklyLabel.snp.bottom).offset(20)
             make.width.equalTo(self.view).multipliedBy(0.9)
-            make.height.equalTo(250)
+            make.height.equalTo(self.tableViewHeight)
             make.centerX.equalTo(self.view)
             make.bottom.equalTo(self.mainScrollView).offset(-20)
         }
@@ -809,8 +806,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         todayAuthCollectionView.register(UINib(nibName: "TodoListDetailCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TodoListDetailCollectionViewCell")
         todayAuthCollectionView.backgroundColor = UIColor.backgroundColor
         todayAuthCollectionView.showsHorizontalScrollIndicator = false
-        todayAuthCollectionView.layer.borderColor = UIColor.black.cgColor
-        todayAuthCollectionView.layer.borderWidth = 1.0
+        //todayAuthCollectionView.layer.borderColor = UIColor.black.cgColor
+        //todayAuthCollectionView.layer.borderWidth = 1.0
         //todayAuthCollectionView.isPagingEnabled = true
         todayAuthCollectionView.bounces = false
         todayAuthCollectionView.decelerationRate = .normal
@@ -912,26 +909,39 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
     }
     
-    
-    
-    
-    
-    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
         if flag {
-            self.audioPlayStopBtn.setImage(#imageLiteral(resourceName: "btnPlay"), for: .normal)
+            self.audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
+            if let recorder = self.audioRecorder {
+                let audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+                
+                if let player = audioPlayer {
+                    self.audioPlayTimeText.text = "\(RadHelper.convertNSTimeInterval12String(player.duration))"
+                }
+                
+            }
         }
         self.progressTimer.invalidate()
     }
     
     func audioUIChange() {
+        
         audioPlayArea.snp.remakeConstraints { make in
             make.top.equalTo(self.authCheckBtn.snp.bottom).offset(25)
             make.width.equalTo(self.view).multipliedBy(0.8)
-            make.height.equalTo(80)
+            make.height.equalTo(40)
             make.centerX.equalTo(self.view)
         }
+        if let recorder = self.audioRecorder {
+            let audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+            
+            if let player = audioPlayer {
+                self.audioPlayTimeText.text = "\(RadHelper.convertNSTimeInterval12String(player.duration))"
+            }
+            
+        }
+        
     }
     
 }

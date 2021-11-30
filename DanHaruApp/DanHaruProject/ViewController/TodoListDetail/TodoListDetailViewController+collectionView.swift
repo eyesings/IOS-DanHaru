@@ -18,6 +18,14 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as! TodoListDetailCollectionViewCell
         
+        cell.removeBorder(toSide: .Right)
+        
+        if indexPath.item == 0 {
+            cell.addBorder(toSide: .Right, withColor: UIColor.lightGray.cgColor, andThickness: 2.5)
+        }
+        
+        
+        
         cell.personImageView.contentMode = .scaleAspectFit
         
         cell.personName.text = "\(indexPath.item)"

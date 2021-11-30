@@ -117,6 +117,13 @@ extension RadHelper {
         return RadHelper.AES256Decrypt(WithValue: value, baseKey: Configs.BASE64Key)
     }
     
+    static func convertNSTimeInterval12String(_ time:TimeInterval) -> String {
+        let min = Int(time/60)
+        let sec = Int(time.truncatingRemainder(dividingBy: 60))
+        let strTime = String(format: "%02d:%02d", min, sec)
+        return strTime
+    }
+    
 }
 
 extension RadServerNetwork {

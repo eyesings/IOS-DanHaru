@@ -52,8 +52,6 @@ extension BottomSheetsViewController {
         bottomTitle.textColor = .black
         bottomTitle.font = UIFont.boldSystemFont(ofSize: 20)
         bottomTitle.adjustsFontSizeToFitWidth = true
-        bottomTitle.layer.borderWidth = 1.0
-        bottomTitle.layer.borderColor = UIColor.black.cgColor
         
         self.bottomSheetView.addSubview(audioAnimation)
         audioAnimation.snp.makeConstraints { make in
@@ -80,28 +78,27 @@ extension BottomSheetsViewController {
         
         self.bottomSheetView.addSubview(recordStartBtn)
         recordStartBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.recordTimeLabel.snp.bottom).offset(10)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.2)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.06)
+            make.top.equalTo(self.recordTimeLabel.snp.bottom).offset(25)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.10)
+            //make.height.equalTo(self.bottomSheetView).multipliedBy(0.06)
+            make.height.equalTo(self.bottomSheetView.snp.width).multipliedBy(0.10)
             make.centerX.equalTo(self.bottomSheetView)
         }
-        recordStartBtn.setTitle("record", for: .normal)
-        recordStartBtn.setTitleColor(.blue, for: .normal)
-        recordStartBtn.layer.borderWidth = 1.0
-        recordStartBtn.layer.borderColor = UIColor.black.cgColor
+        //recordStartBtn.setTitle("record", for: .normal)
+        //recordStartBtn.setTitleColor(.blue, for: .normal)
+        recordStartBtn.setImage(UIImage(named: "btnRedRecord"), for: .normal)
         recordStartBtn.addTarget(self, action: #selector(recordStartButtonAction(_:)), for: .touchUpInside)
+        //recordStartBtn.imageView?.contentMode = .scaleAspectFit
         
         self.bottomSheetView.addSubview(recordPauseBtn)
         recordPauseBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.recordTimeLabel.snp.bottom).offset(10)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.2)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.06)
+            make.top.equalTo(self.recordStartBtn)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.1)
+            make.height.equalTo(self.bottomSheetView.snp.width).multipliedBy(0.1)
             make.centerX.equalTo(self.bottomSheetView)
         }
-        recordPauseBtn.setTitle("pause", for: .normal)
-        recordPauseBtn.setTitleColor(.blue, for: .normal)
-        recordPauseBtn.layer.borderWidth = 1.0
-        recordPauseBtn.layer.borderColor = UIColor.black.cgColor
+        recordPauseBtn.setImage(UIImage(named: "btnRedPause"), for: .normal)
+        //recordPauseBtn.imageView?.contentMode = .scaleAspectFit
         recordPauseBtn.addTarget(self, action: #selector(recordPauseButtonAction(_:)), for: .touchUpInside)
         recordPauseBtn.isHidden = true
         
@@ -113,11 +110,7 @@ extension BottomSheetsViewController {
             make.height.equalTo(self.recordStartBtn)
             make.trailing.equalTo(self.recordStartBtn.snp.leading).offset(-self.view.frame.width * 0.1)
         }
-        recordStopBtn.setTitle("stop", for: .normal)
-        recordStopBtn.setTitleColor(.blue, for: .normal)
-        recordStopBtn.layer.cornerRadius = 20
-        recordStopBtn.layer.borderColor = UIColor.black.cgColor
-        recordStopBtn.layer.borderWidth = 1.0
+        recordStopBtn.setImage(UIImage(named: "btnRedStop"), for: .normal)
         recordStopBtn.addTarget(self, action: #selector(recordStopButtonAction(_:)), for: .touchUpInside)
         recordStopBtn.isHidden = true
         
@@ -129,11 +122,7 @@ extension BottomSheetsViewController {
             make.centerY.equalTo(self.recordStartBtn)
             make.left.equalTo(self.recordStartBtn.snp.right).offset(self.view.frame.width * 0.1)
         }
-        playStartBtn.setTitle("play", for: .normal)
-        playStartBtn.setTitleColor(.blue, for: .normal)
-        playStartBtn.layer.cornerRadius = 20
-        playStartBtn.layer.borderColor = UIColor.black.cgColor
-        playStartBtn.layer.borderWidth = 1.0
+        playStartBtn.setImage(UIImage(named: "btnPlays"), for: .normal)
         playStartBtn.addTarget(self, action: #selector(playStartButtonAction(_:)), for: .touchUpInside)
         playStartBtn.isHidden = true
         
@@ -143,11 +132,7 @@ extension BottomSheetsViewController {
             make.height.equalTo(self.recordStartBtn)
             make.center.equalTo(self.playStartBtn)
         }
-        playStopBtn.setTitle("pause", for: .normal)
-        playStopBtn.setTitleColor(.blue, for: .normal)
-        playStopBtn.layer.cornerRadius = 20
-        playStopBtn.layer.borderColor = UIColor.black.cgColor
-        playStopBtn.layer.borderWidth = 1.0
+        playStopBtn.setImage(UIImage(named: "btnPauses"), for: .normal)
         playStopBtn.addTarget(self, action: #selector(playStopButtonAction(_:)), for: .touchUpInside)
         playStopBtn.isHidden = true
         
@@ -308,8 +293,8 @@ extension BottomSheetsViewController {
             
             let preVc = self.presentingViewController
             guard let vc = preVc as? TodoListDetailViewController else { return }
-            vc.audioUIChange()
             vc.audioRecorder = self.audioRecorder
+            vc.audioUIChange()
             isBottomToCheck = true
             vc.isAudioAuth = true
             self.hideBottomSheetAndGoBack()
@@ -341,19 +326,11 @@ extension BottomSheetsViewController {
     /// 오디오 녹음 시간 체크
     @objc func updateRecordTime() {
         if let recorder = audioRecorder {
-            self.recordTimeLabel.text = convertNSTimeInterval12String(recorder.currentTime)
+            self.recordTimeLabel.text = RadHelper.convertNSTimeInterval12String(recorder.currentTime)
         }
     }
     
     //MARK: - 기본 함수
-    /// 녹음 시간 문자로 변경 함수
-    func convertNSTimeInterval12String(_ time:TimeInterval) -> String {
-        let min = Int(time/60)
-        let sec = Int(time.truncatingRemainder(dividingBy: 60))
-        let strTime = String(format: "%02d:%02d", min, sec)
-        return strTime
-    }
-    
     /// 마이크 권한 체크 함수
     func checkMicrophoneAccess() {
         
@@ -397,7 +374,7 @@ extension BottomSheetsViewController {
         
     }
     
-    // 녹음 도중 백그라운드 갔다오면 애니메이션이 멈추는 현상 수정
+    /// 녹음 도중 백그라운드 갔다오면 애니메이션이 멈추는 현상 수정
     @objc func applicationDidBecomeActive(_ notification:NSNotification) {
         
         if let recorder = self.audioRecorder {
@@ -410,6 +387,7 @@ extension BottomSheetsViewController {
         
     }
     
+    /// 앱 종료시 저장 중인 오디오 파일 삭제
     @objc func applicationWillTerminate(_ notification:NSNotification) {
         
         if let recorder = self.audioRecorder {

@@ -12,8 +12,7 @@ import SkeletonView
 extension MainViewController: UITableViewDataSource, UITableViewDelegate,SkeletonTableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return self.todoListModel?.model.count ?? 0
-        return self.dummyData.count
+        return self.todoListModel?.model.count ?? 0
     }
     
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
@@ -35,8 +34,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
             cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row]
         }
         
-        //cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
-        cell.titleLabel.text = self.dummyData[indexPath.row]
+        cell.titleLabel.text = self.todoListModel.model[indexPath.row].title
         cell.subLabel.text = "오늘, 인증 없음"
         cell.challengeTodoImgView.isHidden = false
         
@@ -51,8 +49,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
 //        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
         
-        
-       
         self.present(detailVC, animated: true, completion: nil)
         
     }
