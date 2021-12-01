@@ -15,6 +15,11 @@ extension MainViewController {
         calendarAnimation.animation = .named(calendarShowOn ? "down-arrows" : "up-arrows")
         calendarAnimation.play()
         calendarViewAnimation()
+        if calendarShowOn == true {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.calendar.updateAndNotifyScrolling()
+            }
+        }
         calendarShowOn.toggle()
     }
     

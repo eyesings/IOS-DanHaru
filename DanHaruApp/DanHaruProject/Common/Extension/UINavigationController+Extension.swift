@@ -34,6 +34,10 @@ extension UINavigationController {
 extension UIViewController {
     
     func showLoadingView() {
+        
+        let animateView = self.view.subviews.compactMap { $0 as? AnimationView }
+        if animateView.isEmpty == false { return }
+        
         let loadingView = AnimationView(name: "loading")
         loadingView.loopMode = .loop
         loadingView.play()
@@ -61,6 +65,10 @@ extension UIViewController {
     
     func showNetworkErrorView(isNeedRetry retry: Bool = false) {
         DispatchQueue.main.async {
+            
+            let networkErr = self.view.subviews.compactMap { $0 as? NetworkErrorView }
+            if networkErr.isEmpty == false { return }
+            
             let networkErrView = NetworkErrorView(frame: self.view.frame, isNeedRetry: retry)
             networkErrView.alpha = 0
             self.view.addSubview(networkErrView)

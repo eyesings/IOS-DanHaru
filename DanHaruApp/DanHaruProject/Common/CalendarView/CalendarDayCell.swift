@@ -47,8 +47,11 @@ open class CalendarDayCell: UICollectionViewCell {
     
     func updateTextColor() {
         
+        self.bgView.backgroundColor = .clear
+        
         if isToday {
             self.textLabel.textColor = .subHeavyColor
+            self.bgView.backgroundColor = .subLightColor
         }
         else if isAdjacent {
             self.textLabel.textColor = .clear

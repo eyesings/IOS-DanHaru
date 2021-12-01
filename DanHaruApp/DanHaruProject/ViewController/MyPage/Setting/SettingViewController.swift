@@ -42,8 +42,9 @@ class SettingViewController: UIViewController {
     @IBAction func onTapLogout(_ sender: UIButton) {
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.logoutMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
+                UserDefaults.standard.saveUserInputVal(id: RadHelper.tempraryID, pw: "1")
+                UserModel = UserInfoModel()
                 self.navigationController?.popToMainViewController()
-                UserDefaults.standard.rmUserInputVal()
             }
         }
     }
@@ -77,7 +78,7 @@ extension SettingViewController {
 
         // MARK: 로그인 상태가 아닐 때
         for view in userSettingMenuList {
-            view.isHidden = !RadHelper.isLogin
+            view.isHidden = !RadHelper.isLogin()
         }
     }
 }

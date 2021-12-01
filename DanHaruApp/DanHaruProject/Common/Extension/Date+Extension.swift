@@ -30,6 +30,10 @@ extension Date {
          let delta = TimeInterval(toTimeZone.secondsFromGMT(for: self) - fromTimeZone.secondsFromGMT(for: self))
          return addingTimeInterval(delta)
     }
+    
+    var timestamp: Int64 {
+        Int64(Date().timeIntervalSince1970 * 1000)
+    }
 }
 
 extension String {

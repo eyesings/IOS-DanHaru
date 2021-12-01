@@ -127,10 +127,10 @@
 		B6C6D2762743807E006344BF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = B6C6D2752743807E006344BF /* loading.json */; };
 		B6CF10DE2739068300223EDB /* MyChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CF10DD2739068300223EDB /* MyChallengeCell.swift */; };
 		B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E815AE2731232800809530 /* UIView+Extension.swift */; };
-		B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */; };
+		B6F6ED112734F89D00A4C88E /* MainViewController+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */; };
 		B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */; };
 		B6F6ED142734F89D00A4C88E /* TodoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */; };
-		B6F6ED192734F8FF00A4C88E /* MainViewController+table.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */; };
+		B6F6ED192734F8FF00A4C88E /* MainViewController+Delegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED182734F8FF00A4C88E /* MainViewController+Delegate.swift */; };
 		B6F6ED1C2734F92B00A4C88E /* TodoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED1B2734F92B00A4C88E /* TodoListViewModel.swift */; };
 		B6F6ED1F2734F93500A4C88E /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED1E2734F93500A4C88E /* TodoModel.swift */; };
 		B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED212734F96700A4C88E /* down-arrows.json */; };
@@ -275,10 +275,10 @@
 		B6C6D2752743807E006344BF /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		B6CF10DD2739068300223EDB /* MyChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeCell.swift; sourceTree = "<group>"; };
 		B6E815AE2731232800809530 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+function.swift"; sourceTree = "<group>"; };
+		B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Init.swift"; sourceTree = "<group>"; };
 		B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+objc.swift"; sourceTree = "<group>"; };
 		B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListTableViewCell.swift; sourceTree = "<group>"; };
-		B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+table.swift"; sourceTree = "<group>"; };
+		B6F6ED182734F8FF00A4C88E /* MainViewController+Delegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Delegate.swift"; sourceTree = "<group>"; };
 		B6F6ED1B2734F92B00A4C88E /* TodoListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoListViewModel.swift; sourceTree = "<group>"; };
 		B6F6ED1E2734F93500A4C88E /* TodoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoModel.swift; sourceTree = "<group>"; };
 		B6F6ED212734F96700A4C88E /* down-arrows.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "down-arrows.json"; sourceTree = "<group>"; };
@@ -673,8 +673,8 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCB3272661570046E35A /* MainViewController.swift */,
-				B6F6ED0D2734F89D00A4C88E /* MainViewController+function.swift */,
-				B6F6ED182734F8FF00A4C88E /* MainViewController+table.swift */,
+				B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */,
+				B6F6ED182734F8FF00A4C88E /* MainViewController+Delegate.swift */,
 				B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */,
 				B6F6ED102734F89D00A4C88E /* TodoListTableViewCell.swift */,
 				B6F6ED282734F9AE00A4C88E /* TodoListTableViewCell.xib */,
@@ -908,7 +908,7 @@
 				B6166BFE274C7EB900C04898 /* FMPhotoPickerViewController.swift in Sources */,
 				B6166BFD274C7EB900C04898 /* FMPhotoPickerImageCollectionViewLayout.swift in Sources */,
 				B6166C05274C7EB900C04898 /* AlbumsViewController.swift in Sources */,
-				B6F6ED192734F8FF00A4C88E /* MainViewController+table.swift in Sources */,
+				B6F6ED192734F8FF00A4C88E /* MainViewController+Delegate.swift in Sources */,
 				B6166C0D274C7EB900C04898 /* FMPhotoPresenterViewController.swift in Sources */,
 				B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */,
 				B6166C07274C7EB900C04898 /* FMScalingImageView.swift in Sources */,
@@ -925,7 +925,7 @@
 				B6166C08274C7EB900C04898 /* FMImageViewController.swift in Sources */,
 				B6166BEF274C7EB900C04898 /* UIImage+Extensions.swift in Sources */,
 				B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */,
-				B6F6ED112734F89D00A4C88E /* MainViewController+function.swift in Sources */,
+				B6F6ED112734F89D00A4C88E /* MainViewController+Init.swift in Sources */,
 				82A2617C27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift in Sources */,
 				B6B2DEA82755BA4A001360E7 /* CalendarView+DataSource.swift in Sources */,
 				B6166C19274C7EBA00C04898 /* FMCropMenuView.swift in Sources */,

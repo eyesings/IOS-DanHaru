@@ -93,8 +93,8 @@ extension RadHelper {
         }
     }
     
-    static var isLogin: Bool = {
-        return UserModel.memberId != nil
+    static var tempraryID: String = {
+        return "DHR" + "\(Date().timestamp)"
     }()
     
     static var isIphoneSE1st: Bool = {
@@ -124,6 +124,10 @@ extension RadHelper {
         return strTime
     }
     
+    static func isLogin() -> Bool {
+        guard let memID = UserModel.memberId else { return false }
+        return !memID.contains("DHR")
+    }
 }
 
 extension RadServerNetwork {
@@ -162,6 +166,55 @@ extension RadServerNetwork {
                     DispatchQueue.main.async {
                         do {
                             let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
+                            successHandler(jsonRst);
+                        }
+                        catch {
+                            errorHandler(error);
+                        }
+                        
+                    }
+                }
+            })
+            
+            task.resume()
+        }
+    }
+    
+    static func putDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+        
+        if let reqUrl = URL(string: url) {
+            
+            var request = URLRequest(url: reqUrl)
+            request.httpMethod = "put"
+            
+            if parameters.count > 0 {
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                } catch {
+                    successHandler(nil)
+                }
+            }
+            
+            let task = URLSession.shared.dataTask(with: request,
+                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                //error 일경우 종료
+                guard error == nil && data != nil else {
+                    
+                    if let err = error {
+                        errorHandler(err)
+                    }
+                    return
+                }
+                
+                
+                //data 가져오기
+                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                    //메인쓰레드에서 출력하기 위해
+                    DispatchQueue.main.async {
+                        do {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
                             successHandler(jsonRst);
                         }
                         catch {

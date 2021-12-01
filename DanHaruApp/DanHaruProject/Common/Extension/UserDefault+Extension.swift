@@ -31,8 +31,8 @@ extension UserDefaults {
     }
     
     func saveUserInputVal(id: String, pw: String) {
-        self.set(id, forKey: Configs.UserDefaultsKey.userInputID)
-        self.set(pw, forKey: Configs.UserDefaultsKey.userInputPW)
+        self.set(RadHelper.AES256Encrypt(WithValue: id), forKey: Configs.UserDefaultsKey.userInputID)
+        self.set(RadHelper.AES256Encrypt(WithValue: pw), forKey: Configs.UserDefaultsKey.userInputPW)
     }
     
     func rmUserInputVal() {

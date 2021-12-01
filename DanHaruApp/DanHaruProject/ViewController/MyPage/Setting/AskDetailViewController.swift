@@ -56,13 +56,13 @@ extension AskDetailViewController {
         
         if emailTextField.text?.isEmpty == true {
             let radMsgASK = RadMessage.ASK.self
-            let alertMsg = RadHelper.isLogin ? radMsgASK.emailNotInputErrIsLogin : radMsgASK.emailNotInputErrNoneLogin
+            let alertMsg = RadHelper.isLogin() ? radMsgASK.emailNotInputErrIsLogin : radMsgASK.emailNotInputErrNoneLogin
             RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
                                                             message: alertMsg,
                                                             isNeedCancel: true, viewController: self) { isCheck in
                 if isCheck
                 {
-                    if RadHelper.isLogin {
+                    if RadHelper.isLogin() {
                         print("현재 로그인한 계정으로 등록 됨")
                         self.emailTextField.text = UserModel.memberEmail
                         self.onTapDoneBtn()

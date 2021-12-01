@@ -90,6 +90,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     var currentIdx: CGFloat = 0.0
     
+    var isForInviteFriend: Bool = false
+    var detailInfoModel: TodoModel?
+    
     // 오디오 재생 관련
     var audioRecorder: AVAudioRecorder?
     var audioPlayer: AVAudioPlayer?
@@ -142,6 +145,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
         // Do any additional setup after loading the view.
+        
+        guard let rootVC = RadHelper.getRootViewController() else { return }
+        rootVC.hideLoadingView()
     }
     
     override func viewDidLayoutSubviews() {

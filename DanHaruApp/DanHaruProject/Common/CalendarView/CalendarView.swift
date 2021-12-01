@@ -220,10 +220,8 @@ public class CalendarView: UIView {
     }
     
     internal func resetDisplayDate() {
-        guard let displayDate = self.displayDate else { return }
-        
         self.collectionView.setContentOffset(
-            self.scrollViewOffset(for: displayDate),
+            self.scrollViewOffset(for: Date()),
             animated: false
         )
     }
@@ -280,15 +278,13 @@ extension CalendarView {
 //        print("dateformatter \(DateFormatter().korDateString(date: date!, dateFormatter: "yyyy-MM-dd HH:mm:ss EEEE"))")
         
         if let firstDayMonth = Int(DateFormatter().korDateString(date: firstDayCache, dateFormatter: "MM")),
-           let firstDayYear = Int(DateFormatter().korDateString(date: firstDayCache, dateFormatter: "YYYY")),
-           let todayDay = Int(DateFormatter().korDateString(date: Date(), dateFormatter: "dd")) {
+           let firstDayYear = Int(DateFormatter().korDateString(date: firstDayCache, dateFormatter: "YYYY")) {
             
             var year = firstDayYear
             var month = firstDayMonth + components.month!
             if month > 12 { month -= 12; year += 1 }
             
-            var day = components.day! + 1
-            if components.day! == todayDay { day = todayDay }
+            let day = components.day! + 1
             
             let selectDate = "\(year)-\(month)-\(day)"
 //            print("selectDate \(selectDate)")

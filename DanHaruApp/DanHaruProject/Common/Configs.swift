@@ -154,9 +154,21 @@ struct Configs {
         static let validID    = checkValid + "id"
         static let join       = host + "/auth/register/member/email"
         static let login      = host + "/auth/login/member/email"
+        // MyPage
+        static let updateUser = host + "/auth/mypage/update"
+        static let getUsrImg  = host + "/auth/mypage/getImages"
         // SearchList
         static let todoList   = host + "/todo/main/list"
         static let createTodo = host + "/todo/main/create"
+        // Detail
+        static let todoDetail = host + "/todo/detail/list"
+        static let updateDtl  = host + "/todo/detail/update"
+        // Detail - Challenge
+        static let createChl  = host + "/todo/create/challenge"
+        static let deleteChl  = host + "/todo/delete/challenge"
+        // Detail - Certificate
+        static let createCerti = host + "/todo/create/certification"
+        
     }
     
 }

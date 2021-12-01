@@ -53,8 +53,7 @@ class UserInfoViewModel {
                     }
                 }
                 
-                UserDefaults.standard.saveUserInputVal(id: RadHelper.AES256Encrypt(WithValue: id),
-                                                       pw: RadHelper.AES256Encrypt(WithValue: pw))
+                UserDefaults.standard.saveUserInputVal(id: id, pw: pw)
                 
                 do {
                     self.model = try JSONDecoder().decode(UserInfoModel.self,

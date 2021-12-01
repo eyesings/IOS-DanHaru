@@ -82,7 +82,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     func ToolBarSelected(_ button: UIButton) {
         // 바텀 체크...
         if  button.tag == ToolBarBtnTag.myPage.rawValue {
-            let myPageSB = RadHelper.getVCFromMyPageSB(withID: RadHelper.isLogin ? StoryBoardRef.myPageVC : StoryBoardRef.noneLoginMyPageVC)
+            let myPageSB = RadHelper.getVCFromMyPageSB(withID: RadHelper.isLogin() ? StoryBoardRef.myPageVC : StoryBoardRef.noneLoginMyPageVC)
             self.navigationController?.pushViewController(myPageSB, animated: true)
         }
         

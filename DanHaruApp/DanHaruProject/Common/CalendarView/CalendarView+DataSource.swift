@@ -101,7 +101,7 @@ extension CalendarView: UICollectionViewDataSource {
         if (self.firstDayCache ... self.lastDayCache).contains(today) {
             
             let distanceFromTodayComponents = self.calendar.dateComponents([.month, .day], from: self.firstDayCache, to: today)
-            self.todayIndexPath = IndexPath(item: distanceFromTodayComponents.day! + 1, section: distanceFromTodayComponents.month!)
+            self.todayIndexPath = IndexPath(item: distanceFromTodayComponents.day!, section: distanceFromTodayComponents.month!)
         }
         
         // how many months should the whole calendar display?
@@ -201,7 +201,7 @@ extension CalendarView: UICollectionViewDataSource {
         
         // if is in range continue with additional styling
         if let idx = self.todayIndexPath {
-            dayCell.isToday = (idx.section == indexPath.section && idx.item == indexPath.item)
+            dayCell.isToday = (idx.section == indexPath.section && idx.item + firstDayIndex == indexPath.item)
         }
         
         dayCell.isSelected = selectedIndexPaths.contains(indexPath)

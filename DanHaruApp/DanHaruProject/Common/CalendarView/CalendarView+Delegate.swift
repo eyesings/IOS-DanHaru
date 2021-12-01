@@ -62,7 +62,7 @@ extension CalendarView: UICollectionViewDelegateFlowLayout {
         self.updateAndNotifyScrolling()
     }
     
-    func updateAndNotifyScrolling() {
+    public func updateAndNotifyScrolling() {
         
         guard let date = self.dateFromScrollViewPosition() else { return }
         
