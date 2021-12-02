@@ -13,46 +13,16 @@ import SkeletonView
 class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
     var dateLabel = UILabel()
-
-    let calendarAnimation = AnimationView(name:"down-arrows")
+    let calendarAnimation = AnimationView()
     
     let calendarShowHideBtn = UIButton()
-    var addBtn = UIButton()
+    var todoAddBtn = UIButton()
     let calendarView = UIView()
+    var calendar = CalendarView()
     let todoListTableView = UITableView()
+    var cautionView = UIView()
     
-    // 바텀 시트
-    let bottomTitle = UILabel()
-    let cancelBtn = UIButton()
-    let titleLabel = UILabel()
-    let titleTextField = UITextField()
-    let startDateLabel = UILabel()
-    let datePicker = UIDatePicker()
-    let bottomTodoAddBtn = UIButton()
-    
-    //var dummyData = ["테스트1","테스트2","테스트3","테스트4","테스트5","테스트6","테스트7","테스트8","테스트9"]
-    
-    struct dummyModel {
-        var title: String?
-        var date: Date?
-    }
-    
-    var dummyData : [dummyModel] = [
-        dummyModel(title: "테스트1", date: Date()),
-        dummyModel(title: "테스트2", date: Date()),
-        dummyModel(title: "테스트3", date: Date()),
-        dummyModel(title: "테스트4", date: Date()),
-        dummyModel(title: "테스트5", date: Date()),
-        dummyModel(title: "테스트6", date: Date()),
-        dummyModel(title: "테스트7", date: Date()),
-        dummyModel(title: "테스트8", date: Date()),
-        dummyModel(title: "테스트9", date: Date()),
-        dummyModel(title: "테스트10", date: Date()),
-    ]
-    
-    
-    var tableData: [dummyModel] = []
-    
+    var todoListModel: TodoListViewModel!
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
         UIColor.todoLightGreenColor,
@@ -60,24 +30,35 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         UIColor.todoHotPickColor
     ]
     
-    //lazy var bottomVC = BottomSheetViewController(contentViewController: bottomSheetViewController)
+    var selectedDate: String = ""
+    
+//    var dummyData = [
+//        "test01"
+//    ]
+    
     // 캘린더 화면 노출 여부
     var calendarShowOn = false
-    
-    let bottomSheetViewController = UIViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.view.backgroundColor = .backgroundColor
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList(_:)),
+                                               name: Configs.NotificationName.userLoginSuccess, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetTodoListModel(_:)),
+                                               name: Configs.NotificationName.todoListFetchDone, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList),
+                                               name: Configs.NotificationName.todoListCreateNew, object: nil)
         
         self.setUI()
-        todoListTableView.showSkeleton()
         
-        // 데이터 삽입
-        self.tableData = self.dummyData
+        if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
+           let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
+            UserModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
+            todoListTableView.showAnimatedGradientSkeleton()
+        }
         
+        selectedDate = DateFormatter().korDateString()
         
     }
     
@@ -89,34 +70,40 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
             toolBar.setSelectMenu(.home)
         }
         
-        if self.calendarShowOn {
-            self.calendarAnimation.animation = .named("up-arrows")
-            self.calendarAnimation.play()
-        } else {
-            self.calendarAnimation.animation = .named("down-arrows")
-            self.calendarAnimation.play()
-        }
-        
+        calendarAnimation.animation = .named(calendarShowOn ? "up-arrows" : "down-arrows")
+        calendarAnimation.play()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.todoListTableView.reloadData()
-            self.todoListTableView.hideSkeleton()
-        }
+        self.calendar.setDisplayDate(Date())
     }
-
     
     func ToolBarSelected(_ button: UIButton) {
         // 바텀 체크...
         if  button.tag == ToolBarBtnTag.myPage.rawValue {
-            
-            let myPageSB = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.myPageVC)
-            
+            let myPageSB = RadHelper.getVCFromMyPageSB(withID: RadHelper.isLogin() ? StoryBoardRef.myPageVC : StoryBoardRef.noneLoginMyPageVC)
             self.navigationController?.pushViewController(myPageSB, animated: true)
         }
+        
+    }
+    
+    @objc func requestTodoList(_ noti: NSNotification) {
+        guard let isSuccess = noti.object as? Bool else { return }
+        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) }
+        else { RadHelper.getRootViewController()?.showNetworkErrorView() }
+    }
+    
+    @objc func doneSetTodoListModel(_ noti: NSNotification) {
+        self.todoListTableView.reloadData()
+        self.todoListTableView.hideSkeleton()
+        
+        if let isSuccess = noti.object as? Bool {
+            self.showNoneListView(isSuccess)
+        }
+        
+        guard let rootVC = RadHelper.getRootViewController() else { return }
+        rootVC.hideLoadingView()
         
     }
     

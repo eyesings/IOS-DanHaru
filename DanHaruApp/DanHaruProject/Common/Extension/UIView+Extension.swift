@@ -34,4 +34,75 @@ extension UIView {
         self.layer.shadowRadius = radius ?? self.layer.cornerRadius
         self.layer.shadowOffset = offset
     }
+    
+    func findUserViewInit() {
+        self.layer.cornerRadius = 20
+        self.backgroundColor = UIColor.subLightColor.withAlphaComponent(0.7)
+    }
+    
+    func roundCorner(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        layer.mask = mask
+    }
+    
+    func snapshot() -> UIView {
+        if let contents = layer.contents {
+            var snapshotedView: UIView!
+            
+            if let view = self as? UIImageView {
+                snapshotedView = type(of: view).init(image: view.image)
+                snapshotedView.bounds = view.bounds
+            } else {
+                snapshotedView = UIView(frame: frame)
+                snapshotedView.layer.contents = contents
+                snapshotedView.layer.bounds = layer.bounds
+            }
+            snapshotedView.layer.cornerRadius = layer.cornerRadius
+            snapshotedView.layer.masksToBounds = layer.masksToBounds
+            snapshotedView.contentMode = contentMode
+            snapshotedView.transform = transform
+            
+            return snapshotedView
+        } else {
+            return snapshotView(afterScreenUpdates: true)!
+        }
+    }
+    
+    
+    enum ViewSide: String {
+            case Left = "Left", Right = "Right", Top = "Top", Bottom = "Bottom"
+        }
+    
+    func addBorder(toSide side: ViewSide, withColor color: CGColor, andThickness thickness: CGFloat) {
+        
+        let border = CALayer()
+        border.borderColor = color
+        border.name = side.rawValue
+        switch side {
+        case .Left: border.frame = CGRect(x: 0, y: 0, width: thickness, height: frame.height)
+        case .Right: border.frame = CGRect(x: frame.width - thickness, y: 0, width: thickness, height: frame.height)
+        case .Top: border.frame = CGRect(x: 0, y: 0, width: frame.width, height: thickness)
+        case .Bottom: border.frame = CGRect(x: 0, y: frame.height - thickness, width: frame.width, height: thickness)
+        }
+        
+        border.borderWidth = thickness
+        
+        layer.addSublayer(border)
+    }
+    
+    func removeBorder(toSide side: ViewSide) {
+        guard let sublayers = self.layer.sublayers else { return }
+        var layerForRemove: CALayer?
+        for layer in sublayers {
+            if layer.name == side.rawValue {
+                layerForRemove = layer
+            }
+        }
+        if let layer = layerForRemove {
+            layer.removeFromSuperlayer()
+        }
+    }
+    
 }

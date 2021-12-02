@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 class ServiceExample {
@@ -18,13 +19,10 @@ class ServiceExample {
 
 
 class ViewModelService {
-    static func userLoginService(completionHandler: @escaping (NSDictionary?) -> Void) {
-        let dic: NSDictionary? = NSDictionary()
-        completionHandler(dic)
-    }
     
-    static func userInfoService(_ id: String, _ pw: String, completionHandler: @escaping (NSDictionary?) -> Void) {
+    static func todoCollectService(completionHandler: @escaping (NSDictionary?) -> Void) {
         let dic: NSDictionary? = NSDictionary()
         completionHandler(dic)
     }
 }
+

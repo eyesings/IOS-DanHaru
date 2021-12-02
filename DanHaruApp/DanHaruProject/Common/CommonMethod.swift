@@ -19,6 +19,7 @@ func Dprint(_ obj: Any..., function: String = #function) -> () {
     #endif
 }
 
+// MARK: - RadHelper
 extension RadHelper {
     
     /// 하단 SafeArea Indicator 영역
@@ -77,7 +78,154 @@ extension RadHelper {
         return image
     }
     
-    static var isLogin: Bool = {
-        return UserModel.userIdx != nil
+    static func keyboardAnimation(_ noti: Notification, _ moveLayout: NSLayoutConstraint, forCustom: Bool = false, isUpdateToHihger: Bool = false, completionHandler: @escaping () -> Void) {
+        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            keyboardH = keyboardH > keyboardHeight ? keyboardH : keyboardHeight
+            if forCustom { completionHandler(); return }
+            
+            moveLayout.constant = noti.name == UIResponder.keyboardWillShowNotification ? -(isUpdateToHihger ? keyboardH : keyboardHeight - RadHelper.bottomSafeAreaHeight) : 0
+            if noti.name == UIResponder.keyboardWillHideNotification { keyboardH = 0.0 }
+            completionHandler()
+        }
+    }
+    
+    static var tempraryID: String = {
+        return "DHR" + "\(Date().timestamp)"
     }()
+    
+    static var isIphoneSE1st: Bool = {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+        
+        return identifier == "iPhone8,4"
+    }()
+    
+    static func AES256Encrypt(WithValue value: String?) -> String {
+        return RadHelper.AES256Encrypt(WithValue: value, baseKey: Configs.BASE64Key)
+    }
+    
+    static func AES256Decrypt(WithValue value: String?) -> String {
+        return RadHelper.AES256Decrypt(WithValue: value, baseKey: Configs.BASE64Key)
+    }
+    
+    static func convertNSTimeInterval12String(_ time:TimeInterval) -> String {
+        let min = Int(time/60)
+        let sec = Int(time.truncatingRemainder(dividingBy: 60))
+        let strTime = String(format: "%02d:%02d", min, sec)
+        return strTime
+    }
+    
+    static func isLogin() -> Bool {
+        guard let memID = UserModel.memberId else { return false }
+        return !memID.contains("DHR")
+    }
+}
+
+extension RadServerNetwork {
+    static func postDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+        
+        if let reqUrl = URL(string: url) {
+            
+            var request = URLRequest(url: reqUrl)
+            request.httpMethod = "post" //get : Get 방식, post : Post 방식
+            
+            if parameters.count > 0 {
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                } catch {
+                    successHandler(nil)
+                }
+            }
+            
+            let task = URLSession.shared.dataTask(with: request,
+                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                //error 일경우 종료
+                guard error == nil && data != nil else {
+                    
+                    if let err = error {
+                        errorHandler(err)
+                    }
+                    return
+                }
+                
+                
+                //data 가져오기
+                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                    //메인쓰레드에서 출력하기 위해
+                    DispatchQueue.main.async {
+                        do {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
+                            successHandler(jsonRst);
+                        }
+                        catch {
+                            errorHandler(error);
+                        }
+                        
+                    }
+                }
+            })
+            
+            task.resume()
+        }
+    }
+    
+    static func putDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+        
+        if let reqUrl = URL(string: url) {
+            
+            var request = URLRequest(url: reqUrl)
+            request.httpMethod = "put"
+            
+            if parameters.count > 0 {
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                } catch {
+                    successHandler(nil)
+                }
+            }
+            
+            let task = URLSession.shared.dataTask(with: request,
+                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                //error 일경우 종료
+                guard error == nil && data != nil else {
+                    
+                    if let err = error {
+                        errorHandler(err)
+                    }
+                    return
+                }
+                
+                
+                //data 가져오기
+                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                    //메인쓰레드에서 출력하기 위해
+                    DispatchQueue.main.async {
+                        do {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
+                            successHandler(jsonRst);
+                        }
+                        catch {
+                            errorHandler(error);
+                        }
+                        
+                    }
+                }
+            })
+            
+            task.resume()
+        }
+    }
 }

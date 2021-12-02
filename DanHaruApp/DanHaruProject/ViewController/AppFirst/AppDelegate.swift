@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.switchToHome()
             UserDefaults.standard.saveFirstInstall(false)
         }
+        
+        if !RadReachability.isConnectedToNetwork() {
+            RadHelper.getRootViewController()?.showNetworkErrorView()
+        }
+        
+        registeredForRemoteNotifications(application: application)
         
         return true
     }
@@ -45,5 +52,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Configs.NotificationName.audioRecordContinue, object: nil, userInfo: nil)
+    }
+ 
+    func applicationWillTerminate(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Configs.NotificationName.audioRecordRemove, object: nil, userInfo: nil)
+    }
+    
+    /// Notifications 등록
+    /// - Parameter application: UIApplication
+    func registeredForRemoteNotifications(application: UIApplication) {
+        #if !TARGET_IPHONE_SIMULATOR
+        //푸시 등록
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+
+        center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
+            
+            Dprint("granted  \(granted)")
+            
+            
+            if error != nil {
+                //error 발생시
+                Dprint("push register error \(String(describing: error?.localizedDescription))")
+            }else if granted {
+                Dprint("push register agreement !!!!!")
+                DispatchQueue.main.async {
+                    application.registerForRemoteNotifications()
+                }
+            }else {
+                //거부시
+                Dprint("push regiser denied  @!!!!!!")
+            }
+        }
+        #endif
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("didRegisterForRemoteNotificationsWithDeviceToken")
+        
+        let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
+        print("deviceToKenString \(deviceTokenString)")
+    }
 }
 

@@ -24,8 +24,16 @@ class ProfileEditViewController: UIViewController {
         
         pageLayoutInit()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardShowAndHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.registerKeyboardNotification()
+    }
+    
+    private func config() -> FMPhotoPickerConfig {
+        var config = FMPhotoPickerConfig()
+        
+        config.selectMode = .single
+        config.maxImage = 1
+        
+        return config
     }
     
     // MARK: - OBJC Method
@@ -34,11 +42,25 @@ class ProfileEditViewController: UIViewController {
     }
     
     @IBAction func onTapImageSelectBtn(_ sender: UIButton) {
+        let vc = FMPhotoPickerViewController(config: config())
+        vc.modalPresentationStyle = .fullScreen
+        vc.delegate = self
+        vc.photoEditorDelegate = self
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func onTapSaveBtn(_ sender: UIButton) {
         self.navigationController?.popViewController()
         // FIXME: user nickname and introduce send to server
+        RadHelper.getRootViewController { vc in
+            if let rootVc = vc
+            {
+                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                                message: RadMessage.ProfileEdit.saveProfile,
+                                                                isNeedCancel: false,
+                                                                viewController: rootVc)
+            }
+        }
     }
     
     @IBAction func panEdgeSwipeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
@@ -49,23 +71,6 @@ class ProfileEditViewController: UIViewController {
     
     @IBAction func onTapScreenGesture(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
-    }
-    
-    
-    @objc
-    func keyboardShowAndHide(_ sender: Notification) {
-        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            
-            if sender.name == UIResponder.keyboardWillShowNotification {
-                startBtnBottomConst.constant = -(keyboardHeight - RadHelper.bottomSafeAreaHeight)
-            } else if sender.name == UIResponder.keyboardWillHideNotification {
-                startBtnBottomConst.constant = 0
-            }
-            self.view.layoutIfNeeded()
-        }
     }
 }
 
@@ -106,10 +111,35 @@ extension ProfileEditViewController {
         
         nickNameField.makesToCustomField()
         nickNameField.tag = InputType.nickName.rawValue
-        nickNameField.text = UserModel.nickName ?? (UserModel.userIdx ?? "유저 이름")
+        nickNameField.text = UserModel.profileName ?? UserModel.memberId
         
         introduceField.makesToCustomField()
         introduceField.tag = InputType.introduce.rawValue
-        introduceField.text = UserModel.profileIntro ?? "단 하루라도 열심히 살자"
+        introduceField.text = UserModel.profileIntroStr
+    }
+}
+
+
+// MARK: - Keyboard Protocol
+extension ProfileEditViewController: keyboardNotiRegistProtocol {
+    func keyboardShowAndHide(_ notification: Notification) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+
+extension ProfileEditViewController: FMPhotoPickerViewControllerDelegate, PhotoEditorDelegate {
+    func doneEditing(image: UIImage) {
+        print("done editing \(image)")
+    }
+    
+    func canceledEditing() {
+        print("cancel Editing")
+    }
+    
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+        print("photos \(photos)")
     }
 }
