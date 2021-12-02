@@ -178,6 +178,28 @@ extension TodoListDetailViewController {
         
     }
     
+    @objc func onTapSubmitBtn() {
+        guard let todoModel = self.detailInfoModel,
+              let inviteMemId = self.invitedMemId,
+              let mainVC = RadHelper.getMainViewController() as? MainViewController
+        else { return }
+        
+        func reloadMainListView() {
+            self.navigationController?.popViewController()
+            mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
+        }
+        
+        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: nil, notiTime: nil, completionHandler: {
+            if self.isForInviteFriend {
+                _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId, completionHandler: {
+                    reloadMainListView()
+                })
+            } else {
+                reloadMainListView()
+            }
+        })
+    }
+    
     /// 뒤로가기
     @objc func backBtnAction(_ sender: UIButton) {
         
@@ -192,6 +214,7 @@ extension TodoListDetailViewController {
         }
         
         self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController()
     }
 
     /// 반복주기 시간 선택

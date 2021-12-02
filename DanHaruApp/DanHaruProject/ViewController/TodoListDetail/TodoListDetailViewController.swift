@@ -91,6 +91,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     var currentIdx: CGFloat = 0.0
     
     var isForInviteFriend: Bool = false
+    var invitedMemId: String?
     var detailInfoModel: TodoModel?
     
     // 오디오 재생 관련

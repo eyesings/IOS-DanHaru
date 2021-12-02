@@ -34,6 +34,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         
         self.view.addSubview(bottomBtn)
+        bottomBtn.addTarget(self, action: #selector(self.onTapSubmitBtn), for: .touchUpInside)
         bottomBtn.snp.makeConstraints { make in
             make.width.equalTo(self.view)
             make.height.equalTo(60)
@@ -496,7 +497,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         menuBtn.imageView?.contentMode = .scaleToFill
         
         // 하단 확인 버튼
-        bottomBtn.setTitle("확인", for: .normal)
+        bottomBtn.setTitle(self.isForInviteFriend ? "함께하기" : "확인", for: .normal)
         bottomBtn.backgroundColor = .lightGrayColor
         bottomBtn.setTitleColor(.white, for: .normal)
         

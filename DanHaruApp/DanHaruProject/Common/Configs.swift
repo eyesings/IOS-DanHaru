@@ -53,10 +53,10 @@ struct CollectionViewID {
 /// 입력 받는 값
 enum InputType: Int {
     case email = 101
-    case id = 102
-    case pw = 103
-    case nickName = 104
-    case introduce = 105
+    case id
+    case pw
+    case nickName
+    case introduce
     case done
     
     func name() -> String {
@@ -74,21 +74,21 @@ enum InputType: Int {
 /// 도전 전체보기 토글 버튼 태그 값
 enum MyChallangeBtnTag: Int {
     case todoList = 200
-    case myChallange = 201
+    case myChallange
 }
 
 /// 툴 바 버튼 태그 값
 enum ToolBarBtnTag: Int, CaseIterable {
     case home   = 300
-    case myPage = 301
+    case myPage
 }
 
 /// 컬렉션 뷰 태그 값
 enum CollectionViewTag: Int {
     case doing = 400
-    case fail  = 401
-    case done  = 402
-    case none  = 403
+    case fail
+    case done
+    case none
 }
 
 /// API 통신 결과 코드
@@ -164,10 +164,11 @@ struct Configs {
         static let todoDetail = host + "/todo/detail/list"
         static let updateDtl  = host + "/todo/detail/update"
         // Detail - Challenge
-        static let createChl  = host + "/todo/create/challenge"
-        static let deleteChl  = host + "/todo/delete/challenge"
+        static let createChl  = host + "/todo/challenge/create"
+        static let deleteChl  = host + "/todo/challenge/delete"
         // Detail - Certificate
-        static let createCerti = host + "/todo/create/certification"
+        static let createCerti = host + "/todo/certification/create"
+        static let certiList  = host + "/todo/certification/list"
         
     }
     

@@ -1,5 +1,5 @@
 //
-//  MainViewController+function.swift
+//  MainViewController+Init.swift
 //  DanHaruProject
 //
 //  Created by RADCNS_DESIGN on 2021/10/28.
@@ -91,6 +91,24 @@ extension MainViewController {
         todoListTableView.separatorStyle = .none
         
         todoListTableView.addSubview(cautionView)
+        
+        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        btn.backgroundColor = .systemBlue
+        btn.addTarget(self, action: #selector(onTappedBtn), for: .touchUpInside)
+        self.view.addSubview(btn)
+    }
+    
+    @objc func onTappedBtn() {
+        let inviteMemId = "djaaksmscjs"
+        let todoIdx = 23
+        
+        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
+            let detailVC = TodoListDetailViewController()
+            detailVC.detailInfoModel = model
+            detailVC.isForInviteFriend = true
+            detailVC.invitedMemId = inviteMemId
+            self.navigationController?.pushViewController(detailVC)
+        }
     }
     
     internal func calendarViewAnimation() {

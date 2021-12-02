@@ -10,7 +10,7 @@ import Lottie
 
 
 protocol NetworkErrorViewDelegate {
-    func ToolBarSelected(_ button: UIButton)
+    func isNeedRetryService()
 }
 
 class NetworkErrorView: UIView {

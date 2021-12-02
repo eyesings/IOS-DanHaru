@@ -1,5 +1,5 @@
 //
-//  MainViewController+table.swift
+//  MainViewController+Delegate.swift
 //  DanHaruProject
 //
 //  Created by RADCNS_DESIGN on 2021/11/05.
@@ -51,7 +51,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
 //        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
         
-        self.present(detailVC, animated: true, completion: nil)
+//        self.present(detailVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(detailVC)
         
     }
     
@@ -112,6 +113,5 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         selectedDate = selectedDateStr
         self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
         self.todoListModel = TodoListViewModel.init(searchDate: selectedDateStr)
-        
     }
 }
