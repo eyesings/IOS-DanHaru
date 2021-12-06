@@ -91,5 +91,7 @@ extension ViewModelService {
     
     
     /// 유저 정보 업데이트
-    static func userInfoUpdateService(_ name: String?, _ image: String?, _ intro: String?)
+    static func userInfoUpdateService(_ name: String?, _ image: String?, _ intro: String?) {
+        
+    }
 }
