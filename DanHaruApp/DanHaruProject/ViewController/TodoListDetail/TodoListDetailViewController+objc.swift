@@ -268,9 +268,16 @@ extension TodoListDetailViewController {
                     make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
                 }
                 
+                checkAnimation.snp.remakeConstraints { make in
+                    make.top.equalTo(authImageView2.snp.bottom).offset(10)
+                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                    make.centerX.equalTo(self.view)
+                    make.height.equalTo(self.view.frame.width * 0.25)
+                }
+                
                 togetherFriendLabel.snp.remakeConstraints { make in
                     
-                    make.top.equalTo(self.authImageView2.snp.bottom).offset(25)
+                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
                     make.leading.equalTo(self.authLable)
                     make.height.equalTo(self.authLable)
@@ -288,9 +295,16 @@ extension TodoListDetailViewController {
                     make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
                 }
                 
+                checkAnimation.snp.remakeConstraints { make in
+                    make.top.equalTo(authImageView3.snp.bottom).offset(10)
+                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                    make.centerX.equalTo(self.view)
+                    make.height.equalTo(self.view.frame.width * 0.25)
+                }
+                
                 togetherFriendLabel.snp.remakeConstraints { make in
                     
-                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
                     make.leading.equalTo(self.authLable)
                     make.height.equalTo(self.authLable)
@@ -331,10 +345,16 @@ extension TodoListDetailViewController {
                     
                 }
                 
+                checkAnimation.snp.remakeConstraints { make in
+                    make.top.equalTo(authImageView3.snp.bottom).offset(10)
+                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                    make.centerX.equalTo(self.view)
+                    make.height.equalTo(self.view.frame.width * 0.25)
+                }
                 
                 togetherFriendLabel.snp.remakeConstraints { make in
                     
-                    make.top.equalTo(self.authImageView3.snp.bottom).offset(25)
+                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
                     make.leading.equalTo(self.authLable)
                     make.height.equalTo(self.authLable)
@@ -358,8 +378,16 @@ extension TodoListDetailViewController {
             self.authImageView3.image = nil
             
             if self.authImageView1.image != nil {
+                
+                checkAnimation.snp.remakeConstraints { make in
+                    make.top.equalTo(authImageView1.snp.bottom).offset(10)
+                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                    make.centerX.equalTo(self.view)
+                    make.height.equalTo(self.view.frame.width * 0.25)
+                }
+                
                 togetherFriendLabel.snp.remakeConstraints { make in
-                    make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
                     make.leading.equalTo(self.authLable)
                     make.height.equalTo(self.authLable)
@@ -372,8 +400,16 @@ extension TodoListDetailViewController {
         // 함께 도전 라벨, 모든 이미지가 존재 하지 않을 시
         if authImageView1.image == nil && authImageView2.image == nil && authImageView3.image == nil {
             self.isImageAuth = false
+            
+            checkAnimation.snp.remakeConstraints { make in
+                make.top.equalTo(authImageView1.snp.bottom).offset(10)
+                make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                make.centerX.equalTo(self.view)
+                make.height.equalTo(self.view.frame.width * 0.25)
+            }
+            
             togetherFriendLabel.snp.remakeConstraints { make in
-                make.top.equalTo(self.authImageView1.snp.bottom).offset(25)
+                make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                 make.width.equalTo(self.view).multipliedBy(0.5)
                 make.leading.equalTo(self.authLable)
                 make.height.equalTo(self.authLable)
@@ -474,6 +510,39 @@ extension TodoListDetailViewController {
         if let player = self.audioPlayer {
             self.audioPlayTimeText.text = RadHelper.convertNSTimeInterval12String(player.currentTime)
         }
+        
+    }
+    
+    /// 단순 체크 인증
+    @objc func authCheckButtonAction(_ sender: UIButton) {
+        self.checkAnimation.snp.remakeConstraints { make in
+            make.top.equalTo(authImageView1.snp.bottom).offset(10)
+            make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+            make.centerX.equalTo(self.view)
+            make.height.equalTo(self.view.frame.width * 0.25)
+        }
+        
+        if !self.isCheckAuth {
+            checkAnimation.play()
+            self.isCheckAuth = true
+        } else {
+            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: "인증을 취소하시겠습니까?", isNeedCancel: true, viewController: self) { check in
+                
+                if check {
+                    self.isCheckAuth = false
+                    self.checkAnimation.snp.remakeConstraints { make in
+                        make.top.equalTo(self.authImageView1.snp.bottom).offset(10)
+                        make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
+                        make.centerX.equalTo(self.view)
+                        make.height.equalTo(0)
+                    }
+                    self.checkAnimation.play(toFrame: 0)
+                }
+                
+            }
+        }
+        
+        
         
     }
     

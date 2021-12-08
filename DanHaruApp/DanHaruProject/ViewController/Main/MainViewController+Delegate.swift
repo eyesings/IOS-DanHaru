@@ -52,8 +52,14 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
 //        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
         
 //        self.present(detailVC, animated: true, completion: nil)
+        /*
+        let _ = TodoDetailViewModel(1, "2021-12-07") { model in
+            detailVC.todoModel = model
+            
+            self.navigationController?.pushViewController(detailVC)
+        }
+        */
         self.navigationController?.pushViewController(detailVC)
-        
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

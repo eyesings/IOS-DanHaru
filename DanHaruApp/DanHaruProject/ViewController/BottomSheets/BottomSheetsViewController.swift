@@ -11,7 +11,7 @@ import Lottie
 import AVFoundation
 
 protocol AudioUIChangeProtocol {
-    func audioUIChange()
+    func audioUIChange(_ audio: AVAudioRecorder?)
 }
 
 class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {

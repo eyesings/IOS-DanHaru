@@ -69,8 +69,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let togetherExplainLabel = UILabel()
     let friendImageView1 = UIImageView()
     let friendAddBtn1 = UIButton()
-    let friendImageView2 = UIImageView()
-    let friendAddBtn2 = UIButton()
     
     // 오늘 인증 현황
     let todayAuthLabel = UILabel()
@@ -118,15 +116,21 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 테이블 뷰
     var tableViewHeight = 0
     let tableCellHeight: CGFloat = 40
-    var weeklyCount = 7 // 추가한 친구 갯수
+    var weeklyCount = 0 // 추가한 친구 갯수
+    
+    // 단순 체크 애니메이션
+    let checkAnimation = AnimationView()
+    
+    //var todoModel: TodoModel = TodoModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
+        //self.titleText = self.todoModel.title ?? ""
         
         self.setUI()
         
+        self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.delegate = self
         self.imagePicker.allowsEditing = false
@@ -168,6 +172,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         // Pass the selected object to the new view controller.
     }
     */
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
