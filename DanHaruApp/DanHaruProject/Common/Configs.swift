@@ -97,6 +97,12 @@ enum APIResultCode: String {
     case failure = "9999"
 }
 
+/// 가져올 Image Data Type
+enum ImageInfo {
+    case url
+    case name
+}
+
 /// 바텀 뷰 재사용 코드
 enum BottomViewCheck: String {
     case todoAdd = "todoAdd"
@@ -148,7 +154,7 @@ struct Configs {
     }
     
     struct API {
-        static let host       = "http://10.23.81.103:8080/api"
+        static let host       = "http://192.168.0.227:8080/api"
         static let checkValid = host + "/auth/validation/member/"
         static let validEmail = checkValid + "email"
         static let validID    = checkValid + "id"
