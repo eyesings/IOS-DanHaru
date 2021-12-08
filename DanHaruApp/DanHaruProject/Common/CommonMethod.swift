@@ -66,7 +66,9 @@ extension RadHelper {
     /// - Returns: 프로필 이미지
     static func getProfileImage() -> UIImage? {
         var image: UIImage?
-        RadServerNetwork.getDataFromServer(url: UserModel.profileImgUrl ?? "", type: .IMAGE) { dic in
+        print("what path \(Configs.API.getUsrImg + "/" + (UserModel.profileImgUrl ?? ""))")
+        RadServerNetwork.getDataFromServer(url: Configs.API.getUsrImg + "/" + (UserModel.profileImgUrl ?? ""), type: .IMAGE) { dic in
+            print("dic \(dic)")
             if let dic = dic {
                 let img = dic["image"] as? UIImage
                 image = img
@@ -133,61 +135,114 @@ extension RadHelper {
 extension RadServerNetwork {
     static func postDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
-        if let reqUrl = URL(string: url) {
+        guard let reqUrl = URL(string: url) else { return }
+        
+        var request = URLRequest(url: reqUrl)
+        request.httpMethod = "post" //get : Get 방식, post : Post 방식
+        
+        if parameters.count > 0 {
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            do {
+                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            } catch {
+                successHandler(nil)
+            }
+        }
+        
+        let task = URLSession.shared.dataTask(with: request,
+                                              completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
             
-            var request = URLRequest(url: reqUrl)
-            request.httpMethod = "post" //get : Get 방식, post : Post 방식
-            
-            if parameters.count > 0 {
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                do {
-                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-                } catch {
-                    successHandler(nil)
+            //error 일경우 종료
+            guard error == nil && data != nil else {
+                
+                if let err = error {
+                    errorHandler(err)
                 }
+                return
             }
             
-            let task = URLSession.shared.dataTask(with: request,
-                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
-                
-                //error 일경우 종료
-                guard error == nil && data != nil else {
-                    
-                    if let err = error {
-                        errorHandler(err)
-                    }
-                    return
-                }
-                
-                
-                //data 가져오기
-                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
-                    //메인쓰레드에서 출력하기 위해
-                    DispatchQueue.main.async {
-                        do {
-                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
-                            successHandler(jsonRst);
-                        }
-                        catch {
-                            errorHandler(error);
-                        }
-                        
-                    }
-                }
-            })
             
-            task.resume()
-        }
+            //data 가져오기
+            if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                //메인쓰레드에서 출력하기 위해
+                DispatchQueue.main.async {
+                    do {
+                        let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
+                        successHandler(jsonRst);
+                    }
+                    catch {
+                        errorHandler(error);
+                    }
+                    
+                }
+            }
+        })
+        
+        task.resume()
     }
     
-    static func putDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+    static func putDataFromServer(url: String, parameters:[String:Any], image: UIImage? = nil, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
-        if let reqUrl = URL(string: url) {
-            
-            var request = URLRequest(url: reqUrl)
-            request.httpMethod = "put"
-            
-            if parameters.count > 0 {
+        guard let reqUrl = URL(string: url) else { return }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var request = URLRequest(url: reqUrl)
+        request.httpMethod = "PUT"
+        if let _ = image { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
+        
+        if parameters.count > 0 {
+            if let uploadImg = image {
+                let body = NSMutableData()
+                let boundaryPrefix = "--\(boundary)\r\n"
+                
+                for (key, value) in parameters {
+                    body.appendString(boundaryPrefix)
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"")
+                    if key == "uploaded_file" {
+                        let fileContent = uploadImg.jpegData(compressionQuality: 0.9)
+                        let urlStr = uploadImg.getImageInfo(type: .url)
+                        if let url = URL(string: urlStr)
+                        {
+                            do { try fileContent?.write(to: url) }
+                            catch { print("error combined to file type") }
+                        }
+                        
+                        body.appendString("; filename=\"\(url)\"\r\n" + "Content-Type: image/jpeg\"\r\n\r\n")
+                    } else if let valueStr = value as? String, valueStr != "" {
+                        body.appendString("\r\n\r\n\(valueStr)\r\n")
+                    }
+                }
+                
+//                for key in parameters.keys {
+//                    print("key to string? \(key as String)")
+//
+//
+//                    if let _  = parameters["uploaded_file"] as? String {
+//                        let fileContent = uploadImg.jpegData(compressionQuality: 0.9)
+//                        let urlStr = uploadImg.getImageInfo(type: .url)
+//                        if let url = URL(string: urlStr)
+//                        {
+//                            do { try fileContent?.write(to: url) }
+//                            catch {}
+//                        }
+//
+//                        body.appendString("; filename=\"\(url)\"\r\n" + "Content-Type: image/jpeg\"\r\n\r\n")
+//                        if let fileContentData = fileContent {
+//                            body.append(fileContentData)
+//                            body.appendString("\r\n")
+//                        }
+//                    } else {
+//                        for value in parameters.values {
+//                            if (value as? String) == "" { continue }
+//                            body.appendString("\r\n\r\n\(value)\r\n")
+//                        }
+//                    }
+//                }
+//
+                body.appendString("--\(boundary)--\r\n")
+                
+                request.httpBody = body as Data
+            } else {
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
                 do {
                     request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
@@ -195,37 +250,37 @@ extension RadServerNetwork {
                     successHandler(nil)
                 }
             }
-            
-            let task = URLSession.shared.dataTask(with: request,
-                                                  completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
-                
-                //error 일경우 종료
-                guard error == nil && data != nil else {
-                    
-                    if let err = error {
-                        errorHandler(err)
-                    }
-                    return
-                }
-                
-                
-                //data 가져오기
-                if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
-                    //메인쓰레드에서 출력하기 위해
-                    DispatchQueue.main.async {
-                        do {
-                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
-                            successHandler(jsonRst);
-                        }
-                        catch {
-                            errorHandler(error);
-                        }
-                        
-                    }
-                }
-            })
-            
-            task.resume()
         }
+        
+        let task = URLSession.shared.dataTask(with: request,
+                                              completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+            
+            //error 일경우 종료
+            guard error == nil && data != nil else {
+                
+                if let err = error {
+                    errorHandler(err)
+                }
+                return
+            }
+            
+            
+            //data 가져오기
+            if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
+                //메인쓰레드에서 출력하기 위해
+                DispatchQueue.main.async {
+                    do {
+                        let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSDictionary
+                        successHandler(jsonRst);
+                    }
+                    catch {
+                        errorHandler(error);
+                    }
+                    
+                }
+            }
+        })
+        
+        task.resume()
     }
 }

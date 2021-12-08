@@ -18,6 +18,7 @@ class ProfileEditViewController: UIViewController {
     
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
     
+    var selectedImage: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class ProfileEditViewController: UIViewController {
         
         config.selectMode = .single
         config.maxImage = 1
+        config.availableCrops = [FMCrop.ratioSquare]
         
         return config
     }
@@ -50,17 +52,26 @@ class ProfileEditViewController: UIViewController {
     }
     
     @IBAction func onTapSaveBtn(_ sender: UIButton) {
-        self.navigationController?.popViewController()
-        // FIXME: user nickname and introduce send to server
-        RadHelper.getRootViewController { vc in
-            if let rootVc = vc
-            {
-                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                                message: RadMessage.ProfileEdit.saveProfile,
-                                                                isNeedCancel: false,
-                                                                viewController: rootVc)
+        
+        _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text,
+                                            editedIntro: introduceField.text,
+                                            editedImg: selectedImage) {
+            print("is done!")
+            
+            self.navigationController?.popViewController()
+            // FIXME: user nickname and introduce send to server
+            RadHelper.getRootViewController { vc in
+                if let rootVc = vc
+                {
+                    RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                                    message: RadMessage.ProfileEdit.saveProfile,
+                                                                    isNeedCancel: false,
+                                                                    viewController: rootVc)
+                }
             }
         }
+        
+        
     }
     
     @IBAction func panEdgeSwipeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
@@ -89,11 +100,11 @@ extension ProfileEditViewController: UITextFieldDelegate {
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        textField.updateUI()
+        textField.updateUI(textField == self.introduceField)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        textField.updateUI()
+        textField.updateUI(textField == self.introduceField)
     }
 }
 
@@ -104,6 +115,7 @@ extension ProfileEditViewController {
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         profileImageView.backgroundColor = .clear
         profileImageView.image = RadHelper.getProfileImage() ?? #imageLiteral(resourceName: "profileNon")
+        profileImageView.contentMode = .scaleAspectFill
         
         profileImgSelectBtn.layer.cornerRadius = profileImgSelectBtn.frame.width / 2
         profileImgSelectBtn.layer.borderWidth = 1.0
@@ -141,5 +153,7 @@ extension ProfileEditViewController: FMPhotoPickerViewControllerDelegate, PhotoE
     
     func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
         print("photos \(photos)")
+        self.selectedImage = photos.first
+        self.profileImageView.image = photos.first
     }
 }

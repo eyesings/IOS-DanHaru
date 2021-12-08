@@ -151,6 +151,7 @@ struct Configs {
         static let todoListCreateNew   = Notification.Name(rawValue: "TODO_LIST_CREATE_NEW")
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
+        static let networkRetryConnect = Notification.Name(rawValue: "NETWORK_RETRY_CONNECT")
     }
     
     struct API {

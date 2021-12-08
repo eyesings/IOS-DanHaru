@@ -110,6 +110,7 @@ extension NetworkErrorView {
     
     @objc
     func retryConnectNetwork() {
+        NotificationCenter.default.post(name: Configs.NotificationName.networkRetryConnect, object: nil)
         print("retry something")
         self.removeFromSuperview()
     }

@@ -81,6 +81,7 @@
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
 		B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682101A2733A5CE001F56DD /* CustomToolBar.swift */; };
+		B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */; };
 		B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */; };
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
@@ -228,6 +229,7 @@
 		B62C2EE7272A1FCD00D8FF8B /* Configs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
 		B64ABEE127424F640058F161 /* CommonMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMessage.swift; sourceTree = "<group>"; };
 		B682101A2733A5CE001F56DD /* CustomToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
+		B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableData+Extension.swift"; sourceTree = "<group>"; };
 		B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNonLoginViewController.swift; sourceTree = "<group>"; };
 		B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 				82CB510E2734C33C009D3170 /* CALayer+Extension.swift */,
 				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
 				B603BC3E2754648500994A42 /* Date+Extension.swift */,
+				B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -942,6 +945,7 @@
 				B6166C19274C7EBA00C04898 /* FMCropMenuView.swift in Sources */,
 				B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */,
 				B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */,
+				B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */,
 				B6166C0B274C7EB900C04898 /* FMPresenterBottomView.swift in Sources */,
 				827EC8DA273A405600A60CCB /* TodoListDetailViewController+function.swift in Sources */,
 				B6BF763B272BCD610031F2C9 /* MyPageViewController.swift in Sources */,

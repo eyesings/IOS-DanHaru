@@ -90,6 +90,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     @objc func requestTodoList(_ noti: NSNotification) {
         guard let isSuccess = noti.object as? Bool else { return }
+        // FIXME: isSuccess 이면 splashImg Dismiss
         if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) }
         else { RadHelper.getRootViewController()?.showNetworkErrorView() }
     }

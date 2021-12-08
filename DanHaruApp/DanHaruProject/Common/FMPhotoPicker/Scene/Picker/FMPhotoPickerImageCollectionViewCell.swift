@@ -68,6 +68,7 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
     
     func performSelectionAnimation(selectedIndex: Int?) {
         if let selectedIdx = selectedIndex {
+            self.cellFilterContainer.isHidden = false
             if self.selectMode == .multiple {
                 self.cellFilterContainer.layer.borderWidth = 4.0
                 
@@ -76,13 +77,13 @@ class FMPhotoPickerImageCollectionViewCell: UICollectionViewCell {
                 self.selectButton.imageView?.tintColor = .mainColor
                 
                 self.selectIdxLabel.text = "\(selectedIdx + 1)"
+                self.selectIdxLabel.isHidden = false
             }
         } else {
             self.cellFilterContainer.layer.borderWidth = 0.0
             self.selectButton.setImage(UIImage(named: "check_off"), for: .normal)
+            self.selectIdxLabel.isHidden = true
+            self.cellFilterContainer.isHidden = true
         }
-        
-        self.cellFilterContainer.isHidden = self.selectMode == .multiple
-        self.selectIdxLabel.isHidden = self.selectMode == .single
     }
 }

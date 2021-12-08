@@ -97,4 +97,15 @@ extension UIImage {
         return image
     }
     
+    /// 이미지 정보 가져오기
+    /// - Parameter type: 가져올 Data Type
+    /// - Returns: 이미지 정보
+    func getImageInfo(type: ImageInfo) -> String {
+        
+        let fileName = Date().dateToStr(format: "yyyyMMddHHmmssSSS") + "001.jpg"
+        let fileUrl = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName).absoluteString
+        print("fileName \(fileName)")
+        print("fileUrl \(fileUrl)")
+        return type == .url ? fileUrl : fileName
+    }
 }

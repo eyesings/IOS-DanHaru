@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 
 /// 유저 회원가입 뷰모델
@@ -73,6 +74,19 @@ class UserInfoViewModel {
                 
                 UserModel = self.model
             }
+        }
+    }
+}
+
+
+/// 유저 정보 업데이트 뷰모델
+class UserProfileUpdateViewModel {
+    
+    init(editedName name: String? = nil, editedIntro intro: String? = nil, editedImg img: UIImage? = nil, completionHandler: @escaping () -> Void) {
+        
+        ViewModelService.userInfoUpdateService(name, img, intro) {
+            print("성공하면 탐")
+            completionHandler()
         }
     }
 }

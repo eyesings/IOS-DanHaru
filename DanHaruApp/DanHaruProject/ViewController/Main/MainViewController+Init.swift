@@ -77,7 +77,7 @@ extension MainViewController {
         /// 투두 테이블 뷰
         self.view.addSubview(self.todoListTableView)
         todoListTableView.snp.makeConstraints { make in
-            make.top.equalTo(self.calendarView.snp.bottom)
+            make.top.equalTo(self.calendarView.snp.bottom).offset(10)
             make.bottom.leading.trailing.equalTo(self.view)
         }
         todoListTableView.backgroundColor = .backgroundColor
@@ -95,7 +95,7 @@ extension MainViewController {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         btn.backgroundColor = .systemBlue
         btn.addTarget(self, action: #selector(onTappedBtn), for: .touchUpInside)
-        self.view.addSubview(btn)
+//        self.view.addSubview(btn)
     }
     
     @objc func onTappedBtn() {
@@ -126,7 +126,8 @@ extension MainViewController {
         
         cautionView.isHidden = isSuccess
         cautionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalTo(self.todoListTableView)
+            make.top.bottom.equalTo(self.todoListTableView)
+            make.leading.trailing.equalTo(self.view)
         }
         
         let infoLabel = UILabel()

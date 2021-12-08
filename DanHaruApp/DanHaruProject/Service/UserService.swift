@@ -27,8 +27,10 @@ extension ViewModelService {
             }
         } errorHandler: { err in
             print("error \(err)")
-            rootVC.hideLoadingView()
-            NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: false)
+            DispatchQueue.main.async {
+                rootVC.hideLoadingView()
+                NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: false)
+            }
         }
 
         
@@ -54,8 +56,10 @@ extension ViewModelService {
             rootVC.hideLoadingView()
         } errorHandler: { err in
             Dprint("error \(err)")
-            rootVC.hideLoadingView()
-            RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
+            DispatchQueue.main.async {
+                rootVC.hideLoadingView()
+                RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
+            }
         }
 
     }
@@ -75,6 +79,7 @@ extension ViewModelService {
         param["pw"] = pw
         
         RadServerNetwork.postDataFromServer(url: Configs.API.login, type: .JSON, parameters: param) { resultDic in
+            print("resultDic \(resultDic)")
             if let msgStr = resultDic?["msg"] as? String {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
             } else {
@@ -84,14 +89,28 @@ extension ViewModelService {
             }
         } errorHandler: { err in
             Dprint("error \(err)")
-            rootVCHideLoadingView()
-            rootVC?.showNetworkErrorView(isNeedRetry: true)
+            DispatchQueue.main.async {
+                rootVCHideLoadingView()
+                rootVC?.showNetworkErrorView(isNeedRetry: true)
+            }
         }
     }
     
     
     /// 유저 정보 업데이트
-    static func userInfoUpdateService(_ name: String?, _ image: String?, _ intro: String?) {
+    static func userInfoUpdateService(_ name: String?, _ image: UIImage?, _ intro: String?, completionHandler: @escaping () -> Void) {
+        var param: [String:Any] = [:]
+        param["mem_email"] = UserModel.memberEmail
+        param["profile_nm"] = name
+        param["uploaded_file"] = ""
+        param["profile_into"] = intro
+        print("param \(param)")
         
+        RadServerNetwork.putDataFromServer(url: Configs.API.updateUser + "/\(UserModel.memberId ?? "")", parameters: param, image: image) { resultData in
+            print("resultDic \(resultData)")
+        } errorHandler: { error in
+            print("err \(error)")
+        }
+
     }
 }

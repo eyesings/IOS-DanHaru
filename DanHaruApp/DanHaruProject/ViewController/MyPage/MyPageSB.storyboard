@@ -507,7 +507,7 @@
                                 </constraints>
                                 <color key="textColor" name="customBlackColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="Ks0-jB-K9a" id="RWc-OD-Gp3"/>
                                 </connections>
@@ -519,7 +519,7 @@
                                 </constraints>
                                 <color key="textColor" name="customBlackColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="alphabet" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                 <connections>
                                     <outlet property="delegate" destination="Ks0-jB-K9a" id="G0A-zZ-6g1"/>
                                 </connections>
@@ -1237,10 +1237,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="doingCell" id="gM9-SG-i4x" customClass="MyChallengeCell" customModule="DanHaruProject" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="118.00000000000004"/>
+                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="118.00000000000003"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RJ7-pJ-NYh">
-                                            <rect key="frame" x="0.0" y="0.0" width="118" height="118.00000000000004"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="118.00000000000003"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dAX-sd-7Nx">
@@ -1315,10 +1315,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="failCell" id="Z90-Og-Ueb" customClass="MyChallengeCell" customModule="DanHaruProject" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="117.99999999999999"/>
+                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="117.99999999999997"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="BbF-2G-cMN">
-                                            <rect key="frame" x="0.0" y="0.0" width="118" height="117.99999999999999"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="117.99999999999997"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jM4-3b-h6Q">
