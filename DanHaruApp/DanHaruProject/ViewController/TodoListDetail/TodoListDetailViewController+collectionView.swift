@@ -11,7 +11,7 @@ import UIKit
 extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionViewDataSource {
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return 25
     }
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -24,11 +24,24 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             cell.addBorder(toSide: .Right, withColor: UIColor.lightGray.cgColor, andThickness: 2.5)
         }
         
-        
-        
         cell.personImageView.contentMode = .scaleAspectFit
         
-        cell.personName.text = "\(indexPath.item)"
+        cell.personName.text = "이름"
+        
+        cell.personAuthBtn.layer.borderWidth = 1.0
+        cell.personAuthBtn.layer.borderColor = UIColor.black.cgColor
+        cell.personAuthBtn.layer.cornerRadius = 10
+        cell.personAuthBtn.tag = indexPath.item
+        
+        if cell.personAuthBtn.tag == 0 {
+            cell.personAuthBtn.setTitle("", for: .normal)
+            cell.personAuthBtn.setBackgroundImage(UIImage(named: "btnGreenCheck"), for: .normal)
+            cell.personAuthBtn.isEnabled = false
+            cell.personAuthBtn.layer.borderWidth = 0
+            cell.checkTime.text = "\(DateFormatter().korDateString(date: Date(), dateFormatter: RadMessage.DateFormattor.timeDate)) 인증"
+        }
+        
+        
         
         return cell
     }

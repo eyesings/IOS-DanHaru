@@ -26,6 +26,7 @@ struct TodoModel: Codable {
     var updated_user: String?
     var certification_list: [ChallengeCertiModel]?
     var challenge_user: [ChallengerUser]?
+    var report_list_percent: [String:Int]?
 }
 
 
@@ -71,6 +72,7 @@ struct TodoRegisterModel {
         return dic
     }
 }
+
 
 
 struct TodoDetailUpdateModel: Codable {

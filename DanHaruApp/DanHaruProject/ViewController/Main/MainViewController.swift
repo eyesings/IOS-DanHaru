@@ -32,10 +32,6 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     var selectedDate: String = ""
     
-//    var dummyData = [
-//        "test01"
-//    ]
-    
     // 캘린더 화면 노출 여부
     var calendarShowOn = false
     

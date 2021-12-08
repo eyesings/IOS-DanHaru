@@ -74,5 +74,6 @@ extension RadMessage {
     struct DateFormattor {
         static let monthDate    = "MM월 dd일"
         static let apiParamType = "yyyy-MM-dd"
+        static let timeDate     = "HH:mm"
     }
 }

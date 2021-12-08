@@ -290,13 +290,10 @@ extension BottomSheetsViewController {
                                            AVNumberOfChannelsKey: 2 ]
             
             audioRecorder = try? AVAudioRecorder(url: audioFileUrl, settings: recorderSetting)
-            
-            let preVc = self.presentingViewController
-            guard let vc = preVc as? TodoListDetailViewController else { return }
-            vc.audioRecorder = self.audioRecorder
-            vc.audioUIChange()
             isBottomToCheck = true
-            vc.isAudioAuth = true
+            
+            self.delegate?.audioUIChange(self.audioRecorder)
+            
             self.hideBottomSheetAndGoBack()
             
         }
