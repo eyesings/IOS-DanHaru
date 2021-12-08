@@ -1,5 +1,6 @@
+import math
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Optional
 import bcrypt
 import jwt
 import os
@@ -8,14 +9,16 @@ from fastapi.responses import FileResponse
 
 from sqlalchemy.orm import Session
 from app.database.conn import db
+from app.common.consts import FILE_FATH
 from starlette.responses import JSONResponse
 from app.database.detail_schema import TodoDetail, ChallengeMem, Certification
+from app.database.mem_schema import Member
 from app.model.detail_model import DetailUpdateParam, DetailParam, ChallengeUserParam, ChallengeUserDeleteParam, CertificationParam
 
 router = APIRouter(prefix="/todo")
 
-PATHDIR = "/Users/radcns_kim_taewon/TaeWOn/IOS-DanHaru/DanHaruBackend/DanHaru/certification/"
 
+PATHDIR = FILE_FATH + "certification/"
 
 @router.post("/detail/list", status_code=200)
 async def todo_list_detail(reg_info: DetailParam):
@@ -37,11 +40,11 @@ async def todo_list_detail(reg_info: DetailParam):
         return JSONResponse(status_code=400, content=dict(msg="존재하는 데이터가 없습니다.", result_code="9999"))
 
     chllenge = ChallengeMem.gets(todo_id=todo.todo_id)
-    certification_data = Certification.get(todo_id=reg_info.todo_id, todo_date=reg_info.today_dt)
+    certification_data = Certification.gets(todo_id=reg_info.todo_id, todo_date=reg_info.today_dt)
 
     # 백분율 계산
-    await percentage_cal(todo.fr_date.replace("-", ""), todo.ed_date.replace("-", ""))
-
+    challenge_report = await percentage_cal(todo.fr_date.replace("-", ""), todo.ed_date.replace("-", ""), Certification.gets(todo_id=reg_info.todo_id), reg_info.today_dt)
+    print("challenge_report::", challenge_report)
 
     todo_data_dic = {
         "msg": "Success",
@@ -64,7 +67,7 @@ async def todo_list_detail(reg_info: DetailParam):
             "updated_user": todo.updated_user,
             "certification_list": certification_data,
             "challenge_user": chllenge,
-            "report_list": "report_data",
+            "report_list_percent": challenge_report,
         },
 
     }
@@ -73,6 +76,7 @@ async def todo_list_detail(reg_info: DetailParam):
         return JSONResponse(status_code=400, content=dict(msg="존재하는 데이터가 없습니다.", result_code="9999"))
 
     return todo_data_dic
+
 
 @router.put("/detail/update/{todo_id}", status_code=200)
 async def todo_update_detail(reg_info: DetailUpdateParam, todo_id: int):
@@ -113,13 +117,15 @@ async def challenge_create(reg_info: ChallengeUserParam, session: Session = Depe
     for mem_id in chaluser_mem_id_Array:
         mem_id = mem_id.strip()
         is_id_exist = await challenge_is_id_exist(reg_info.todo_id, mem_id)
+        mem_is_id_exist = await mem_is_id_exit(mem_id)
 
         if is_id_exist:
             id_id_exist_cnt += 1
             continue
 
-        ChallengeMem.create(session, auto_commit=True, todo_id=reg_info.todo_id, mem_id=mem_id,
-                            created_user=reg_info.todo_mem_id, updated_user=reg_info.todo_mem_id)
+        if mem_is_id_exist:
+            ChallengeMem.create(session, auto_commit=True, todo_id=reg_info.todo_id, mem_id=mem_id,
+                                created_user=reg_info.todo_mem_id, updated_user=reg_info.todo_mem_id)
 
         save_chaluser_mem_id.append(mem_id)
     if id_id_exist_cnt == len(chaluser_mem_id_Array):
@@ -178,8 +184,8 @@ async def certification_create(todo_id: str = Form(...),
     if exit_check:
         return JSONResponse(status_code=400, content=dict(msg="현재 날짜에 등록된 데이터가 있습니다.", result_code="9999"))
 
+    img_file_name: str = ""
     if certi_img_file:
-        img_file_name: str = ""
         for idx, uploaded_file in enumerate(certi_img_file):
             # 이미지 저장
             file_nm = await save_file(uploaded_file, mem_id, "img", today)
@@ -187,16 +193,20 @@ async def certification_create(todo_id: str = Form(...),
                 img_file_name += file_nm
             else:
                 img_file_name += file_nm + ", "
+    else:
+        img_file_name: str = None
 
     if certi_voice_file:
         # 파일 저장
         voice_file_name = await save_file(certi_voice_file, mem_id, "voice", today)
+    else:
+        voice_file_name = None
 
     if certi_img_file or certi_voice_file:
         certi_check = "Y"
 
     Certification.create(session, auto_commit=True, todo_id=todo_id, mem_id=mem_id, todo_date=today,
-                         certi_img=str(img_file_name), certi_voice=voice_file_name, certi_check=certi_check,
+                         certi_img=img_file_name, certi_voice=voice_file_name, certi_check=certi_check,
                          created_user=mem_id, updated_user=mem_id)
 
     return JSONResponse(status_code=200, content=dict(msg="저장에 성공 하였습니다.", result_code="0000"))
@@ -261,7 +271,26 @@ async def challenge_is_id_exist(todo_id: str, chaluser_mem_id: str):
         return True
     return False
 
+async def mem_is_id_exit(chaluser_mem_id:str):
+    get_id = Member.get(mem_id=chaluser_mem_id)
+    if get_id:
+        return True
+    return False
 
-async def percentage_cal(td: str, ed: str):
+
+async def percentage_cal(td: str, ed: str, challenge_list: [], today_dt:str):
+    dic_param = {}
+    challenge_param = {}
     total_value = int(ed) - int(td) + 1
-    print("total_value::", total_value)
+
+    for challenge in challenge_list:
+        if challenge.todo_date <= today_dt:
+            if challenge.mem_id in dic_param:
+                dic_param[challenge.mem_id] = dic_param.get(challenge.mem_id) + 1
+            else:
+                dic_param[challenge.mem_id] = 1
+
+    for key, value in dic_param.items():
+        challenge_param[key] = math.trunc(value / total_value * 100)
+
+    return challenge_param

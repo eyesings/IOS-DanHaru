@@ -9,13 +9,13 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import Session
-
+from datetime import datetime
 from app.database.conn import Base, db
 
 class BaseMixin:
     todo_id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(DateTime, nullable=False, default=func.utc_timestamp())
-    updated_at = Column(DateTime, nullable=False, default=func.utc_timestamp(), onupdate=func.utc_timestamp())
+    created_at = Column(DateTime, nullable=False, default=datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
+    updated_at = Column(DateTime, nullable=False, default=datetime.today().strftime("%Y-%m-%d %H:%M:%S"), onupdate=datetime.today().strftime("%Y-%m-%d %H:%M:%S"))
 
     def all_columns(self):
 
