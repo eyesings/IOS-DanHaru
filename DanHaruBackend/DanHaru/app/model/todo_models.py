@@ -9,10 +9,12 @@ class TodoReturn(BaseModel):
     class Config:
         orm_mode = True
 
+
 class TodoRegister(BaseModel):
     mem_id: str
     title: str
     fr_date: str
+
 
 class TodoMe(BaseModel):
     title: str = None
@@ -22,6 +24,12 @@ class TodoMe(BaseModel):
     noti_time: str = None
     todo_status: str = None
 
+
 class TodoGet(BaseModel):
     mem_id: str = None
     fr_date: str = None
+
+
+class TodoDeleteParam(BaseModel):
+    todo_id: str = None
+    mem_id: str = None

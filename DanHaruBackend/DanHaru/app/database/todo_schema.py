@@ -82,8 +82,12 @@ class BaseMixin:
     @classmethod
     def get_union_mem(cls, mem_id, fr_date):
         session = next(db.session())
-        query1 = session.query(cls).filter(getattr(cls, "mem_id") == mem_id).filter((getattr(cls, "fr_date") == fr_date))
-        query2 = session.query(cls).filter(getattr(cls, "mem_id") == mem_id).filter((getattr(cls, "ed_date") >= fr_date))
+        query1 = session.query(cls).filter(getattr(cls, "mem_id") == mem_id)\
+            .filter(getattr(cls, "fr_date") == fr_date)\
+            .filter(getattr(cls, "use_yn") == 'Y')
+        query2 = session.query(cls).filter(getattr(cls, "mem_id") == mem_id)\
+            .filter(getattr(cls, "ed_date") >= fr_date)\
+            .filter(getattr(cls, "use_yn") == 'Y')
 
         query = query1.union(query2)
 
@@ -92,20 +96,62 @@ class BaseMixin:
     @classmethod
     def get_union_todo_id(cls, todo_id, fr_date):
         session = next(db.session())
-        query1 = session.query(cls).filter(getattr(cls, "todo_id") == todo_id).filter((getattr(cls, "fr_date") == fr_date))
-        query2 = session.query(cls).filter(getattr(cls, "todo_id") == todo_id).filter((getattr(cls, "ed_date") >= fr_date))
+        query1 = session.query(cls).filter(getattr(cls, "todo_id") == todo_id)\
+            .filter(getattr(cls, "fr_date") == fr_date)\
+            .filter(getattr(cls, "use_yn") == 'Y')
+        query2 = session.query(cls).filter(getattr(cls, "todo_id") == todo_id)\
+            .filter(getattr(cls, "ed_date") >= fr_date)\
+            .filter(getattr(cls, "use_yn") == 'Y')
 
         query = query1.union(query2)
 
         return query.all()
 
+    @classmethod
+    def filter(cls, session: Session = None, **kwargs):
+        """
+        Simply get a Row
+        :param session:
+        :param kwargs:
+        :return:
+        """
+        cond = []
+        for key, val in kwargs.items():
+            key = key.split("__")
+            if len(key) > 2:
+                raise Exception("No 2 more dunders")
+            col = getattr(cls, key[0])
+            if len(key) == 1:
+                cond.append((col == val))
+            elif len(key) == 2 and key[1] == 'gt':
+                cond.append((col > val))
+            elif len(key) == 2 and key[1] == 'gte':
+                cond.append((col >= val))
+            elif len(key) == 2 and key[1] == 'lt':
+                cond.append((col < val))
+            elif len(key) == 2 and key[1] == 'lte':
+                cond.append((col <= val))
+            elif len(key) == 2 and key[1] == 'in':
+                cond.append((col.in_(val)))
+        obj = cls()
+        if session:
+            obj._session = session
+            obj.served = True
+        else:
+            obj._session = next(db.session())
+            obj.served = False
+        query = obj._session.query(cls)
+        query = query.filter(*cond)
+        obj._q = query
+        return obj
+
     def update(self, auto_commit: bool = False, **kwargs):
         qs = self._q.update(kwargs)
-        get_id = self.id
+        # get_id = self.id
         ret = None
 
         self._session.flush()
-        if qs > 0 :
+        if qs > 0:
             ret = self._q.first()
         if auto_commit:
             self._session.commit()
@@ -125,3 +171,4 @@ class Todo(Base, BaseMixin):
     certi_yn = Column(String(length=255), default="N")
     created_user = Column(String(length=255), nullable=True)
     updated_user = Column(String(length=255), nullable=True)
+    use_yn = Column(String(length=10), default="Y")
