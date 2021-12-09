@@ -125,7 +125,10 @@ class JoinViewController: UIViewController {
     
     private func userJoin() {
         RadHelper.getRootViewController()?.showLoadingView()
-        let _ = UserJoinViewModel.init(emailInputText, idInputText, pwInputText)
+        
+        let _ = UserJoinViewModel.init(emailInputText, idInputText, pwInputText) { type in
+            print("error api type is \(type)")
+        }
     }
     
     @objc private func showWelcomPage() {
@@ -156,7 +159,7 @@ extension JoinViewController {
                 
                 self.changeTextField(type: self.nowInputType)
             }
-        }
+        } errHandler: { print("error \($0)") }
     }
 }
 

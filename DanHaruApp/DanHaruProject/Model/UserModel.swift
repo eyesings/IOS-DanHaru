@@ -20,7 +20,7 @@ struct UserInfoModel: Codable {
     }
     var profile_nm: String?
     var profileName: String? {
-        get { return profile_nm != nil ? RadHelper.AES256Decrypt(WithValue: profile_nm) : nil }
+        get { return profile_nm != nil ? RadHelper.AES256Decrypt(WithValue: profile_nm).decodeEmoji() : nil }
     }
     var profile_img: String?
     var profileImgUrl: String? {
@@ -28,6 +28,15 @@ struct UserInfoModel: Codable {
     }
     var profile_into: String?
     var profileIntroStr: String? {
-        get { return profile_into != nil ? RadHelper.AES256Decrypt(WithValue: profile_into) : nil }
+        get { return profile_into != nil ? RadHelper.AES256Decrypt(WithValue: profile_into).decodeEmoji() : nil }
     }
+}
+
+
+
+struct UserTodoCntModel: Codable {
+    var todo_complete_count: Int?
+    var todo_total_count: Int?
+    var challenge_complete_count: Int?
+    var challenge_total_count: Int?
 }

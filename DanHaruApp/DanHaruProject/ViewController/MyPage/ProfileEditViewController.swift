@@ -53,13 +53,11 @@ class ProfileEditViewController: UIViewController {
     
     @IBAction func onTapSaveBtn(_ sender: UIButton) {
         
-        _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text,
-                                            editedIntro: introduceField.text,
+        _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text?.encodeEmoji() ?? "",
+                                            editedIntro: introduceField.text?.encodeEmoji() ?? "",
                                             editedImg: selectedImage) {
-            print("is done!")
             
             self.navigationController?.popViewController()
-            // FIXME: user nickname and introduce send to server
             RadHelper.getRootViewController { vc in
                 if let rootVc = vc
                 {
@@ -69,7 +67,7 @@ class ProfileEditViewController: UIViewController {
                                                                     viewController: rootVc)
                 }
             }
-        }
+        } errHandler: { Dprint("error \($0)") }
         
         
     }
@@ -114,7 +112,11 @@ extension ProfileEditViewController {
     private func pageLayoutInit() {
         profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         profileImageView.backgroundColor = .clear
-        profileImageView.image = RadHelper.getProfileImage() ?? #imageLiteral(resourceName: "profileNon")
+        RadHelper.getProfileImage { img in
+            DispatchQueue.main.async {
+                self.profileImageView.image = img
+            }
+        }
         profileImageView.contentMode = .scaleAspectFill
         
         profileImgSelectBtn.layer.cornerRadius = profileImgSelectBtn.frame.width / 2

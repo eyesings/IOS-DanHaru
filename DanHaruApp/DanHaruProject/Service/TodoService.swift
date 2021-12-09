@@ -12,7 +12,7 @@ import Foundation
 extension ViewModelService {
     
     /// 리스트 조회
-    static func todoListService(searchDate date: String, completionHandler: @escaping ([NSDictionary]?) -> Void) {
+    static func todoListService(searchDate date: String, completionHandler: @escaping ([NSDictionary]?) -> Void, errorHandler: @escaping (APIType) -> Void) {
         var param: [String:Any] = [:]
         param["mem_id"] = UserModel.memberId ?? UserDefaults.userInputId
         param["fr_date"] = date
@@ -33,15 +33,13 @@ extension ViewModelService {
             }
         } errorHandler: { error in
             Dprint("error \(error)")
-            DispatchQueue.main.async {
-                RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
-            }
+            errorHandler(.TodoList)
         }
 
     }
     
     /// 리스트 등록
-    static func todoRegisterService(param: [String:Any], completionHandler: @escaping () -> Void) {
+    static func todoRegisterService(param: [String:Any], completionHandler: @escaping () -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         
@@ -58,9 +56,7 @@ extension ViewModelService {
             completionHandler()
         } errorHandler: { err in
             Dprint("error \(err)")
-            DispatchQueue.main.async {
-                RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
-            }
+            errorHandler(.TodoCreate)
         }
     }
 }

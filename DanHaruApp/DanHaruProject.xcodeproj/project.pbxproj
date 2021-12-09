@@ -98,6 +98,7 @@
 		B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */; };
 		B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CDD273C91AE007625D6 /* TodoCollectModel.swift */; };
 		B6A41CE1273CF6EB007625D6 /* ChallengeCollectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */; };
+		B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A7BEE92761D24200300524 /* String+Extension.swift */; };
 		B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */; };
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
@@ -247,6 +248,7 @@
 		B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewControllerr.swift; sourceTree = "<group>"; };
 		B6A41CDD273C91AE007625D6 /* TodoCollectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCollectModel.swift; sourceTree = "<group>"; };
 		B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectViewModel.swift; sourceTree = "<group>"; };
+		B6A7BEE92761D24200300524 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFlowLayout.swift; sourceTree = "<group>"; };
@@ -258,7 +260,7 @@
 		B6B2DEA12755BA4A001360E7 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		B6B2DEAA2755E506001360E7 /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		B6B2DEAE275614FD001360E7 /* DanHaruProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DanHaruProject.entitlements; sourceTree = "<group>"; };
-		B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Appdelegate+Notification.swift"; path = "DanHaruProject/ViewController/AppFirst/Appdelegate+Notification.swift"; sourceTree = "<group>"; };
+		B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Appdelegate+Notification.swift"; sourceTree = "<group>"; };
 		B6B604202728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		B6B604212728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainViewController.strings; sourceTree = "<group>"; };
 		B6B604282728D2B400CD8453 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
 				B603BC3E2754648500994A42 /* Date+Extension.swift */,
 				B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */,
+				B6A7BEE92761D24200300524 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -639,7 +642,6 @@
 		B6C3FCA3272661560046E35A = {
 			isa = PBXGroup;
 			children = (
-				B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */,
 				B6C3FCAE272661570046E35A /* DanHaruProject */,
 				B6C3FCAD272661570046E35A /* Products */,
 			);
@@ -711,6 +713,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCAF272661570046E35A /* AppDelegate.swift */,
+				B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */,
 				B6C3FCBA272661580046E35A /* LaunchScreen.storyboard */,
 			);
 			path = AppFirst;
@@ -956,6 +959,7 @@
 				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
 				B6166C06274C7EB900C04898 /* FMPhotoViewController.swift in Sources */,
 				B6A41CE1273CF6EB007625D6 /* ChallengeCollectViewModel.swift in Sources */,
+				B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */,
 				B6166C26274C7EBA00C04898 /* FMImageEditor.swift in Sources */,
 				B60F0BB5275888A800942C75 /* UserService.swift in Sources */,
 				B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */,

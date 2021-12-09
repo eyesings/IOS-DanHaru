@@ -64,20 +64,22 @@ extension RadHelper {
     
     /// UserModel 프로필 이미지 주소 값으로 부터 이미지 받아오는 함수
     /// - Returns: 프로필 이미지
-    static func getProfileImage() -> UIImage? {
-        var image: UIImage?
-        print("what path \(Configs.API.getUsrImg + "/" + (UserModel.profileImgUrl ?? ""))")
-        RadServerNetwork.getDataFromServer(url: Configs.API.getUsrImg + "/" + (UserModel.profileImgUrl ?? ""), type: .IMAGE) { dic in
-            print("dic \(dic)")
+    static func getProfileImage(completeHandler: @escaping (UIImage?)->Void) {
+        
+        let profileImg = UIImage(named: "profileNon")
+        guard let profileImgUrl = UserModel.profileImgUrl else { completeHandler(profileImg); return }
+        
+        RadServerNetwork.getDataFromServer(url: Configs.API.getUsrImg + "/" + profileImgUrl, type: .IMAGE) { dic in
             if let dic = dic {
                 let img = dic["image"] as? UIImage
-                image = img
+                completeHandler(img)
+            } else {
+                completeHandler(profileImg)
             }
         } errorHandler: { err in
             Dprint("error with \(err.localizedDescription)")
+            completeHandler(profileImg)
         }
-
-        return image
     }
     
     static func keyboardAnimation(_ noti: Notification, _ moveLayout: NSLayoutConstraint, forCustom: Bool = false, isUpdateToHihger: Bool = false, completionHandler: @escaping () -> Void) {
@@ -181,17 +183,17 @@ extension RadServerNetwork {
         task.resume()
     }
     
-    static func putDataFromServer(url: String, parameters:[String:Any], image: UIImage? = nil, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+    static func putDataFromServer(url: String, parameters:[String:Any], isForUploadImg: Bool, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
         guard let reqUrl = URL(string: url) else { return }
         
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: reqUrl)
         request.httpMethod = "PUT"
-        if let _ = image { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
+        if isForUploadImg { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
         
         if parameters.count > 0 {
-            if let uploadImg = image {
+            if isForUploadImg {
                 let body = NSMutableData()
                 let boundaryPrefix = "--\(boundary)\r\n"
                 
@@ -199,46 +201,23 @@ extension RadServerNetwork {
                     body.appendString(boundaryPrefix)
                     body.appendString("Content-Disposition: form-data; name=\"\(key)\"")
                     if key == "uploaded_file" {
-                        let fileContent = uploadImg.jpegData(compressionQuality: 0.9)
-                        let urlStr = uploadImg.getImageInfo(type: .url)
-                        if let url = URL(string: urlStr)
+                        if let fileContent = (value as? UIImage)?.jpegData(compressionQuality: 0.9),
+                           let urlStr = (value as? UIImage)?.getImageInfo(type: .url),
+                            let url = URL(string: urlStr)
                         {
-                            do { try fileContent?.write(to: url) }
+                            do { try fileContent.write(to: url) }
                             catch { print("error combined to file type") }
+                            
+                            body.appendString("; filename=\"\(url)\"\r\n" + "Content-Type: image/jpeg\"\r\n\r\n")
+                            body.append(fileContent)
+                            body.appendString("\r\n")
                         }
                         
-                        body.appendString("; filename=\"\(url)\"\r\n" + "Content-Type: image/jpeg\"\r\n\r\n")
-                    } else if let valueStr = value as? String, valueStr != "" {
-                        body.appendString("\r\n\r\n\(valueStr)\r\n")
+                    } else {
+                        if let valueStr = value as? String { body.appendString("\r\n\r\n\(valueStr)\r\n") }
                     }
                 }
                 
-//                for key in parameters.keys {
-//                    print("key to string? \(key as String)")
-//
-//
-//                    if let _  = parameters["uploaded_file"] as? String {
-//                        let fileContent = uploadImg.jpegData(compressionQuality: 0.9)
-//                        let urlStr = uploadImg.getImageInfo(type: .url)
-//                        if let url = URL(string: urlStr)
-//                        {
-//                            do { try fileContent?.write(to: url) }
-//                            catch {}
-//                        }
-//
-//                        body.appendString("; filename=\"\(url)\"\r\n" + "Content-Type: image/jpeg\"\r\n\r\n")
-//                        if let fileContentData = fileContent {
-//                            body.append(fileContentData)
-//                            body.appendString("\r\n")
-//                        }
-//                    } else {
-//                        for value in parameters.values {
-//                            if (value as? String) == "" { continue }
-//                            body.appendString("\r\n\r\n\(value)\r\n")
-//                        }
-//                    }
-//                }
-//
                 body.appendString("--\(boundary)--\r\n")
                 
                 request.httpBody = body as Data

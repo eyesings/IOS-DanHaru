@@ -108,7 +108,7 @@ extension MainViewController {
             detailVC.isForInviteFriend = true
             detailVC.invitedMemId = inviteMemId
             self.navigationController?.pushViewController(detailVC)
-        }
+        } errHandler: { Dprint("error \($0)") }
     }
     
     internal func calendarViewAnimation() {

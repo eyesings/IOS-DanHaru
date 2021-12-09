@@ -118,6 +118,6 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         let selectedDateStr = DateFormatter().korDateString(date: date)
         selectedDate = selectedDateStr
         self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
-        self.todoListModel = TodoListViewModel.init(searchDate: selectedDateStr)
+        self.todoListModel = TodoListViewModel.init(searchDate: selectedDateStr) { Dprint("error \($0)") }
     }
 }

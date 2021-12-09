@@ -103,6 +103,23 @@ enum ImageInfo {
     case name
 }
 
+enum APIType {
+    case UserJoin
+    case UserLogin
+    case UserValidate
+    case UserUpdate
+    case UserProfileImg
+    case UserTodoCnt
+    case TodoList
+    case TodoCreate
+    case TodoDetail
+    case TodoUpdate
+    case TodoCreateChallenge
+    case TodoDeleteChallenge
+    case TodoCreateCertification
+    case NetworkNotConnected
+}
+
 /// 바텀 뷰 재사용 코드
 enum BottomViewCheck: String {
     case todoAdd = "todoAdd"
@@ -162,8 +179,10 @@ struct Configs {
         static let join       = host + "/auth/register/member/email"
         static let login      = host + "/auth/login/member/email"
         // MyPage
-        static let updateUser = host + "/auth/mypage/update"
-        static let getUsrImg  = host + "/auth/mypage/getImages"
+        static let updateUser = host + "/mypage/update"
+        static let getUsrImg  = host + "/mypage/getImages"
+        static let getUsrTodo = host + "/mypage/list"
+        static let getUsrAll  = host + "/mypage/total/list"
         // SearchList
         static let todoList   = host + "/todo/main/list"
         static let createTodo = host + "/todo/main/create"

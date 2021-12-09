@@ -26,7 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if !RadReachability.isConnectedToNetwork() {
-            RadHelper.getRootViewController()?.showNetworkErrorView()
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.Network.networkErr,
+                                                            message: RadMessage.Network.networkErrMsg,
+                                                            isNeedCancel: false,
+                                                            viewController: self.window?.rootViewController ?? UIViewController()) {
+                if ($0) { exit(0) }
+            }
         }
         
         registeredForRemoteNotifications(application: application)

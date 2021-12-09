@@ -22,6 +22,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     let todoListTableView = UITableView()
     var cautionView = UIView()
     
+    var networkView: NetworkErrorView!
+    
     var todoListModel: TodoListViewModel!
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
@@ -47,10 +49,15 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
                                                name: Configs.NotificationName.todoListCreateNew, object: nil)
         
         self.setUI()
+        networkView = NetworkErrorView.shared
+        networkView.delegate = self
         
         if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
-            UserModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
+            _ = UserInfoViewModel.init(UserDefaults.userInputId, UserDefaults.userInputPw) { type in
+                self.networkView.showNetworkView()
+                self.networkView.needRetryType = type
+            }
             todoListTableView.showAnimatedGradientSkeleton()
         }
         
@@ -87,8 +94,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     @objc func requestTodoList(_ noti: NSNotification) {
         guard let isSuccess = noti.object as? Bool else { return }
         // FIXME: isSuccess 이면 splashImg Dismiss
-        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) }
-        else { RadHelper.getRootViewController()?.showNetworkErrorView() }
+        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) { Dprint("error \($0)") } }
+        else {print("show network error view") }
     }
     
     @objc func doneSetTodoListModel(_ noti: NSNotification) {
@@ -107,3 +114,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
 }
 
 
+extension MainViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        print("is need retry service \(type)")
+    }
+}

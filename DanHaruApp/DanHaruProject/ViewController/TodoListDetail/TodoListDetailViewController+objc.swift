@@ -189,15 +189,15 @@ extension TodoListDetailViewController {
             mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
         }
         
-        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: nil, notiTime: nil, completionHandler: {
+        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: nil, notiTime: nil) {
             if self.isForInviteFriend {
-                _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId, completionHandler: {
+                _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId) {
                     reloadMainListView()
-                })
+                } errHandler: { Dprint("error \($0)") }
             } else {
                 reloadMainListView()
             }
-        })
+        } errHandler: { Dprint("type \($0)") }
     }
     
     /// 뒤로가기

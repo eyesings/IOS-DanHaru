@@ -10,39 +10,42 @@ import Lottie
 
 
 protocol NetworkErrorViewDelegate {
-    func isNeedRetryService()
+    func isNeedRetryService(_ type: APIType)
 }
 
-class NetworkErrorView: UIView {
+class NetworkErrorView {
     
+    private let containerView: UIView
     var delegate: NetworkErrorViewDelegate?
-    var isNeedRetry: Bool = false
+    var isNeedRetry: Bool = true
+    public var needRetryType: APIType?
     
-    public init(frame: CGRect, isNeedRetry retry: Bool = false) {
-        super.init(frame: frame)
-        isNeedRetry = retry
-        commonInit()
-    }
+    public static let shared = NetworkErrorView()
+    private var animating = false
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    private init() {
+        
+        let rootVC = (UIApplication.shared.keyWindow!.rootViewController)!
+        
+        containerView = UIView(frame: rootVC.view.frame)
+        containerView.backgroundColor = .black.withAlphaComponent(0.4)
+        
         commonInit()
     }
 }
 
 // MARK: - UI Layout Init
 extension NetworkErrorView {
-    func commonInit() {
-        self.backgroundColor = .black.withAlphaComponent(0.4)
+    private func commonInit() {
         
         let basicView = UIView()
         basicView.backgroundColor = .backgroundColor
         basicView.layer.cornerRadius = 20
-        self.addSubview(basicView)
+        self.containerView.addSubview(basicView)
         
         basicView.snp.makeConstraints { make in
-            make.centerX.centerY.equalTo(self)
-            make.width.equalTo(self).multipliedBy(0.7)
+            make.centerX.centerY.equalTo(self.containerView)
+            make.width.equalTo(self.containerView).multipliedBy(0.7)
             make.height.equalTo(basicView.snp.width).multipliedBy(1.3)
         }
         
@@ -108,11 +111,30 @@ extension NetworkErrorView {
         
     }
     
+    public func showNetworkView() {
+        if self.animating { return }
+        
+        self.animating = true
+        
+        UIApplication.shared.keyWindow?.addSubview(self.containerView)
+        self.containerView.isHidden = false
+        self.containerView.alpha = 0
+        
+        
+        UIView.animate(withDuration: 1.5) {
+            self.containerView.alpha = 1.0
+        }
+
+    }
+    
     @objc
     func retryConnectNetwork() {
-        NotificationCenter.default.post(name: Configs.NotificationName.networkRetryConnect, object: nil)
-        print("retry something")
-        self.removeFromSuperview()
+        guard let retryType = self.needRetryType else { return }
+        print("retry something \(retryType)")
+        delegate?.isNeedRetryService(retryType)
+        self.containerView.isHidden = true
+        self.containerView.removeFromSuperview()
+        self.animating = false
     }
     
     @objc

@@ -12,6 +12,7 @@ extension RadMessage {
     struct Network {
         static let reBuildLater = "잠시후 다시 시도해 주세요."
         static let networkErr   = "네트워크 오류"
+        static let networkErrMsg = "네트워크에 연결되어 있지 않아요!"
     }
     
     struct Main {
