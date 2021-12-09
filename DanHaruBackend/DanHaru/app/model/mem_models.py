@@ -38,6 +38,7 @@ class MemberReturn(BaseModel):
     class Config:
         orm_mode = True
 
+
 class MemberToken(BaseModel):
     mem_id: str
     mem_pw: str = None
@@ -56,3 +57,7 @@ class MemberMe(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class MyPageListParam(BaseModel):
+    mem_id: str

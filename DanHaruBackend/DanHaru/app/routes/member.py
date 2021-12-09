@@ -17,8 +17,9 @@ from starlette.responses import JSONResponse
 from app.common.consts import JWT_SECRET, JWT_ALGORITHM, FILE_FATH
 from app.database.conn import db
 from app.database.mem_schema import Member
+from app.database.todo_schema import Todo
 from app.model.mem_models import MemberRegister, MemberToken, MemberMe, MemberLogin, ValidationType, MemberValidation, \
-    MemberReturn, SnsType
+    MemberReturn, SnsType, MyPageListParam
 
 log = logging.getLogger(__name__)
 
@@ -115,16 +116,16 @@ async def login(sns_type: SnsType, user_info: MemberLogin):
     return JSONResponse(status_code=400, content=dict(msg="NOT_SUPPORTED", result_code="9999"))
 
 
-@router.put("/myPage/update/{mem_id}", status_code=200)
+@router.put("/myPage/update/{mem_id}/{mem_email}", status_code=200)
 async def create_upload_file(mem_id: str,
-                             mem_email: str = Form(None),
+                             mem_email: str,
                              profile_nm: str = Form(None),
                              profile_into: str = Form(None),
                              uploaded_file: UploadFile = File(None)):
     """
     `마이페이지 Update API`\n
     :param mem_id: 회원ID(필수)\n
-    :param mem_email: 이메일(선택)\n
+    :param mem_email: 이메일(필수)\n
     :param profile_nm: 프로필명(선택)\n
     :param profile_into: 한줄소개(선택)\n
     :param uploaded_file: 회원이미지(선택)\n
@@ -173,16 +174,78 @@ async def create_upload_file(mem_id: str,
             return JSONResponse(status_code=400, content=dict(msg="존재하지 않는 데이터입니다.", result_code="9999"))
         return JSONResponse(status_code=200,
                             content=dict(
-                                msg="Success.",
-                                result_code="0000",
-                                detail=user_data_dic
-                            )
+                                            msg="Success.",
+                                            result_code="0000",
+                                            detail=user_data_dic
+                                        )
                             )
 
     return {"filename": file_name}
 
 
-@router.get("/myPage/getImages/{imageName}")
+@router.post("/myPage/list", status_code=200)
+async def my_page_list(reg_info: MyPageListParam):
+    """
+    `마이페이지 List Count API`\n
+    :param reg_info: mem_id 사용\n
+    :return: Todo, 도전, 완료 카운트 \n
+    """
+    total_todo_count = len(Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="N"))
+    todo_complete_count = len(Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="N", todo_status="003"))
+    total_challenge_count = len(Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="Y"))
+    challenge_complete_count = len(Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="Y", challange_status="003"))
+
+    user_list_percentage = {
+        "mem_id": reg_info.mem_id,
+        "todo_total_count": total_todo_count,
+        "todo_complete_count": todo_complete_count,
+        "challenge_total_count": total_challenge_count,
+        "challenge_complete_count": challenge_complete_count,
+    }
+
+    return JSONResponse(status_code=200,
+                        content=dict(
+                                        msg="Success.",
+                                        result_code="0000",
+                                        detail=user_list_percentage
+                                    )
+                        )
+
+
+@router.post("/myPage/total/list", status_code=200)
+async def my_page_total_list(reg_info: MyPageListParam):
+    """
+    `마이페이지 Total List API`\n
+    :param reg_info: mem_id 사용\n
+    :return: \n
+    Todo(진행-todo_progress_count, 미완료-todo_incomplete_count, 완료-todo_complete_count) \n
+    Challenge(진행-challenge_progress_count ,미완료-challenge_incomplete_count ,완료-challenge_complete_count) \n
+    """
+    todo_progress_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="N", todo_status="001")
+    todo_incomplete_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="N", todo_status="002")
+    todo_complete_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="N", todo_status="003")
+
+    challenge_progress_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="Y", challange_status="001")
+    challenge_incomplete_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="Y", challange_status="002")
+    challenge_complete_count = Todo.gets(mem_id=reg_info.mem_id, chaluser_yn="Y", challange_status="003")
+
+    user_total_list_dict = {
+        "msg": "Success",
+        "result_code": "0000",
+        "detail": {
+            "todo_progress_count": todo_progress_count,
+            "todo_incomplete_count": todo_incomplete_count,
+            "todo_complete_count": todo_complete_count,
+            "challenge_progress_count": challenge_progress_count,
+            "challenge_incomplete_count": challenge_incomplete_count,
+            "challenge_complete_count": challenge_complete_count,
+        },
+    }
+
+    return user_total_list_dict
+
+
+@router.get("/myPage/getImages/{imageName}", status_code=200)
 async def read_random_file(imageName: str):
     """
     `마이페이지 이미지 API`\n
@@ -215,7 +278,7 @@ async def save_image(uploaded_file: UploadFile, mem_id: str):
     return file_name
 
 
-def my_page_dic(params):
+def my_page_dic(**params):
     dic_param = {}
     for key, value in params.items():
         if value:

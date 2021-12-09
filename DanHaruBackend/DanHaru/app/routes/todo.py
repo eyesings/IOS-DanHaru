@@ -13,7 +13,7 @@ from app.database.conn import db
 from app.database.todo_schema import Todo
 from app.database.mem_schema import Member
 from app.database.detail_schema import ChallengeMem
-from app.model.todo_models import TodoMe, TodoReturn, TodoRegister, TodoGet
+from app.model.todo_models import TodoDeleteParam, TodoReturn, TodoRegister, TodoGet
 
 
 
@@ -41,6 +41,7 @@ async def todo_register(reg_info: TodoRegister, session: Session = Depends(db.se
     result = dict(msg="Success", result_code="0000")
     return result
 
+
 @router.post("/main/list", status_code=200)
 async def todo_list(reg_info: TodoGet):
     """
@@ -64,6 +65,30 @@ async def todo_list(reg_info: TodoGet):
         return JSONResponse(status_code=200, content=dict(msg="존재하는 데이터가 없습니다.", result_code="9999"))
 
     return todo_data
+
+
+@router.post("/main/delete", status_code=200)
+async def todo_delete(reg_info: TodoDeleteParam):
+    """
+    `todo Delete API`\n
+    :description: todo 테이블에 상태값 변경 \n
+    :param reg_info: todo_id, mem_id, \n
+    :return:
+    """
+    key_data = Todo.filter(todo_id=reg_info.todo_id, created_user=reg_info.mem_id)
+
+    update_dict = {
+        "use_yn": "N"
+    }
+    if key_data:
+        return_data = key_data.update(auto_commit=True, **update_dict)
+        if not return_data:
+            return JSONResponse(status_code=400, content=dict(msg="존재하지 않는 데이터입니다.", result_code="9999"))
+        return JSONResponse(status_code=200, content=dict(msg="Success", result_code="0000"))
+    else:
+        return JSONResponse(status_code=400, content=dict(msg="존재하지 않는 데이터입니다.", result_code="9999"))
+
+    return JSONResponse(status_code=200, content=dict(msg="Success", result_code="0000"))
 
 
 async def mem_is_id_exist(id: str):
