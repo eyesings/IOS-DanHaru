@@ -67,8 +67,6 @@ extension ViewModelService {
     /// 로그인 및 유저 정보 확인
     static func userInfoService(_ id: String, _ pw: String, completionHandler: @escaping (NSDictionary?) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
-        errorHandler(.UserValidate)
-        return
         let rootVC = RadHelper.getRootViewController()
         
         func rootVCHideLoadingView() {
