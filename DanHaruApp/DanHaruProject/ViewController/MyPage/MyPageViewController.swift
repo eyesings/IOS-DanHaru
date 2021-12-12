@@ -25,11 +25,16 @@ class MyPageViewController: UIViewController {
     
     @IBOutlet var snapShotUnderView: UIView!
     
+    private var isDrawing: Bool = false
+    var networkErrView: NetworkErrorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         pageLayoutInit()
+        
+        networkErrView = NetworkErrorView.shared
+        networkErrView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,56 +48,7 @@ class MyPageViewController: UIViewController {
         scrollView.contentSize = CGSize(width: screenwidth, height: screenheight + 20)
         scrollTopViewHeightConst.constant = screenheight
         
-        pieChartViewInit()
-    }
-    
-    
-    // MARK: - OBJC Method
-    @IBAction func onTapMoveToProfileEdit(_ sender: UIButton) {
-        if let profileEditVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.profileVC) as? ProfileEditViewController {
-            profileEditVC.selectedImage = self.profileImgView.image
-            self.navigationController?.pushViewController(profileEditVC)
-        }
-    }
-    
-    @IBAction func onTapSaveProfileBtn(_ sender: UIButton) {
-        let absolutePosition = snapShotUnderView.convert(snapShotUnderView.bounds, to: nil)
-        if let image = self.view.takeScreenShot(absolutePosition.maxY - snapShotUnderView.frame.height) {
-            UIImageWriteToSavedPhotosAlbum(image,
-                                           self,
-                                           #selector(image(_:didFinishSavingWithError:contextInfo:)),
-                                           nil)
-        }
-        
-    }
-    
-    
-    @IBAction func onTapMoveToChallenge(_ sender: UIButton) {
-        if let challangeVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.myChallangeVC) as? MyChallengeListViewController {
-            
-            self.navigationController?.pushViewController(challangeVC)
-        }
-    }
-    
-    @IBAction func onTapMoveToSetting(_ sender: UIButton) {
-        if let settingVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.settingVC) as? SettingViewController {
-            
-            self.navigationController?.pushViewController(settingVC)
-        }
-    }
-    
-    @objc private func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: UnsafeRawPointer)  {
-        
-        func showToasPopup(_ str: String) {
-            DispatchQueue.main.async {
-                let warning = WarningView.shared
-                warning.message = str
-                warning.showAndAutoHide()
-            }
-        }
-        
-        print("error : \(String(describing: error))")
-        showToasPopup(error == nil ? RadMessage.MyPage.savePhotoSuccess : RadMessage.MyPage.savePhotoFail)
+        if isDrawing == false { pieChartViewInit() }
     }
     
 }
@@ -148,7 +104,8 @@ extension MyPageViewController {
     }
     
     private func pieChartViewInit() {
-        
+        self.isDrawing = true
+        self.showLoadingView()
         _ = UserTodoCntViewModel.init { todoCntModel in
             
             self.drawPieChartView(CGFloat(todoCntModel.todo_complete_count ?? 0),
@@ -166,9 +123,11 @@ extension MyPageViewController {
                                   totalCnt: CGFloat(totalTotalCnt),
                                   self.totalScoreView)
             
+            self.hideLoadingView()
         } errHandler: { apitype in
-            print("apiType \(apitype)")
-            self.drawPieChartView(0, totalCnt: 0, self.challengeScoreView)
+            self.networkErrView.needRetryType = apitype
+            self.networkErrView.showNetworkView()
+            self.hideLoadingView()
         }
     }
     
@@ -219,6 +178,14 @@ extension MyPageViewController {
             label.snp.makeConstraints { label in
                 label.centerX.centerY.equalTo(pieChartView)
             }
+            
         }
+    }
+}
+
+// MARK: - NetworkErrDelegate
+extension MyPageViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        if type == .UserTodoCnt { self.pieChartViewInit() }
     }
 }

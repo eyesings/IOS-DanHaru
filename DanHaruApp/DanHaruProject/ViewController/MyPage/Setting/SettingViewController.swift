@@ -44,8 +44,23 @@ class SettingViewController: UIViewController {
             if isCheck {
                 UserDefaults.standard.saveUserInputVal(id: RadHelper.tempraryID, pw: "1")
                 UserModel = UserInfoModel()
-                self.navigationController?.popToMainViewController()
+                
+                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                                message: RadMessage.Setting.returnToLogin,
+                                                                isNeedCancel: true,
+                                                                viewController: self) { isCheck in
+                    if isCheck {
+                        if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
+                            appdelegate.switchToHome(needMovePageRef: StoryBoardRef.loginVC)
+                        }
+                    } else {
+                        NotificationCenter.default.post(name: Configs.NotificationName.reloadAfterLogout, object: nil)
+                        self.navigationController?.popToMainViewController()
+                    }
+                }
+                
             }
+            
         }
     }
     

@@ -18,7 +18,7 @@ extension ViewModelService {
         
         RadServerNetwork.postDataFromServer(url: Configs.API.join, type: .JSON, parameters: param) { resultDic in
             if let dic = resultDic {
-                if let msgStr = dic["msg"] as? String {
+                if let codeStr = dic["result_code"] as? String, codeStr == APIResultCode.failure.rawValue, let msgStr = dic["msg"] as? String {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
                     completionHandler()
@@ -127,20 +127,14 @@ extension ViewModelService {
         var param: [String:Any] = [:]
         param["mem_id"] = UserModel.memberId
         
-        let rootVC = RadHelper.getRootViewController()
-        rootVC?.showLoadingView()
-        
         RadServerNetwork.postDataFromServer(url: Configs.API.getUsrTodo, type: .JSON, parameters: param) { resultData in
             if let resultCode = resultData?["result_code"] as? String,
                resultCode == APIResultCode.success.rawValue {
                 completionHandler(resultData?["detail"] as? NSDictionary)
-            } else {
-                errHandler(.UserTodoCnt)
             }
-            rootVC?.hideLoadingView()
         } errorHandler: { err in
+            Dprint("error  \(err)")
             errHandler(.UserTodoCnt)
-            rootVC?.hideLoadingView()
         }
 
     }

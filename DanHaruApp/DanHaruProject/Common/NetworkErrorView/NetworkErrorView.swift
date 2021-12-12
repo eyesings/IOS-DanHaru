@@ -121,7 +121,7 @@ extension NetworkErrorView {
         self.containerView.alpha = 0
         
         
-        UIView.animate(withDuration: 1.5) {
+        UIView.animate(withDuration: 1.0) {
             self.containerView.alpha = 1.0
         }
 

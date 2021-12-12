@@ -117,7 +117,8 @@ extension BottomSheetsViewController {
         
         // FIXME: - 타이틀을 입력 안하면 처리
         guard let titleText = self.titleTextField.text else { return }
-        _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: titleText) { Dprint("error \($0)") }
+        let randomColor = UIColor().generateRandomBackgroundColor()
+        _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: titleText, color: randomColor.hexStringFromColor()) { Dprint("error \($0)") }
         self.hideBottomSheetAndGoBack()
     }
     

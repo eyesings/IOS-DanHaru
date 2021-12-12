@@ -20,6 +20,8 @@ struct TodoModel: Codable {
     var challange_status: String?
     var chaluser_yn: String?
     var certi_yn: String?
+    var use_yn: String?
+    var color: String?
     var created_at: String?
     var created_user: String?
     var updated_at: String?
@@ -57,6 +59,7 @@ struct TodoRegisterModel {
     var mem_id: String?
     var title: String?
     var fr_date: String?
+    var color: String?
     
     func makesToParam() -> [String:Any] {
         let mirror = Mirror(reflecting: self)

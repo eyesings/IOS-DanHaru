@@ -47,6 +47,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
                                                name: Configs.NotificationName.todoListFetchDone, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList),
                                                name: Configs.NotificationName.todoListCreateNew, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserInfo),
+                                               name: Configs.NotificationName.reloadAfterLogout, object: nil)
         
         self.setUI()
         networkView = NetworkErrorView.shared
@@ -54,10 +56,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
-            _ = UserInfoViewModel.init(UserDefaults.userInputId, UserDefaults.userInputPw) { type in
-                self.networkView.showNetworkView()
-                self.networkView.needRetryType = type
-            }
+            self.apiService(withType: .UserLogin)
             todoListTableView.showAnimatedGradientSkeleton()
         }
         
@@ -94,8 +93,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     @objc func requestTodoList(_ noti: NSNotification) {
         guard let isSuccess = noti.object as? Bool else { return }
         // FIXME: isSuccess 이면 splashImg Dismiss
-        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) { Dprint("error \($0)") } }
-        else {print("show network error view") }
+        if isSuccess { self.apiService(withType: .TodoList) }
     }
     
     @objc func doneSetTodoListModel(_ noti: NSNotification) {
@@ -111,11 +109,32 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
     }
     
+    @objc func reloadUserInfo() {
+        self.todoListModel = nil
+        self.todoListTableView.reloadData()
+    }
 }
 
 
 extension MainViewController: NetworkErrorViewDelegate {
     func isNeedRetryService(_ type: APIType) {
-        print("is need retry service \(type)")
+        self.apiService(withType: type)
+    }
+    
+    func apiService(withType type: APIType) {
+        
+        func showNetworkErrView(type: APIType) {
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = type
+        }
+        
+        if type == .UserLogin
+        {
+            _ = UserInfoViewModel.init(UserDefaults.userInputId, UserDefaults.userInputPw) { showNetworkErrView(type: $0) }
+        }
+        else if type == .TodoList
+        {
+            todoListModel = TodoListViewModel.init(searchDate: selectedDate) { showNetworkErrView(type: $0) }
+        }
     }
 }

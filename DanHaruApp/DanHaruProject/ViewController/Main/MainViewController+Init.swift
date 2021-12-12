@@ -99,16 +99,16 @@ extension MainViewController {
     }
     
     @objc func onTappedBtn() {
-        let inviteMemId = "djaaksmscjs"
-        let todoIdx = 23
-        
-        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
-            let detailVC = TodoListDetailViewController()
-            detailVC.detailInfoModel = model
-            detailVC.isForInviteFriend = true
-            detailVC.invitedMemId = inviteMemId
-            self.navigationController?.pushViewController(detailVC)
-        } errHandler: { Dprint("error \($0)") }
+//        let inviteMemId = "djaaksmscjs"
+//        let todoIdx = 23
+//
+//        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
+//            let detailVC = TodoListDetailViewController()
+//            detailVC.detailInfoModel = model
+//            detailVC.isForInviteFriend = true
+//            detailVC.invitedMemId = inviteMemId
+//            self.navigationController?.pushViewController(detailVC)
+//        } errHandler: { Dprint("error \($0)") }
     }
     
     internal func calendarViewAnimation() {

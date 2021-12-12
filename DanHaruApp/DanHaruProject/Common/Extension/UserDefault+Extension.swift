@@ -11,7 +11,9 @@ import Foundation
 extension UserDefaults {
     
     static var isFirstInstall: Bool? {
-        if let _ = self.standard.value(forKey: Configs.UserDefaultsKey.isFirstInstall) {
+        if let _ = self.standard.value(forKey: Configs.UserDefaultsKey.isFirstInstall),
+           let _ = self.standard.value(forKey: Configs.UserDefaultsKey.userInputID),
+           let _ = self.standard.value(forKey: Configs.UserDefaultsKey.userInputPW) {
             return self.standard.bool(forKey: Configs.UserDefaultsKey.isFirstInstall)
         } else {
             return nil

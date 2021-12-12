@@ -59,4 +59,27 @@ extension ViewModelService {
             errorHandler(.TodoCreate)
         }
     }
+    
+    
+    /// 항목 삭제
+    static func todoDeleteService(todoIdx: Int, completionHandler: @escaping () -> Void, errorHandler: @escaping (APIType) -> Void) {
+        
+        var param: [String:Any] = [:]
+        param["todo_id"] = "\(todoIdx)"
+        param["mem_id"] = UserModel.memberId ?? ""
+        
+        
+        RadServerNetwork.postDataFromServer(url: Configs.API.todoDelete, type: .JSON, parameters: param) { resultDic in
+            print("resultData \(resultDic)")
+            if let resultCode = resultDic?["result_code"] as? String,
+               resultCode == APIResultCode.success.rawValue {
+                completionHandler()
+            }
+        } errorHandler: { error in
+            Dprint("error \(error)")
+            errorHandler(.TodoDetail)
+        }
+
+
+    }
 }

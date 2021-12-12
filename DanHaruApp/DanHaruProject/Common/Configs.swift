@@ -166,6 +166,7 @@ struct Configs {
         static let userLoginSuccess    = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
         static let todoListFetchDone   = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
         static let todoListCreateNew   = Notification.Name(rawValue: "TODO_LIST_CREATE_NEW")
+        static let reloadAfterLogout   = Notification.Name(rawValue: "RELOAD_AFTER_LOGOUT")
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
         static let networkRetryConnect = Notification.Name(rawValue: "NETWORK_RETRY_CONNECT")
@@ -186,6 +187,7 @@ struct Configs {
         // SearchList
         static let todoList   = host + "/todo/main/list"
         static let createTodo = host + "/todo/main/create"
+        static let todoDelete = host + "/todo/main/delete"
         // Detail
         static let todoDetail = host + "/todo/detail/list"
         static let updateDtl  = host + "/todo/detail/update"

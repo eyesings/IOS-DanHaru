@@ -132,6 +132,7 @@
 		B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FD7527266BD00046E35A /* CommonMethod.swift */; };
 		B6C6D2762743807E006344BF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = B6C6D2752743807E006344BF /* loading.json */; };
 		B6CF10DE2739068300223EDB /* MyChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CF10DD2739068300223EDB /* MyChallengeCell.swift */; };
+		B6E6C5E12762CEB200DFE583 /* MyPageVC+OBJC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */; };
 		B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E815AE2731232800809530 /* UIView+Extension.swift */; };
 		B6F6ED112734F89D00A4C88E /* MainViewController+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */; };
 		B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */; };
@@ -286,6 +287,7 @@
 		B6C3FD7527266BD00046E35A /* CommonMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMethod.swift; sourceTree = "<group>"; };
 		B6C6D2752743807E006344BF /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		B6CF10DD2739068300223EDB /* MyChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeCell.swift; sourceTree = "<group>"; };
+		B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageVC+OBJC.swift"; sourceTree = "<group>"; };
 		B6E815AE2731232800809530 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Init.swift"; sourceTree = "<group>"; };
 		B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+objc.swift"; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 				B6CF10D92739063300223EDB /* MyChallengeList */,
 				B622FBAD27421499002EC735 /* Setting */,
 				B6BF7639272BCD610031F2C9 /* MyPageViewController.swift */,
+				B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */,
 				B6BB84FC2731162B00035C77 /* ProfileEditViewController.swift */,
 				B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */,
 				B6BF763A272BCD610031F2C9 /* MyPageSB.storyboard */,
@@ -955,6 +958,7 @@
 				B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */,
 				B6166C0B274C7EB900C04898 /* FMPresenterBottomView.swift in Sources */,
 				827EC8DA273A405600A60CCB /* TodoListDetailViewController+function.swift in Sources */,
+				B6E6C5E12762CEB200DFE583 /* MyPageVC+OBJC.swift in Sources */,
 				B6BF763B272BCD610031F2C9 /* MyPageViewController.swift in Sources */,
 				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
 				B6166C06274C7EB900C04898 /* FMPhotoViewController.swift in Sources */,

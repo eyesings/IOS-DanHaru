@@ -60,4 +60,35 @@ extension UIColor {
     static var todoHotPickColor = {
         return RadHelper.colorFromHex(hex: "FFAEBC")
     }()
+    
+    func generateRandomBackgroundColor() -> UIColor {
+        let randomColorGenerator = { () -> CGFloat in
+            CGFloat(arc4random() % 256) / 256
+        }
+        
+        var red: CGFloat = randomColorGenerator()
+        var green: CGFloat = randomColorGenerator()
+        var blue: CGFloat = randomColorGenerator()
+        
+        let mixRed: CGFloat = 1+0xad/256
+        let mixGreen: CGFloat = 1+0xd8/256
+        let mixBlue: CGFloat = 1+0xe6/256
+        
+        red = (red + mixRed) / 3
+        green = (green + mixGreen) / 3
+        blue = (blue + mixBlue) / 3
+        
+        return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+    
+    func hexStringFromColor() -> String {
+        let components = self.cgColor.components
+        let r: CGFloat = components?[0] ?? 0.0
+        let g: CGFloat = components?[1] ?? 0.0
+        let b: CGFloat = components?[2] ?? 0.0
+
+        let hexString = String.init(format: "#%02lX%02lX%02lX", lroundf(Float(r * 255)), lroundf(Float(g * 255)), lroundf(Float(b * 255)))
+        print(hexString)
+        return hexString
+     }
 }

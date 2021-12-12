@@ -62,11 +62,22 @@ class TodoListViewModel {
 class TodoResgisterViewModel {
     var param: [String:Any] = [:]
     
-    init(searchDate date: String, inputTitle: String, errHandler: @escaping (APIType) -> Void) {
-        param = TodoRegisterModel.init(mem_id: UserModel.memberId, title: inputTitle, fr_date: date).makesToParam()
+    init(searchDate date: String, inputTitle: String, color: String, errHandler: @escaping (APIType) -> Void) {
+        param = TodoRegisterModel.init(mem_id: UserModel.memberId, title: inputTitle, fr_date: date, color: color).makesToParam()
         ViewModelService.todoRegisterService(param: param) {
             NotificationCenter.default.post(name: Configs.NotificationName.todoListCreateNew, object: true)
         } errorHandler: { errHandler($0) }
+    }
+}
+
+
+/// Todo 삭제하는 VM
+class TodoDeleteViewModel {
+    init(todoIdx: Int, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
+        ViewModelService.todoDeleteService(todoIdx: todoIdx) {
+            completionHandler()
+        } errorHandler: { errHandler($0) }
+
     }
 }
 

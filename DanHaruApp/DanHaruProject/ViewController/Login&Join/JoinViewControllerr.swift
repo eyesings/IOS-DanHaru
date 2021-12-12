@@ -37,6 +37,8 @@ class JoinViewController: UIViewController {
     private var idInputText: String = ""
     private var pwInputText: String = ""
     
+    var networkView: NetworkErrorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +51,9 @@ class JoinViewController: UIViewController {
         self.registerKeyboardNotification()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showWelcomPage), name: Configs.NotificationName.userLoginSuccess, object: nil)
+        
+        networkView = NetworkErrorView.shared
+        networkView.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -104,6 +109,7 @@ class JoinViewController: UIViewController {
     }
     
     @IBAction func onTapStartBtn(_ sender: UIButton) {
+        UserDefaults.standard.saveUserInputVal(id: self.idInputText, pw: self.pwInputText)
         RadHelper.rootVcChangeToMain()
     }
     
@@ -127,7 +133,8 @@ class JoinViewController: UIViewController {
         RadHelper.getRootViewController()?.showLoadingView()
         
         let _ = UserJoinViewModel.init(emailInputText, idInputText, pwInputText) { type in
-            print("error api type is \(type)")
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = type
         }
     }
     
@@ -143,7 +150,7 @@ extension JoinViewController {
     private func checkIsValidValue() {
         
         guard let inputText = inputTextField.text else { return }
-        // FIXME: Server has character 0. ?
+        
         UserInfoValidCheckViewModel.checkIsValid(inputText, nowInputType, emailInputText) { isValid in
             if !isValid {
                 self.errorInfoMsgLabel.isHidden = false
@@ -159,7 +166,10 @@ extension JoinViewController {
                 
                 self.changeTextField(type: self.nowInputType)
             }
-        } errHandler: { print("error \($0)") }
+        } errHandler: {
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = $0
+        }
     }
 }
 
@@ -267,5 +277,14 @@ extension JoinViewController: keyboardNotiRegistProtocol {
         RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
             self.view.layoutIfNeeded()
         }
+    }
+}
+
+
+// MARK: - NetworkErrView Delegate
+extension JoinViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        if type == .UserValidate { self.checkIsValidValue() }
+        else if type == .UserJoin { self.userJoin() }
     }
 }
