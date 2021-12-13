@@ -853,7 +853,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         selfBtn.snp.makeConstraints { make in
             if isFirst {
                 make.top.equalTo(cycleLabel.snp.bottom).offset(20)
-                make.leading.equalTo(self.mainScrollView).offset(self.view.frame.width * 0.03)
+                make.leading.equalTo(self.view).offset(self.view.frame.width * 0.11)
             }
             else {
                 make.top.equalTo(parent)

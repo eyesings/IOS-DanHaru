@@ -43,13 +43,15 @@ extension TodoListDetailViewController {
     }
 
     /// 반복주기 클릭 - 클릭시 [String] 에 추가(차후 수정)
+    /// 수정시 수정사항 공유 필수 ******
     @objc func onTapDayNotiBtn(_ sender: UIButton) {
         
         guard let selectedTag = DetailNotiDayBtnTag.init(rawValue: sender.tag) else { return }
-        
         if selectedTag == .everyday {
+            self.selectedNotiDay.removeAll()
             for btn in self.selectedNotiBtnList {
-                guard let btnTag = DetailNotiDayBtnTag.init(rawValue: btn.tag), btnTag != .everyday else { return }
+                guard let btnTag = DetailNotiDayBtnTag.init(rawValue: btn.tag) else { return }
+                
                 btn.isSelected = !sender.isSelected
                 btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
                 
@@ -58,8 +60,10 @@ extension TodoListDetailViewController {
                 } else {
                     self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag.name() }
                 }
+                
+                
             }
-            
+            print("selectedNotiDay \(self.selectedNotiDay)")
             return
         }
         
@@ -70,6 +74,16 @@ extension TodoListDetailViewController {
         if sender.isSelected {
             self.selectedNotiDay.append(selectedTag.name())
         } else {
+            
+            for btn in self.selectedNotiBtnList {
+                guard let btnTag = DetailNotiDayBtnTag.init(rawValue: btn.tag) else { return }
+                if btnTag == .everyday {
+                    btn.isSelected = false
+                    btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
+                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag.name()}
+                }
+            }
+            
             self.selectedNotiDay = self.selectedNotiDay.filter { $0 != selectedTag.name() }
         }
         
