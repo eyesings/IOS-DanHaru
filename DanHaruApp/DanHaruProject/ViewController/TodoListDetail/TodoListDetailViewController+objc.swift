@@ -43,139 +43,37 @@ extension TodoListDetailViewController {
     }
 
     /// 반복주기 클릭 - 클릭시 [String] 에 추가(차후 수정)
-    @objc func circleBtnAction(_ sender: UIButton) {
+    @objc func onTapDayNotiBtn(_ sender: UIButton) {
         
-        if sender.tag == DayBtnTag.monday.rawValue {
-            print("월")
-            // 선택
-            if sender.viewWithTag(DayBtnTag.monday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("월")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "월"}
-            }
-            
-        } else if sender.tag == DayBtnTag.tuesday.rawValue {
-            print("화")
-            if sender.viewWithTag(DayBtnTag.tuesday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("화")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "화" }
-            }
-            
-        } else if sender.tag == DayBtnTag.wednesday.rawValue {
-            print("수")
-            if sender.viewWithTag(DayBtnTag.wednesday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("수")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "수" }
-            }
-            
-        } else if sender.tag == DayBtnTag.thursday.rawValue {
-            print("목")
-            if sender.viewWithTag(DayBtnTag.thursday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("목")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "목" }
-            }
+        guard let selectedTag = DetailNotiDayBtnTag.init(rawValue: sender.tag) else { return }
         
-        } else if sender.tag == DayBtnTag.friday.rawValue {
-            print("금")
-            if sender.viewWithTag(DayBtnTag.friday.rawValue)?.backgroundColor == .lightGrayColor {
+        if selectedTag == .everyday {
+            for btn in self.selectedNotiBtnList {
+                guard let btnTag = DetailNotiDayBtnTag.init(rawValue: btn.tag), btnTag != .everyday else { return }
+                btn.isSelected = !sender.isSelected
+                btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
                 
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("금")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "금" }
+                if btn.isSelected {
+                    self.selectedNotiDay.append(btnTag.name())
+                } else {
+                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag.name() }
+                }
             }
             
-        } else if sender.tag == DayBtnTag.saturday.rawValue {
-            print("토")
-            if sender.viewWithTag(DayBtnTag.saturday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("토")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "토" }
-            }
-
-        } else if sender.tag == DayBtnTag.sunday.rawValue {
-            print("일")
-            if sender.viewWithTag(DayBtnTag.sunday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("일")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "일" }
-            }
-            
-        } else if sender.tag == DayBtnTag.everyday.rawValue {
-            print("매일")
-            if sender.viewWithTag(DayBtnTag.everyday.rawValue)?.backgroundColor == .lightGrayColor {
-                
-                sender.backgroundColor = UIColor.darkGray
-                sender.alpha = 1.0
-                sender.setTitleColor(.white, for: .normal)
-                self.circleCheckDay.append("매일")
-            } else {
-                // 선택해제
-                sender.backgroundColor = .lightGrayColor
-                sender.alpha = 0.5
-                sender.setTitleColor(.black, for: .normal)
-                self.circleCheckDay = self.circleCheckDay.filter { $0 != "매일" }
-            }
-            
+            return
         }
         
+        sender.isSelected = !sender.isSelected
+        
+        sender.backgroundColor = sender.isSelected ? .mainColor : .lightGrayColor
+        
+        if sender.isSelected {
+            self.selectedNotiDay.append(selectedTag.name())
+        } else {
+            self.selectedNotiDay = self.selectedNotiDay.filter { $0 != selectedTag.name() }
+        }
+        
+        print("selectedNotiDay \(self.selectedNotiDay)")
     }
     
     @objc func onTapSubmitBtn() {

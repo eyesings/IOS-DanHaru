@@ -132,6 +132,8 @@
 		B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FD7527266BD00046E35A /* CommonMethod.swift */; };
 		B6C6D2762743807E006344BF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = B6C6D2752743807E006344BF /* loading.json */; };
 		B6CF10DE2739068300223EDB /* MyChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CF10DD2739068300223EDB /* MyChallengeCell.swift */; };
+		B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B6D770DA2766C955001B0566 /* FirebaseMessaging */; };
+		B6D770DD2766C964001B0566 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6D770DC2766C964001B0566 /* GoogleService-Info.plist */; };
 		B6E6C5E12762CEB200DFE583 /* MyPageVC+OBJC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */; };
 		B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E815AE2731232800809530 /* UIView+Extension.swift */; };
 		B6F6ED112734F89D00A4C88E /* MainViewController+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */; };
@@ -287,6 +289,7 @@
 		B6C3FD7527266BD00046E35A /* CommonMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMethod.swift; sourceTree = "<group>"; };
 		B6C6D2752743807E006344BF /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		B6CF10DD2739068300223EDB /* MyChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeCell.swift; sourceTree = "<group>"; };
+		B6D770DC2766C964001B0566 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageVC+OBJC.swift"; sourceTree = "<group>"; };
 		B6E815AE2731232800809530 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Init.swift"; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 			files = (
 				829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */,
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
+				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
 			);
@@ -705,6 +709,7 @@
 			children = (
 				828648E82726778200EA5CAF /* Lottie */,
 				B6C3FCBD272661580046E35A /* Info.plist */,
+				B6D770DC2766C964001B0566 /* GoogleService-Info.plist */,
 				B6C3FD6F27266A190046E35A /* DanHaru-Bridging-Header.h */,
 				B6C3FCB8272661580046E35A /* Assets.xcassets */,
 				B6A255F427277C4100C3EC14 /* Color.xcassets */,
@@ -801,6 +806,7 @@
 				B6C3FD2A272665A60046E35A /* SkeletonView */,
 				828648EC272678C800EA5CAF /* SnapKit */,
 				829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */,
+				B6D770DA2766C955001B0566 /* FirebaseMessaging */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -835,6 +841,7 @@
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
+				B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
 			projectDirPath = "";
@@ -861,6 +868,7 @@
 				82A63A18275F144F0004E684 /* check_black.json in Resources */,
 				B6166BFB274C7EB900C04898 /* FMPhotoPickerViewController.xib in Resources */,
 				827EC8D8273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib in Resources */,
+				B6D770DD2766C964001B0566 /* GoogleService-Info.plist in Resources */,
 				B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */,
 				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
 				B603BC3D27544BCE00994A42 /* idea.json in Resources */,
@@ -1248,6 +1256,14 @@
 				minimumVersion = 1.25.2;
 			};
 		};
+		B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1270,6 +1286,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */;
 			productName = SkeletonView;
+		};
+		B6D770DA2766C955001B0566 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

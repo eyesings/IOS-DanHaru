@@ -91,6 +91,31 @@ enum CollectionViewTag: Int {
     case none
 }
 
+/// 디테일 푸시 버튼 태그 값
+enum DetailNotiDayBtnTag: Int {
+    case sunday = 500
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case everyday
+    
+    func name() -> String {
+        switch self {
+        case .sunday: return "일"
+        case .monday: return "월"
+        case .tuesday: return "화"
+        case .wednesday: return "수"
+        case .thursday: return "목"
+        case .friday: return "금"
+        case .saturday: return "토"
+        case .everyday: return "매일"
+        }
+    }
+}
+
 /// API 통신 결과 코드
 enum APIResultCode: String {
     case success = "0000"
@@ -114,6 +139,7 @@ enum APIType {
     case TodoCreate
     case TodoDetail
     case TodoUpdate
+    case TodoDelete
     case TodoCreateChallenge
     case TodoDeleteChallenge
     case TodoCreateCertification
@@ -134,16 +160,6 @@ enum DateLabelTag: Int {
     case endDateLabel = 2222
 }
 
-enum DayBtnTag: Int {
-    case monday = 111
-    case tuesday = 222
-    case wednesday = 333
-    case thursday = 444
-    case friday = 555
-    case saturday = 666
-    case sunday = 777
-    case everyday = 888
-}
 
 enum ImageDeleteBtnTag: Int {
     case deleteImageView1 = 121

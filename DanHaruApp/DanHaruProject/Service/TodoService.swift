@@ -77,7 +77,7 @@ extension ViewModelService {
             }
         } errorHandler: { error in
             Dprint("error \(error)")
-            errorHandler(.TodoDetail)
+            errorHandler(.TodoDelete)
         }
 
 

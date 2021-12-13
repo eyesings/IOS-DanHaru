@@ -32,14 +32,8 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 반복주기
     let cycleLabel = UILabel()
     let cycleExplainLabel = UILabel()
-    let circleBtn1 = UIButton()
-    let circleBtn2 = UIButton()
-    let circleBtn3 = UIButton()
-    let circleBtn4 = UIButton()
-    let circleBtn5 = UIButton()
-    let circleBtn6 = UIButton()
-    let circleBtn7 = UIButton()
-    let circleBtn8 = UIButton()
+    var mondayNotiBtn = UIButton()
+    var selectedNotiBtnList: [UIButton] = []
     let cycleTimeLabel = UILabel()
     
     // 인증 수단
@@ -79,7 +73,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let weeklyTableView = UITableView()
     
     //클릭 요일
-    var circleCheckDay: [String] = []
+    var selectedNotiDay: [String] = []
     
     // 메인 스크롤 뷰
     let mainScrollView = UIScrollView()

@@ -24,6 +24,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     var networkView: NetworkErrorView!
     
+    let userNotificationCenter = UNUserNotificationCenter.current()
+    
     var todoListModel: TodoListViewModel!
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
