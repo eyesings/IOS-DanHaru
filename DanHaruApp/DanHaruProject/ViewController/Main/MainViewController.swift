@@ -22,6 +22,10 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     let todoListTableView = UITableView()
     var cautionView = UIView()
     
+    var networkView: NetworkErrorView!
+    
+    let userNotificationCenter = UNUserNotificationCenter.current()
+    
     var todoListModel: TodoListViewModel!
     var todoListCellBackGroundColor: [UIColor] = [
         UIColor.todoLightBlueColor,
@@ -45,12 +49,16 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
                                                name: Configs.NotificationName.todoListFetchDone, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList),
                                                name: Configs.NotificationName.todoListCreateNew, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserInfo),
+                                               name: Configs.NotificationName.reloadAfterLogout, object: nil)
         
         self.setUI()
+        networkView = NetworkErrorView.shared
+        networkView.delegate = self
         
         if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
-            UserModel = UserInfoViewModel(UserDefaults.userInputId, UserDefaults.userInputPw).model
+            self.apiService(withType: .UserLogin)
             todoListTableView.showAnimatedGradientSkeleton()
         }
         
@@ -86,8 +94,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     @objc func requestTodoList(_ noti: NSNotification) {
         guard let isSuccess = noti.object as? Bool else { return }
-        if isSuccess { todoListModel = TodoListViewModel.init(searchDate: selectedDate) }
-        else { RadHelper.getRootViewController()?.showNetworkErrorView() }
+        // FIXME: isSuccess 이면 splashImg Dismiss
+        if isSuccess { self.apiService(withType: .TodoList) }
     }
     
     @objc func doneSetTodoListModel(_ noti: NSNotification) {
@@ -103,6 +111,32 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
     }
     
+    @objc func reloadUserInfo() {
+        self.todoListModel = nil
+        self.todoListTableView.reloadData()
+    }
 }
 
 
+extension MainViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        self.apiService(withType: type)
+    }
+    
+    func apiService(withType type: APIType) {
+        
+        func showNetworkErrView(type: APIType) {
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = type
+        }
+        
+        if type == .UserLogin
+        {
+            _ = UserInfoViewModel.init(UserDefaults.userInputId, UserDefaults.userInputPw) { showNetworkErrView(type: $0) }
+        }
+        else if type == .TodoList
+        {
+            todoListModel = TodoListViewModel.init(searchDate: selectedDate) { showNetworkErrView(type: $0) }
+        }
+    }
+}

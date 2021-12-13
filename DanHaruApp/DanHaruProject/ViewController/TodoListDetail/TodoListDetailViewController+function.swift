@@ -137,7 +137,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.mainScrollView.addSubview(cycleTimeLabel)
         cycleTimeLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.circleBtn1.snp.bottom).offset(25)
+            make.top.equalTo(self.mondayNotiBtn.snp.bottom).offset(25)
             make.width.equalTo(self.mainScrollView).multipliedBy(0.4)
             make.height.equalTo(30)
             make.centerX.equalTo(self.view)
@@ -810,160 +810,58 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     // 반복주기 요일 버튼 생성 함수
     func createCircleDateButton() {
         
-        self.mainScrollView.addSubview(circleBtn1)
-        circleBtn1.snp.makeConstraints { make in
-            make.top.equalTo(cycleLabel.snp.bottom).offset(20)
-            make.leading.equalTo(self.mainScrollView).offset(self.view.frame.width * 0.03)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
+        mondayNotiBtn = createNotiCircleBtn(type: .monday, to: cycleLabel, isFirst: true)
+        let tuesdayNotiBtn = createNotiCircleBtn(type: .tuesday, to: mondayNotiBtn)
+        let wednesdayNotiBtn = createNotiCircleBtn(type: .wednesday, to: tuesdayNotiBtn)
+        let thursdayNotiBtn = createNotiCircleBtn(type: .thursday, to: wednesdayNotiBtn)
+        let fridayNotiBtn = createNotiCircleBtn(type: .friday, to: thursdayNotiBtn)
+        let saturdayNotiBtn = createNotiCircleBtn(type: .saturday, to: fridayNotiBtn)
+        let sundayNotiBtn = createNotiCircleBtn(type: .sunday, to: saturdayNotiBtn)
+        let everyNotiBtn = createNotiCircleBtn(type: .everyday, to: sundayNotiBtn)
         
-        
-        self.mainScrollView.addSubview(circleBtn2)
-        circleBtn2.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn1.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-       
-        
-        self.mainScrollView.addSubview(circleBtn3)
-        circleBtn3.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn2.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-        
-        
-        self.mainScrollView.addSubview(circleBtn4)
-        circleBtn4.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn3.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-        
-        
-        self.mainScrollView.addSubview(circleBtn5)
-        circleBtn5.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn4.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-        
-        
-        self.mainScrollView.addSubview(circleBtn6)
-        circleBtn6.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn5.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-        
-        
-        
-        self.mainScrollView.addSubview(circleBtn7)
-        circleBtn7.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn6.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-        
-        
-        self.mainScrollView.addSubview(circleBtn8)
-        circleBtn8.snp.makeConstraints { make in
-            make.top.equalTo(circleBtn1)
-            make.leading.equalTo(circleBtn7.snp.trailing).offset(self.view.frame.width * 0.02)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.1)
-            make.height.equalTo(self.view.frame.width * 0.1)
-        }
-    
-        // 주기 선택 - 월
-        circleBtn1.setTitle("월", for: .normal)
-        circleBtn1.setTitleColor(.black, for: .normal)
-        circleBtn1.backgroundColor = .lightGrayColor
-        circleBtn1.alpha = 0.5
-        circleBtn1.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn1.layer.masksToBounds = true
-        circleBtn1.tag = DayBtnTag.monday.rawValue
-        circleBtn1.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 화
-        circleBtn2.setTitle("화", for: .normal)
-        circleBtn2.setTitleColor(.black, for: .normal)
-        circleBtn2.backgroundColor = .lightGrayColor
-        circleBtn2.alpha = 0.5
-        circleBtn2.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn2.layer.masksToBounds = true
-        circleBtn2.tag = DayBtnTag.tuesday.rawValue
-        circleBtn2.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 수
-        circleBtn3.setTitle("수", for: .normal)
-        circleBtn3.setTitleColor(.black, for: .normal)
-        circleBtn3.backgroundColor = .lightGrayColor
-        circleBtn3.alpha = 0.5
-        circleBtn3.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn3.layer.masksToBounds = true
-        circleBtn3.tag = DayBtnTag.wednesday.rawValue
-        circleBtn3.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 목
-        circleBtn4.setTitle("목", for: .normal)
-        circleBtn4.setTitleColor(.black, for: .normal)
-        circleBtn4.backgroundColor = .lightGrayColor
-        circleBtn4.alpha = 0.5
-        circleBtn4.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn4.layer.masksToBounds = true
-        circleBtn4.tag = DayBtnTag.thursday.rawValue
-        circleBtn4.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 금
-        circleBtn5.setTitle("금", for: .normal)
-        circleBtn5.setTitleColor(.black, for: .normal)
-        circleBtn5.backgroundColor = .lightGrayColor
-        circleBtn5.alpha = 0.5
-        circleBtn5.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn5.layer.masksToBounds = true
-        circleBtn5.tag = DayBtnTag.friday.rawValue
-        circleBtn5.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 토
-        circleBtn6.setTitle("토", for: .normal)
-        circleBtn6.setTitleColor(.black, for: .normal)
-        circleBtn6.backgroundColor = .lightGrayColor
-        circleBtn6.alpha = 0.5
-        circleBtn6.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn6.layer.masksToBounds = true
-        circleBtn6.tag = DayBtnTag.saturday.rawValue
-        circleBtn6.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 일
-        circleBtn7.setTitle("일", for: .normal)
-        circleBtn7.setTitleColor(.black, for: .normal)
-        circleBtn7.backgroundColor = .lightGrayColor
-        circleBtn7.alpha = 0.5
-        circleBtn7.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn7.layer.masksToBounds = true
-        circleBtn7.tag = DayBtnTag.sunday.rawValue
-        circleBtn7.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
-        // 주기 선택 - 매일
-        circleBtn8.setTitle("매일", for: .normal)
-        circleBtn8.setTitleColor(.black, for: .normal)
-        circleBtn8.backgroundColor = .lightGrayColor
-        circleBtn8.alpha = 0.5
-        circleBtn8.layer.cornerRadius = self.view.frame.width * 0.1 / 2
-        circleBtn8.layer.masksToBounds = true
-        circleBtn8.tag = DayBtnTag.everyday.rawValue
-        circleBtn8.addTarget(self, action: #selector(circleBtnAction(_:)), for: .touchUpInside)
-        
+        self.selectedNotiBtnList.append(mondayNotiBtn)
+        self.selectedNotiBtnList.append(tuesdayNotiBtn)
+        self.selectedNotiBtnList.append(wednesdayNotiBtn)
+        self.selectedNotiBtnList.append(thursdayNotiBtn)
+        self.selectedNotiBtnList.append(fridayNotiBtn)
+        self.selectedNotiBtnList.append(saturdayNotiBtn)
+        self.selectedNotiBtnList.append(sundayNotiBtn)
+        self.selectedNotiBtnList.append(everyNotiBtn)
     }
     
+    func createNotiCircleBtn(type: DetailNotiDayBtnTag, to parent: UIView, isFirst: Bool = false) -> UIButton {
+        
+        let btn = UIButton(type: .custom)
+        btn.setTitle(type.name(), for: .normal)
+        btn.setTitleColor(.heavyGrayColor, for: .normal)
+        btn.setTitleColor(.backgroundColor, for: .selected)
+        btn.titleLabel?.font = .systemFont(ofSize: 14.0)
+        btn.backgroundColor = .lightGrayColor
+        btn.layer.cornerRadius = self.view.frame.width * 0.08 / 2
+        
+        btn.layer.masksToBounds = true
+        btn.tag = type.rawValue
+        btn.addTarget(self, action: #selector(onTapDayNotiBtn(_:)), for: .touchUpInside)
+        
+        setLayoutNotiCircleBtn(with: btn, to: parent, isFirst: isFirst)
+        
+        return btn
+    }
     
+    func setLayoutNotiCircleBtn(with selfBtn: UIButton, to parent: UIView, isFirst: Bool = false) {
+        self.mainScrollView.addSubview(selfBtn)
+        selfBtn.snp.makeConstraints { make in
+            if isFirst {
+                make.top.equalTo(cycleLabel.snp.bottom).offset(20)
+                make.leading.equalTo(self.mainScrollView).offset(self.view.frame.width * 0.03)
+            }
+            else {
+                make.top.equalTo(parent)
+                make.leading.equalTo(parent.snp.trailing).offset(self.view.frame.width * 0.02)
+            }
+            make.width.equalTo(self.mainScrollView).multipliedBy(0.08)
+            make.height.equalTo(selfBtn.snp.width)
+        }
+    }
     
 }

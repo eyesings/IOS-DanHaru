@@ -12,7 +12,7 @@ import Foundation
 extension ViewModelService {
     
     /// 상세 페이지 데이터 조회
-    static func todoDetailDataService(todoIdx: Int, searchDate: String, completionHandler: @escaping (NSDictionary?) -> Void) {
+    static func todoDetailDataService(todoIdx: Int, searchDate: String, completionHandler: @escaping (NSDictionary?) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         rootVC.showLoadingView()
@@ -34,19 +34,19 @@ extension ViewModelService {
             Dprint("err \(err)")
             DispatchQueue.main.async {
                 rootVC.hideLoadingView()
-                rootVC.showNetworkErrorView(isNeedRetry: true)
             }
+            errorHandler(.TodoDetail)
         }
 
     }
     
     /// 데이터 업데이트
-    static func todoDetailUpdteService(param: [String:Any], todoIdx: Int, completionHandler: @escaping (Bool) -> Void) {
+    static func todoDetailUpdteService(param: [String:Any], todoIdx: Int, completionHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         rootVC.showLoadingView()
         
-        RadServerNetwork.putDataFromServer(url: Configs.API.updateDtl + "/\(todoIdx)", parameters: param) { resultData in
+        RadServerNetwork.putDataFromServer(url: Configs.API.updateDtl + "/\(todoIdx)", parameters: param, isForUploadImg: false) { resultData in
             
             if let data = resultData?["result_code"] as? String,
                data == APIResultCode.success.rawValue
@@ -59,13 +59,13 @@ extension ViewModelService {
         } errorHandler: { error in
             Dprint("error \(error)")
             rootVC.hideLoadingView()
-            rootVC.showNetworkErrorView(isNeedRetry: true)
+            errorHandler(.TodoUpdate)
         }
 
     }
     
     /// 챌린지 유저 등록
-    static func todoCreateChaalengeService(todoIdx: Int, ownerMemId: String, completionHandler: @escaping (Bool) -> Void) {
+    static func todoCreateChalengeService(todoIdx: Int, ownerMemId: String, completionHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         rootVC.showLoadingView()
@@ -87,6 +87,7 @@ extension ViewModelService {
         } errorHandler: { err in
             print("error \(err)")
             rootVC.hideLoadingView()
+            errorHandler(.TodoCreateChallenge)
         }
 
     }

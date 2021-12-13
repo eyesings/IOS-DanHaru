@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseMessaging
 
 
 @main
@@ -26,8 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if !RadReachability.isConnectedToNetwork() {
-            RadHelper.getRootViewController()?.showNetworkErrorView()
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.Network.networkErr,
+                                                            message: RadMessage.Network.networkErrMsg,
+                                                            isNeedCancel: false,
+                                                            viewController: self.window?.rootViewController ?? UIViewController()) {
+                if ($0) { exit(0) }
+            }
         }
+        
+        FirebaseApp.configure()
+        Messaging.messaging().delegate = self
         
         registeredForRemoteNotifications(application: application)
         
@@ -95,6 +105,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
         print("deviceToKenString \(deviceTokenString)")
+        
+        Messaging.messaging().apnsToken = deviceToken
+        
+        print("messaging fcm token \(Messaging.messaging().fcmToken)")
     }
 }
 
+
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        Dprint("didReceiveRegistrationToken")
+    }
+}

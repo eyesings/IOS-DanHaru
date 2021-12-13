@@ -15,6 +15,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var pwInputTextField: UITextField!
     @IBOutlet var startBtnBottomConst: NSLayoutConstraint!
     
+    var networkView: NetworkErrorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +27,9 @@ class LoginViewController: UIViewController {
         self.registerKeyboardNotification()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.changeRootToMain), name: Configs.NotificationName.userLoginSuccess, object: nil)
+        
+        networkView = NetworkErrorView.shared
+        networkView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,7 +61,7 @@ class LoginViewController: UIViewController {
             pwInputTextField.becomeFirstResponder()
         } else {
             view.endEditing(true)
-            let _ = UserInfoViewModel.init(idInputTextField.text!, pwInputTextField.text!)
+            self.apiService(withType: .UserLogin)
             RadHelper.getRootViewController()?.showLoadingView()
         }
         
@@ -127,8 +132,31 @@ extension LoginViewController: UITextFieldDelegate {
 // MARK: - Keyboard Protocol
 extension LoginViewController: keyboardNotiRegistProtocol {
     func keyboardShowAndHide(_ notification: Notification) {
-        RadHelper.keyboardAnimation(notification, startBtnBottomConst, isUpdateToHihger: true) {
+        RadHelper.keyboardAnimation(notification, startBtnBottomConst) {
             self.view.layoutIfNeeded()
+        }
+    }
+}
+
+
+// MARK: - NetworkError Delegate
+extension LoginViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        self.apiService(withType: .UserLogin)
+    }
+    
+    func apiService(withType type: APIType) {
+        
+        func showNetworkErrView(type: APIType) {
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = type
+        }
+        
+        if type == .UserLogin
+        {
+            _ = UserInfoViewModel.init(idInputTextField.text ?? UserDefaults.userInputId,
+                                       pwInputTextField.text ?? UserDefaults.userInputPw)
+            { showNetworkErrView(type: $0) }
         }
     }
 }

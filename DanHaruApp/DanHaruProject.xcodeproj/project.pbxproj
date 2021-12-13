@@ -82,6 +82,7 @@
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
 		B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682101A2733A5CE001F56DD /* CustomToolBar.swift */; };
+		B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */; };
 		B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */; };
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
@@ -97,6 +98,7 @@
 		B6A2561C2727C03E00C3EC14 /* JoinViewControllerr.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */; };
 		B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CDD273C91AE007625D6 /* TodoCollectModel.swift */; };
 		B6A41CE1273CF6EB007625D6 /* ChallengeCollectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */; };
+		B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A7BEE92761D24200300524 /* String+Extension.swift */; };
 		B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */; };
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
@@ -130,6 +132,9 @@
 		B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C3FD7527266BD00046E35A /* CommonMethod.swift */; };
 		B6C6D2762743807E006344BF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = B6C6D2752743807E006344BF /* loading.json */; };
 		B6CF10DE2739068300223EDB /* MyChallengeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CF10DD2739068300223EDB /* MyChallengeCell.swift */; };
+		B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = B6D770DA2766C955001B0566 /* FirebaseMessaging */; };
+		B6D770DD2766C964001B0566 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6D770DC2766C964001B0566 /* GoogleService-Info.plist */; };
+		B6E6C5E12762CEB200DFE583 /* MyPageVC+OBJC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */; };
 		B6E815AF2731232800809530 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E815AE2731232800809530 /* UIView+Extension.swift */; };
 		B6F6ED112734F89D00A4C88E /* MainViewController+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */; };
 		B6F6ED122734F89D00A4C88E /* MainViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */; };
@@ -230,6 +235,7 @@
 		B62C2EE7272A1FCD00D8FF8B /* Configs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
 		B64ABEE127424F640058F161 /* CommonMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMessage.swift; sourceTree = "<group>"; };
 		B682101A2733A5CE001F56DD /* CustomToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
+		B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableData+Extension.swift"; sourceTree = "<group>"; };
 		B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNonLoginViewController.swift; sourceTree = "<group>"; };
 		B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +251,7 @@
 		B6A2561B2727C03E00C3EC14 /* JoinViewControllerr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewControllerr.swift; sourceTree = "<group>"; };
 		B6A41CDD273C91AE007625D6 /* TodoCollectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCollectModel.swift; sourceTree = "<group>"; };
 		B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectViewModel.swift; sourceTree = "<group>"; };
+		B6A7BEE92761D24200300524 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFlowLayout.swift; sourceTree = "<group>"; };
@@ -256,7 +263,7 @@
 		B6B2DEA12755BA4A001360E7 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		B6B2DEAA2755E506001360E7 /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		B6B2DEAE275614FD001360E7 /* DanHaruProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DanHaruProject.entitlements; sourceTree = "<group>"; };
-		B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Appdelegate+Notification.swift"; path = "DanHaruProject/ViewController/AppFirst/Appdelegate+Notification.swift"; sourceTree = "<group>"; };
+		B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Appdelegate+Notification.swift"; sourceTree = "<group>"; };
 		B6B604202728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		B6B604212728D0B100CD8453 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/MainViewController.strings; sourceTree = "<group>"; };
 		B6B604282728D2B400CD8453 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
@@ -282,6 +289,8 @@
 		B6C3FD7527266BD00046E35A /* CommonMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMethod.swift; sourceTree = "<group>"; };
 		B6C6D2752743807E006344BF /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		B6CF10DD2739068300223EDB /* MyChallengeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeCell.swift; sourceTree = "<group>"; };
+		B6D770DC2766C964001B0566 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MyPageVC+OBJC.swift"; sourceTree = "<group>"; };
 		B6E815AE2731232800809530 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		B6F6ED0D2734F89D00A4C88E /* MainViewController+Init.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+Init.swift"; sourceTree = "<group>"; };
 		B6F6ED0E2734F89D00A4C88E /* MainViewController+objc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainViewController+objc.swift"; sourceTree = "<group>"; };
@@ -302,6 +311,7 @@
 			files = (
 				829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */,
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
+				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
 			);
@@ -547,6 +557,8 @@
 				82CB510E2734C33C009D3170 /* CALayer+Extension.swift */,
 				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
 				B603BC3E2754648500994A42 /* Date+Extension.swift */,
+				B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */,
+				B6A7BEE92761D24200300524 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -626,6 +638,7 @@
 				B6CF10D92739063300223EDB /* MyChallengeList */,
 				B622FBAD27421499002EC735 /* Setting */,
 				B6BF7639272BCD610031F2C9 /* MyPageViewController.swift */,
+				B6E6C5E02762CEB200DFE583 /* MyPageVC+OBJC.swift */,
 				B6BB84FC2731162B00035C77 /* ProfileEditViewController.swift */,
 				B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */,
 				B6BF763A272BCD610031F2C9 /* MyPageSB.storyboard */,
@@ -636,7 +649,6 @@
 		B6C3FCA3272661560046E35A = {
 			isa = PBXGroup;
 			children = (
-				B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */,
 				B6C3FCAE272661570046E35A /* DanHaruProject */,
 				B6C3FCAD272661570046E35A /* Products */,
 			);
@@ -697,6 +709,7 @@
 			children = (
 				828648E82726778200EA5CAF /* Lottie */,
 				B6C3FCBD272661580046E35A /* Info.plist */,
+				B6D770DC2766C964001B0566 /* GoogleService-Info.plist */,
 				B6C3FD6F27266A190046E35A /* DanHaru-Bridging-Header.h */,
 				B6C3FCB8272661580046E35A /* Assets.xcassets */,
 				B6A255F427277C4100C3EC14 /* Color.xcassets */,
@@ -708,6 +721,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCAF272661570046E35A /* AppDelegate.swift */,
+				B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */,
 				B6C3FCBA272661580046E35A /* LaunchScreen.storyboard */,
 			);
 			path = AppFirst;
@@ -792,6 +806,7 @@
 				B6C3FD2A272665A60046E35A /* SkeletonView */,
 				828648EC272678C800EA5CAF /* SnapKit */,
 				829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */,
+				B6D770DA2766C955001B0566 /* FirebaseMessaging */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -826,6 +841,7 @@
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
+				B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
 			projectDirPath = "";
@@ -852,6 +868,7 @@
 				82A63A18275F144F0004E684 /* check_black.json in Resources */,
 				B6166BFB274C7EB900C04898 /* FMPhotoPickerViewController.xib in Resources */,
 				827EC8D8273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib in Resources */,
+				B6D770DD2766C964001B0566 /* GoogleService-Info.plist in Resources */,
 				B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */,
 				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
 				B603BC3D27544BCE00994A42 /* idea.json in Resources */,
@@ -946,12 +963,15 @@
 				B6166C19274C7EBA00C04898 /* FMCropMenuView.swift in Sources */,
 				B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */,
 				B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */,
+				B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */,
 				B6166C0B274C7EB900C04898 /* FMPresenterBottomView.swift in Sources */,
 				827EC8DA273A405600A60CCB /* TodoListDetailViewController+function.swift in Sources */,
+				B6E6C5E12762CEB200DFE583 /* MyPageVC+OBJC.swift in Sources */,
 				B6BF763B272BCD610031F2C9 /* MyPageViewController.swift in Sources */,
 				B6B604292728D2B400CD8453 /* UITextField+Extension.swift in Sources */,
 				B6166C06274C7EB900C04898 /* FMPhotoViewController.swift in Sources */,
 				B6A41CE1273CF6EB007625D6 /* ChallengeCollectViewModel.swift in Sources */,
+				B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */,
 				B6166C26274C7EBA00C04898 /* FMImageEditor.swift in Sources */,
 				B60F0BB5275888A800942C75 /* UserService.swift in Sources */,
 				B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */,
@@ -1236,6 +1256,14 @@
 				minimumVersion = 1.25.2;
 			};
 		};
+		B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1258,6 +1286,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */;
 			productName = SkeletonView;
+		};
+		B6D770DA2766C955001B0566 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

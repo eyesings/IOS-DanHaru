@@ -12,7 +12,7 @@ class FMCropCell: UICollectionViewCell {
     static let reussId = String(describing: self)
     public var imageView: UIImageView = {
        let imgView = UIImageView()
-        imgView.contentMode = .scaleAspectFill
+        imgView.contentMode = .scaleAspectFit
         return imgView
     }()
     

@@ -91,6 +91,31 @@ enum CollectionViewTag: Int {
     case none
 }
 
+/// 디테일 푸시 버튼 태그 값
+enum DetailNotiDayBtnTag: Int {
+    case sunday = 500
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case everyday
+    
+    func name() -> String {
+        switch self {
+        case .sunday: return "일"
+        case .monday: return "월"
+        case .tuesday: return "화"
+        case .wednesday: return "수"
+        case .thursday: return "목"
+        case .friday: return "금"
+        case .saturday: return "토"
+        case .everyday: return "매일"
+        }
+    }
+}
+
 /// API 통신 결과 코드
 enum APIResultCode: String {
     case success = "0000"
@@ -101,6 +126,24 @@ enum APIResultCode: String {
 enum ImageInfo {
     case url
     case name
+}
+
+enum APIType {
+    case UserJoin
+    case UserLogin
+    case UserValidate
+    case UserUpdate
+    case UserProfileImg
+    case UserTodoCnt
+    case TodoList
+    case TodoCreate
+    case TodoDetail
+    case TodoUpdate
+    case TodoDelete
+    case TodoCreateChallenge
+    case TodoDeleteChallenge
+    case TodoCreateCertification
+    case NetworkNotConnected
 }
 
 /// 바텀 뷰 재사용 코드
@@ -117,16 +160,6 @@ enum DateLabelTag: Int {
     case endDateLabel = 2222
 }
 
-enum DayBtnTag: Int {
-    case monday = 111
-    case tuesday = 222
-    case wednesday = 333
-    case thursday = 444
-    case friday = 555
-    case saturday = 666
-    case sunday = 777
-    case everyday = 888
-}
 
 enum ImageDeleteBtnTag: Int {
     case deleteImageView1 = 121
@@ -149,8 +182,10 @@ struct Configs {
         static let userLoginSuccess    = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
         static let todoListFetchDone   = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
         static let todoListCreateNew   = Notification.Name(rawValue: "TODO_LIST_CREATE_NEW")
+        static let reloadAfterLogout   = Notification.Name(rawValue: "RELOAD_AFTER_LOGOUT")
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
+        static let networkRetryConnect = Notification.Name(rawValue: "NETWORK_RETRY_CONNECT")
     }
     
     struct API {
@@ -161,11 +196,14 @@ struct Configs {
         static let join       = host + "/auth/register/member/email"
         static let login      = host + "/auth/login/member/email"
         // MyPage
-        static let updateUser = host + "/auth/mypage/update"
-        static let getUsrImg  = host + "/auth/mypage/getImages"
+        static let updateUser = host + "/mypage/update"
+        static let getUsrImg  = host + "/mypage/getImages"
+        static let getUsrTodo = host + "/mypage/list"
+        static let getUsrAll  = host + "/mypage/total/list"
         // SearchList
         static let todoList   = host + "/todo/main/list"
         static let createTodo = host + "/todo/main/create"
+        static let todoDelete = host + "/todo/main/delete"
         // Detail
         static let todoDetail = host + "/todo/detail/list"
         static let updateDtl  = host + "/todo/detail/update"

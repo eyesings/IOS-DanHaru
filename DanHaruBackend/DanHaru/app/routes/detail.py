@@ -20,6 +20,7 @@ router = APIRouter(prefix="/todo")
 
 PATHDIR = FILE_FATH + "certification/"
 
+
 @router.post("/detail/list", status_code=200)
 async def todo_list_detail(reg_info: DetailParam):
     """
@@ -212,26 +213,7 @@ async def certification_create(todo_id: str = Form(...),
     return JSONResponse(status_code=200, content=dict(msg="저장에 성공 하였습니다.", result_code="0000"))
 
 
-# @router.post("/certification/list", status_code=200)
-# async def certification_list(reg_info: CertificationParam):
-#
-#     if not reg_info.todo_id:
-#         return JSONResponse(status_code=400, content=dict(msg="TODO_ID를 넘겨주세요.", result_code="9999"))
-#     if not reg_info.today_dt:
-#         return JSONResponse(status_code=400, content=dict(msg="현재날짜를 넘겨주세요.", result_code="9999"))
-#
-#     certification_data = Certification.get(todo_id=reg_info.todo_id, todo_date=reg_info.today_dt)
-#
-#     certification_data_dic = {
-#         "detail": certification_data,
-#         "msg": "Success",
-#         "result_code": "0000"
-#     }
-#
-#     return certification_data_dic
-
-
-@router.get("/detail/getFile/{fileName}")
+@router.get("/detail/getFile/{fileName}", status_code=200)
 async def read_random_file(fileName: str):
     """
     `인증 파일 API`\n

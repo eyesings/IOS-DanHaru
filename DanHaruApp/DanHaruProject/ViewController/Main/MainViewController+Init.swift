@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 import Lottie
+import UserNotifications
 
 extension MainViewController {
     // MARK: - 메인 뷰 UI 작성 함수
@@ -77,7 +78,7 @@ extension MainViewController {
         /// 투두 테이블 뷰
         self.view.addSubview(self.todoListTableView)
         todoListTableView.snp.makeConstraints { make in
-            make.top.equalTo(self.calendarView.snp.bottom)
+            make.top.equalTo(self.calendarView.snp.bottom).offset(10)
             make.bottom.leading.trailing.equalTo(self.view)
         }
         todoListTableView.backgroundColor = .backgroundColor
@@ -95,20 +96,22 @@ extension MainViewController {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         btn.backgroundColor = .systemBlue
         btn.addTarget(self, action: #selector(onTappedBtn), for: .touchUpInside)
-        self.view.addSubview(btn)
+//        self.view.addSubview(btn)
     }
     
     @objc func onTappedBtn() {
-        let inviteMemId = "djaaksmscjs"
-        let todoIdx = 23
+//        let inviteMemId = "djaaksmscjs"
+//        let todoIdx = 23
+//
+//        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
+//            let detailVC = TodoListDetailViewController()
+//            detailVC.detailInfoModel = model
+//            detailVC.isForInviteFriend = true
+//            detailVC.invitedMemId = inviteMemId
+//            self.navigationController?.pushViewController(detailVC)
+//        } errHandler: { Dprint("error \($0)") }
         
-        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
-            let detailVC = TodoListDetailViewController()
-            detailVC.detailInfoModel = model
-            detailVC.isForInviteFriend = true
-            detailVC.invitedMemId = inviteMemId
-            self.navigationController?.pushViewController(detailVC)
-        }
+        sendNotification(seconds: 1.0)
     }
     
     internal func calendarViewAnimation() {
@@ -126,7 +129,8 @@ extension MainViewController {
         
         cautionView.isHidden = isSuccess
         cautionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalTo(self.todoListTableView)
+            make.top.bottom.equalTo(self.todoListTableView)
+            make.leading.trailing.equalTo(self.view)
         }
         
         let infoLabel = UILabel()
@@ -187,6 +191,36 @@ extension MainViewController {
             make.centerX.equalTo(infoLabel)
             make.width.equalTo(infoLabel).multipliedBy(0.6)
             make.height.equalTo(addTodoBtn.snp.width).multipliedBy(0.2)
+        }
+    }
+    
+    func sendNotification(seconds: Double) {
+        let notificationContent = UNMutableNotificationContent()
+        
+        notificationContent.title = "알림 테스트"
+        notificationContent.body = "이것은 알림을 테스트 하는 것이다."
+        
+        var dateComponents = DateComponents()
+        dateComponents.calendar = Calendar.current
+        
+        dateComponents.weekday = 2
+        dateComponents.hour = 10
+        dateComponents.minute = 35
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let request = UNNotificationRequest(identifier: "testNotification",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        let secondRequest = UNNotificationRequest(identifier: "secondRequest",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        userNotificationCenter.add(request) { err in
+            if let error = err { print("Notificaion Error  ", error) }
+        }
+        userNotificationCenter.add(secondRequest) { err in
+            if let error = err { print("Notificaion Error  ", error) }
         }
     }
 }

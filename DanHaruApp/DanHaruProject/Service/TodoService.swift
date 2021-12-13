@@ -12,7 +12,7 @@ import Foundation
 extension ViewModelService {
     
     /// 리스트 조회
-    static func todoListService(searchDate date: String, completionHandler: @escaping ([NSDictionary]?) -> Void) {
+    static func todoListService(searchDate date: String, completionHandler: @escaping ([NSDictionary]?) -> Void, errorHandler: @escaping (APIType) -> Void) {
         var param: [String:Any] = [:]
         param["mem_id"] = UserModel.memberId ?? UserDefaults.userInputId
         param["fr_date"] = date
@@ -33,15 +33,13 @@ extension ViewModelService {
             }
         } errorHandler: { error in
             Dprint("error \(error)")
-            DispatchQueue.main.async {
-                RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
-            }
+            errorHandler(.TodoList)
         }
 
     }
     
     /// 리스트 등록
-    static func todoRegisterService(param: [String:Any], completionHandler: @escaping () -> Void) {
+    static func todoRegisterService(param: [String:Any], completionHandler: @escaping () -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         
@@ -58,9 +56,30 @@ extension ViewModelService {
             completionHandler()
         } errorHandler: { err in
             Dprint("error \(err)")
-            DispatchQueue.main.async {
-                RadHelper.getRootViewController()?.showNetworkErrorView(isNeedRetry: true)
-            }
+            errorHandler(.TodoCreate)
         }
+    }
+    
+    
+    /// 항목 삭제
+    static func todoDeleteService(todoIdx: Int, completionHandler: @escaping () -> Void, errorHandler: @escaping (APIType) -> Void) {
+        
+        var param: [String:Any] = [:]
+        param["todo_id"] = "\(todoIdx)"
+        param["mem_id"] = UserModel.memberId ?? ""
+        
+        
+        RadServerNetwork.postDataFromServer(url: Configs.API.todoDelete, type: .JSON, parameters: param) { resultDic in
+            print("resultData \(resultDic)")
+            if let resultCode = resultDic?["result_code"] as? String,
+               resultCode == APIResultCode.success.rawValue {
+                completionHandler()
+            }
+        } errorHandler: { error in
+            Dprint("error \(error)")
+            errorHandler(.TodoDelete)
+        }
+
+
     }
 }

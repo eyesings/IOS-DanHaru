@@ -15,10 +15,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 
         let pushDic = notification.request.content.userInfo
         Dprint("userNotificationCenter push data = \(pushDic)")
-        // FIXME: 작동확인하기
         
-        completionHandler([.sound])  //?????... 실행중일땐 alertview를 보여준다?...
-
+        if #available(iOS 14.0, *) {
+            completionHandler([.banner])
+        } else {
+            completionHandler([.alert])
+        }
     }
 
     //앱이 백그라운드에 있을때나 시작할때 실행중일때 모두 푸시를 터치하면 실행하는 메서드

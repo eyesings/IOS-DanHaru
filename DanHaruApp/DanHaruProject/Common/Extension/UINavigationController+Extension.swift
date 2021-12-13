@@ -62,30 +62,4 @@ extension UIViewController {
             }
         }
     }
-    
-    func showNetworkErrorView(isNeedRetry retry: Bool = false) {
-        DispatchQueue.main.async {
-            
-            let networkErr = self.view.subviews.compactMap { $0 as? NetworkErrorView }
-            if networkErr.isEmpty == false { return }
-            
-            let networkErrView = NetworkErrorView(frame: self.view.frame, isNeedRetry: retry)
-            networkErrView.alpha = 0
-            self.view.addSubview(networkErrView)
-            
-            UIView.animate(withDuration: 0.5) {
-                networkErrView.alpha = 1
-            }
-        }
-    }
-    
-    func hideNetworkErrorView() {
-        DispatchQueue.main.async {
-            for subview in self.view.subviews {
-                if let networkErrView = subview as? NetworkErrorView {
-                    networkErrView.removeFromSuperview()
-                }
-            }
-        }
-    }
 }

@@ -26,49 +26,48 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
               let todoTitle = self.todoListModel.model[indexPath.row].title
         else { return UITableViewCell() }
         
+        let todoModel = self.todoListModel.model[indexPath.row]
         cell.selectionStyle = .none
         
-        //FIXME: - 색상 확인
-        if indexPath.row >= todoListCellBackGroundColor.count {
-            cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row - todoListCellBackGroundColor.count * (indexPath.row / todoListCellBackGroundColor.count)]
+        if let colorCode = todoModel.color {
+            cell.rounderView.backgroundColor = RadHelper.colorFromHex(hex: colorCode)
         } else {
-            cell.rounderView.backgroundColor = todoListCellBackGroundColor[indexPath.row]
+            cell.rounderView.backgroundColor = .mainColor
         }
         
         cell.titleLabel.text = todoTitle
-//        cell.titleLabel.text = self.dummyData[indexPath.row]
         cell.subLabel.text = "오늘, 인증 없음"
-        cell.challengeTodoImgView.isHidden = false
+        cell.challengeTodoImgView.isHidden = todoModel.chaluser_yn?.lowercased() == "y" ? false : true
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        guard let todoModelID = self.todoListModel.model[indexPath.row].todo_id else { return }
+        
         let detailVC = TodoListDetailViewController()
         
         detailVC.modalPresentationStyle = .fullScreen
         
-//        detailVC.titleText = self.tableData[indexPath.row].title ?? "에러다!!"
-        
-//        self.present(detailVC, animated: true, completion: nil)
-        /*
-        let _ = TodoDetailViewModel(1, "2021-12-07") { model in
-            detailVC.todoModel = model
-            
+//        let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
+//            detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
             self.navigationController?.pushViewController(detailVC)
-        }
-        */
-        self.navigationController?.pushViewController(detailVC)
+//        } errHandler: { print("error type \($0)") }
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
+        guard let createUser = self.todoListModel.model[indexPath.row].created_user,
+              let todoIdx = self.todoListModel.model[indexPath.row].todo_id,
+              UserModel.memberId == createUser
+        else { return UISwipeActionsConfiguration() }
+        
         let action = UIContextualAction(style: .normal, title: nil) { action, View, complection in
-//            self.tableData.remove(at: indexPath.row)
-            // FIXME: model 삭제
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            complection(true)
+            _ = TodoDeleteViewModel.init(todoIdx: todoIdx, completionHandler: {
+                self.apiService(withType: .TodoList)
+                complection(true)
+            }, errHandler: { print(("error \($0)")) })
         }
         
         let actionSize = screenwidth * 0.13
@@ -118,6 +117,6 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         let selectedDateStr = DateFormatter().korDateString(date: date)
         selectedDate = selectedDateStr
         self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
-        self.todoListModel = TodoListViewModel.init(searchDate: selectedDateStr)
+        self.apiService(withType: .TodoList)
     }
 }

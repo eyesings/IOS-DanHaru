@@ -116,7 +116,7 @@ extension FMCropMenuView: UICollectionViewDelegate, UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: collectionView.frame.width / 3, height: collectionView.frame.height)
+        return CGSize(width: collectionView.frame.width / CGFloat(cropItems.count), height: collectionView.frame.height)
     }
 
 }

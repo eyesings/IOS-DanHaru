@@ -159,7 +159,7 @@ public class FMPhotoPickerViewController: UIViewController {
                     let imageRatio: Double = floor(Double((imageWidth / imageheight) * 100))
                     
                     if imageRatio != 100.0, imageRatio != 75.0, imageRatio != 133.0 {
-//                        image = image.cropToBounds()
+                        image = image.cropToBounds()
                     }
                     
                     dict[index] = image

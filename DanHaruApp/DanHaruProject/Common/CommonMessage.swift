@@ -12,6 +12,7 @@ extension RadMessage {
     struct Network {
         static let reBuildLater = "잠시후 다시 시도해 주세요."
         static let networkErr   = "네트워크 오류"
+        static let networkErrMsg = "네트워크에 연결되어 있지 않아요!"
     }
     
     struct Main {
@@ -32,6 +33,7 @@ extension RadMessage {
     struct Setting {
         static let logoutMsg     = "로그아웃하시겠습니까?"
         static let accountDelMsg = "회원 정보를 삭제하시겠습니까?"
+        static let returnToLogin = "로그인 페이지로 이동하시겠습니까?\n취소 선택 시 메인으로 이동됩니다."
     }
     
     struct MyPage {

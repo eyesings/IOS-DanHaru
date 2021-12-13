@@ -14,7 +14,7 @@ class TodoListViewModel {
     var model: [TodoModel] = []
     private var todoModel = TodoModel()
     
-    init(searchDate date: String) {
+    init(searchDate date: String, errHandler: @escaping (APIType) -> Void) {
         ViewModelService.todoListService(searchDate: date) { infoArr in
             guard let todoListArr = infoArr
             else {
@@ -53,7 +53,7 @@ class TodoListViewModel {
                 self.model.append(self.todoModel)
             }
             NotificationCenter.default.post(name: Configs.NotificationName.todoListFetchDone, object: true)
-        }
+        } errorHandler: { errHandler($0) }
     }
 }
 
@@ -62,11 +62,22 @@ class TodoListViewModel {
 class TodoResgisterViewModel {
     var param: [String:Any] = [:]
     
-    init(searchDate date: String, inputTitle: String) {
-        param = TodoRegisterModel.init(mem_id: UserModel.memberId, title: inputTitle, fr_date: date).makesToParam()
+    init(searchDate date: String, inputTitle: String, color: String, errHandler: @escaping (APIType) -> Void) {
+        param = TodoRegisterModel.init(mem_id: UserModel.memberId, title: inputTitle, fr_date: date, color: color).makesToParam()
         ViewModelService.todoRegisterService(param: param) {
             NotificationCenter.default.post(name: Configs.NotificationName.todoListCreateNew, object: true)
-        }
+        } errorHandler: { errHandler($0) }
+    }
+}
+
+
+/// Todo 삭제하는 VM
+class TodoDeleteViewModel {
+    init(todoIdx: Int, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
+        ViewModelService.todoDeleteService(todoIdx: todoIdx) {
+            completionHandler()
+        } errorHandler: { errHandler($0) }
+
     }
 }
 
@@ -75,7 +86,7 @@ class TodoResgisterViewModel {
 class TodoDetailViewModel {
     private var model: TodoModel = TodoModel()
     
-    init(_ todoIdx: Int, _ searchDate: String, completionHandler: @escaping (TodoModel) -> Void) {
+    init(_ todoIdx: Int, _ searchDate: String, completionHandler: @escaping (TodoModel) -> Void, errHandler: @escaping (APIType) -> Void) {
         ViewModelService.todoDetailDataService(todoIdx: todoIdx, searchDate: searchDate) { detailData in
             
             guard let dData = detailData else { return }
@@ -89,7 +100,7 @@ class TodoDetailViewModel {
             }
             
             completionHandler(self.model)
-        }
+        } errorHandler: { errHandler($0) }
         
     }
 }
@@ -100,7 +111,7 @@ class TodoDetailViewModel {
 class TodoDetailUpdateViewModel {
     private var model: TodoDetailUpdateModel = TodoDetailUpdateModel()
     
-    init(_ todoModel: TodoModel, notiCycle: String?, notiTime: String?, completionHandler: @escaping () -> Void) {
+    init(_ todoModel: TodoModel, notiCycle: String?, notiTime: String?, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
         self.model = TodoDetailUpdateModel(title: todoModel.title,
                                            fr_date: todoModel.fr_date,
                                            ed_date: todoModel.ed_date,
@@ -115,7 +126,7 @@ class TodoDetailUpdateViewModel {
         
         ViewModelService.todoDetailUpdteService(param: param, todoIdx: todoModel.todo_id ?? 0) { isComplete in
             if isComplete { completionHandler() }
-        }
+        } errorHandler: { errHandler($0) }
     }
 }
 
@@ -124,9 +135,9 @@ class TodoDetailUpdateViewModel {
 /// 챌린지 유저 등록
 class TodoCreateChallengeViewModel {
     
-    init(_ todoIdx: Int, _ ownerMemId: String, completionHandler: @escaping () -> Void) {
-        ViewModelService.todoCreateChaalengeService(todoIdx: todoIdx, ownerMemId: ownerMemId) { isComplete in
+    init(_ todoIdx: Int, _ ownerMemId: String, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
+        ViewModelService.todoCreateChalengeService(todoIdx: todoIdx, ownerMemId: ownerMemId) { isComplete in
             if isComplete { completionHandler() }
-        }
+        } errorHandler: { errHandler($0) }
     }
 }
