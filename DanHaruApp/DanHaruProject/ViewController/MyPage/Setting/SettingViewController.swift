@@ -64,15 +64,6 @@ class SettingViewController: UIViewController {
         }
     }
     
-    @IBAction func onTapUserDel(_ sender: UIButton) {
-        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.accountDelMsg, isNeedCancel: true, viewController: self) { isCheck in
-            if isCheck {
-                print("move to main? and remove user info")
-                UserDefaults.standard.rmUserInputVal()
-            }
-        }
-    }
-    
     @IBAction func panEdgeSwipeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
         if sender.state == .recognized {
             self.navigationController?.popViewController()
@@ -87,9 +78,9 @@ extension SettingViewController {
         updateBtn.layer.cornerRadius = updateBtn.frame.height / 2
         
         // MARK: update 불필요 할때
-//        updateBtn.backgroundColor = .lightGrayColor
-//        updateBtn.setTitleColor(.heavyGrayColor, for: .normal)
-//        updateBtn.isEnabled = false
+        updateBtn.backgroundColor = .lightGrayColor
+        updateBtn.setTitleColor(.heavyGrayColor, for: .normal)
+        updateBtn.isEnabled = false
 
         // MARK: 로그인 상태가 아닐 때
         for view in userSettingMenuList {

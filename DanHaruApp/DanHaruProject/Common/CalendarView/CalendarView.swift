@@ -24,6 +24,7 @@
  */
 
 import UIKit
+import SnapKit
 #if KDCALENDAR_EVENT_MANAGER_ENABLED
 import EventKit
 #endif
@@ -92,6 +93,8 @@ public class CalendarView: UIView {
     internal var todayIndexPath : IndexPath?
     internal var startIndexPath : IndexPath!
     internal var endIndexPath   : IndexPath!
+    
+    private let resetToTdayBtnTag: Int = 999
 
     internal var _cachedMonthInfoForSection = [Int:(firstDay: Int, daysTotal: Int)]()
     
@@ -137,6 +140,21 @@ public class CalendarView: UIView {
         self.headerView = CalendarHeaderView(frame:CGRect.zero)
         self.headerView.style = style
         self.addSubview(self.headerView)
+        
+        
+        let resetToTodayBtn = UIButton(frame: .zero)
+        resetToTodayBtn.setTitle("오늘", for: .normal)
+        resetToTodayBtn.setTitleColor(.heavyGrayColor, for: .normal)
+        resetToTodayBtn.titleLabel?.font = .systemFont(ofSize: 13.0)
+        resetToTodayBtn.tag = resetToTdayBtnTag
+        resetToTodayBtn.addTarget(self, action: #selector(resetDisplayDate(_:)), for: .touchUpInside)
+        self.headerView.addSubview(resetToTodayBtn)
+        
+        resetToTodayBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(self).multipliedBy(0.15)
+            make.top.trailing.equalTo(self).offset(-5)
+        }
+        
         
         /* Layout */
         let layout = CalendarFlowLayout()
@@ -219,11 +237,16 @@ public class CalendarView: UIView {
         }
     }
     
-    internal func resetDisplayDate() {
+    @objc
+    internal func resetDisplayDate(_ sender: UIButton = UIButton()) {
         self.collectionView.setContentOffset(
             self.scrollViewOffset(for: Date()),
-            animated: false
+            animated: sender.tag == resetToTdayBtnTag
         )
+        let distpatchTime: DispatchTime = sender.tag == resetToTdayBtnTag ? .now() : .now() + 0.5
+        DispatchQueue.main.asyncAfter(deadline: distpatchTime) {
+            self.displayDateOnHeader(Date())
+        }
     }
     
     internal func updateStyle() {

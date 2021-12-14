@@ -71,6 +71,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: Configs.NotificationName.audioRecordRemove, object: nil, userInfo: nil)
     }
     
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        print("url! \(url.absoluteString)")
+        return true
+    }
+    
     /// Notifications 등록
     /// - Parameter application: UIApplication
     func registeredForRemoteNotifications(application: UIApplication) {

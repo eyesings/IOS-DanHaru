@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import Lottie
 import UserNotifications
+import MessageUI
 
 extension MainViewController {
     // MARK: - 메인 뷰 UI 작성 함수
@@ -48,6 +49,7 @@ extension MainViewController {
         calendarShowHideBtn.addTarget(self, action: #selector(calendarShowHideAction(_:)), for: .touchUpInside)
         
         /// 할일 추가
+        let todoAddBtn = UIButton()
         self.view.addSubview(todoAddBtn)
         todoAddBtn.snp.makeConstraints { make in
             make.trailing.equalTo(self.view).offset(-pagePadding)
@@ -62,7 +64,7 @@ extension MainViewController {
         calendarView.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom)
             make.leading.equalTo(self.dateLabel)
-            make.trailing.equalTo(self.todoAddBtn)
+            make.trailing.equalTo(todoAddBtn)
             make.height.equalTo(0)
         }
         
@@ -96,22 +98,29 @@ extension MainViewController {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         btn.backgroundColor = .systemBlue
         btn.addTarget(self, action: #selector(onTappedBtn), for: .touchUpInside)
-//        self.view.addSubview(btn)
+        self.view.addSubview(btn)
     }
     
     @objc func onTappedBtn() {
-//        let inviteMemId = "djaaksmscjs"
-//        let todoIdx = 23
-//
-//        _ = TodoDetailViewModel.init(todoIdx, selectedDate) { model in
-//            let detailVC = TodoListDetailViewController()
-//            detailVC.detailInfoModel = model
-//            detailVC.isForInviteFriend = true
-//            detailVC.invitedMemId = inviteMemId
-//            self.navigationController?.pushViewController(detailVC)
-//        } errHandler: { Dprint("error \($0)") }
-        
-        sendNotification(seconds: 1.0)
+        let link = "danharu://challinvite?custid=djaaksmscjs?todoidx=7"
+        let shortLink = "https://tinyurl.com/api-create.php?url=\(link)"
+        print("shortLink \(shortLink)")
+        if let url = URL(string: shortLink) {
+            
+            print("shortenLink \(url)")
+            do {
+                let shortenLink = try String(contentsOf: url)
+                print("shortemlink \(shortenLink)")
+                sendSMS(with: "단하루와 함께 일정을 관리하고 목표를 향해 함께 도전해보아요! \(shortenLink)")
+            }
+            catch {
+                print("error \(error.localizedDescription)")
+            }
+        } else {
+            print("can not....")
+        }
+//        sendSMS(with: "텍스트입니당~~\n링크는 어떻게 가지요?  \("danharu://sendfromapp")\n문자길이가 길면 알아서 아랫줄로 가나요? 어떻게 되나요? 엄청 엄청 엄ㅊ어 많이 입력하여 봅시다!")
+//        sendNotification()
     }
     
     internal func calendarViewAnimation() {
@@ -194,7 +203,8 @@ extension MainViewController {
         }
     }
     
-    func sendNotification(seconds: Double) {
+    /// 푸시 전송 함수
+    func sendNotification() {
         let notificationContent = UNMutableNotificationContent()
         
         notificationContent.title = "알림 테스트"
@@ -222,5 +232,23 @@ extension MainViewController {
         userNotificationCenter.add(secondRequest) { err in
             if let error = err { print("Notificaion Error  ", error) }
         }
+    }
+    
+    /// 메시지 전송
+    /// - Parameter text: 전송 할 메시지
+    func sendSMS(with text: String) {
+        if MFMessageComposeViewController.canSendText() {
+            let messageComposeViewController = MFMessageComposeViewController()
+            messageComposeViewController.body = text
+            messageComposeViewController.messageComposeDelegate = self
+            present(messageComposeViewController, animated: true, completion: nil)
+        }
+    }
+}
+
+
+extension MainViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        self.dismiss(animated: true, completion: nil)
     }
 }

@@ -16,7 +16,6 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     let calendarAnimation = AnimationView()
     
     let calendarShowHideBtn = UIButton()
-    var todoAddBtn = UIButton()
     let calendarView = UIView()
     var calendar = CalendarView()
     let todoListTableView = UITableView()
@@ -27,12 +26,6 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     let userNotificationCenter = UNUserNotificationCenter.current()
     
     var todoListModel: TodoListViewModel!
-    var todoListCellBackGroundColor: [UIColor] = [
-        UIColor.todoLightBlueColor,
-        UIColor.todoLightGreenColor,
-        UIColor.todoLightYellowColor,
-        UIColor.todoHotPickColor
-    ]
     
     var selectedDate: String = ""
     

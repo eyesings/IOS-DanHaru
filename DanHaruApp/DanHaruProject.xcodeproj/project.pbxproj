@@ -99,6 +99,7 @@
 		B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CDD273C91AE007625D6 /* TodoCollectModel.swift */; };
 		B6A41CE1273CF6EB007625D6 /* ChallengeCollectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */; };
 		B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A7BEE92761D24200300524 /* String+Extension.swift */; };
+		B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */; };
 		B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */; };
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
@@ -314,6 +315,7 @@
 				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
+				B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +593,13 @@
 			path = HomeRoot;
 			sourceTree = "<group>";
 		};
+		B6AAE94F2768863D00B5535A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B6B2DE992755BA4A001360E7 /* CalendarView */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +660,7 @@
 			children = (
 				B6C3FCAE272661570046E35A /* DanHaruProject */,
 				B6C3FCAD272661570046E35A /* Products */,
+				B6AAE94F2768863D00B5535A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -807,6 +817,7 @@
 				828648EC272678C800EA5CAF /* SnapKit */,
 				829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */,
 				B6D770DA2766C955001B0566 /* FirebaseMessaging */,
+				B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -1276,6 +1287,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */;
 			productName = RadFrameworkPackage;
+		};
+		B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDynamicLinks;
 		};
 		B6C3FD26272665200046E35A /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
