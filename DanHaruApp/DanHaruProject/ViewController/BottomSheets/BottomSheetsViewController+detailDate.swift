@@ -69,17 +69,10 @@ extension BottomSheetsViewController {
     
     @objc func bottomTodoCheckDate(_ sender: UIButton) {
         
-        let preVc = self.presentingViewController
-        guard let vc = preVc as? TodoListDetailViewController else { return }
-        
         Configs.formatter.dateFormat = "yyyy-MM-dd"
         let changeDate = Configs.formatter.string(from: self.datePicker.date)
         
-        if self.checkShowUI == BottomViewCheck.startDate.rawValue {
-            vc.startDateLabel.text = changeDate
-        } else if self.checkShowUI == BottomViewCheck.endDate.rawValue {
-            vc.endDateLabel.text = changeDate
-        }
+        dateDelegate?.dateChange(self.checkShowUI, changeDate)
         
         self.dismiss(animated: true, completion: nil)
     }

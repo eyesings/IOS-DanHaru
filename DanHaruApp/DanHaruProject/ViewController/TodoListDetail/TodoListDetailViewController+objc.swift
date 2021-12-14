@@ -25,7 +25,7 @@ extension TodoListDetailViewController {
                 if let startDateText = self.startDateLabel.text {
                     bottomVC.preDate = startDateText
                 }
-                
+                bottomVC.dateDelegate = self
                 self.present(bottomVC, animated: true, completion: nil)
 
             } else if tag == DateLabelTag.endDateLabel.rawValue {
@@ -36,6 +36,7 @@ extension TodoListDetailViewController {
                 if let endDateText = self.endDateLabel.text {
                     bottomVC.preDate = endDateText
                 }
+                bottomVC.dateDelegate = self
                 self.present(bottomVC, animated: true, completion: nil)
                 
             }
@@ -43,7 +44,6 @@ extension TodoListDetailViewController {
     }
 
     /// 반복주기 클릭 - 클릭시 [String] 에 추가(차후 수정)
-    /// 수정시 수정사항 공유 필수 ******
     @objc func onTapDayNotiBtn(_ sender: UIButton) {
         
         guard let selectedTag = DetailNotiDayBtnTag.init(rawValue: sender.tag) else { return }
@@ -136,6 +136,8 @@ extension TodoListDetailViewController {
         bottomVC.checkShowUI = BottomViewCheck.cycleTime.rawValue
         // 선택한 시간을 넘겨줘야함
         
+        bottomVC.timeDelegate = self
+        
         self.present(bottomVC, animated: true, completion: nil)
         
     }
@@ -148,7 +150,7 @@ extension TodoListDetailViewController {
         bottomVC.checkShowUI = BottomViewCheck.audioRecord.rawValue
         //bottomVC.defaultHeight = self.view.frame.height / 2.8
         bottomVC.defaultHeight = 280
-        bottomVC.delegate = self
+        bottomVC.audioDelegate = self
         self.present(bottomVC, animated: true, completion: nil)
     }
     

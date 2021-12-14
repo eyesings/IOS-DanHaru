@@ -78,8 +78,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 메인 스크롤 뷰
     let mainScrollView = UIScrollView()
     
-    var titleText: String = "";
-    
     var currentIdx: CGFloat = 0.0
     
     var isForInviteFriend: Bool = false
@@ -115,16 +113,41 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 단순 체크 애니메이션
     let checkAnimation = AnimationView()
     
-    //var todoModel: TodoModel = TodoModel()
+    // 화면 UI 변수
+    var titleText: String = ""
+    var startDate: String = ""
+    var endDate: String = ""
+    var noti_time: String = ""
+    
+    var weekleyName: [String] = []
+    var weekleyPercent: [Float] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /// UI 변수 값들 - 추후 함수로 정리
+        self.titleText = self.detailInfoModel?.title ?? ""
+        self.startDate = self.detailInfoModel?.fr_date ?? ""
+        self.endDate = self.detailInfoModel?.ed_date ?? ""
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: Date())
+        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : 00"
+        
 
-        //self.titleText = self.todoModel.title ?? ""
+        if let report_list = self.detailInfoModel?.report_list_percent {
+            self.weeklyCount = report_list.count
+            self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
+            
+            for name in report_list.keys {
+                self.weekleyName.append(name)
+            }
+            
+        }
+        
+       
         
         self.setUI()
         
-        self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.delegate = self
         self.imagePicker.allowsEditing = false

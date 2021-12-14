@@ -14,6 +14,14 @@ protocol AudioUIChangeProtocol {
     func audioUIChange(_ audio: AVAudioRecorder?)
 }
 
+protocol CheckDateChangeProtocol {
+    func dateChange(_ divisionCode: String, _ text: String)
+}
+
+protocol CheckTimeChangeProtocol {
+    func timeChange(_ text:String)
+}
+
 class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     /// 화면 딤 처리 부분
     let dimmedView: UIView = {
@@ -67,7 +75,11 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     var progressTimer: Timer!
     var isAudioFinish: Bool = false
     var isBottomToCheck: Bool = false
-    var delegate: AudioUIChangeProtocol?
+    
+    /// 프로토콜
+    var audioDelegate: AudioUIChangeProtocol?
+    var dateDelegate: CheckDateChangeProtocol?
+    var timeDelegate: CheckTimeChangeProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()

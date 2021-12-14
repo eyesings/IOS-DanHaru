@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProtocol {
+extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProtocol, CheckDateChangeProtocol, CheckTimeChangeProtocol {
     
     //MARK: - UI 오토레이아웃 지정
     func setUI() {
@@ -478,8 +478,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         startDateView.alpha = 0.5
         
         // 시작 날짜 라벨
-        Configs.formatter.dateFormat = "yyyy-MM-dd"
-        let startDate = Configs.formatter.string(from: Date())
         startDateLabel.text = "\(startDate)"
         startDateLabel.textColor = .black
         startDateLabel.textAlignment = .center
@@ -500,9 +498,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         endDateView.alpha = 0.5
         
         // 종료 날짜 라벨
-        Configs.formatter.dateFormat = "yyyy-MM-dd"
-        let tomorrow = Date().addingTimeInterval(86400)
-        let endDate = Configs.formatter.string(from: tomorrow)
         endDateLabel.text = "\(endDate)"
         endDateLabel.textColor = .black
         endDateLabel.textAlignment = .center
@@ -527,9 +522,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         cycleExplainLabel.textColor = UIColor.lightGrayColor
         
         // 반복 주기 시간 선택
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: Date())
-        cycleTimeLabel.text = "\(hour) : 00"
+        cycleTimeLabel.text = self.noti_time
         cycleTimeLabel.textAlignment = .center
         cycleTimeLabel.textColor = .black
         cycleTimeLabel.adjustsFontSizeToFitWidth = true
@@ -784,6 +777,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         self.progressTimer.invalidate()
     }
     
+    /// 오디오 등록 후 UI 변경
     func audioUIChange(_ audio: AVAudioRecorder?) {
         
         self.isAudioAuth = true
@@ -804,6 +798,24 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             }
             
         }
+        
+    }
+    
+    /// 날짜 선택 후 날짜 변경
+    func dateChange(_ divisionCode: String, _ text: String) {
+        
+        if divisionCode == BottomViewCheck.startDate.rawValue {
+            self.startDateLabel.text = text
+        } else if divisionCode == BottomViewCheck.endDate.rawValue {
+            self.endDateLabel.text = text
+        }
+        
+    }
+    
+    /// 시간 선택 후 시간 변경
+    func timeChange(_ text: String) {
+        
+        self.cycleTimeLabel.text = text
         
     }
     

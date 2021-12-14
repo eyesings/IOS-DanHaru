@@ -11,14 +11,17 @@ import UIKit
 extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionViewDataSource {
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 25
+        return self.detailInfoModel?.challenge_user?.count ?? 0
     }
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as! TodoListDetailCollectionViewCell
         
+        
         cell.removeBorder(toSide: .Right)
+        cell.personAuthBtn.setBackgroundImage(nil, for: .normal)
+        cell.personAuthBtn.setTitle("재촉하기", for: .normal)
         
         if indexPath.item == 0 {
             cell.addBorder(toSide: .Right, withColor: UIColor.lightGray.cgColor, andThickness: 2.5)
@@ -26,12 +29,12 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
         
         cell.personImageView.contentMode = .scaleAspectFit
         
-        cell.personName.text = "이름"
-        
         cell.personAuthBtn.layer.borderWidth = 1.0
         cell.personAuthBtn.layer.borderColor = UIColor.black.cgColor
         cell.personAuthBtn.layer.cornerRadius = 10
         cell.personAuthBtn.tag = indexPath.item
+        
+        cell.personName.text = "이름"
         
         if cell.personAuthBtn.tag == 0 {
             cell.personAuthBtn.setTitle("", for: .normal)

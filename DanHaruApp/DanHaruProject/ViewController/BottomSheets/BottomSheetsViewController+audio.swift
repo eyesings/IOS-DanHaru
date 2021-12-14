@@ -292,7 +292,7 @@ extension BottomSheetsViewController {
             audioRecorder = try? AVAudioRecorder(url: audioFileUrl, settings: recorderSetting)
             isBottomToCheck = true
             
-            self.delegate?.audioUIChange(self.audioRecorder)
+            self.audioDelegate?.audioUIChange(self.audioRecorder)
             
             self.hideBottomSheetAndGoBack()
             

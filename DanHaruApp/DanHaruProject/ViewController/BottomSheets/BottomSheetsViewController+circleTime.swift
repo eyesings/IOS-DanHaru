@@ -58,13 +58,10 @@ extension BottomSheetsViewController {
     
     
     @objc func bottomTodoCheckTime(_ sender: UIButton) {
-        //print("시간 \(self.datePicker.date)")
         Configs.formatter.dateFormat = "HH:mm"
         let changeTime = Configs.formatter.string(from: self.datePicker.date)
         
-        let preVc = self.presentingViewController
-        guard let vc = preVc as? TodoListDetailViewController else { return }
-        vc.cycleTimeLabel.text = "\(changeTime)"
+        self.timeDelegate?.timeChange(changeTime)
         
         self.dismiss(animated: true, completion: nil)
     }

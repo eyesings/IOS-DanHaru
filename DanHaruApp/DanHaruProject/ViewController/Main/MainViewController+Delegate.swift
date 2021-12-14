@@ -50,10 +50,23 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
         detailVC.modalPresentationStyle = .fullScreen
         
-//        let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
-//            detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
+        let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
+            detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
             self.navigationController?.pushViewController(detailVC)
-//        } errHandler: { print("error type \($0)") }
+        } errHandler: { print("error type \($0)") }
+        
+        
+        // 테스트용
+        /*
+        let _ = TodoDetailViewModel(1, "2021-12-09") { model in
+            //detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
+            detailVC.detailInfoModel = model
+            self.navigationController?.pushViewController(detailVC)
+        } errHandler: { error in
+            print("error type \(error)")
+        }
+        */
+        
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
