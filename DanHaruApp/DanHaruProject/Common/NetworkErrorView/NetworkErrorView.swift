@@ -118,15 +118,15 @@ extension NetworkErrorView {
         
         DispatchQueue.main.async {
             UIApplication.shared.keyWindow?.addSubview(self.containerView)
-        }
-        self.containerView.isHidden = false
-        self.containerView.alpha = 0
         
-        
-        UIView.animate(withDuration: 1.0) {
-            self.containerView.alpha = 1.0
+            self.containerView.isHidden = false
+            self.containerView.alpha = 0
+            
+            
+            UIView.animate(withDuration: 1.0) {
+                self.containerView.alpha = 1.0
+            }
         }
-
     }
     
     @objc

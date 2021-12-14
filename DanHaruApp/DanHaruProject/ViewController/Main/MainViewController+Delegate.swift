@@ -89,7 +89,7 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
     func startDate() -> Date {
         
         var dateComponents = DateComponents()
-        dateComponents.month = -3
+        dateComponents.month = -12
         
         let today = Date()
         
@@ -100,7 +100,7 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         
         var dateComponents = DateComponents()
         
-        dateComponents.month = 5
+        dateComponents.month = 12
         let today = Date()
         
         return self.calendar.calendar.date(byAdding: dateComponents, to: today)!
@@ -114,8 +114,7 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.showLoadingView()
         
-        let selectedDateStr = DateFormatter().korDateString(date: date)
-        selectedDate = selectedDateStr
+        selectedDate = DateFormatter().korDateString(date: date)
         self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
         self.apiService(withType: .TodoList)
     }
