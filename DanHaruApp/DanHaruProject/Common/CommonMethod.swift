@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseDynamicLinks
 
 /// 개발전용 로그
 /// - Parameters:
@@ -131,6 +132,15 @@ extension RadHelper {
     static func isLogin() -> Bool {
         guard let memID = UserModel.memberId else { return false }
         return !memID.contains("DHR")
+    }
+    
+    static func createDynamicLink(with url: String, completionHandler: @escaping (_ url: URL?)->Void) {
+        // https://challinvite?custid=[초대한유저ID]&todoidx=[초대한할일Idx] 링크 형태 참고
+        guard let linkUrl = URL(string: "\(Configs.dynamicPrefix)?link=\(url)&isi=\(Configs.appstoreID)&ibi=kr.co.radcns.DanHaruProject&efr=1") else { return }
+    
+        DynamicLinkComponents.shortenURL(linkUrl, options: nil) { url, warnings, err in
+            completionHandler(url)
+        }
     }
 }
 

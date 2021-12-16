@@ -88,6 +88,7 @@
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
 		B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69CECE3274F23890092F0C5 /* InsertableUIView.swift */; };
 		B69CECE8274F63640092F0C5 /* caution_black.json in Resources */ = {isa = PBXBuildFile; fileRef = B69CECE7274F63640092F0C5 /* caution_black.json */; };
+		B6A21180276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A2117F276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift */; };
 		B6A255ED272772A200C3EC14 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A255EC272772A200C3EC14 /* HomeViewController.swift */; };
 		B6A255F2272772BD00C3EC14 /* HomeSB.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */; };
 		B6A255F527277C4100C3EC14 /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A255F427277C4100C3EC14 /* Color.xcassets */; };
@@ -242,6 +243,7 @@
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
 		B69CECE3274F23890092F0C5 /* InsertableUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsertableUIView.swift; sourceTree = "<group>"; };
 		B69CECE7274F63640092F0C5 /* caution_black.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = caution_black.json; sourceTree = "<group>"; };
+		B6A2117F276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+CommonInit.swift"; sourceTree = "<group>"; };
 		B6A255EC272772A200C3EC14 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B6A255F1272772BD00C3EC14 /* HomeSB.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeSB.storyboard; sourceTree = "<group>"; };
 		B6A255F427277C4100C3EC14 /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */,
 				82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */,
 				82A2617D2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift */,
+				B6A2117F276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift */,
 			);
 			path = BottomSheets;
 			sourceTree = "<group>";
@@ -995,6 +998,7 @@
 				B6166C1E274C7EBA00C04898 /* FMCropCropBoxCornersView.swift in Sources */,
 				B6B2DEA72755BA4A001360E7 /* CalendarView+Delegate.swift in Sources */,
 				B6166BEB274C7EB900C04898 /* FMPhotoPickerConfig.swift in Sources */,
+				B6A21180276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift in Sources */,
 				B6C3FD4A272666C40046E35A /* ModelExample.swift in Sources */,
 				B6166C01274C7EB900C04898 /* AlbumsTableViewCell.swift in Sources */,
 				B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */,

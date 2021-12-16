@@ -22,9 +22,7 @@ extension BottomSheetsViewController {
         let constant = (safeAreaHeight + bottomPadding) - self.defaultHeight
         self.bottomSheetView.snp.remakeConstraints { make in
             make.top.equalTo(self.view).offset(constant)
-            make.leading.equalTo(self.view)
-            make.trailing.equalTo(self.view)
-            make.height.equalTo(self.view)
+            make.leading.trailing.height.equalTo(self.view)
         }
         
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn) {
@@ -44,7 +42,7 @@ extension BottomSheetsViewController {
         //bottomSheetViewTopConstraint.constant = safeAreaHeight + bottomPadding
         
         // 오디오 녹음이 끝나지 않고 화면 dismiss(생성된 오디오 파일 삭제)
-        if !self.isBottomToCheck && self.checkShowUI == BottomViewCheck.audioRecord.rawValue {
+        if !self.isBottomToCheck && self.bottomViewType == .audioRecord {
             if let url = self.audioRecorder?.url {
                 do {
                     try FileManager.default.removeItem(at: url)

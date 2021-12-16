@@ -44,28 +44,8 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let todoModelID = self.todoListModel.model[indexPath.row].todo_id else { return }
-        
-        let detailVC = TodoListDetailViewController()
-        
-        detailVC.modalPresentationStyle = .fullScreen
-        
-        let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
-            detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
-            self.navigationController?.pushViewController(detailVC)
-        } errHandler: { print("error type \($0)") }
-        
-        
-        // 테스트용
-        /*
-        let _ = TodoDetailViewModel(1, "2021-12-09") { model in
-            //detailVC.detailInfoModel = self.todoListModel.model[indexPath.row]
-            detailVC.detailInfoModel = model
-            self.navigationController?.pushViewController(detailVC)
-        } errHandler: { error in
-            print("error type \(error)")
-        }
-        */
+        selectedIdxPath = indexPath
+        self.apiService(withType: .TodoDetail)
         
     }
     

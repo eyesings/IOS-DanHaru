@@ -13,17 +13,8 @@ extension BottomSheetsViewController {
     
     //MARK: - 투두 리스트 추가 UI 함수
     func setLayout() {
-        self.bottomSheetView.addSubview(bottomTitle)
-        bottomTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.bottomSheetView)
-            make.centerX.equalTo(self.bottomSheetView)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.5)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.1)
-        }
-        bottomTitle.text = "일정 등록"
-        bottomTitle.textAlignment = .center
-        bottomTitle.adjustsFontSizeToFitWidth = true
-        bottomTitle.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        commonInitTitleLabel(withTitle: "일정 등록")
         
         self.bottomSheetView.addSubview(cancelBtn)
         cancelBtn.snp.makeConstraints { make in
@@ -81,13 +72,6 @@ extension BottomSheetsViewController {
             make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
             make.top.equalTo(self.startDateLabel.snp.bottom)
         }
-        datePicker.datePickerMode = .date
-        datePicker.locale = Locale(identifier: "ko_KR")
-        
-        // datepicker 가 14로 넘어오면서 변경되서 분기처리
-        if #available(iOS 14.0, *) {
-            datePicker.preferredDatePickerStyle = .wheels
-        }
         
         //self.bottomSheetViewController.view.frame.height / 2 - self.bottomSheetViewController.view.frame.height * 0.27 - 20
         
@@ -115,8 +99,8 @@ extension BottomSheetsViewController {
         
         let startDate = self.datePicker.date.dateToStr()
         
-        // FIXME: - 타이틀을 입력 안하면 처리
-        guard let titleText = self.titleTextField.text else { return }
+        self.titleTextField.updateUI()
+        guard let titleText = self.titleTextField.text, titleText.isEmpty != true else { self.titleTextField.becomeFirstResponder(); return }
         let randomColor = UIColor().generateRandomBackgroundColor()
         _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: titleText, color: randomColor.hexStringFromColor()) { Dprint("error \($0)") }
         self.hideBottomSheetAndGoBack()

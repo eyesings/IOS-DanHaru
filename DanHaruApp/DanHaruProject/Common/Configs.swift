@@ -171,6 +171,8 @@ struct Configs {
     
     static var formatter = DateFormatter()
     static let BASE64Key = "DanHaruoMJVisBbDHcRBJogBtryYmhuk"
+    static let dynamicPrefix = "https://danharuproject.page.link/"
+    static let appstoreID = "1600367875"
     
     struct UserDefaultsKey {
         static let isFirstInstall = "IS_FIRST_INSTALL"
@@ -189,7 +191,7 @@ struct Configs {
     }
     
     struct API {
-        static let host       = "http://192.168.0.227:8080/api"
+        static let host       = "http://10.23.81.245:8080/api"
         static let checkValid = host + "/auth/validation/member/"
         static let validEmail = checkValid + "email"
         static let validID    = checkValid + "id"

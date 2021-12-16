@@ -21,7 +21,7 @@ extension TodoListDetailViewController {
                 
                 let bottomVC = BottomSheetsViewController()
                 bottomVC.modalPresentationStyle = .overFullScreen
-                bottomVC.checkShowUI = BottomViewCheck.startDate.rawValue
+                bottomVC.bottomViewType = .startDate
                 if let startDateText = self.startDateLabel.text {
                     bottomVC.preDate = startDateText
                 }
@@ -32,7 +32,7 @@ extension TodoListDetailViewController {
                 
                 let bottomVC = BottomSheetsViewController()
                 bottomVC.modalPresentationStyle = .overFullScreen
-                bottomVC.checkShowUI = BottomViewCheck.endDate.rawValue
+                bottomVC.bottomViewType = .endDate
                 if let endDateText = self.endDateLabel.text {
                     bottomVC.preDate = endDateText
                 }
@@ -133,7 +133,7 @@ extension TodoListDetailViewController {
     @objc func circleTimeLabelAction(_ tapGesture: UITapGestureRecognizer) {
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
-        bottomVC.checkShowUI = BottomViewCheck.cycleTime.rawValue
+        bottomVC.bottomViewType = .cycleTime
         // 선택한 시간을 넘겨줘야함
         
         bottomVC.timeDelegate = self
@@ -147,7 +147,7 @@ extension TodoListDetailViewController {
         
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
-        bottomVC.checkShowUI = BottomViewCheck.audioRecord.rawValue
+        bottomVC.bottomViewType = .audioRecord
         //bottomVC.defaultHeight = self.view.frame.height / 2.8
         bottomVC.defaultHeight = 280
         bottomVC.audioDelegate = self

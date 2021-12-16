@@ -33,7 +33,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     let bottomSheetView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundColor
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
         view.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
         view.clipsToBounds = true
         return view
@@ -43,7 +43,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     var defaultHeight: CGFloat = 0
     
     /// 바텀 뷰 재사용 판단을 위한 변수
-    var checkShowUI = "";
+    var bottomViewType: BottomViewCheck = .todoAdd
     
     /// 이전 화면에서 날짜 받는 변수
     var preDate = "";
@@ -130,28 +130,16 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
             make.leading.trailing.height.equalTo(self.view)
         }
         
-        if self.checkShowUI == BottomViewCheck.todoAdd.rawValue {
-            setLayout()
-        } else if checkShowUI == BottomViewCheck.startDate.rawValue || checkShowUI == BottomViewCheck.endDate.rawValue {
-            setDateLayout()
-        } else if checkShowUI == BottomViewCheck.cycleTime.rawValue {
-            setCirCleTimeLayout()
-        } else if checkShowUI == BottomViewCheck.audioRecord.rawValue {
-            setAudioRecordLayout()
+        switch self.bottomViewType {
+        case .todoAdd: setLayout(); break
+        case .startDate, .endDate: setDateLayout(); break
+        case .cycleTime: setCirCleTimeLayout(); break
+        case .audioRecord: setAudioRecordLayout(); break
         }
         
+        commonInitDatePicker()
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     
 

@@ -28,6 +28,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     var todoListModel: TodoListViewModel!
     
     var selectedDate: String = ""
+    var selectedIdxPath: IndexPath!
     
     // 캘린더 화면 노출 여부
     var calendarShowOn = false
@@ -36,7 +37,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList(_:)),
+        NotificationCenter.default.addObserver(self, selector: #selector(self.requestTodoList),
                                                name: Configs.NotificationName.userLoginSuccess, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.doneSetTodoListModel(_:)),
                                                name: Configs.NotificationName.todoListFetchDone, object: nil)
@@ -51,7 +52,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
-            self.apiService(withType: .UserLogin)
+//            self.apiService(withType: .UserLogin)
             todoListTableView.showAnimatedGradientSkeleton()
         }
         
@@ -130,6 +131,17 @@ extension MainViewController: NetworkErrorViewDelegate {
         else if type == .TodoList
         {
             todoListModel = TodoListViewModel.init(searchDate: selectedDate) { showNetworkErrView(type: $0) }
+        }
+        else if type == .TodoDetail {
+//            guard let todoModelID = self.todoListModel.model[self.selectedIdxPath.row].todo_id else { return }
+            
+            let detailVC = TodoListDetailViewController()
+            detailVC.modalPresentationStyle = .fullScreen
+            
+//            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
+//                detailVC.detailInfoModel = model
+                self.navigationController?.pushViewController(detailVC)
+//            } errHandler: { showNetworkErrView(type: $0) }
         }
     }
 }

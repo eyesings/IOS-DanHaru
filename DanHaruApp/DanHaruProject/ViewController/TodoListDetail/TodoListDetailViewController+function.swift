@@ -26,29 +26,25 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.view.addSubview(menuBtn)
         menuBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.backBtn)
-            make.width.equalTo(self.backBtn)
+            make.top.width.height.equalTo(self.backBtn)
             make.trailing.equalTo(self.view).offset(-20)
-            make.height.equalTo(self.backBtn)
         }
         
         
         self.view.addSubview(bottomBtn)
         bottomBtn.addTarget(self, action: #selector(self.onTapSubmitBtn), for: .touchUpInside)
         bottomBtn.snp.makeConstraints { make in
-            make.width.equalTo(self.view)
+            make.width.centerX.equalTo(self.view)
             make.height.equalTo(60)
-            make.centerX.equalTo(self.view)
-            make.bottom.equalTo(self.view)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         
         
         self.view.addSubview(mainScrollView)
         mainScrollView.snp.makeConstraints { make in
             make.top.equalTo(self.backBtn.snp.bottom)
-            make.centerX.equalTo(self.view)
+            make.centerX.width.equalTo(self.view)
             make.bottom.equalTo(self.bottomBtn.snp.top)
-            make.width.equalTo(self.view)
         }
         
         
@@ -82,11 +78,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.startDateView.addSubview(startDateLabel)
         startDateLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.startDateView)
-            make.width.equalTo(self.startDateView)
-            make.height.equalTo(self.startDateView)
-            make.bottom.equalTo(self.startDateView)
-            make.leading.equalTo(self.startDateView)
+            make.top.width.height.bottom.leading.equalTo(self.startDateView)
         }
         
         
@@ -101,19 +93,14 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.mainScrollView.addSubview(endDateView)
         endDateView.snp.makeConstraints { make in
-            make.top.equalTo(startDateView)
-            make.width.equalTo(startDateView)
-            make.height.equalTo(startDateView)
+            make.top.width.height.equalTo(startDateView)
             make.leading.equalTo(middleLabel.snp.trailing).offset(self.mainScrollView.frame.width * 0.1)
         }
         
         
         self.endDateView.addSubview(endDateLabel)
         endDateLabel.snp.makeConstraints { make in
-            make.top.equalTo(endDateView)
-            make.bottom.equalTo(endDateView)
-            make.width.equalTo(endDateView)
-            make.height.equalTo(endDateView)
+            make.top.bottom.width.height.equalTo(endDateView)
         }
         
         self.mainScrollView.addSubview(cycleLabel)
@@ -127,8 +114,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.mainScrollView.addSubview(cycleExplainLabel)
         cycleExplainLabel.snp.makeConstraints { make in
-            make.top.equalTo(cycleLabel)
-            make.height.equalTo(cycleLabel)
+            make.top.height.equalTo(cycleLabel)
             make.leading.equalTo(cycleLabel.snp.trailing).offset(5)
             make.width.equalTo(self.mainScrollView).multipliedBy(0.6)
         }
@@ -147,59 +133,29 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         self.mainScrollView.addSubview(authLable)
         authLable.snp.makeConstraints { make in
             make.top.equalTo(cycleTimeLabel.snp.bottom).offset(25)
-            make.leading.equalTo(durationLabel)
-            make.height.equalTo(durationLabel)
-            make.width.equalTo(durationLabel)
+            make.leading.height.width.equalTo(durationLabel)
         }
         
+        let authPadding = screenwidth * 0.1
         
-        self.mainScrollView.addSubview(authImageBackView)
-        authImageBackView.snp.makeConstraints { make in
+        self.mainScrollView.addSubview(authImageBtn)
+        authImageBtn.snp.makeConstraints { make in
             make.top.equalTo(authLable.snp.bottom).offset(20)
             make.width.equalTo(self.view).multipliedBy(0.2)
             make.height.equalTo(self.view.frame.width * 0.2)
-            make.left.equalTo(self.view).offset(self.view.frame.width * 0.1)
+            make.left.equalTo(self.view).offset(authPadding)
         }
         
-        
-        self.authImageBackView.addSubview(authImageBtn)
-        authImageBtn.snp.makeConstraints { make in
-            make.center.equalTo(authImageBackView)
-            make.width.equalTo(authImageBackView)
-            make.height.equalTo(authImageBackView)
-        }
-        
-        
-        self.mainScrollView.addSubview(authAudioBackView)
-        authAudioBackView.snp.makeConstraints { make in
-            make.top.equalTo(self.authImageBackView)
-            make.width.equalTo(self.authImageBackView)
-            make.height.equalTo(self.authImageBackView)
-            make.leading.equalTo(self.authImageBackView.snp.trailing).offset(self.view.frame.width * 0.1)
-        }
-        
-        
-        self.authAudioBackView.addSubview(authAudioBtn)
+        self.mainScrollView.addSubview(authAudioBtn)
         authAudioBtn.snp.makeConstraints { make in
-            make.center.equalTo(authAudioBackView)
-            make.width.equalTo(authAudioBackView)
-            make.height.equalTo(authAudioBackView)
+            make.top.width.height.equalTo(self.authImageBtn)
+            make.leading.equalTo(self.authImageBtn.snp.trailing).offset(authPadding)
         }
         
-        
-        self.mainScrollView.addSubview(authCheckBackView)
-        authCheckBackView.snp.makeConstraints { make in
-            make.top.equalTo(self.authImageBackView)
-            make.width.equalTo(self.authImageBackView)
-            make.height.equalTo(self.authImageBackView)
-            make.leading.equalTo(self.authAudioBackView.snp.trailing).offset(self.view.frame.width * 0.1)
-        }
-        
-        self.authCheckBackView.addSubview(authCheckBtn)
+        self.mainScrollView.addSubview(authCheckBtn)
         authCheckBtn.snp.makeConstraints { make in
-            make.center.equalTo(authCheckBackView)
-            make.width.equalTo(authCheckBackView)
-            make.height.equalTo(authCheckBackView)
+            make.top.width.height.equalTo(self.authAudioBtn)
+            make.leading.equalTo(self.authAudioBtn.snp.trailing).offset(authPadding)
         }
         
         if !isAudioAuth {
@@ -216,8 +172,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             self.audioPlayArea.addSubview(audioPlayTimeText)
             audioPlayTimeText.snp.makeConstraints { make in
                 make.width.equalTo(self.view).multipliedBy(0.2)
-                make.centerX.equalTo(audioPlayArea)
-                make.centerY.equalTo(audioPlayArea)
+                make.centerX.centerY.equalTo(audioPlayArea)
                 make.height.equalTo(self.audioPlayArea).multipliedBy(0.8)
             }
             audioPlayTimeText.adjustsFontSizeToFitWidth = true
@@ -227,10 +182,9 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             
             self.audioPlayArea.addSubview(audioPlayStopBtn)
             audioPlayStopBtn.snp.makeConstraints { make in
-                make.centerY.equalTo(self.audioPlayArea)
+                make.centerY.height.equalTo(self.audioPlayArea)
                 make.width.equalTo(self.view).multipliedBy(0.1)
                 make.trailing.equalTo(self.audioPlayTimeText.snp.leading)
-                make.height.equalTo(self.audioPlayArea)
             }
             audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
             audioPlayStopBtn.imageView?.contentMode = .scaleAspectFit
@@ -238,8 +192,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             
             self.audioPlayArea.addSubview(recordDeleteBtn)
             recordDeleteBtn.snp.makeConstraints { make in
-                make.centerY.equalTo(self.audioPlayStopBtn)
-                make.width.equalTo(audioPlayStopBtn)
+                make.centerY.width.equalTo(self.audioPlayStopBtn)
                 make.height.equalTo(audioPlayArea)
                 make.leading.equalTo(self.audioPlayTimeText.snp.trailing)
             }
@@ -454,7 +407,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         // 하단 확인 버튼
         bottomBtn.setTitle(self.isForInviteFriend ? "함께하기" : "확인", for: .normal)
-        bottomBtn.backgroundColor = .lightGrayColor
+        bottomBtn.backgroundColor = .subHeavyColor
         bottomBtn.setTitleColor(.white, for: .normal)
         
         // 메인 스크롤뷰
@@ -538,54 +491,33 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         authLable.textColor = UIColor.black
         authLable.adjustsFontSizeToFitWidth = true
         
-        // 인증 수단 이미지 백뷰
-        authImageBackView.layer.borderColor = UIColor.lightGray.cgColor
-        authImageBackView.layer.borderWidth = 1
-        authImageBackView.layer.shadowColor = UIColor.black.cgColor
-        authImageBackView.layer.shadowOpacity = 0.7
-        authImageBackView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        authImageBackView.layer.shadowRadius = 5
-        authImageBackView.layer.cornerRadius = 20
-        authImageBackView.backgroundColor = .white
-        
+        let edgeInset = self.view.frame.width * 0.05
         // 인증 수단 - 이미지
         authImageBtn.setImage(UIImage(named: "btnPhotoAlbum"), for: .normal)
+        authImageBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
         authImageBtn.imageView?.contentMode = .scaleAspectFit
-        authImageBtn.imageEdgeInsets = UIEdgeInsets(top: self.view.frame.width * 0.2 * 0.2, left: self.view.frame.width * 0.2 * 0.2, bottom: self.view.frame.width * 0.2 * 0.2, right: self.view.frame.width * 0.2 * 0.2)
         authImageBtn.addTarget(self, action: #selector(photoAlbumAuth(_:)), for: .touchUpInside)
-        
-        // 인증 수단 오디오 백뷰
-        authAudioBackView.layer.borderColor = UIColor.lightGray.cgColor
-        authAudioBackView.layer.borderWidth = 1
-        authAudioBackView.layer.shadowColor = UIColor.black.cgColor
-        authAudioBackView.layer.shadowOpacity = 0.7
-        authAudioBackView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        authAudioBackView.layer.shadowRadius = 5
-        authAudioBackView.layer.cornerRadius = 20
-        authAudioBackView.backgroundColor = .white
+        authImageBtn.createShadow(CGSize(width: 2, height: 2), 5)
+        authImageBtn.backgroundColor = .backgroundColor
+        authImageBtn.layer.cornerRadius = 20
         
         // 인증 수단 - 오디오
         authAudioBtn.setImage(UIImage(named: "btnMic"), for: .normal)
         authAudioBtn.imageView?.contentMode = .scaleAspectFit
-        authAudioBtn.imageEdgeInsets = UIEdgeInsets(top: self.view.frame.width * 0.2 * 0.2, left: self.view.frame.width * 0.2 * 0.2, bottom: self.view.frame.width * 0.2 * 0.2, right: self.view.frame.width * 0.2 * 0.2)
+        authAudioBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
         authAudioBtn.addTarget(self, action: #selector(audioAuth(_:)), for: .touchUpInside)
-        
-        
-        // 인증 수단 체크 백뷰
-        authCheckBackView.layer.borderColor = UIColor.lightGray.cgColor
-        authCheckBackView.layer.borderWidth = 1
-        authCheckBackView.layer.shadowColor = UIColor.black.cgColor
-        authCheckBackView.layer.shadowOpacity = 0.7
-        authCheckBackView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        authCheckBackView.layer.shadowRadius = 5
-        authCheckBackView.layer.cornerRadius = 20
-        authCheckBackView.backgroundColor = .white
+        authAudioBtn.createShadow(CGSize(width: 2, height: 2), 5)
+        authAudioBtn.backgroundColor = .backgroundColor
+        authAudioBtn.layer.cornerRadius = 20
         
         // 인증 수단 - 체크
         authCheckBtn.setImage(UIImage(named:"btnCheck"), for: .normal)
         authCheckBtn.imageView?.contentMode = .scaleAspectFit
-        authCheckBtn.imageEdgeInsets = UIEdgeInsets(top: self.view.frame.width * 0.2 * 0.2, left: self.view.frame.width * 0.2 * 0.2, bottom: self.view.frame.width * 0.2 * 0.2, right: self.view.frame.width * 0.2 * 0.2)
+        authCheckBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
         authCheckBtn.addTarget(self, action: #selector(authCheckButtonAction(_:)), for: .touchUpInside)
+        authCheckBtn.createShadow(CGSize(width: 2, height: 2), 5)
+        authCheckBtn.backgroundColor = .backgroundColor
+        authCheckBtn.layer.cornerRadius = 20
         
         // 이미지 인증 이미지뷰1
         authImageView1.backgroundColor = .lightGrayColor

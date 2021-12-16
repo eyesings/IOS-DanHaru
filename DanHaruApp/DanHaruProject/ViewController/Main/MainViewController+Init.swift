@@ -102,25 +102,8 @@ extension MainViewController {
     }
     
     @objc func onTappedBtn() {
-        let link = "danharu://challinvite?custid=djaaksmscjs?todoidx=7"
-        let shortLink = "https://tinyurl.com/api-create.php?url=\(link)"
-        print("shortLink \(shortLink)")
-        if let url = URL(string: shortLink) {
-            
-            print("shortenLink \(url)")
-            do {
-                let shortenLink = try String(contentsOf: url)
-                print("shortemlink \(shortenLink)")
-                sendSMS(with: "단하루와 함께 일정을 관리하고 목표를 향해 함께 도전해보아요! \(shortenLink)")
-            }
-            catch {
-                print("error \(error.localizedDescription)")
-            }
-        } else {
-            print("can not....")
-        }
-//        sendSMS(with: "텍스트입니당~~\n링크는 어떻게 가지요?  \("danharu://sendfromapp")\n문자길이가 길면 알아서 아랫줄로 가나요? 어떻게 되나요? 엄청 엄청 엄ㅊ어 많이 입력하여 봅시다!")
 //        sendNotification()
+        self.apiService(withType: .TodoDetail)
     }
     
     internal func calendarViewAnimation() {

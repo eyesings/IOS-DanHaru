@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import FirebaseMessaging
+import FirebaseDynamicLinks
 
 
 @main
@@ -69,6 +70,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func applicationWillTerminate(_ application: UIApplication) {
         NotificationCenter.default.post(name: Configs.NotificationName.audioRecordRemove, object: nil, userInfo: nil)
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        
+        //firebase dynamicLink
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+
+            if let openLink = dynamiclink?.url {
+               print("openLink:::\(openLink)")
+            }
+        }
+        
+        return handled
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {

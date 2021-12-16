@@ -27,7 +27,8 @@ extension MainViewController {
     @objc func addAction(_ button: UIButton) {
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
-        bottomVC.checkShowUI = BottomViewCheck.todoAdd.rawValue
+        bottomVC.bottomViewType = .todoAdd
+        bottomVC.preDate = selectedDate
         self.present(bottomVC, animated: true, completion: nil)
     }
     

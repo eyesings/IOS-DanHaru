@@ -40,18 +40,7 @@ extension BottomSheetsViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive), name: Configs.NotificationName.audioRecordContinue, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
-        self.bottomSheetView.addSubview(bottomTitle)
-        bottomTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.bottomSheetView).offset(10)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
-            make.centerX.equalTo(self.bottomSheetView)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.05)
-        }
-        bottomTitle.text = "녹음 인증하기"
-        bottomTitle.textAlignment = .center
-        bottomTitle.textColor = .black
-        bottomTitle.font = UIFont.boldSystemFont(ofSize: 20)
-        bottomTitle.adjustsFontSizeToFitWidth = true
+        commonInitTitleLabel(withTitle: "녹음 인증하기")
         
         self.bottomSheetView.addSubview(audioAnimation)
         audioAnimation.snp.makeConstraints { make in
@@ -105,9 +94,7 @@ extension BottomSheetsViewController {
         
         self.bottomSheetView.addSubview(recordStopBtn)
         recordStopBtn.snp.makeConstraints { make in
-            make.top.equalTo(self.recordStartBtn)
-            make.width.equalTo(self.recordStartBtn)
-            make.height.equalTo(self.recordStartBtn)
+            make.top.width.height.equalTo(self.recordStartBtn)
             make.trailing.equalTo(self.recordStartBtn.snp.leading).offset(-self.view.frame.width * 0.1)
         }
         recordStopBtn.setImage(UIImage(named: "btnRedStop"), for: .normal)
@@ -117,9 +104,7 @@ extension BottomSheetsViewController {
         
         self.bottomSheetView.addSubview(playStartBtn)
         playStartBtn.snp.makeConstraints { make in
-            make.width.equalTo(self.recordStartBtn)
-            make.height.equalTo(self.recordStartBtn)
-            make.centerY.equalTo(self.recordStartBtn)
+            make.width.height.centerY.equalTo(self.recordStartBtn)
             make.left.equalTo(self.recordStartBtn.snp.right).offset(self.view.frame.width * 0.1)
         }
         playStartBtn.setImage(UIImage(named: "btnPlays"), for: .normal)
@@ -128,24 +113,14 @@ extension BottomSheetsViewController {
         
         self.bottomSheetView.addSubview(playStopBtn)
         playStopBtn.snp.makeConstraints { make in
-            make.width.equalTo(self.recordStartBtn)
-            make.height.equalTo(self.recordStartBtn)
+            make.width.height.equalTo(self.recordStartBtn)
             make.center.equalTo(self.playStartBtn)
         }
         playStopBtn.setImage(UIImage(named: "btnPauses"), for: .normal)
         playStopBtn.addTarget(self, action: #selector(playStopButtonAction(_:)), for: .touchUpInside)
         playStopBtn.isHidden = true
         
-        self.bottomSheetView.addSubview(bottomTodoAddBtn)
-        bottomTodoAddBtn.snp.makeConstraints { make in
-            make.height.equalTo(60)
-            make.centerX.equalTo(self.bottomSheetView)
-            make.width.equalTo(self.bottomSheetView)
-            make.bottom.equalTo(self.view)
-        }
-        bottomTodoAddBtn.backgroundColor = UIColor.darkGray
-        bottomTodoAddBtn.setTitle("확인", for: .normal)
-        bottomTodoAddBtn.setTitleColor(.white, for: .normal)
+        self.commonInitBottomBtn(isNeedCustomLayout: true)
         bottomTodoAddBtn.addTarget(self, action: #selector(recordBottomTodoAddButtonAction(_:)), for: .touchUpInside)
         
         self.checkMicrophoneAccess()

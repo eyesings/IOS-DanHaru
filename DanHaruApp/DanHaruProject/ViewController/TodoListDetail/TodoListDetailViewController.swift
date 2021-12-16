@@ -39,10 +39,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 인증 수단
     let authLable = UILabel()
     let authImageBtn = UIButton()
-    let authImageBackView = UIView()
     let authAudioBtn = UIButton()
-    let authAudioBackView = UIView()
-    let authCheckBackView = UIView()
     let authCheckBtn = UIButton()
     
     let audioPlayArea = UIView()
