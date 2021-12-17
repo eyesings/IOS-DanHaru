@@ -62,4 +62,14 @@ extension UIViewController {
             }
         }
     }
+    
+    func safeAreaView(_ color: UIColor = .subHeavyColor, topConst const: UIView) {
+        let safeAreaView = UIView(frame: .zero)
+        safeAreaView.backgroundColor = color
+        self.view.addSubview(safeAreaView)
+        safeAreaView.snp.makeConstraints { make in
+            make.trailing.leading.bottom.equalTo(self.view)
+            make.top.equalTo(const.snp.bottom)
+        }
+    }
 }

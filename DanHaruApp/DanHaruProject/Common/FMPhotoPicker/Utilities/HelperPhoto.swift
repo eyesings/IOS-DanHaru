@@ -110,7 +110,7 @@ class HelperPhoto: NSObject {
     
     static func moveToSettingForPhotoAccess(onVc vc: UIViewController) {
         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
-                                                   message: RadMessage.PhotoEditor.reqLibraryAuth,
+                                                   message: RadMessage.Permission.reqLibraryAuth,
                                                    isNeedCancel: true,
                                                    viewController: vc) { isCheck in
             if isCheck { RadHelper.openIphoneSetting() }

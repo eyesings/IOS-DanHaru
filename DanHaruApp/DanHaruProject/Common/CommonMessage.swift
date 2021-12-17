@@ -55,6 +55,9 @@ extension RadMessage {
     struct AlertView {
         static let inputPasswordTitle = "새로운 비밀번호를 입력해 주세요."
         static let change             = "변경하기"
+        static let disableInvite      = "친구 초대에 실패했어요. 잠시후 다시 시도해 주세요."
+        static let notiStateChangeOff = "확인을 누르시면 재촉 수신이 불가해요."
+        static let notiStateChangeOn  = "확인을 누르시면 재촉 수신을 할 수 있어요."
     }
     
     struct FindUserInfo {
@@ -65,12 +68,9 @@ extension RadMessage {
         static let copyID       = "아이디가 복사되었습니다."
     }
     
-    struct PhotoEditor {
-        static let reqLibraryAuth = "단하루 앱에 이미지를 사용하기 위해 사진첩 접근 권한이 필요합니다. 확인을 누르시면 설정으로 이동됩니다."
-    }
-    
     struct Permission {
         static let permissionDenied = "권한이 허용 되어있지 않습니다.\n 설정페이지로 이동하시겠습니까?"
+        static let reqLibraryAuth = "단하루 앱에 이미지를 사용하기 위해 사진첩 접근 권한이 필요합니다.\n확인을 누르시면 설정으로 이동됩니다."
     }
     
     struct DateFormattor {

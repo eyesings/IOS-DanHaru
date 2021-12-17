@@ -15,16 +15,9 @@ extension BottomSheetsViewController {
     func setDateLayout() {
         
         commonInitTitleLabel(withTitle: self.bottomViewType == .startDate ? "시작날짜 선택" : "종료날짜 선택")
+        commonInitBottomBtn()
+        commonInitDatePicker()
         
-        self.bottomSheetView.addSubview(datePicker)
-        datePicker.snp.makeConstraints { make in
-            make.top.equalTo(self.bottomSheetView).offset(30)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
-            make.centerX.equalTo(self.bottomSheetView)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.38)
-        }
-        
-        self.commonInitBottomBtn()
         bottomTodoAddBtn.addTarget(self, action: #selector(bottomTodoCheckDate(_:)), for: .touchUpInside)
     }
     

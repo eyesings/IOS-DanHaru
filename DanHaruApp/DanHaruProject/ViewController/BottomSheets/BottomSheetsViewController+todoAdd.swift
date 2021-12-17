@@ -52,6 +52,7 @@ extension BottomSheetsViewController {
         titleTextField.delegate = self
         titleTextField.adjustsFontSizeToFitWidth = true
         
+        let startDateLabel = UILabel()
         self.bottomSheetView.addSubview(startDateLabel)
         startDateLabel.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(10)
@@ -65,28 +66,12 @@ extension BottomSheetsViewController {
         startDateLabel.adjustsFontSizeToFitWidth = true
         startDateLabel.textColor = UIColor.black
         
-        self.bottomSheetView.addSubview(datePicker)
-        datePicker.snp.makeConstraints { make in
-            make.centerX.equalTo(self.bottomSheetView)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.18)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.8)
-            make.top.equalTo(self.startDateLabel.snp.bottom)
-        }
         
         //self.bottomSheetViewController.view.frame.height / 2 - self.bottomSheetViewController.view.frame.height * 0.27 - 20
         
-        self.bottomSheetView.addSubview(bottomTodoAddBtn)
-        bottomTodoAddBtn.snp.makeConstraints { make in
-            //make.top.equalTo(datePicker.snp.bottom).offset(10)
-            make.width.equalTo(self.bottomSheetView)
-            make.centerX.equalTo(self.bottomSheetView)
-            make.height.equalTo(self.view.frame.height / 2 - self.view.frame.height * 0.43 + 10)
-            make.bottom.equalTo(self.view)
-        }
-        bottomTodoAddBtn.backgroundColor = .subHeavyColor
-        bottomTodoAddBtn.setTitle("등록 하기", for: .normal)
-        bottomTodoAddBtn.setTitleColor(.backgroundColor, for: .normal)
+        commonInitBottomBtn(withTitle: "등록 하기")
         bottomTodoAddBtn.addTarget(self, action: #selector(bottomTodoAddAction(_:)), for: .touchUpInside)
+        commonInitDatePicker()
         
         NotificationCenter.default.addObserver(self,selector: #selector(keyboardWillShow),name: UIResponder.keyboardWillShowNotification,object: nil)
         

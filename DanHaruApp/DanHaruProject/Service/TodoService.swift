@@ -17,7 +17,7 @@ extension ViewModelService {
         param["mem_id"] = UserModel.memberId ?? UserDefaults.userInputId
         param["fr_date"] = date
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.todoList, parameters: param) { resultData in
+        RadServerNetwork.postArrDataFromServerNeedAuth(url: Configs.API.todoList, parameters: param) { resultData in
             if let resultArr = resultData {
                 var resultDic: [NSDictionary]? = []
                 for dic in resultArr {
@@ -45,7 +45,7 @@ extension ViewModelService {
         
         rootVC.showLoadingView()
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.createTodo, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.createTodo, parameters: param) { resultDic in
             if let resultCode = resultDic?["result_code"] as? String,
                resultCode == APIResultCode.failure.rawValue {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
@@ -68,8 +68,7 @@ extension ViewModelService {
         param["todo_id"] = "\(todoIdx)"
         param["mem_id"] = UserModel.memberId ?? ""
         
-        
-        RadServerNetwork.postDataFromServer(url: Configs.API.todoDelete, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.todoDelete, parameters: param) { resultDic in
             print("resultData \(resultDic)")
             if let resultCode = resultDic?["result_code"] as? String,
                resultCode == APIResultCode.success.rawValue {

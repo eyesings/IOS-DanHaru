@@ -103,6 +103,8 @@
 		B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */; };
 		B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */; };
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
+		B6AF0DCD276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */; };
+		B6AF0DCE276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
 		B6B2DEA32755BA4A001360E7 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */; };
 		B6B2DEA52755BA4A001360E7 /* CalendarDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */; };
@@ -257,6 +259,8 @@
 		B6A7BEE92761D24200300524 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
+		B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeFriendCollectionViewCell.xib; sourceTree = "<group>"; };
 		B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFlowLayout.swift; sourceTree = "<group>"; };
 		B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayCell.swift; sourceTree = "<group>"; };
@@ -332,10 +336,7 @@
 				827EC8DD273A446500A60CCB /* TodoListDetailViewController+collectionView.swift */,
 				827EC8D9273A405600A60CCB /* TodoListDetailViewController+function.swift */,
 				8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */,
-				827EC8D5273A2D2E00A60CCB /* TodoListDetailTableViewCell.swift */,
-				827EC8D6273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib */,
-				826C05222733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift */,
-				826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */,
+				B6AF0DCA276C3EF9002DB318 /* View */,
 			);
 			path = TodoListDetail;
 			sourceTree = "<group>";
@@ -601,6 +602,19 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B6AF0DCA276C3EF9002DB318 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				827EC8D5273A2D2E00A60CCB /* TodoListDetailTableViewCell.swift */,
+				827EC8D6273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib */,
+				826C05222733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.swift */,
+				826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */,
+				B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */,
+				B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		B6B2DE992755BA4A001360E7 /* CalendarView */ = {
@@ -883,6 +897,7 @@
 				B6166BFB274C7EB900C04898 /* FMPhotoPickerViewController.xib in Resources */,
 				827EC8D8273A2D2E00A60CCB /* TodoListDetailTableViewCell.xib in Resources */,
 				B6D770DD2766C964001B0566 /* GoogleService-Info.plist in Resources */,
+				B6AF0DCE276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib in Resources */,
 				B6F6ED242734F96700A4C88E /* down-arrows.json in Resources */,
 				B6A256132727BFBD00C3EC14 /* UserJoinSB.storyboard in Resources */,
 				B603BC3D27544BCE00994A42 /* idea.json in Resources */,
@@ -963,6 +978,7 @@
 				B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */,
 				B6166BFC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift in Sources */,
 				B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */,
+				B6AF0DCD276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift in Sources */,
 				B6166C28274C7EBA00C04898 /* FMCroppable.swift in Sources */,
 				B6166C1C274C7EBA00C04898 /* FMCropTranslucencyView.swift in Sources */,
 				B622FBB1274214C0002EC735 /* SettingViewController.swift in Sources */,

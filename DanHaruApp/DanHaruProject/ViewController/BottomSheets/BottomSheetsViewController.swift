@@ -40,7 +40,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     }()
     
     /// 바텀 뷰 기본 높이 지정 변수
-    var defaultHeight: CGFloat = 0
+    internal var defaultHeight: CGFloat = 0
     
     /// 바텀 뷰 재사용 판단을 위한 변수
     var bottomViewType: BottomViewCheck = .todoAdd
@@ -53,7 +53,6 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     let cancelBtn = UIButton()
     let titleLabel = UILabel()
     let titleTextField = UITextField()
-    let startDateLabel = UILabel()
     let datePicker = UIDatePicker()
     let bottomTodoAddBtn = UIButton()
     
@@ -84,10 +83,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if self.defaultHeight == 0 {
-            self.defaultHeight = self.view.frame.height / 2
-        }
-        
+        self.defaultHeight = bottomViewType == .todoAdd ? screenheight * 0.5 : screenheight * 0.35
         
         let dimmedTap = UITapGestureRecognizer(target: self, action: #selector(dimmedViewTapped(_:)))
         dimmedView.addGestureRecognizer(dimmedTap)
@@ -106,7 +102,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         super.viewDidAppear(animated)
         
         self.showBottomSheet()
-        
+        self.safeAreaView(topConst: self.bottomTodoAddBtn)
     }
     
     override func viewDidLayoutSubviews() {
@@ -137,7 +133,6 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         case .audioRecord: setAudioRecordLayout(); break
         }
         
-        commonInitDatePicker()
     }
 
     

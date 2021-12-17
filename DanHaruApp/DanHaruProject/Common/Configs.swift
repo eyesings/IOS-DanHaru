@@ -116,6 +116,11 @@ enum DetailNotiDayBtnTag: Int {
     }
 }
 
+enum DetailCollectionViewTag: Int {
+    case challFriend = 600
+    case currAuth
+}
+
 /// API 통신 결과 코드
 enum APIResultCode: String {
     case success = "0000"
@@ -215,6 +220,9 @@ struct Configs {
         // Detail - Certificate
         static let createCerti = host + "/todo/certification/create"
         static let certiList  = host + "/todo/certification/list"
+        // Detail - Push
+        static let subjectTkn = host + "/todo/detail/subject/token"
+        static let sendMsg    = host + "/todo/detail/subject/send/push"
         
     }
     

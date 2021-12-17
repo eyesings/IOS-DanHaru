@@ -10,7 +10,6 @@ import UIKit
 import SnapKit
 import Lottie
 import UserNotifications
-import MessageUI
 
 extension MainViewController {
     // MARK: - 메인 뷰 UI 작성 함수
@@ -217,21 +216,5 @@ extension MainViewController {
         }
     }
     
-    /// 메시지 전송
-    /// - Parameter text: 전송 할 메시지
-    func sendSMS(with text: String) {
-        if MFMessageComposeViewController.canSendText() {
-            let messageComposeViewController = MFMessageComposeViewController()
-            messageComposeViewController.body = text
-            messageComposeViewController.messageComposeDelegate = self
-            present(messageComposeViewController, animated: true, completion: nil)
-        }
-    }
 }
 
-
-extension MainViewController: MFMessageComposeViewControllerDelegate {
-    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
-        self.dismiss(animated: true, completion: nil)
-    }
-}

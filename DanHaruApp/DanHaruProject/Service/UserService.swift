@@ -16,9 +16,10 @@ extension ViewModelService {
         
         guard let rootVC = RadHelper.getRootViewController() else { print("rootVC 없음"); return }
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.join, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.join, parameters: param) { resultDic in
             if let dic = resultDic {
-                if let codeStr = dic["result_code"] as? String, codeStr == APIResultCode.failure.rawValue, let msgStr = dic["msg"] as? String {
+                if let codeStr = dic["result_code"] as? String, codeStr == APIResultCode.failure.rawValue,
+                   let msgStr = dic["msg"] as? String {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
                     completionHandler()
@@ -47,7 +48,7 @@ extension ViewModelService {
         if type == .email { apiUrl = Configs.API.validEmail }
         else if type == .id { apiUrl = Configs.API.validID }
         
-        RadServerNetwork.postDataFromServer(url: apiUrl, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: apiUrl, parameters: param) { resultDic in
             
             if let dic = resultDic, let rsltCode = dic["result_code"] as? String, let code = APIResultCode.init(rawValue: rsltCode) {
                 
@@ -77,7 +78,7 @@ extension ViewModelService {
         param["id"] = id
         param["pw"] = pw
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.login, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.login, parameters: param) { resultDic in
             if let msgStr = resultDic?["msg"] as? String {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
             } else {
@@ -127,7 +128,7 @@ extension ViewModelService {
         var param: [String:Any] = [:]
         param["mem_id"] = UserModel.memberId
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.getUsrTodo, type: .JSON, parameters: param) { resultData in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.getUsrTodo, parameters: param) { resultData in
             if let resultCode = resultData?["result_code"] as? String,
                resultCode == APIResultCode.success.rawValue {
                 completionHandler(resultData?["detail"] as? NSDictionary)

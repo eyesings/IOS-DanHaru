@@ -21,7 +21,7 @@ extension ViewModelService {
         param["todo_id"] = todoIdx
         param["today_dt"] = searchDate
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.todoDetail, type: .JSON, parameters: param) { detailData in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.todoDetail, parameters: param) { detailData in
             if let resultCode = detailData?["result_code"] as? String,
                resultCode == APIResultCode.success.rawValue {
                 guard let detailDataDic = detailData?["detail"] as? NSDictionary else { return }
@@ -75,7 +75,7 @@ extension ViewModelService {
         param["todo_mem_id"] = ownerMemId
         param["chaluser_mem_id"] = UserModel.memberId
         
-        RadServerNetwork.postDataFromServer(url: Configs.API.createChl, type: .JSON, parameters: param) { resultDic in
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.createChl, parameters: param) { resultDic in
             if let data = resultDic?["result_code"] as? String,
                data == APIResultCode.success.rawValue
             {

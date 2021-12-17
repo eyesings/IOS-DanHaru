@@ -9,6 +9,7 @@ import Foundation
 import SnapKit
 import UIKit
 import AVFoundation
+import MessageUI
 
 extension TodoListDetailViewController {
     
@@ -135,7 +136,6 @@ extension TodoListDetailViewController {
         bottomVC.modalPresentationStyle = .overFullScreen
         bottomVC.bottomViewType = .cycleTime
         // 선택한 시간을 넘겨줘야함
-        
         bottomVC.timeDelegate = self
         
         self.present(bottomVC, animated: true, completion: nil)
@@ -149,7 +149,6 @@ extension TodoListDetailViewController {
         bottomVC.modalPresentationStyle = .overFullScreen
         bottomVC.bottomViewType = .audioRecord
         //bottomVC.defaultHeight = self.view.frame.height / 2.8
-        bottomVC.defaultHeight = 280
         bottomVC.audioDelegate = self
         self.present(bottomVC, animated: true, completion: nil)
     }
@@ -189,12 +188,12 @@ extension TodoListDetailViewController {
                     make.height.equalTo(self.view.frame.width * 0.25)
                 }
                 
-                togetherFriendLabel.snp.remakeConstraints { make in
+                togetherFriendTitleLabel.snp.remakeConstraints { make in
                     
                     make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authLable)
-                    make.height.equalTo(self.authLable)
+                    make.leading.equalTo(self.authTitleLable)
+                    make.height.equalTo(self.authTitleLable)
                     
                 }
                 
@@ -216,12 +215,12 @@ extension TodoListDetailViewController {
                     make.height.equalTo(self.view.frame.width * 0.25)
                 }
                 
-                togetherFriendLabel.snp.remakeConstraints { make in
+                togetherFriendTitleLabel.snp.remakeConstraints { make in
                     
                     make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authLable)
-                    make.height.equalTo(self.authLable)
+                    make.leading.equalTo(self.authTitleLable)
+                    make.height.equalTo(self.authTitleLable)
                     
                 }
                 
@@ -266,12 +265,12 @@ extension TodoListDetailViewController {
                     make.height.equalTo(self.view.frame.width * 0.25)
                 }
                 
-                togetherFriendLabel.snp.remakeConstraints { make in
+                togetherFriendTitleLabel.snp.remakeConstraints { make in
                     
                     make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authLable)
-                    make.height.equalTo(self.authLable)
+                    make.leading.equalTo(self.authTitleLable)
+                    make.height.equalTo(self.authTitleLable)
                     
                 }
                 
@@ -300,11 +299,11 @@ extension TodoListDetailViewController {
                     make.height.equalTo(self.view.frame.width * 0.25)
                 }
                 
-                togetherFriendLabel.snp.remakeConstraints { make in
+                togetherFriendTitleLabel.snp.remakeConstraints { make in
                     make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                     make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authLable)
-                    make.height.equalTo(self.authLable)
+                    make.leading.equalTo(self.authTitleLable)
+                    make.height.equalTo(self.authTitleLable)
                     
                 }
             }
@@ -322,11 +321,11 @@ extension TodoListDetailViewController {
                 make.height.equalTo(self.view.frame.width * 0.25)
             }
             
-            togetherFriendLabel.snp.remakeConstraints { make in
+            togetherFriendTitleLabel.snp.remakeConstraints { make in
                 make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
                 make.width.equalTo(self.view).multipliedBy(0.5)
-                make.leading.equalTo(self.authLable)
-                make.height.equalTo(self.authLable)
+                make.leading.equalTo(self.authTitleLable)
+                make.height.equalTo(self.authTitleLable)
             }
             
         }
@@ -460,4 +459,53 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 친구 초대위해 초대 링크 전송하는 함수
+    @objc func inviteFriendWithSendSMS() {
+        if MFMessageComposeViewController.canSendText(),
+           let createUser = detailInfoModel?.created_user,
+           let todoIdx = detailInfoModel?.todo_id {
+            // https://challinvite?custid=[초대한유저ID]&todoidx=[초대한할일Idx] 링크 형태 참고
+            let deeplinkStr = "https://challinvite?custid=\(createUser)&todoidx=\(todoIdx)"
+            RadHelper.createDynamicLink(with: deeplinkStr) { url in
+                Dprint("link \(String(describing: url))")
+                guard let deepLinkUrl = url else { return }
+                let messageComposeViewController = MFMessageComposeViewController()
+                messageComposeViewController.body = "[단,하루 초대장]\n단,하루 앱에 초대 받았어요! 친구와 함께 목표를 달성해 보세요!\n 👉🏼 \(deepLinkUrl)"
+                messageComposeViewController.messageComposeDelegate = self
+                self.present(messageComposeViewController, animated: true, completion: nil)
+            }
+            
+        } else {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.disableInvite,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+        }
+    }
+    
+    
+    @objc func changeNotificationState(_ button: UIButton) {
+        print("change state,,,,!")
+        let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
+        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                        message: msg,
+                                                        isNeedCancel: true,
+                                                        viewController: self) {
+            if $0 {
+                button.isSelected = !button.isSelected
+                let notiImage = button.isSelected ? UIImage(named: "unmute") : UIImage(named: "mute")
+                button.setImage(notiImage, for: .normal)
+            }
+        }
+        
+    }
+    
+}
+
+
+
+extension TodoListDetailViewController: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }

@@ -19,15 +19,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         backBtn.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
             make.leading.equalTo(self.view).offset(10)
-            make.height.equalTo(self.view).multipliedBy(0.05)
-            make.width.equalTo(self.view).multipliedBy(0.08)
-        }
-        
-        
-        self.view.addSubview(menuBtn)
-        menuBtn.snp.makeConstraints { make in
-            make.top.width.height.equalTo(self.backBtn)
-            make.trailing.equalTo(self.view).offset(-20)
+            make.height.width.equalTo(35)
         }
         
         
@@ -57,66 +49,47 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         }
         
         
-        self.mainScrollView.addSubview(durationLabel)
-        durationLabel.snp.makeConstraints { make in
+        self.mainScrollView.addSubview(durationTitleLabel)
+        durationTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.titleTextField.snp.bottom).offset(10)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.5)
             make.height.equalTo(30)
             make.leading.equalTo(self.titleTextField)
         }
         
         
-        self.mainScrollView.addSubview(startDateView)
-        startDateView.snp.makeConstraints { make in
-            make.top.equalTo(self.durationLabel.snp.bottom).offset(10)
-            make.width.equalTo(self.view).multipliedBy(0.35)
-            make.height.equalTo(40)
-            make.leading.equalTo(self.durationLabel)
-        }
-        
-        
-        
-        self.startDateView.addSubview(startDateLabel)
-        startDateLabel.snp.makeConstraints { make in
-            make.top.width.height.bottom.leading.equalTo(self.startDateView)
-        }
-        
-        
         self.mainScrollView.addSubview(middleLabel)
         middleLabel.snp.makeConstraints { make in
-            make.top.equalTo(startDateLabel)
+            make.top.equalTo(self.durationTitleLabel.snp.bottom).offset(10)
+            make.height.equalTo(35)
             make.centerX.equalTo(self.view)
-            make.height.equalTo(startDateLabel)
-            make.leading.equalTo(startDateLabel.snp.trailing).offset(self.mainScrollView.frame.width * 0.1)
+            make.width.equalTo(screenwidth * 0.15)
         }
         
-        
-        self.mainScrollView.addSubview(endDateView)
-        endDateView.snp.makeConstraints { make in
-            make.top.width.height.equalTo(startDateView)
-            make.leading.equalTo(middleLabel.snp.trailing).offset(self.mainScrollView.frame.width * 0.1)
+        self.mainScrollView.addSubview(startDateLabel)
+        startDateLabel.snp.makeConstraints { make in
+            make.top.height.equalTo(middleLabel)
+            make.width.equalTo(self.view).multipliedBy(0.35)
+            make.trailing.equalTo(self.middleLabel.snp.leading)
         }
         
-        
-        self.endDateView.addSubview(endDateLabel)
+        self.mainScrollView.addSubview(endDateLabel)
         endDateLabel.snp.makeConstraints { make in
-            make.top.bottom.width.height.equalTo(endDateView)
+            make.top.width.height.equalTo(startDateLabel)
+            make.leading.equalTo(middleLabel.snp.trailing)
         }
         
-        self.mainScrollView.addSubview(cycleLabel)
-        cycleLabel.snp.makeConstraints { make in
-            make.top.equalTo(startDateView.snp.bottom).offset(20)
-            make.leading.equalTo(durationLabel)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.2)
-            make.height.equalTo(durationLabel)
+        self.mainScrollView.addSubview(cycleTitleLabel)
+        cycleTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(startDateLabel.snp.bottom).offset(20)
+            make.leading.height.equalTo(durationTitleLabel)
         }
         
         
         self.mainScrollView.addSubview(cycleExplainLabel)
         cycleExplainLabel.snp.makeConstraints { make in
-            make.top.height.equalTo(cycleLabel)
-            make.leading.equalTo(cycleLabel.snp.trailing).offset(5)
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.6)
+            make.leading.equalTo(cycleTitleLabel)
+            make.width.equalTo(self.mainScrollView)
+            make.top.equalTo(cycleTitleLabel.snp.bottom)
         }
         
         self.createCircleDateButton()
@@ -125,32 +98,31 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         cycleTimeLabel.snp.makeConstraints { make in
             make.top.equalTo(self.mondayNotiBtn.snp.bottom).offset(25)
             make.width.equalTo(self.mainScrollView).multipliedBy(0.4)
-            make.height.equalTo(30)
+            make.height.equalTo(startDateLabel)
             make.centerX.equalTo(self.view)
         }
         
         
-        self.mainScrollView.addSubview(authLable)
-        authLable.snp.makeConstraints { make in
+        self.mainScrollView.addSubview(authTitleLable)
+        authTitleLable.snp.makeConstraints { make in
             make.top.equalTo(cycleTimeLabel.snp.bottom).offset(25)
-            make.leading.height.width.equalTo(durationLabel)
+            make.leading.height.equalTo(durationTitleLabel)
         }
         
-        let authPadding = screenwidth * 0.1
+        let authPadding = screenwidth * 0.08
+        self.mainScrollView.addSubview(authAudioBtn)
+        authAudioBtn.snp.makeConstraints { make in
+            make.top.equalTo(authTitleLable.snp.bottom).offset(20)
+            make.height.width.equalTo(self.view.frame.width * 0.2)
+            make.centerX.equalTo(self.view)
+        }
         
         self.mainScrollView.addSubview(authImageBtn)
         authImageBtn.snp.makeConstraints { make in
-            make.top.equalTo(authLable.snp.bottom).offset(20)
-            make.width.equalTo(self.view).multipliedBy(0.2)
-            make.height.equalTo(self.view.frame.width * 0.2)
-            make.left.equalTo(self.view).offset(authPadding)
+            make.top.width.height.equalTo(self.authAudioBtn)
+            make.trailing.equalTo(self.authAudioBtn.snp.leading).offset(-authPadding)
         }
         
-        self.mainScrollView.addSubview(authAudioBtn)
-        authAudioBtn.snp.makeConstraints { make in
-            make.top.width.height.equalTo(self.authImageBtn)
-            make.leading.equalTo(self.authImageBtn.snp.trailing).offset(authPadding)
-        }
         
         self.mainScrollView.addSubview(authCheckBtn)
         authCheckBtn.snp.makeConstraints { make in
@@ -183,7 +155,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             self.audioPlayArea.addSubview(audioPlayStopBtn)
             audioPlayStopBtn.snp.makeConstraints { make in
                 make.centerY.height.equalTo(self.audioPlayArea)
-                make.width.equalTo(self.view).multipliedBy(0.1)
+                make.width.equalTo(screenwidth * 0.07)
                 make.trailing.equalTo(self.audioPlayTimeText.snp.leading)
             }
             audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
@@ -192,8 +164,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             
             self.audioPlayArea.addSubview(recordDeleteBtn)
             recordDeleteBtn.snp.makeConstraints { make in
-                make.centerY.width.equalTo(self.audioPlayStopBtn)
-                make.height.equalTo(audioPlayArea)
+                make.centerY.width.height.equalTo(self.audioPlayStopBtn)
                 make.leading.equalTo(self.audioPlayTimeText.snp.trailing)
             }
             recordDeleteBtn.setImage(#imageLiteral(resourceName: "btnTrash"), for: .normal)
@@ -277,114 +248,75 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         }
         
         
-        self.mainScrollView.addSubview(togetherFriendLabel)
-        togetherFriendLabel.snp.makeConstraints { make in
+        self.mainScrollView.addSubview(togetherFriendTitleLabel)
+        togetherFriendTitleLabel.snp.makeConstraints { make in
             
             make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-            make.width.equalTo(self.view).multipliedBy(0.5)
-            make.leading.equalTo(self.authLable)
-            make.height.equalTo(self.authLable)
+            make.leading.equalTo(self.authTitleLable)
+            make.height.equalTo(self.authTitleLable)
             
         }
         
         
         self.mainScrollView.addSubview(togetherExplainLabel)
         togetherExplainLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.togetherFriendLabel.snp.bottom)
+            make.top.equalTo(self.togetherFriendTitleLabel.snp.bottom)
             make.width.equalTo(self.view).multipliedBy(0.8)
-            make.leading.equalTo(self.togetherFriendLabel)
+            make.leading.equalTo(self.togetherFriendTitleLabel)
             make.height.equalTo(15)
         }
         
-        /*
-        self.mainScrollView.addSubview(friendImageView1)
-        friendImageView1.snp.makeConstraints { make in
-            make.top.equalTo(self.togetherExplainLabel.snp.bottom).offset(20)
-            make.width.equalTo(self.view).multipliedBy(0.2)
-            make.height.equalTo(self.view.frame.width * 0.2)
-            make.left.equalTo(self.view).offset(self.view.frame.width * 0.2)
+        let collectionViewHeihgt = 100.0
+        self.mainScrollView.addSubview(togetherFriendCollectionView)
+        togetherFriendCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(togetherExplainLabel.snp.bottom).offset(10)
+            make.leading.equalTo(self.view)
+            make.width.equalTo(screenwidth * 0.75)
+            make.height.equalTo(collectionViewHeihgt)
         }
         
-        
-        self.mainScrollView.addSubview(friendAddBtn1)
-        friendAddBtn1.snp.makeConstraints { make in
-            make.top.equalTo(self.friendImageView1.snp.bottom).offset(15)
-            make.width.equalTo(self.friendImageView1)
-            make.height.equalTo(self.friendImageView1)
-            make.leading.equalTo(self.friendImageView1)
+        self.mainScrollView.addSubview(inviteFriendBtn)
+        inviteFriendBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(collectionViewHeihgt * 0.7)
+            make.leading.equalTo(togetherFriendCollectionView.snp.trailing)
+            make.centerY.equalTo(togetherFriendCollectionView)
         }
         
-        
-        self.mainScrollView.addSubview(friendImageView2)
-        friendImageView2.snp.makeConstraints { make in
-            make.top.equalTo(friendImageView1)
-            make.width.equalTo(friendImageView1)
-            make.height.equalTo(friendImageView1)
-            make.left.equalTo(friendImageView1.snp.right).offset(self.view.frame.width * 0.2)
+        self.mainScrollView.addSubview(todayAuthTitleLabel)
+        todayAuthTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(togetherFriendCollectionView.snp.bottom).offset(20)
+            make.height.leading.equalTo(self.togetherFriendTitleLabel)
         }
         
-        
-        self.mainScrollView.addSubview(friendAddBtn2)
-        friendAddBtn2.snp.makeConstraints { make in
-            make.top.equalTo(friendImageView2.snp.bottom).offset(15)
-            make.width.equalTo(friendImageView2)
-            make.height.equalTo(friendImageView2)
-            make.leading.equalTo(friendImageView2)
+        self.mainScrollView.addSubview(notificationStateBtn)
+        notificationStateBtn.snp.makeConstraints { make in
+            make.top.bottom.equalTo(todayAuthTitleLabel)
+            make.leading.equalTo(todayAuthTitleLabel.snp.trailing).offset(10)
+            make.width.equalTo(notificationStateBtn.snp.height)
         }
-        */
-        
-        self.mainScrollView.addSubview(friendImageView1)
-        friendImageView1.snp.makeConstraints { make in
-            make.top.equalTo(self.togetherExplainLabel.snp.bottom).offset(20)
-            make.width.equalTo(self.view).multipliedBy(0.2)
-            make.height.equalTo(self.view.frame.width * 0.2)
-            //make.left.equalTo(self.view).offset(self.view.frame.width * 0.2)
-            make.centerX.equalTo(self.view)
-        }
-        
-        
-        self.mainScrollView.addSubview(friendAddBtn1)
-        friendAddBtn1.snp.makeConstraints { make in
-            make.top.equalTo(self.friendImageView1.snp.bottom).offset(15)
-            make.width.equalTo(self.friendImageView1)
-            make.height.equalTo(self.friendImageView1)
-            make.leading.equalTo(self.friendImageView1)
-        }
-        
-        self.mainScrollView.addSubview(todayAuthLabel)
-        todayAuthLabel.snp.makeConstraints { make in
-            make.top.equalTo(friendAddBtn1.snp.bottom).offset(20)
-            make.width.equalTo(self.view).multipliedBy(0.5)
-            make.height.equalTo(self.togetherFriendLabel)
-            make.leading.equalTo(self.togetherFriendLabel)
-        }
-        
         
         // 친구 명 수대로 imageview 가 생겨야하고.. 버튼도 생겨야하고... 인증 현황에 따라서 버튼을 체크 모양으로 변경해야함...
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: (self.view.bounds.size.width * 0.9 * 0.32), height: 170.0)
         self.todayAuthCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.mainScrollView.addSubview(todayAuthCollectionView)
         todayAuthCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.todayAuthLabel.snp.bottom).offset(20)
-            make.width.equalTo(self.view).multipliedBy(0.9)
+            make.top.equalTo(self.todayAuthTitleLabel.snp.bottom)
+            make.leading.trailing.equalTo(self.view)
             make.height.equalTo(180)
-            make.centerX.equalTo(self.view)
         }
         
-        self.mainScrollView.addSubview(weeklyLabel)
-        weeklyLabel.snp.makeConstraints { make in
+        
+        self.mainScrollView.addSubview(weeklyTitleLabel)
+        weeklyTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.todayAuthCollectionView.snp.bottom).offset(20)
-            make.leading.equalTo(self.togetherFriendLabel)
-            make.height.equalTo(self.togetherFriendLabel)
-            make.width.equalTo(self.togetherFriendLabel)
+            make.leading.height.equalTo(self.togetherFriendTitleLabel)
         }
         
         self.mainScrollView.addSubview(weeklyTableView)
         weeklyTableView.snp.makeConstraints { make in
-            make.top.equalTo(weeklyLabel.snp.bottom).offset(20)
+            make.top.equalTo(weeklyTitleLabel.snp.bottom).offset(20)
             make.width.equalTo(self.view).multipliedBy(0.9)
             make.height.equalTo(self.tableViewHeight)
             make.centerX.equalTo(self.view)
@@ -401,10 +333,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         backBtn.setImage(#imageLiteral(resourceName: "btnArrowLeft"), for: .normal)
         backBtn.addTarget(self, action: #selector(backBtnAction(_:)), for: .touchUpInside)
         
-        // 데일리 인증 화면 이동
-        menuBtn.setImage(#imageLiteral(resourceName: "btnEdit"), for: .normal)
-        menuBtn.imageView?.contentMode = .scaleToFill
-        
         // 하단 확인 버튼
         bottomBtn.setTitle(self.isForInviteFriend ? "함께하기" : "확인", for: .normal)
         bottomBtn.backgroundColor = .subHeavyColor
@@ -420,22 +348,44 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         titleTextField.textAlignment = .left
         titleTextField.font = UIFont.boldSystemFont(ofSize: 25)
         
-        // 기간선택
-        durationLabel.text = "기간 선택"
-        durationLabel.adjustsFontSizeToFitWidth = true
-        durationLabel.textAlignment = .left
-        durationLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        // FIXME: 어디에 둬야할지 몰라서 여기에 둡니다. 원하는 곳으로 이동시켜주세요.
+        func customLabelConfig(_ textLabel: UILabel) {
+            textLabel.textColor = .customBlackColor
+            textLabel.textAlignment = .center
+            textLabel.font = .systemFont(ofSize: 15.0)
+        }
         
-        // 시작 날짜 라벨 백뷰
-        startDateView.backgroundColor = .backgroundColor
-        startDateView.alpha = 0.5
+        // FIXME: 어디에 둬야할지 몰라서 여기에 둡니다. 원하는 곳으로 이동시켜주세요.
+        func customTitleLabelConfig(_ textLabel: UILabel) {
+            textLabel.textAlignment = .left
+            textLabel.font = .boldSystemFont(ofSize: 20)
+            textLabel.sizeToFit()
+        }
+        
+        // FIXME: 어디에 둬야할지 몰라서 여기에 둡니다. 원하는 곳으로 이동시켜주세요.
+        func customButtonConfig(_ button: UIButton) {
+            let edgeInset = self.view.frame.width * 0.05
+            button.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
+            button.imageView?.contentMode = .scaleAspectFit
+            button.createShadow(CGSize(width: 2, height: 2), 5)
+            button.backgroundColor = .backgroundColor
+            button.layer.cornerRadius = 20
+        }
+        
+        func commonInfoLabelConfig(_ textLabel: UILabel) {
+            textLabel.textAlignment = .left
+            textLabel.adjustsFontSizeToFitWidth = true
+            textLabel.font = UIFont.italicSystemFont(ofSize: 13)
+            textLabel.textColor = .heavyGrayColor
+        }
+        
+        // 기간선택
+        durationTitleLabel.text = "기간 선택"
+        customTitleLabelConfig(durationTitleLabel)
         
         // 시작 날짜 라벨
         startDateLabel.text = "\(startDate)"
-        startDateLabel.textColor = .black
-        startDateLabel.textAlignment = .center
-        startDateLabel.adjustsFontSizeToFitWidth = true
-        startDateLabel.isUserInteractionEnabled = true
+        customLabelConfig(startDateLabel)
         startDateLabel.tag = DateLabelTag.startDateLabel.rawValue
         let startTap = UITapGestureRecognizer(target: self, action: #selector(tapDateLabel(_:)))
         startDateLabel.addGestureRecognizer(startTap)
@@ -443,81 +393,49 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         // 날짜 사이 라벨
         middleLabel.text = "~"
         middleLabel.adjustsFontSizeToFitWidth = true
-        middleLabel.textColor = .black
+        middleLabel.textColor = .customBlackColor
         middleLabel.textAlignment = .center
-        
-        // 종료 날짜 라벨 백뷰
-        endDateView.backgroundColor = .backgroundColor
-        endDateView.alpha = 0.5
+
         
         // 종료 날짜 라벨
         endDateLabel.text = "\(endDate)"
-        endDateLabel.textColor = .black
-        endDateLabel.textAlignment = .center
-        endDateLabel.isUserInteractionEnabled = true
-        endDateLabel.adjustsFontSizeToFitWidth = true
+        customLabelConfig(endDateLabel)
         endDateLabel.tag = DateLabelTag.endDateLabel.rawValue
         let endTap = UITapGestureRecognizer(target: self, action: #selector(tapDateLabel(_:)))
         endDateLabel.addGestureRecognizer(endTap)
         
         // 주기 선택 라벨
-        cycleLabel.text = "주기 선택"
-        cycleLabel.textAlignment = .left
-        cycleLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        cycleLabel.adjustsFontSizeToFitWidth = true
-        cycleLabel.textColor = .black
+        cycleTitleLabel.text = "주기 선택"
+        customTitleLabelConfig(cycleTitleLabel)
         
         // 주기 선택 라벨 설명
         cycleExplainLabel.text = "* 선택 한 주기마다 알림이 전송 됩니다."
-        cycleExplainLabel.textAlignment = .left
-        cycleExplainLabel.adjustsFontSizeToFitWidth = true
-        cycleExplainLabel.font = UIFont.italicSystemFont(ofSize: 15)
-        cycleExplainLabel.textColor = UIColor.lightGrayColor
+        commonInfoLabelConfig(cycleExplainLabel)
         
         // 반복 주기 시간 선택
         cycleTimeLabel.text = self.noti_time
-        cycleTimeLabel.textAlignment = .center
-        cycleTimeLabel.textColor = .black
-        cycleTimeLabel.adjustsFontSizeToFitWidth = true
-        cycleTimeLabel.font = UIFont.italicSystemFont(ofSize: 20)
-        cycleTimeLabel.isUserInteractionEnabled = true
+        customLabelConfig(cycleTimeLabel)
         let timeTap = UITapGestureRecognizer(target: self, action: #selector(circleTimeLabelAction(_:)))
         cycleTimeLabel.addGestureRecognizer(timeTap)
         
         // 인증 라벨
-        authLable.text = "인증 등록"
-        authLable.textAlignment = .left
-        authLable.font = UIFont.boldSystemFont(ofSize: 20)
-        authLable.textColor = UIColor.black
-        authLable.adjustsFontSizeToFitWidth = true
+        authTitleLable.text = "인증 등록"
+        customTitleLabelConfig(authTitleLable)
         
-        let edgeInset = self.view.frame.width * 0.05
         // 인증 수단 - 이미지
         authImageBtn.setImage(UIImage(named: "btnPhotoAlbum"), for: .normal)
-        authImageBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
-        authImageBtn.imageView?.contentMode = .scaleAspectFit
         authImageBtn.addTarget(self, action: #selector(photoAlbumAuth(_:)), for: .touchUpInside)
-        authImageBtn.createShadow(CGSize(width: 2, height: 2), 5)
-        authImageBtn.backgroundColor = .backgroundColor
-        authImageBtn.layer.cornerRadius = 20
+        customButtonConfig(authImageBtn)
         
         // 인증 수단 - 오디오
         authAudioBtn.setImage(UIImage(named: "btnMic"), for: .normal)
-        authAudioBtn.imageView?.contentMode = .scaleAspectFit
-        authAudioBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
         authAudioBtn.addTarget(self, action: #selector(audioAuth(_:)), for: .touchUpInside)
-        authAudioBtn.createShadow(CGSize(width: 2, height: 2), 5)
-        authAudioBtn.backgroundColor = .backgroundColor
-        authAudioBtn.layer.cornerRadius = 20
+        customButtonConfig(authAudioBtn)
         
         // 인증 수단 - 체크
         authCheckBtn.setImage(UIImage(named:"btnCheck"), for: .normal)
-        authCheckBtn.imageView?.contentMode = .scaleAspectFit
-        authCheckBtn.contentEdgeInsets = UIEdgeInsets(top: edgeInset, left: edgeInset, bottom: edgeInset, right: edgeInset)
         authCheckBtn.addTarget(self, action: #selector(authCheckButtonAction(_:)), for: .touchUpInside)
-        authCheckBtn.createShadow(CGSize(width: 2, height: 2), 5)
-        authCheckBtn.backgroundColor = .backgroundColor
-        authCheckBtn.layer.cornerRadius = 20
+        customButtonConfig(authCheckBtn)
         
         // 이미지 인증 이미지뷰1
         authImageView1.backgroundColor = .lightGrayColor
@@ -556,61 +474,59 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         imageDeleteBtn3.addTarget(self, action: #selector(deleteAuthImage(_:)), for: .touchUpInside)
         
         // 함께 도전 라벨
-        togetherFriendLabel.adjustsFontSizeToFitWidth = true
-        togetherFriendLabel.text = "함께 도전 중인 친구"
-        togetherFriendLabel.textAlignment = .left
-        togetherFriendLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        togetherFriendTitleLabel.text = "함께 도전 중인 친구"
+        customTitleLabelConfig(togetherFriendTitleLabel)
         
         // 함께 도전 설명 라벨
         togetherExplainLabel.text = "* 친구를 초대 하고 함께 도전을 진행해 보세요!"
-        togetherExplainLabel.textAlignment = .left
-        togetherExplainLabel.adjustsFontSizeToFitWidth = true
-        togetherExplainLabel.font = UIFont.italicSystemFont(ofSize: 15)
-        togetherExplainLabel.textColor = .lightGray
+        commonInfoLabelConfig(togetherExplainLabel)
         
-        // 친구 추가 이미지 뷰 1
-        friendImageView1.image = UIImage(named: "profileNon")
-        friendImageView1.contentMode = .scaleAspectFit
-        friendImageView1.layer.cornerRadius = self.view.frame.width * 0.2 / 2
+        togetherFriendCollectionView.delegate = self
+        togetherFriendCollectionView.dataSource = self
+        togetherFriendCollectionView.showsHorizontalScrollIndicator = false
+        togetherFriendCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        togetherFriendCollectionView.bounces = false
         
-        // 친구 추가 버튼1
-        friendAddBtn1.setImage(UIImage(named:"btnAdd"), for: .normal)
-        friendAddBtn1.backgroundColor = .subLightColor
-        friendAddBtn1.layer.cornerRadius = self.view.frame.width * 0.2 / 2
+        inviteFriendBtn.backgroundColor = .subLightColor
+        inviteFriendBtn.setImage(UIImage(named: "btnAdd"), for: .normal)
+        inviteFriendBtn.imageView?.contentMode = .scaleAspectFit
+        inviteFriendBtn.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        inviteFriendBtn.addTarget(self, action: #selector(inviteFriendWithSendSMS), for: .touchUpInside)
         
         // 오늘 인증 라벨
-        todayAuthLabel.text = "오늘 인증 현황"
-        todayAuthLabel.textAlignment = .left
-        todayAuthLabel.adjustsFontSizeToFitWidth = true
-        todayAuthLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        todayAuthTitleLabel.text = "오늘 인증 현황"
+        customTitleLabelConfig(todayAuthTitleLabel)
+        
+        notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal)
+        notificationStateBtn.isSelected = true
+        notificationStateBtn.addTarget(self, action: #selector(changeNotificationState), for: .touchUpInside)
         
         // 오늘 인증 콜렉션 뷰
         todayAuthCollectionView.delegate = self
         todayAuthCollectionView.dataSource = self
-        todayAuthCollectionView.register(UINib(nibName: "TodoListDetailCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TodoListDetailCollectionViewCell")
-        todayAuthCollectionView.backgroundColor = UIColor.backgroundColor
+        todayAuthCollectionView.backgroundColor = .clear
+        todayAuthCollectionView.register(UINib(nibName: "TodoListDetailCollectionViewCell", bundle: nil),
+                                         forCellWithReuseIdentifier: TodoListDetailCollectionViewCell.reusableIdentifier)
         todayAuthCollectionView.showsHorizontalScrollIndicator = false
-        //todayAuthCollectionView.layer.borderColor = UIColor.black.cgColor
-        //todayAuthCollectionView.layer.borderWidth = 1.0
-        //todayAuthCollectionView.isPagingEnabled = true
+        todayAuthCollectionView.tag = DetailCollectionViewTag.currAuth.rawValue
         todayAuthCollectionView.bounces = false
         todayAuthCollectionView.decelerationRate = .normal
         
         // 위클리 리포트 라벨
-        weeklyLabel.text = "위클리 리포트"
-        weeklyLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        weeklyLabel.textAlignment = .left
-        weeklyLabel.adjustsFontSizeToFitWidth = true
+        weeklyTitleLabel.text = "위클리 리포트"
+        customTitleLabelConfig(weeklyTitleLabel)
         
         // 위클리 리포트 테이블 뷰
-        weeklyTableView.register(UINib(nibName: "TodoListDetailTableViewCell", bundle: nil), forCellReuseIdentifier: "TodoListDetailTableViewCell")
+        /*
+        weeklyTableView.register(UINib(nibName: "TodoListDetailTableViewCell", bundle: nil),
+                                 forCellReuseIdentifier: TodoListDetailTableViewCell.reusableIdentifier)
         weeklyTableView.dataSource = self
         weeklyTableView.delegate = self
         weeklyTableView.showsVerticalScrollIndicator = false
         weeklyTableView.isPagingEnabled = true
         weeklyTableView.backgroundColor = .backgroundColor
         weeklyTableView.separatorStyle = .none
-        
+        */
     }
     
     //MARK: - 이미지 앨범 불러오기
@@ -754,7 +670,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     // 반복주기 요일 버튼 생성 함수
     func createCircleDateButton() {
         
-        mondayNotiBtn = createNotiCircleBtn(type: .monday, to: cycleLabel, isFirst: true)
+        mondayNotiBtn = createNotiCircleBtn(type: .monday, to: cycleTitleLabel, isFirst: true)
         let tuesdayNotiBtn = createNotiCircleBtn(type: .tuesday, to: mondayNotiBtn)
         let wednesdayNotiBtn = createNotiCircleBtn(type: .wednesday, to: tuesdayNotiBtn)
         let thursdayNotiBtn = createNotiCircleBtn(type: .thursday, to: wednesdayNotiBtn)
@@ -780,8 +696,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         btn.setTitleColor(.heavyGrayColor, for: .normal)
         btn.setTitleColor(.backgroundColor, for: .selected)
         btn.titleLabel?.font = .systemFont(ofSize: 14.0)
-        btn.backgroundColor = .lightGrayColor
-        btn.layer.cornerRadius = self.view.frame.width * 0.08 / 2
+        btn.backgroundColor = RadHelper.colorFromHex(hex: "dddddd")
+        btn.layer.cornerRadius = self.view.frame.width * 0.09 / 2
         
         btn.layer.masksToBounds = true
         btn.tag = type.rawValue
@@ -796,14 +712,14 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         self.mainScrollView.addSubview(selfBtn)
         selfBtn.snp.makeConstraints { make in
             if isFirst {
-                make.top.equalTo(cycleLabel.snp.bottom).offset(20)
-                make.leading.equalTo(self.view).offset(self.view.frame.width * 0.11)
+                make.top.equalTo(cycleExplainLabel.snp.bottom).offset(10)
+                make.leading.equalTo(self.durationTitleLabel).offset(10)
             }
             else {
                 make.top.equalTo(parent)
                 make.leading.equalTo(parent.snp.trailing).offset(self.view.frame.width * 0.02)
             }
-            make.width.equalTo(self.mainScrollView).multipliedBy(0.08)
+            make.width.equalTo(self.view.frame.width * 0.09)
             make.height.equalTo(selfBtn.snp.width)
         }
     }

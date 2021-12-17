@@ -13,12 +13,25 @@ import UIKit
 extension BottomSheetsViewController {
     
     func commonInitDatePicker() {
-        datePicker.datePickerMode = .date
+        datePicker.datePickerMode = self.bottomViewType == .cycleTime ? .time : .date
+        datePicker.minuteInterval = 10
         datePicker.locale = Locale(identifier: "ko_KR")
         if #available(iOS 14.0, *) {
             datePicker.preferredDatePickerStyle = .wheels
         }
         datePicker.setDate(preDate.stringToDate() ?? Date(), animated: false)
+        
+        self.bottomSheetView.addSubview(datePicker)
+        datePicker.snp.makeConstraints { make in
+            make.centerX.equalTo(self.bottomSheetView)
+            make.width.equalTo(screenwidth * 0.8)
+            make.height.equalTo(datePicker.snp.width).multipliedBy(0.45)
+            if self.bottomViewType == .todoAdd {
+                make.bottom.equalTo(bottomTodoAddBtn.snp.top)
+            } else {
+                make.top.equalTo(self.bottomTitle.snp.bottom)
+            }
+        }
     }
     
     func commonInitBottomBtn(withTitle title: String = "확인", isNeedCustomLayout: Bool = false) {
@@ -26,12 +39,7 @@ extension BottomSheetsViewController {
         bottomTodoAddBtn.snp.makeConstraints { make in
             make.height.equalTo(60)
             make.centerX.width.equalTo(self.bottomSheetView)
-            // FIXME: layout 변경 필요
-            if isNeedCustomLayout {
-                make.bottom.equalTo(self.view)
-            } else {
-                make.top.equalTo(datePicker.snp.bottom).offset(self.view.frame.height / 2 - self.view.frame.height * 0.38 - 60)
-            }
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         bottomTodoAddBtn.backgroundColor = .subHeavyColor
         bottomTodoAddBtn.setTitle(title, for: .normal)

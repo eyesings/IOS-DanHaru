@@ -45,18 +45,18 @@ extension BottomSheetsViewController {
         self.bottomSheetView.addSubview(audioAnimation)
         audioAnimation.snp.makeConstraints { make in
             make.top.equalTo(bottomTitle.snp.bottom)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.7)
-            make.height.equalTo(self.bottomSheetView).multipliedBy(0.1)
+            make.width.equalTo(self.bottomSheetView).multipliedBy(0.6)
+            make.height.equalTo(self.bottomSheetView).multipliedBy(0.05)
             make.centerX.equalTo(self.bottomSheetView)
         }
         audioAnimation.play(toProgress: 0.0)
         //audioAnimation.play()
         audioAnimation.loopMode = .loop
-        audioAnimation.contentMode = .scaleAspectFit
+        audioAnimation.contentMode = .scaleAspectFill
         
         self.bottomSheetView.addSubview(recordTimeLabel)
         recordTimeLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.audioAnimation.snp.bottom)
+            make.top.equalTo(self.audioAnimation.snp.bottom).offset(10)
             make.width.equalTo(self.bottomSheetView).multipliedBy(0.5)
             make.height.equalTo(15)
             make.centerX.equalTo(self.audioAnimation)
@@ -65,12 +65,12 @@ extension BottomSheetsViewController {
         recordTimeLabel.adjustsFontSizeToFitWidth = true
         recordTimeLabel.textAlignment = .center
         
+        let recordBtnWidth = screenwidth * 0.07
+        
         self.bottomSheetView.addSubview(recordStartBtn)
         recordStartBtn.snp.makeConstraints { make in
             make.top.equalTo(self.recordTimeLabel.snp.bottom).offset(25)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.10)
-            //make.height.equalTo(self.bottomSheetView).multipliedBy(0.06)
-            make.height.equalTo(self.bottomSheetView.snp.width).multipliedBy(0.10)
+            make.width.height.equalTo(recordBtnWidth)
             make.centerX.equalTo(self.bottomSheetView)
         }
         //recordStartBtn.setTitle("record", for: .normal)
@@ -82,8 +82,7 @@ extension BottomSheetsViewController {
         self.bottomSheetView.addSubview(recordPauseBtn)
         recordPauseBtn.snp.makeConstraints { make in
             make.top.equalTo(self.recordStartBtn)
-            make.width.equalTo(self.bottomSheetView).multipliedBy(0.1)
-            make.height.equalTo(self.bottomSheetView.snp.width).multipliedBy(0.1)
+            make.width.height.equalTo(recordBtnWidth)
             make.centerX.equalTo(self.bottomSheetView)
         }
         recordPauseBtn.setImage(UIImage(named: "btnRedPause"), for: .normal)
@@ -131,32 +130,29 @@ extension BottomSheetsViewController {
     /// 녹음 시작 함수
     @objc func recordStartButtonAction(_ sender: UIButton) {
         
-        if let player = audioPlayer {
-            if player.isPlaying {
-                player.stop()
-            }
+        if let player = audioPlayer, player.isPlaying {
+            player.stop()
         }
         
-        if let recorder = audioRecorder {
-            if !recorder.isRecording {
-                
-                let audioSession = AVAudioSession.sharedInstance()
-                
-                do {
-                    try audioSession.setActive(true)
-                } catch _ {
-                    print("audio active failed")
-                }
-                recordStartBtn.isHidden = true
-                recordPauseBtn.isHidden = false
-                recordStopBtn.isHidden = false
-                playStartBtn.isHidden = true
-                playStopBtn.isHidden = true
-                recorder.record()
-                isAudioFinish = false
-                progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timeRecordSelector, userInfo: nil, repeats: true)
-                self.audioAnimation.play()
+        if let recorder = audioRecorder, !recorder.isRecording {
+            
+            let audioSession = AVAudioSession.sharedInstance()
+            
+            do {
+                try audioSession.setActive(true)
+            } catch _ {
+                print("audio active failed")
             }
+            let isRecording = !recorder.isRecording
+            recordStartBtn.isHidden = isRecording
+            recordPauseBtn.isHidden = !isRecording
+            recordStopBtn.isHidden = !isRecording
+            playStartBtn.isHidden = isRecording
+            playStopBtn.isHidden = isRecording
+            recorder.record()
+            isAudioFinish = false
+            progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timeRecordSelector, userInfo: nil, repeats: true)
+            self.audioAnimation.play()
             
         }
         
@@ -165,22 +161,16 @@ extension BottomSheetsViewController {
     /// 녹음 일시정지 함수
     @objc func recordPauseButtonAction(_ sender: UIButton) {
         
-        if let player = audioPlayer {
-            if player.isPlaying {
-                player.stop()
-            }
+        if let player = audioPlayer, player.isPlaying {
+            player.stop()
         }
         
-        if let recorder = audioRecorder {
-            if recorder.isRecording {
-                recordPauseBtn.isHidden = true
-                recordStartBtn.isHidden = false
-                recorder.pause()
-                //recorder.stop()
-                self.audioAnimation.stop()
-                
-            }
-            
+        if let recorder = audioRecorder, recorder.isRecording {
+            recordPauseBtn.isHidden = true
+            recordStartBtn.isHidden = false
+            recorder.pause()
+            //recorder.stop()
+            self.audioAnimation.stop()
         }
         
     }
@@ -190,10 +180,8 @@ extension BottomSheetsViewController {
         
         self.audioAnimation.stop()
         
-        if let player = audioPlayer {
-            if player.isPlaying {
-                player.stop()
-            }
+        if let player = audioPlayer, player.isPlaying {
+            player.stop()
         }
         
         if let recorder = audioRecorder {
@@ -211,18 +199,15 @@ extension BottomSheetsViewController {
     /// 녹음된 오디오 재생(단 녹음이 중지(완료)가 되어있어야 재생이 가능)
     @objc func playStartButtonAction(_ sender: UIButton) {
         
-        if let recorder = audioRecorder {
-            if !recorder.isRecording {
-                //print("audio playing")
-                audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
-                
-                audioPlayer?.delegate = self
-                audioPlayer?.play()
-                audioAnimation.play()
-                playStartBtn.isHidden = true
-                playStopBtn.isHidden = false
-            }
+        if let recorder = audioRecorder, !recorder.isRecording {
+            //print("audio playing")
+            audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
             
+            audioPlayer?.delegate = self
+            audioPlayer?.play()
+            audioAnimation.play()
+            playStartBtn.isHidden = true
+            playStopBtn.isHidden = false
         }
         
     }
@@ -230,17 +215,15 @@ extension BottomSheetsViewController {
     /// 녹음된 오디오 재생 중지
     @objc func playStopButtonAction(_ sender: UIButton) {
         
-        if let recorder = audioRecorder {
+        if let recorder = audioRecorder, !recorder.isRecording {
             
-            if !recorder.isRecording {
-                //print("audio stop")
-                audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
-                audioPlayer?.delegate = self
-                audioPlayer?.stop()
-                audioAnimation.stop()
-                playStartBtn.isHidden = false
-                playStopBtn.isHidden = true
-            }
+            //print("audio stop")
+            audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+            audioPlayer?.delegate = self
+            audioPlayer?.stop()
+            audioAnimation.stop()
+            playStartBtn.isHidden = false
+            playStopBtn.isHidden = true
             
         }
     }

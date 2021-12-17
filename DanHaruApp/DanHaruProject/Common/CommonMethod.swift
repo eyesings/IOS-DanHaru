@@ -135,7 +135,6 @@ extension RadHelper {
     }
     
     static func createDynamicLink(with url: String, completionHandler: @escaping (_ url: URL?)->Void) {
-        // https://challinvite?custid=[초대한유저ID]&todoidx=[초대한할일Idx] 링크 형태 참고
         guard let linkUrl = URL(string: "\(Configs.dynamicPrefix)?link=\(url)&isi=\(Configs.appstoreID)&ibi=kr.co.radcns.DanHaruProject&efr=1") else { return }
     
         DynamicLinkComponents.shortenURL(linkUrl, options: nil) { url, warnings, err in
@@ -145,11 +144,72 @@ extension RadHelper {
 }
 
 extension RadServerNetwork {
-    static func postDataFromServer(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+    static public func postDicDataFromServerNeedAuth(url: String, parameters:[String:Any], successHandler: @escaping (_ resultDic: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error) -> Void) -> Void {
+        
+        if let reqUrl = URL(string: url) {
+            
+            var request = URLRequest(url: reqUrl)
+            
+            request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
+            request.httpMethod = "post"
+            
+            if parameters.count > 0 {
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                do {
+                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+                } catch {
+                    successHandler(nil)
+                }
+            }
+            
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request, completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                //error 일경우 종료
+                guard error == nil && data != nil else {
+                    
+                    if let err = error { Dprint(err.localizedDescription) }
+                    return
+                }
+                
+                
+                
+                //data 가져오기
+                if let _data = data {
+                    
+                    //메인쓰레드에서 출력하기 위해
+                    
+                    DispatchQueue.main.async {
+                        do {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary;
+                            successHandler(jsonRst);
+                        }
+                        catch {
+                            errorHandler(error);
+                            Dprint("parsing error : \(error.localizedDescription)")
+                        }
+                        
+                    }
+                    
+                }else{
+                    Dprint("data nil")
+                }
+            })
+            
+            task.resume()
+        } else {
+            Dprint("url is nil or empty")
+        }
+    }
+    
+    static func postArrDataFromServerNeedAuth(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
         guard let reqUrl = URL(string: url) else { return }
         
         var request = URLRequest(url: reqUrl)
+        
+        request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
         request.httpMethod = "post" //get : Get 방식, post : Post 방식
         
         if parameters.count > 0 {
@@ -167,9 +227,7 @@ extension RadServerNetwork {
             //error 일경우 종료
             guard error == nil && data != nil else {
                 
-                if let err = error {
-                    errorHandler(err)
-                }
+                if let err = error { errorHandler(err) }
                 return
             }
             
@@ -247,9 +305,7 @@ extension RadServerNetwork {
             //error 일경우 종료
             guard error == nil && data != nil else {
                 
-                if let err = error {
-                    errorHandler(err)
-                }
+                if let err = error { errorHandler(err) }
                 return
             }
             

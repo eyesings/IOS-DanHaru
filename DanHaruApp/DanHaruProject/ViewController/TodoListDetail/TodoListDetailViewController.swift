@@ -15,29 +15,26 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     // 상단, 하단 버튼
     let backBtn = UIButton()
-    let menuBtn = UIButton()
     let bottomBtn = UIButton()
     
     // 제목
     let titleTextField = UITextField()
     
     // 기간 선택
-    let durationLabel = UILabel()
-    let startDateView = UIView()
-    let endDateView = UIView()
+    let durationTitleLabel = UILabel()
     let startDateLabel = UILabel()
     let endDateLabel = UILabel()
     let middleLabel = UILabel()
     
     // 반복주기
-    let cycleLabel = UILabel()
+    let cycleTitleLabel = UILabel()
     let cycleExplainLabel = UILabel()
     var mondayNotiBtn = UIButton()
     var selectedNotiBtnList: [UIButton] = []
     let cycleTimeLabel = UILabel()
     
     // 인증 수단
-    let authLable = UILabel()
+    let authTitleLable = UILabel()
     let authImageBtn = UIButton()
     let authAudioBtn = UIButton()
     let authCheckBtn = UIButton()
@@ -56,17 +53,26 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let imageDeleteBtn3 = UIButton()
     
     // 함께 도전 중인 친구
-    let togetherFriendLabel = UILabel()
+    let togetherFriendTitleLabel = UILabel()
     let togetherExplainLabel = UILabel()
-    let friendImageView1 = UIImageView()
-    let friendAddBtn1 = UIButton()
+    let togetherFriendCollectionView: UICollectionView = {
+        let flowlayout = UICollectionViewFlowLayout()
+        flowlayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
+        collectionView.register(UINib(nibName: "ChallengeFriendCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: ChallengeFriendCollectionViewCell.reusableIdentifier)
+        collectionView.tag = DetailCollectionViewTag.challFriend.rawValue
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
+    let inviteFriendBtn = UIButton()
     
     // 오늘 인증 현황
-    let todayAuthLabel = UILabel()
+    let todayAuthTitleLabel = UILabel()
     var todayAuthCollectionView: UICollectionView!
+    let notificationStateBtn = UIButton()
     
     // 위클리 리포트
-    let weeklyLabel = UILabel()
+    let weeklyTitleLabel = UILabel()
     let weeklyTableView = UITableView()
     
     //클릭 요일
@@ -141,9 +147,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
             
         }
         
-       
         
         self.setUI()
+        self.safeAreaView(topConst: bottomBtn)
         
         self.imagePicker.sourceType = .photoLibrary
         self.imagePicker.delegate = self
@@ -172,20 +178,11 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.titleTextField.makesToCustomField()
-        self.startDateView.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
-        self.endDateView.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
+        self.startDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
+        self.endDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
         self.cycleTimeLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
+        self.inviteFriendBtn.layer.cornerRadius = inviteFriendBtn.frame.width / 2
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

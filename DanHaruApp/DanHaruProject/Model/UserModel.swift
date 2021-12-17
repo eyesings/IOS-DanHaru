@@ -30,6 +30,10 @@ struct UserInfoModel: Codable {
     var profileIntroStr: String? {
         get { return profile_into != nil ? RadHelper.AES256Decrypt(WithValue: profile_into).decodeEmoji() : nil }
     }
+    var Authorization: String?
+    var authForAPI: String? {
+        get { return Authorization != nil ? RadHelper.AES256Decrypt(WithValue: Authorization) : nil }
+    }
 }
 
 
