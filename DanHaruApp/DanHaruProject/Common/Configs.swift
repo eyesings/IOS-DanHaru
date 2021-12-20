@@ -119,6 +119,13 @@ enum DetailNotiDayBtnTag: Int {
 enum DetailCollectionViewTag: Int {
     case challFriend = 600
     case currAuth
+    case imgAuth
+}
+
+enum DetailAuthBtnTag: Int {
+    case image = 700
+    case audio
+    case check
 }
 
 /// API 통신 결과 코드

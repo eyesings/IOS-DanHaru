@@ -47,7 +47,6 @@ class ProfileEditViewController: UIViewController {
         let vc = FMPhotoPickerViewController(config: config())
         vc.modalPresentationStyle = .fullScreen
         vc.delegate = self
-        vc.photoEditorDelegate = self
         self.present(vc, animated: true, completion: nil)
     }
     
@@ -144,14 +143,7 @@ extension ProfileEditViewController: keyboardNotiRegistProtocol {
 }
 
 
-extension ProfileEditViewController: FMPhotoPickerViewControllerDelegate, PhotoEditorDelegate {
-    func doneEditing(image: UIImage) {
-        print("done editing \(image)")
-    }
-    
-    func canceledEditing() {
-        print("cancel Editing")
-    }
+extension ProfileEditViewController: FMPhotoPickerViewControllerDelegate {
     
     func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
         print("photos \(photos)")

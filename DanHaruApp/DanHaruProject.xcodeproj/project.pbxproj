@@ -105,6 +105,8 @@
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
 		B6AF0DCD276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */; };
 		B6AF0DCE276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */; };
+		B6AFFF3F2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */; };
+		B6AFFF402770010600222CB6 /* ImageAuthShowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6AFFF3E2770010600222CB6 /* ImageAuthShowCollectionViewCell.xib */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
 		B6B2DEA32755BA4A001360E7 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */; };
 		B6B2DEA52755BA4A001360E7 /* CalendarDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */; };
@@ -261,6 +263,8 @@
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeFriendCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChallengeFriendCollectionViewCell.xib; sourceTree = "<group>"; };
+		B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAuthShowCollectionViewCell.swift; sourceTree = "<group>"; };
+		B6AFFF3E2770010600222CB6 /* ImageAuthShowCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageAuthShowCollectionViewCell.xib; sourceTree = "<group>"; };
 		B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFlowLayout.swift; sourceTree = "<group>"; };
 		B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayCell.swift; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 				826C05232733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib */,
 				B6AF0DCB276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift */,
 				B6AF0DCC276C3F39002DB318 /* ChallengeFriendCollectionViewCell.xib */,
+				B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */,
+				B6AFFF3E2770010600222CB6 /* ImageAuthShowCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -891,6 +897,7 @@
 				B6166BFA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib in Resources */,
 				B6F6ED262734F96700A4C88E /* mic.json in Resources */,
 				B6166C03274C7EB900C04898 /* AlbumsViewController.xib in Resources */,
+				B6AFFF402770010600222CB6 /* ImageAuthShowCollectionViewCell.xib in Resources */,
 				826C05252733BB7D00E7EDDD /* TodoListDetailCollectionViewCell.xib in Resources */,
 				82C553362742250700F35639 /* audio.json in Resources */,
 				82A63A18275F144F0004E684 /* check_black.json in Resources */,
@@ -978,6 +985,7 @@
 				B6A41CDE273C91AE007625D6 /* TodoCollectModel.swift in Sources */,
 				B6166BFC274C7EB900C04898 /* FMPhotoPickerBatchSelector.swift in Sources */,
 				B6C3FCB0272661570046E35A /* AppDelegate.swift in Sources */,
+				B6AFFF3F2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift in Sources */,
 				B6AF0DCD276C3F39002DB318 /* ChallengeFriendCollectionViewCell.swift in Sources */,
 				B6166C28274C7EBA00C04898 /* FMCroppable.swift in Sources */,
 				B6166C1C274C7EBA00C04898 /* FMCropTranslucencyView.swift in Sources */,

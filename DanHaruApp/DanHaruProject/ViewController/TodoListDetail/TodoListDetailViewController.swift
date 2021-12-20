@@ -39,18 +39,22 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let authAudioBtn = UIButton()
     let authCheckBtn = UIButton()
     
+    let authRegiArea = UIView()
+    
     let audioPlayArea = UIView()
     var audioPlayTimeText = UILabel()
     let audioPlayStopBtn = UIButton()
     let recordDeleteBtn = UIButton()
     
-    let authImageView1 = UIImageView()
-    let authImageView2 = UIImageView()
-    let authImageView3 = UIImageView()
-    
-    let imageDeleteBtn1 = UIButton()
-    let imageDeleteBtn2 = UIButton()
-    let imageDeleteBtn3 = UIButton()
+    let authImageCollectionView: UICollectionView = {
+        let flowlayout = UICollectionViewFlowLayout()
+        flowlayout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
+        collectionView.register(UINib(nibName: "ImageAuthShowCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: ImageAuthShowCollectionViewCell.reusableIdentifier)
+        collectionView.tag = DetailCollectionViewTag.imgAuth.rawValue
+        collectionView.backgroundColor = .clear
+        return collectionView
+    }()
     
     // 함께 도전 중인 친구
     let togetherFriendTitleLabel = UILabel()
@@ -101,12 +105,10 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         UIColor.todoHotPickColor
     ]
     
-    let imagePicker = UIImagePickerController()
+    var selectedImage: [UIImage] = []
     
     // 인증 수단 체크
-    var isImageAuth = false
-    var isAudioAuth = false
-    var isCheckAuth = false
+    var isRegisterAuth = false
     
     // 테이블 뷰
     var tableViewHeight = 0
@@ -151,10 +153,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         self.setUI()
         self.safeAreaView(topConst: bottomBtn)
         
-        self.imagePicker.sourceType = .photoLibrary
-        self.imagePicker.delegate = self
-        self.imagePicker.allowsEditing = false
-        
         self.titleTextField.delegate = self
         
         /// 스크롤 뷰는 제스처 추가로 화면 터치시 키보드 숨김 처리를 해결해야 함
@@ -192,6 +190,16 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         }
         
         return true
+    }
+    
+    internal func config() -> FMPhotoPickerConfig {
+        var config = FMPhotoPickerConfig()
+        
+        config.selectMode = .multiple
+        config.maxImage = 3 - self.selectedImage.count
+        config.availableCrops = [FMCrop.ratioSquare]
+        
+        return config
     }
     
     /// 화면 터치시 키보드 숨김

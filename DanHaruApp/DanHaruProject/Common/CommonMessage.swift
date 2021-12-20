@@ -58,6 +58,8 @@ extension RadMessage {
         static let disableInvite      = "친구 초대에 실패했어요. 잠시후 다시 시도해 주세요."
         static let notiStateChangeOff = "확인을 누르시면 재촉 수신이 불가해요."
         static let notiStateChangeOn  = "확인을 누르시면 재촉 수신을 할 수 있어요."
+        static let inputImgMaxCount   = "인증 가능한 이미지는 최대 3장이에요."
+        static let alreadyRegistAuth  = "이미 인증하였어요."
     }
     
     struct FindUserInfo {

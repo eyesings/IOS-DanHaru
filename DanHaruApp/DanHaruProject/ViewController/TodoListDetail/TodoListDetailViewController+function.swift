@@ -130,128 +130,72 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.leading.equalTo(self.authAudioBtn.snp.trailing).offset(authPadding)
         }
         
-        if !isAudioAuth {
-            // 오디오 인증 안함
-            self.mainScrollView.addSubview(audioPlayArea)
-            audioPlayArea.snp.makeConstraints { make in
-                make.top.equalTo(self.authCheckBtn.snp.bottom).offset(25)
-                make.width.equalTo(self.view).multipliedBy(0.8)
-                make.height.equalTo(0)
-                make.centerX.equalTo(self.view)
-            }
-            audioPlayArea.backgroundColor = .clear
-            
-            self.audioPlayArea.addSubview(audioPlayTimeText)
-            audioPlayTimeText.snp.makeConstraints { make in
-                make.width.equalTo(self.view).multipliedBy(0.2)
-                make.centerX.centerY.equalTo(audioPlayArea)
-                make.height.equalTo(self.audioPlayArea).multipliedBy(0.8)
-            }
-            audioPlayTimeText.adjustsFontSizeToFitWidth = true
-            audioPlayTimeText.textAlignment = .center
-            audioPlayTimeText.text = "00:00"
-            
-            
-            self.audioPlayArea.addSubview(audioPlayStopBtn)
-            audioPlayStopBtn.snp.makeConstraints { make in
-                make.centerY.height.equalTo(self.audioPlayArea)
-                make.width.equalTo(screenwidth * 0.07)
-                make.trailing.equalTo(self.audioPlayTimeText.snp.leading)
-            }
-            audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
-            audioPlayStopBtn.imageView?.contentMode = .scaleAspectFit
-            audioPlayStopBtn.addTarget(self, action: #selector(audioPlayStopButtonAction(_:)), for: .touchUpInside)
-            
-            self.audioPlayArea.addSubview(recordDeleteBtn)
-            recordDeleteBtn.snp.makeConstraints { make in
-                make.centerY.width.height.equalTo(self.audioPlayStopBtn)
-                make.leading.equalTo(self.audioPlayTimeText.snp.trailing)
-            }
-            recordDeleteBtn.setImage(#imageLiteral(resourceName: "btnTrash"), for: .normal)
-            recordDeleteBtn.imageView?.contentMode = .scaleAspectFit
-            recordDeleteBtn.addTarget(self, action: #selector(audioDeleteButtonAction(_:)), for: .touchUpInside)
-            //recordDeleteBtn.layer.borderColor = UIColor.black.cgColor
-            //recordDeleteBtn.layer.borderWidth = 1.0
-        } else {
-            // 오디오로 인증 함, 인증 후에 다시 들어왔을 때 보여지는 UI
+        self.mainScrollView.addSubview(authRegiArea)
+        authRegiArea.snp.makeConstraints { make in
+            make.top.equalTo(self.authCheckBtn.snp.bottom).offset(10)
+            make.width.equalTo(screenwidth * 0.8)
+            make.height.equalTo(0)
+            make.centerX.equalTo(self.view)
         }
         
+        // 오디오 인증 안함
+        self.authRegiArea.addSubview(audioPlayArea)
+        audioPlayArea.isHidden = true
+        audioPlayArea.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(self.authRegiArea)
+        }
+        audioPlayArea.backgroundColor = .clear
         
-        if !self.isImageAuth {
-            // 인증 방법에 따라서 보여지고 가려지고 해야함
-            self.mainScrollView.addSubview(authImageView1)
-            authImageView1.snp.makeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(self.view).multipliedBy(0.22)
-                make.height.equalTo(0)
-                make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
-            }
-            
-            self.mainScrollView.addSubview(imageDeleteBtn1)
-            imageDeleteBtn1.snp.makeConstraints { make in
-                make.top.equalTo(authImageView1).offset(0)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.trailing.equalTo(authImageView1).offset(0)
-            }
-            
-            self.mainScrollView.addSubview(authImageView2)
-            authImageView2.snp.makeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(self.view).multipliedBy(0.22)
-                make.height.equalTo(0)
-                make.left.equalTo(authImageView1.snp.right).offset(self.view.frame.width * 0.02)
-            }
-            
-            self.mainScrollView.addSubview(imageDeleteBtn2)
-            imageDeleteBtn2.snp.makeConstraints { make in
-                make.top.equalTo(authImageView2).offset(0)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.trailing.equalTo(authImageView2).offset(0)
-            }
-            
-            
-            self.mainScrollView.addSubview(authImageView3)
-            authImageView3.snp.makeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(self.view).multipliedBy(0.22)
-                make.height.equalTo(0)
-                make.left.equalTo(authImageView2.snp.right).offset(self.view.frame.width * 0.02)
-            }
-            
-            self.mainScrollView.addSubview(imageDeleteBtn3)
-            imageDeleteBtn3.snp.makeConstraints { make in
-                make.top.equalTo(authImageView2).offset(0)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.trailing.equalTo(authImageView3).offset(0)
-            }
-            
-        } else {
-            // 이미지로 인증
+        self.audioPlayArea.addSubview(audioPlayTimeText)
+        audioPlayTimeText.snp.makeConstraints { make in
+            make.width.equalTo(self.view).multipliedBy(0.2)
+            make.centerX.centerY.equalTo(audioPlayArea)
+            make.height.equalTo(self.audioPlayArea).multipliedBy(0.8)
+        }
+        audioPlayTimeText.adjustsFontSizeToFitWidth = true
+        audioPlayTimeText.textAlignment = .center
+        audioPlayTimeText.text = "00:00"
+        
+        
+        self.audioPlayArea.addSubview(audioPlayStopBtn)
+        audioPlayStopBtn.snp.makeConstraints { make in
+            make.centerY.height.equalTo(self.audioPlayArea)
+            make.width.equalTo(screenwidth * 0.1)
+            make.trailing.equalTo(self.audioPlayTimeText.snp.leading)
+        }
+        audioPlayStopBtn.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
+        audioPlayStopBtn.imageView?.contentMode = .scaleAspectFit
+        audioPlayStopBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        audioPlayStopBtn.addTarget(self, action: #selector(audioPlayStopButtonAction(_:)), for: .touchUpInside)
+        
+        self.audioPlayArea.addSubview(recordDeleteBtn)
+        recordDeleteBtn.snp.makeConstraints { make in
+            make.centerY.width.height.equalTo(self.audioPlayStopBtn)
+            make.leading.equalTo(self.audioPlayTimeText.snp.trailing)
+        }
+        recordDeleteBtn.setImage(#imageLiteral(resourceName: "btnTrash"), for: .normal)
+        recordDeleteBtn.imageView?.contentMode = .scaleAspectFit
+        recordDeleteBtn.contentEdgeInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        recordDeleteBtn.addTarget(self, action: #selector(audioDeleteButtonAction(_:)), for: .touchUpInside)
+        
+        self.authRegiArea.addSubview(authImageCollectionView)
+        authImageCollectionView.isHidden = true
+        authImageCollectionView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(authRegiArea)
         }
         
-        // 단순체크로 인증
-        if !isCheckAuth {
-            
-            self.mainScrollView.addSubview(checkAnimation)
-            checkAnimation.snp.makeConstraints { make in
-                make.top.equalTo(authImageView1.snp.bottom).offset(10)
-                make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                make.centerX.equalTo(self.view)
-                make.height.equalTo(0)
-            }
-            checkAnimation.animation = .named("check_black")
-            checkAnimation.loopMode = .playOnce
-            
+        self.authRegiArea.addSubview(checkAnimation)
+        checkAnimation.isHidden = true
+        checkAnimation.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalTo(authRegiArea)
         }
-        
+        checkAnimation.animation = .named("check_black")
+        checkAnimation.loopMode = .playOnce
         
         self.mainScrollView.addSubview(togetherFriendTitleLabel)
         togetherFriendTitleLabel.snp.makeConstraints { make in
             
-            make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
+            make.top.equalTo(self.authRegiArea.snp.bottom).offset(25)
             make.leading.equalTo(self.authTitleLable)
             make.height.equalTo(self.authTitleLable)
             
@@ -290,8 +234,9 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.mainScrollView.addSubview(notificationStateBtn)
         notificationStateBtn.snp.makeConstraints { make in
-            make.top.bottom.equalTo(todayAuthTitleLabel)
-            make.leading.equalTo(todayAuthTitleLabel.snp.trailing).offset(10)
+            make.centerY.equalTo(todayAuthTitleLabel)
+            make.leading.equalTo(todayAuthTitleLabel.snp.trailing)
+            make.height.equalTo(todayAuthTitleLabel).multipliedBy(0.8)
             make.width.equalTo(notificationStateBtn.snp.height)
         }
         
@@ -424,54 +369,26 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         // 인증 수단 - 이미지
         authImageBtn.setImage(UIImage(named: "btnPhotoAlbum"), for: .normal)
-        authImageBtn.addTarget(self, action: #selector(photoAlbumAuth(_:)), for: .touchUpInside)
+        authImageBtn.tag = DetailAuthBtnTag.image.rawValue
+        authImageBtn.addTarget(self, action: #selector(onTapAuthBtnCommon(_:)), for: .touchUpInside)
         customButtonConfig(authImageBtn)
         
         // 인증 수단 - 오디오
         authAudioBtn.setImage(UIImage(named: "btnMic"), for: .normal)
-        authAudioBtn.addTarget(self, action: #selector(audioAuth(_:)), for: .touchUpInside)
+        authAudioBtn.tag = DetailAuthBtnTag.audio.rawValue
+        authAudioBtn.addTarget(self, action: #selector(onTapAuthBtnCommon(_:)), for: .touchUpInside)
         customButtonConfig(authAudioBtn)
         
         // 인증 수단 - 체크
         authCheckBtn.setImage(UIImage(named:"btnCheck"), for: .normal)
-        authCheckBtn.addTarget(self, action: #selector(authCheckButtonAction(_:)), for: .touchUpInside)
+        authCheckBtn.tag = DetailAuthBtnTag.check.rawValue
+        authCheckBtn.addTarget(self, action: #selector(onTapAuthBtnCommon(_:)), for: .touchUpInside)
         customButtonConfig(authCheckBtn)
         
-        // 이미지 인증 이미지뷰1
-        authImageView1.backgroundColor = .lightGrayColor
-        
-        // 이미지 인증 삭제 버튼1
-        imageDeleteBtn1.setImage(#imageLiteral(resourceName: "btnCloseSel"), for: .normal)
-        imageDeleteBtn1.backgroundColor = .white
-        imageDeleteBtn1.layer.borderWidth = 1.0
-        imageDeleteBtn1.layer.borderColor = UIColor.lightGray.cgColor
-        imageDeleteBtn1.tag = ImageDeleteBtnTag.deleteImageView1.rawValue
-        imageDeleteBtn1.layer.cornerRadius = self.view.frame.width * 0.22 * 0.3 / 2
-        imageDeleteBtn1.addTarget(self, action: #selector(deleteAuthImage(_:)), for: UIControl.Event.touchUpInside)
-        
-        // 이미지 인증 이미지뷰2
-        authImageView2.backgroundColor = .lightGrayColor
-        
-        // 이미지 인증 삭제 버튼2
-        imageDeleteBtn2.setImage(#imageLiteral(resourceName: "btnCloseSel"), for: .normal)
-        imageDeleteBtn2.backgroundColor = .white
-        imageDeleteBtn2.layer.borderWidth = 1.0
-        imageDeleteBtn2.layer.borderColor = UIColor.lightGray.cgColor
-        imageDeleteBtn2.tag = ImageDeleteBtnTag.deleteImageView2.rawValue
-        imageDeleteBtn2.layer.cornerRadius = self.view.frame.width * 0.22 * 0.3 / 2
-        imageDeleteBtn2.addTarget(self, action: #selector(deleteAuthImage(_:)), for: .touchUpInside)
-        
-        // 이미지 인증 이미지뷰3
-        authImageView3.backgroundColor = .lightGrayColor
-        
-        // 이미지 인증 삭제 버튼3
-        imageDeleteBtn3.setImage(#imageLiteral(resourceName: "btnCloseSel"), for: .normal)
-        imageDeleteBtn3.backgroundColor = .white
-        imageDeleteBtn3.layer.borderWidth = 1.0
-        imageDeleteBtn3.layer.borderColor = UIColor.lightGray.cgColor
-        imageDeleteBtn3.tag = ImageDeleteBtnTag.deleteImageView3.rawValue
-        imageDeleteBtn3.layer.cornerRadius = self.view.frame.width * 0.22 * 0.3 / 2
-        imageDeleteBtn3.addTarget(self, action: #selector(deleteAuthImage(_:)), for: .touchUpInside)
+        // 이미지 인증 CollectionView
+        authImageCollectionView.delegate = self
+        authImageCollectionView.dataSource = self
+        authImageCollectionView.isScrollEnabled = false
         
         // 함께 도전 라벨
         togetherFriendTitleLabel.text = "함께 도전 중인 친구"
@@ -529,86 +446,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         */
     }
     
-    //MARK: - 이미지 앨범 불러오기
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        var newImage: UIImage? = nil
-        
-        if let possibleImage = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerEditedImage")] as? UIImage { // 수정된 이미지가 있을 경우
-            newImage = possibleImage
-        } else if let possibleImage = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage")] as? UIImage { // 오리지널 이미지가 있을 경우
-            newImage = possibleImage
-        }
-        
-        if newImage != nil {
-            self.isImageAuth = true
-            if authImageView1.image == nil {
-                // 이미지 뷰가 보여야함
-                self.authImageView1.snp.remakeConstraints { make in
-                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                    make.width.equalTo(self.view).multipliedBy(0.22)
-                    make.height.equalTo(self.view.frame.width * 0.22)
-                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
-                }
-                
-                self.imageDeleteBtn1.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView1).offset(-5)
-                    make.width.equalTo(authImageView1).multipliedBy(0.3)
-                    make.height.equalTo(authImageView1).multipliedBy(0.3)
-                    make.trailing.equalTo(authImageView1).offset(5)
-                }
-                
-                
-                self.authImageView1.image = newImage
-                
-            } else if authImageView2.image == nil {
-                
-                authImageView2.snp.remakeConstraints { make in
-                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                    make.width.equalTo(self.view).multipliedBy(0.22)
-                    make.height.equalTo(self.view.frame.width * 0.22)
-                    make.left.equalTo(authImageView1.snp.right).offset(self.view.frame.width * 0.02)
-                }
-                
-                self.imageDeleteBtn2.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView2).offset(-5)
-                    make.width.equalTo(authImageView2).multipliedBy(0.3)
-                    make.height.equalTo(authImageView2).multipliedBy(0.3)
-                    make.trailing.equalTo(authImageView2).offset(5)
-                }
-                
-                self.authImageView2.image = newImage
-                
-            } else if authImageView3.image == nil {
-                
-                authImageView3.snp.remakeConstraints { make in
-                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                    make.width.equalTo(self.view).multipliedBy(0.22)
-                    make.height.equalTo(self.view.frame.width * 0.22)
-                    make.left.equalTo(authImageView2.snp.right).offset(self.view.frame.width * 0.02)
-                }
-                
-                self.imageDeleteBtn3.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView3).offset(-5)
-                    make.width.equalTo(authImageView3).multipliedBy(0.3)
-                    make.height.equalTo(authImageView3).multipliedBy(0.3)
-                    make.trailing.equalTo(authImageView3).offset(5)
-                }
-                
-                self.authImageView3.image = newImage
-                
-            } else {
-                
-                RadAlertViewController.alertControllerShow(WithTitle: "알림", message: "인증 사진은 최대 3개까지 가능합니다.", isNeedCancel: false, viewController: self)
-                
-            }
-            
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-        
-    }
-    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         
         if flag {
@@ -628,16 +465,13 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     /// 오디오 등록 후 UI 변경
     func audioUIChange(_ audio: AVAudioRecorder?) {
         
-        self.isAudioAuth = true
+        isRegisterAuth = true
         
         self.audioRecorder = audio
         
-        audioPlayArea.snp.remakeConstraints { make in
-            make.top.equalTo(self.authCheckBtn.snp.bottom).offset(25)
-            make.width.equalTo(self.view).multipliedBy(0.8)
-            make.height.equalTo(40)
-            make.centerX.equalTo(self.view)
-        }
+        self.audioPlayArea.isHidden = false
+        self.regiAuthUpdate(isShow: true)
+        
         if let recorder = self.audioRecorder {
             let audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
             
@@ -647,6 +481,16 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             
         }
         
+    }
+    
+    func regiAuthUpdate(isShow: Bool) {
+        self.authRegiArea.snp.remakeConstraints { make in
+            make.top.equalTo(self.authCheckBtn.snp.bottom).offset(10)
+            make.width.equalTo(screenwidth * 0.8)
+            if isShow { make.height.equalTo(screenwidth * 0.3) }
+            else { make.height.equalTo(0) }
+            make.centerX.equalTo(self.view)
+        }
     }
     
     /// 날짜 선택 후 날짜 변경

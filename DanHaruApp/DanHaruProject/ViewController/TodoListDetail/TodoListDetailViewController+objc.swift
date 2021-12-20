@@ -155,180 +155,18 @@ extension TodoListDetailViewController {
     
     /// 이미지 버튼 클릭
     @objc func photoAlbumAuth(_ sender: UIButton) {
-        
-        self.present(self.imagePicker, animated: true, completion: nil)
-        
-    }
-    
-    /// 이미지 삭제 버튼 클릭후 UI 변경
-    @objc func deleteAuthImage(_ sender: UIButton) {
-        
-        if sender.tag == ImageDeleteBtnTag.deleteImageView1.rawValue {
-            
-            authImageView1.snp.remakeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.left.equalTo(self.view)
-            }
-            self.authImageView1.image = nil
-            
-            if authImageView2.image != nil {
-                authImageView2.snp.remakeConstraints { make in
-                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                    make.width.equalTo(self.view).multipliedBy(0.22)
-                    make.height.equalTo(self.view.frame.width * 0.22)
-                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
-                }
-                
-                checkAnimation.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView2.snp.bottom).offset(10)
-                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                    make.centerX.equalTo(self.view)
-                    make.height.equalTo(self.view.frame.width * 0.25)
-                }
-                
-                togetherFriendTitleLabel.snp.remakeConstraints { make in
-                    
-                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-                    make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authTitleLable)
-                    make.height.equalTo(self.authTitleLable)
-                    
-                }
-                
-            }
-            
-            if authImageView2.image == nil && authImageView3.image != nil {
-                
-                authImageView3.snp.remakeConstraints { make in
-                    make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                    make.width.equalTo(self.view).multipliedBy(0.22)
-                    make.height.equalTo(self.view.frame.width * 0.22)
-                    make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
-                }
-                
-                checkAnimation.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView3.snp.bottom).offset(10)
-                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                    make.centerX.equalTo(self.view)
-                    make.height.equalTo(self.view.frame.width * 0.25)
-                }
-                
-                togetherFriendTitleLabel.snp.remakeConstraints { make in
-                    
-                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-                    make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authTitleLable)
-                    make.height.equalTo(self.authTitleLable)
-                    
-                }
-                
-            }
-            
-        } else if sender.tag == ImageDeleteBtnTag.deleteImageView2.rawValue {
-            
-            authImageView2.snp.remakeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.left.equalTo(self.view)
-            }
-            
-            self.authImageView2.image = nil
-            
-            if authImageView3.image !=  nil {
-                
-                if authImageView2.image == nil && authImageView1.image == nil {
-                    
-                    authImageView3.snp.remakeConstraints { make in
-                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                        make.width.equalTo(self.view).multipliedBy(0.22)
-                        make.height.equalTo(self.view.frame.width * 0.22)
-                        make.left.equalTo(self.view).offset(self.view.frame.width * 0.15)
-                    }
-                    
-                } else {
-                    authImageView3.snp.remakeConstraints { make in
-                        make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                        make.width.equalTo(self.view).multipliedBy(0.22)
-                        make.height.equalTo(self.view.frame.width * 0.22)
-                        make.left.equalTo(authImageView1.snp.right).offset(self.view.frame.width * 0.02)
-                    }
-                    
-                }
-                
-                checkAnimation.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView3.snp.bottom).offset(10)
-                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                    make.centerX.equalTo(self.view)
-                    make.height.equalTo(self.view.frame.width * 0.25)
-                }
-                
-                togetherFriendTitleLabel.snp.remakeConstraints { make in
-                    
-                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-                    make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authTitleLable)
-                    make.height.equalTo(self.authTitleLable)
-                    
-                }
-                
-                
-            }
-            
-            
-            
-        } else if sender.tag == ImageDeleteBtnTag.deleteImageView3.rawValue {
-            
-            authImageView3.snp.remakeConstraints { make in
-                make.top.equalTo(self.audioPlayArea.snp.bottom).offset(20)
-                make.width.equalTo(0)
-                make.height.equalTo(0)
-                make.left.equalTo(self.view)
-            }
-            
-            self.authImageView3.image = nil
-            
-            if self.authImageView1.image != nil {
-                
-                checkAnimation.snp.remakeConstraints { make in
-                    make.top.equalTo(authImageView1.snp.bottom).offset(10)
-                    make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                    make.centerX.equalTo(self.view)
-                    make.height.equalTo(self.view.frame.width * 0.25)
-                }
-                
-                togetherFriendTitleLabel.snp.remakeConstraints { make in
-                    make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-                    make.width.equalTo(self.view).multipliedBy(0.5)
-                    make.leading.equalTo(self.authTitleLable)
-                    make.height.equalTo(self.authTitleLable)
-                    
-                }
-            }
-            
+        guard self.selectedImage.count < 3 else {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.inputImgMaxCount,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
         }
         
-        // 함께 도전 라벨, 모든 이미지가 존재 하지 않을 시
-        if authImageView1.image == nil && authImageView2.image == nil && authImageView3.image == nil {
-            self.isImageAuth = false
-            
-            checkAnimation.snp.remakeConstraints { make in
-                make.top.equalTo(authImageView1.snp.bottom).offset(10)
-                make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                make.centerX.equalTo(self.view)
-                make.height.equalTo(self.view.frame.width * 0.25)
-            }
-            
-            togetherFriendTitleLabel.snp.remakeConstraints { make in
-                make.top.equalTo(self.checkAnimation.snp.bottom).offset(25)
-                make.width.equalTo(self.view).multipliedBy(0.5)
-                make.leading.equalTo(self.authTitleLable)
-                make.height.equalTo(self.authTitleLable)
-            }
-            
-        }
+        let vc = FMPhotoPickerViewController(config: config())
+        vc.modalPresentationStyle = .fullScreen
+        vc.delegate = self
+        self.present(vc, animated: true, completion: nil)
         
     }
     
@@ -342,13 +180,9 @@ extension TodoListDetailViewController {
                     do {
                         try FileManager.default.removeItem(at: deleteUrl)
                         
-                        self.audioPlayArea.snp.remakeConstraints { make in
-                            make.top.equalTo(self.authCheckBtn.snp.bottom).offset(25)
-                            make.width.equalTo(self.view).multipliedBy(0.8)
-                            make.height.equalTo(0)
-                            make.centerX.equalTo(self.view)
-                        }
-                        
+                        self.audioPlayArea.isHidden = true
+                        self.regiAuthUpdate(isShow: false)
+                        self.isRegisterAuth = false
                         
                     } catch _ {
                         print("audioFile remove failed")
@@ -426,29 +260,41 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 인증 버튼 공통 함수
+    @objc func onTapAuthBtnCommon(_ sender: UIButton) {
+        guard let tappedBtnType = DetailAuthBtnTag.init(rawValue: sender.tag) else { return }
+        if self.isRegisterAuth {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.alreadyRegistAuth,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
+        }
+        switch tappedBtnType {
+        case .image:
+            self.photoAlbumAuth(sender)
+        case .audio:
+            self.audioAuth(sender)
+        case .check:
+            self.authCheckButtonAction(sender)
+        }
+    }
+    
     /// 단순 체크 인증
     @objc func authCheckButtonAction(_ sender: UIButton) {
-        self.checkAnimation.snp.remakeConstraints { make in
-            make.top.equalTo(authImageView1.snp.bottom).offset(10)
-            make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-            make.centerX.equalTo(self.view)
-            make.height.equalTo(self.view.frame.width * 0.25)
-        }
+        self.regiAuthUpdate(isShow: true)
         
-        if !self.isCheckAuth {
+        if !isRegisterAuth {
+            checkAnimation.isHidden = false
             checkAnimation.play()
-            self.isCheckAuth = true
+            self.isRegisterAuth = true
         } else {
             RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: "인증을 취소하시겠습니까?", isNeedCancel: true, viewController: self) { check in
                 
                 if check {
-                    self.isCheckAuth = false
-                    self.checkAnimation.snp.remakeConstraints { make in
-                        make.top.equalTo(self.authImageView1.snp.bottom).offset(10)
-                        make.width.equalTo(self.view.frame.width).multipliedBy(0.25)
-                        make.centerX.equalTo(self.view)
-                        make.height.equalTo(0)
-                    }
+                    self.isRegisterAuth = false
+                    self.regiAuthUpdate(isShow: false)
+                    self.checkAnimation.isHidden = true
                     self.checkAnimation.play(toFrame: 0)
                 }
                 
@@ -485,7 +331,6 @@ extension TodoListDetailViewController {
     
     
     @objc func changeNotificationState(_ button: UIButton) {
-        print("change state,,,,!")
         let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
                                                         message: msg,
@@ -507,5 +352,17 @@ extension TodoListDetailViewController {
 extension TodoListDetailViewController: MFMessageComposeViewControllerDelegate {
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+extension TodoListDetailViewController: FMPhotoPickerViewControllerDelegate {
+    func fmPhotoPickerController(_ picker: FMPhotoPickerViewController, didFinishPickingPhotoWith photos: [UIImage]) {
+        Dprint("did FinishPickingPhoto with \(photos)")
+        self.selectedImage.append(contentsOf: photos)
+        self.authImageCollectionView.reloadData()
+        self.authImageCollectionView.isHidden = false
+        self.regiAuthUpdate(isShow: true)
+        self.isRegisterAuth = true
     }
 }

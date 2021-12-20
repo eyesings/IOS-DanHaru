@@ -11,6 +11,8 @@ import UIKit
 extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return 0 }
+        if collectionViewType == .imgAuth { return self.selectedImage.count }
         return self.detailInfoModel?.challenge_user?.count ?? 10
     }
     //FIXME: 콜렉션 뷰 UI 작성중
@@ -41,6 +43,22 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
             
             
+            
+            return cell
+        } else if collectionViewType == .imgAuth {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageAuthShowCollectionViewCell", for: indexPath) as? ImageAuthShowCollectionViewCell
+            else { return UICollectionViewCell() }
+            
+            cell.authImage.image = self.selectedImage[indexPath.item]
+            cell.onTapDeleteBtn = {
+                self.selectedImage.remove(at: indexPath.item)
+                if self.selectedImage.count == 0 {
+                    self.regiAuthUpdate(isShow: false)
+                    self.authImageCollectionView.isHidden = true
+                    self.isRegisterAuth = false
+                }
+                collectionView.reloadData()
+            }
             
             return cell
         }
@@ -82,6 +100,24 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             return CGSize(width: collectionViewHeight * 0.7, height: collectionViewHeight * 0.7)
         } else if collectionViewType == .currAuth {
             return CGSize(width: screenwidth * 0.4, height: collectionViewHeight * 0.9)
+        } else if collectionViewType == .imgAuth {
+            return CGSize(width: collectionViewHeight * 0.8, height: collectionViewHeight * 0.8)
+        }
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return .zero }
+        if collectionViewType == .imgAuth {
+            let cellWidth = Int(collectionView.frame.height * 0.8)
+            let cellCount = collectionView.numberOfItems(inSection: 0)
+            let totalCellWidth = cellWidth * cellCount
+            let totalSpacingWidth = (Int(screenwidth * 0.01)) * (collectionView.numberOfItems(inSection: 0) - 1)
+
+            let leftInset = (collectionView.layer.frame.size.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+            let rightInset = leftInset
+
+            return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
         }
         return .zero
     }
@@ -90,6 +126,8 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return 0.0 }
         if collectionViewType == .challFriend {
             return screenwidth * 0.06
+        } else if collectionViewType == .imgAuth {
+            return screenwidth * 0.01
         } else {
             return 0
         }
