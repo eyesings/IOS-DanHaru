@@ -10,6 +10,7 @@ import UIKit
 class ChallengeFriendCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var profileImg: UIImageView!
+    @IBOutlet weak var profileName: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -15,6 +15,7 @@ extension TodoListDetailViewController {
     
     /// 날짜 선택
     @objc func tapDateLabel(_ sender: UITapGestureRecognizer) {
+        
         if let tag = sender.view?.tag {
             
             /// 시작 날짜 클릭
@@ -91,26 +92,59 @@ extension TodoListDetailViewController {
         print("selectedNotiDay \(self.selectedNotiDay)")
     }
     
+    //FIXME: 디테일 업데이트 함수 수정중
     @objc func onTapSubmitBtn() {
+        /*
         guard let todoModel = self.detailInfoModel,
               let inviteMemId = self.invitedMemId,
               let mainVC = RadHelper.getMainViewController() as? MainViewController
-        else { return }
+        else {
+
+            return
+            
+        }
+        */
+        
+        // 입력한 값들을 모델에 입력
+        self.detailInfoModel?.title = self.titleTextField.text
+        self.detailInfoModel?.fr_date = self.startDateLabel.text
+        self.detailInfoModel?.ed_date = self.endDateLabel.text
+        self.detailInfoModel?.noti_cycle = self.selectedNotiDay.joined(separator: ",")
+        self.detailInfoModel?.noti_time = self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : ""
+        self.detailInfoModel?.todo_status = nil
+        self.detailInfoModel?.challange_status = nil
+        self.detailInfoModel?.chaluser_yn = nil
+        self.detailInfoModel?.certi_yn = self.isRegisterAuth ? "Y" : "N"
+        
+        guard let todoModel = self.detailInfoModel,
+              let mainVC = RadHelper.getMainViewController() as? MainViewController
+        else {
+            return
+        }
+        
         
         func reloadMainListView() {
             self.navigationController?.popViewController()
             mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
         }
-        
-        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: nil, notiTime: nil) {
+        /*
+        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: self.detailInfoModel?.noti_cycle, notiTime: self.detailInfoModel?.noti_time) {
+            
             if self.isForInviteFriend {
+                /*
                 _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId) {
                     reloadMainListView()
                 } errHandler: { Dprint("error \($0)") }
+                */
             } else {
                 reloadMainListView()
             }
+            
         } errHandler: { Dprint("type \($0)") }
+        */
+        
+        _ = TodoCreateCertificateViewModel.init(1, "test1", nil, self.selectedImage, nil)
+        
     }
     
     /// 뒤로가기

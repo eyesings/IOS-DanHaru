@@ -230,6 +230,7 @@ struct Configs {
         // Detail
         static let todoDetail = host + "/todo/detail/list"
         static let updateDtl  = host + "/todo/detail/update"
+        static let getCertiImg = host + "/todo/detail/getFile"
         // Detail - Challenge
         static let createChl  = host + "/todo/challenge/create"
         static let deleteChl  = host + "/todo/challenge/delete"

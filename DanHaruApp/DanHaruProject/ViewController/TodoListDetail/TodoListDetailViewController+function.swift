@@ -179,7 +179,12 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         recordDeleteBtn.addTarget(self, action: #selector(audioDeleteButtonAction(_:)), for: .touchUpInside)
         
         self.authRegiArea.addSubview(authImageCollectionView)
-        authImageCollectionView.isHidden = true
+        if selectedImage.count > 0 {
+            self.authImageCollectionView.isHidden = false
+        } else {
+            self.authImageCollectionView.isHidden = true
+        }
+        //authImageCollectionView.isHidden = true
         authImageCollectionView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(authRegiArea)
         }
@@ -332,6 +337,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         startDateLabel.text = "\(startDate)"
         customLabelConfig(startDateLabel)
         startDateLabel.tag = DateLabelTag.startDateLabel.rawValue
+        startDateLabel.isUserInteractionEnabled = true
         let startTap = UITapGestureRecognizer(target: self, action: #selector(tapDateLabel(_:)))
         startDateLabel.addGestureRecognizer(startTap)
         
@@ -346,6 +352,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         endDateLabel.text = "\(endDate)"
         customLabelConfig(endDateLabel)
         endDateLabel.tag = DateLabelTag.endDateLabel.rawValue
+        endDateLabel.isUserInteractionEnabled = true
         let endTap = UITapGestureRecognizer(target: self, action: #selector(tapDateLabel(_:)))
         endDateLabel.addGestureRecognizer(endTap)
         
@@ -360,6 +367,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         // 반복 주기 시간 선택
         cycleTimeLabel.text = self.noti_time
         customLabelConfig(cycleTimeLabel)
+        cycleTimeLabel.isUserInteractionEnabled = true
         let timeTap = UITapGestureRecognizer(target: self, action: #selector(circleTimeLabelAction(_:)))
         cycleTimeLabel.addGestureRecognizer(timeTap)
         
@@ -434,7 +442,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         customTitleLabelConfig(weeklyTitleLabel)
         
         // 위클리 리포트 테이블 뷰
-        /*
         weeklyTableView.register(UINib(nibName: "TodoListDetailTableViewCell", bundle: nil),
                                  forCellReuseIdentifier: TodoListDetailTableViewCell.reusableIdentifier)
         weeklyTableView.dataSource = self
@@ -443,7 +450,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         weeklyTableView.isPagingEnabled = true
         weeklyTableView.backgroundColor = .backgroundColor
         weeklyTableView.separatorStyle = .none
-        */
+        
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -540,7 +547,9 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         btn.setTitleColor(.heavyGrayColor, for: .normal)
         btn.setTitleColor(.backgroundColor, for: .selected)
         btn.titleLabel?.font = .systemFont(ofSize: 14.0)
-        btn.backgroundColor = RadHelper.colorFromHex(hex: "dddddd")
+        //btn.backgroundColor = RadHelper.colorFromHex(hex: "dddddd")
+        // 색상 일치 위해 수정 - 변경한 색상이 적합한지 확인 필요
+        btn.backgroundColor = .lightGrayColor
         btn.layer.cornerRadius = self.view.frame.width * 0.09 / 2
         
         btn.layer.masksToBounds = true
@@ -548,6 +557,16 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         btn.addTarget(self, action: #selector(onTapDayNotiBtn(_:)), for: .touchUpInside)
         
         setLayoutNotiCircleBtn(with: btn, to: parent, isFirst: isFirst)
+        
+        // 선택한 반복주기가 있으면 선택 처리
+        if self.selectedNotiDay.count > 0 {
+            for i in 0 ..< self.selectedNotiDay.count {
+                if btn.titleLabel?.text == self.selectedNotiDay[i] {
+                    btn.isSelected = true
+                    btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
+                }
+            }
+        }
         
         return btn
     }

@@ -110,7 +110,7 @@ class TodoDetailViewModel {
 /// 상세 화면 수정 or 친구 챌린지 초대 수락
 class TodoDetailUpdateViewModel {
     private var model: TodoDetailUpdateModel = TodoDetailUpdateModel()
-    
+    /// 인증 수단 여부 값(certi_yn : nil -> todoModel.certi_yn 으로 변경)
     init(_ todoModel: TodoModel, notiCycle: String?, notiTime: String?, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
         self.model = TodoDetailUpdateModel(title: todoModel.title,
                                            fr_date: todoModel.fr_date,
@@ -120,7 +120,7 @@ class TodoDetailUpdateViewModel {
                                            todo_status: todoModel.todo_status,
                                            challange_status: todoModel.challange_status,
                                            chaluser_yn: todoModel.chaluser_yn,
-                                           certi_yn: nil)
+                                           certi_yn: todoModel.certi_yn)
         
         let param = self.model.makesToParam()
         
@@ -141,3 +141,22 @@ class TodoCreateChallengeViewModel {
         } errorHandler: { errHandler($0) }
     }
 }
+
+/// 인증 업로드
+//FIXME: 인증 서비스 함수 호출후 수정
+class TodoCreateCertificateViewModel {
+    
+    init(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: String?) {
+        
+        ViewModelService.TodoCreateCertificateService(todoIdx, memId, certi_check, certi_img_file, certi_voice_file) { check in
+            print("호출 후 \(check)")
+        } errorHandler: { error in
+            print("에러 타임 \(error)")
+        }
+
+        
+    }
+    
+}
+
+
