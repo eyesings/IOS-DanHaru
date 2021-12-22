@@ -70,7 +70,7 @@ extension RadHelper {
         let profileImg = UIImage(named: "profileNon")
         guard let profileImgUrl = UserModel.profileImgUrl else { completeHandler(profileImg); return }
         
-        RadServerNetwork.getDataFromServer(url: Configs.API.getUsrImg + "/" + profileImgUrl, type: .IMAGE) { dic in
+        RadServerNetwork.getDataFromServerNeedAuth(url: Configs.API.getUsrImg + "/" + profileImgUrl, type: .IMAGE) { dic in
             if let dic = dic {
                 let img = dic["image"] as? UIImage
                 completeHandler(img)
@@ -144,6 +144,56 @@ extension RadHelper {
 }
 
 extension RadServerNetwork {
+    
+    static public func getDataFromServerNeedAuth(url: String, type: RadEnum.DataType, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) -> Void {
+        let session = URLSession.shared;
+        if let reqUrl = URL(string: url) {
+            print("reqUrl \(url)")
+            var request = URLRequest(url: reqUrl)
+            
+            request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
+            request.httpMethod = "get"
+            
+            session.dataTask(with: request) { (data, response, error) in
+                
+                if error != nil {
+                    Dprint("error\(String(describing: error))")
+                    errorHandler(error!);
+                }else {
+                    
+                    guard let rstData = data else {
+                        Dprint("data is nil!!!!????????.");
+                        //nil에 대한 대비를 해야하는가?!!??
+                        successHandler(nil);
+                        return;
+                    }
+                    
+                    do {
+                        
+                        if type == .JSON {
+                            let jsonRst  = try JSONSerialization.jsonObject(with: rstData, options: JSONSerialization.ReadingOptions.allowFragments) as! NSDictionary;
+                            successHandler(jsonRst);
+                        }else {
+                            
+                            if let image = UIImage(data: rstData) {
+                                let dic = NSDictionary(dictionary: ["image":image]);
+                                successHandler(dic);
+                            }else {
+                                successHandler(nil);
+                            }
+                        }
+                    }
+                    catch {
+                        errorHandler(error);
+                        Dprint("parsing error : \(error.localizedDescription)")
+                    }
+                }
+            }.resume();
+        }else {
+            Dprint("url is nil or empty")
+        }
+    }
+    
     static public func postDicDataFromServerNeedAuth(url: String, parameters:[String:Any], successHandler: @escaping (_ resultDic: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error) -> Void) -> Void {
         
         if let reqUrl = URL(string: url) {
@@ -203,60 +253,13 @@ extension RadServerNetwork {
         }
     }
     
-    static func postArrDataFromServerNeedAuth(url: String, parameters:[String:Any], successHandler: @escaping (_ resultData: NSArray?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
-        
-        guard let reqUrl = URL(string: url) else { return }
-        
-        var request = URLRequest(url: reqUrl)
-        
-        request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
-        request.httpMethod = "post" //get : Get 방식, post : Post 방식
-        
-        if parameters.count > 0 {
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            } catch {
-                successHandler(nil)
-            }
-        }
-        
-        let task = URLSession.shared.dataTask(with: request,
-                                              completionHandler: { (data: Data?, response: URLResponse?, error: Error?) in
-            
-            //error 일경우 종료
-            guard error == nil && data != nil else {
-                
-                if let err = error { errorHandler(err) }
-                return
-            }
-            
-            
-            //data 가져오기
-            if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
-                //메인쓰레드에서 출력하기 위해
-                DispatchQueue.main.async {
-                    do {
-                        let jsonRst  = try JSONSerialization.jsonObject(with: _data, options: JSONSerialization.ReadingOptions.allowFragments) as? NSArray
-                        successHandler(jsonRst);
-                    }
-                    catch {
-                        errorHandler(error);
-                    }
-                    
-                }
-            }
-        })
-        
-        task.resume()
-    }
-    
     static func putDataFromServer(url: String, parameters:[String:Any], isForUploadImg: Bool, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
         guard let reqUrl = URL(string: url) else { return }
         
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: reqUrl)
+        request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
         request.httpMethod = "PUT"
         if isForUploadImg { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
         

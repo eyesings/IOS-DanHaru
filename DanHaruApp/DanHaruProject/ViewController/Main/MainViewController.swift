@@ -52,7 +52,7 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
-//            self.apiService(withType: .UserLogin)
+            self.apiService(withType: .UserLogin)
             todoListTableView.showAnimatedGradientSkeleton()
         }
         
@@ -131,17 +131,18 @@ extension MainViewController: NetworkErrorViewDelegate {
         else if type == .TodoList
         {
             todoListModel = TodoListViewModel.init(searchDate: selectedDate) { showNetworkErrView(type: $0) }
+            todoListTableView.reloadData()
         }
         else if type == .TodoDetail {
-//            guard let todoModelID = self.todoListModel.model[self.selectedIdxPath.row].todo_id else { return }
+            guard let todoModelID = self.todoListModel.model[self.selectedIdxPath.row].todo_id else { return }
             
             let detailVC = TodoListDetailViewController()
             detailVC.modalPresentationStyle = .fullScreen
             
-//            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
-//                detailVC.detailInfoModel = model
+            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
+                detailVC.detailInfoModel = model
                 self.navigationController?.pushViewController(detailVC)
-//            } errHandler: { showNetworkErrView(type: $0) }
+            } errHandler: { showNetworkErrView(type: $0) }
         }
     }
 }

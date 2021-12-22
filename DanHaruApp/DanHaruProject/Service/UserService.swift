@@ -18,7 +18,7 @@ extension ViewModelService {
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.join, parameters: param) { resultDic in
             if let dic = resultDic {
-                if let codeStr = dic["result_code"] as? String, codeStr == APIResultCode.failure.rawValue,
+                if let codeStr = dic["status_code"] as? String, codeStr != APIResultCode.success.rawValue,
                    let msgStr = dic["msg"] as? String {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC) { if $0 { rootVC.hideLoadingView() } }
                 } else {
@@ -50,7 +50,7 @@ extension ViewModelService {
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: apiUrl, parameters: param) { resultDic in
             
-            if let dic = resultDic, let rsltCode = dic["result_code"] as? String, let code = APIResultCode.init(rawValue: rsltCode) {
+            if let dic = resultDic, let rsltCode = dic["status_code"] as? String, let code = APIResultCode.init(rawValue: rsltCode) {
                 
                 completionHandler(code == .success)
             }
@@ -79,12 +79,15 @@ extension ViewModelService {
         param["pw"] = pw
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.login, parameters: param) { resultDic in
-            if let msgStr = resultDic?["msg"] as? String {
-                RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
-            } else {
-                completionHandler(resultDic)
+            if let statusCodeStr = resultDic?["status_code"] as? String,
+               let statusCode = APIResultCode.init(rawValue: statusCodeStr),
+               statusCode == .success,
+               let userDic = resultDic?["detail"] as? NSDictionary {
+                completionHandler(userDic)
                 NotificationCenter.default.post(name: Configs.NotificationName.userLoginSuccess, object: true)
                 rootVCHideLoadingView()
+            } else if let msgStr = resultDic?["msg"] as? String {
+                RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title, message: msgStr, isNeedCancel: false, viewController: rootVC ?? UIViewController()) { if $0 { rootVCHideLoadingView() } }
             }
         } errorHandler: { err in
             Dprint("error \(err)")
@@ -108,7 +111,7 @@ extension ViewModelService {
         RadServerNetwork.putDataFromServer(url: apiStr,
                                            parameters: param,
                                            isForUploadImg: true) { resultData in
-            
+            print("resultData \(resultData)")
             _ = UserInfoViewModel.init((resultData?["detail"] as? NSDictionary)) {
                 completionHandler()
             } errHandler: { errorHandler($0) }
@@ -129,7 +132,7 @@ extension ViewModelService {
         param["mem_id"] = UserModel.memberId
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.getUsrTodo, parameters: param) { resultData in
-            if let resultCode = resultData?["result_code"] as? String,
+            if let resultCode = resultData?["status_code"] as? String,
                resultCode == APIResultCode.success.rawValue {
                 completionHandler(resultData?["detail"] as? NSDictionary)
             }

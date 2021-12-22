@@ -39,7 +39,7 @@ class MyPageViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isMovingFromParent { self.updateProfile() }
+        self.updateProfile()
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,11 +79,7 @@ extension MyPageViewController {
     private func pageLayoutInit() {
         profileImgView.layer.cornerRadius = profileImgView.frame.height / 2
         profileImgView.backgroundColor = .clear
-        RadHelper.getProfileImage { img in
-            DispatchQueue.main.async {
-                self.profileImgView.image = img
-            }
-        }
+        
         profileUserName.text = UserModel.profileName ?? UserModel.memberId
         profileUserIntroduce.text = UserModel.profileIntroStr
         

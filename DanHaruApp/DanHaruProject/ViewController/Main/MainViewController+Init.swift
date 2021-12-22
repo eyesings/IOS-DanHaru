@@ -93,17 +93,8 @@ extension MainViewController {
         todoListTableView.separatorStyle = .none
         
         todoListTableView.addSubview(cautionView)
-        
-        let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        btn.backgroundColor = .systemBlue
-        btn.addTarget(self, action: #selector(onTappedBtn), for: .touchUpInside)
-        self.view.addSubview(btn)
     }
     
-    @objc func onTappedBtn() {
-//        sendNotification()
-        self.apiService(withType: .TodoDetail)
-    }
     
     internal func calendarViewAnimation() {
         

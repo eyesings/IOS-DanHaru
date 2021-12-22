@@ -102,20 +102,13 @@ extension MyChallengeListViewController {
     
     private func createNoneDataInfoView(on view: UICollectionView, _ type: CollectionViewTag) {
         
-        let infoTypeText: String = {
-            if type == .doing { return "진행 중인" }
-            else if type == .done { return "완료 된" }
-            else if type == .fail { return "미완료 된" }
-            return ""
-        }()
-        
         let cateTypeText: String = {
             return self.collectionviewCategory == .myChallange ? "도전" : "할 일"
         }()
         
         dataInfoLabel = UILabel(frame: view.frame)
         dataInfoLabel.backgroundColor = .backgroundColor
-        dataInfoLabel.text = "\(infoTypeText) \(cateTypeText)이 없습니다."
+        dataInfoLabel.text = "\(type.name()) \(cateTypeText)이 없습니다."
         dataInfoLabel.font = .systemFont(ofSize: 18.0)
         dataInfoLabel.textColor = .customBlackColor
         dataInfoLabel.textAlignment = .center

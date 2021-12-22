@@ -43,4 +43,5 @@ struct UserTodoCntModel: Codable {
     var todo_total_count: Int?
     var challenge_complete_count: Int?
     var challenge_total_count: Int?
+    var mem_id: String?
 }

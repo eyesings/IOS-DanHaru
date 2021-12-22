@@ -17,22 +17,15 @@ extension ViewModelService {
         param["mem_id"] = UserModel.memberId ?? UserDefaults.userInputId
         param["fr_date"] = date
         
-        RadServerNetwork.postArrDataFromServerNeedAuth(url: Configs.API.todoList, parameters: param) { resultData in
-            if let resultArr = resultData {
-                var resultDic: [NSDictionary]? = []
-                for dic in resultArr {
-                    if let infoDic = dic as? NSDictionary
-                    {
-                        if let _ = infoDic["result_code"] as? String { return }
-                        resultDic?.append(infoDic)
-                    }
-                }
-                completionHandler(resultDic)
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.todoList, parameters: param) { resultDic in
+            if let resultDic = resultDic,
+               let resultArr = resultDic["detail"] as? [NSDictionary] {
+                completionHandler(resultArr)
             } else {
                 completionHandler(nil)
             }
-        } errorHandler: { error in
-            Dprint("error \(error)")
+        } errorHandler: { err in
+            Dprint("error \(err)")
             errorHandler(.TodoList)
         }
 
@@ -46,7 +39,7 @@ extension ViewModelService {
         rootVC.showLoadingView()
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.createTodo, parameters: param) { resultDic in
-            if let resultCode = resultDic?["result_code"] as? String,
+            if let resultCode = resultDic?["status_code"] as? String,
                resultCode == APIResultCode.failure.rawValue {
                 RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
                                                            message: RadMessage.Network.reBuildLater,
@@ -69,7 +62,6 @@ extension ViewModelService {
         param["mem_id"] = UserModel.memberId ?? ""
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.todoDelete, parameters: param) { resultDic in
-            print("resultData \(resultDic)")
             if let resultCode = resultDic?["result_code"] as? String,
                resultCode == APIResultCode.success.rawValue {
                 completionHandler()

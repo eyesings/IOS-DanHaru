@@ -89,6 +89,15 @@ enum CollectionViewTag: Int {
     case fail
     case done
     case none
+    
+    func name() -> String {
+        switch self {
+        case .doing: return "진행 중인"
+        case .fail: return "완료 된"
+        case .done: return "미완료 된"
+        case .none: return ""
+        }
+    }
 }
 
 /// 디테일 푸시 버튼 태그 값
@@ -203,7 +212,7 @@ struct Configs {
     }
     
     struct API {
-        static let host       = "http://10.23.81.245:8080/api"
+        static let host       = "http://10.23.81.63:8080/api"
         static let checkValid = host + "/auth/validation/member/"
         static let validEmail = checkValid + "email"
         static let validID    = checkValid + "id"

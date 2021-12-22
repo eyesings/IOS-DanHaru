@@ -45,18 +45,19 @@ class UserInfoViewModel {
         UserDefaults.standard.saveUserInputVal(id: id, pw: pw)
         ViewModelService.userInfoService(id, pw) { infoDic in
             self.initUserModel(infoDic) { errHandler?($0) }
+
         }
         errorHandler: { errHandler?($0) }
     }
     
     init(_ userDic: NSDictionary?, completionHandler: @escaping ()->Void,  errHandler: ((APIType) -> Void)? = nil) {
-        self.initUserModel(userDic) {
+        self.initUserModel(userDic, isForUpdateUserModel: true) {
             completionHandler()
         } errHandler: { errHandler?($0) }
 
     }
     
-    private func initUserModel(_ dic: NSDictionary?, completeHandler: (()->Void)? = nil,  errHandler: ((APIType) -> Void)? = nil) {
+    private func initUserModel(_ dic: NSDictionary?, isForUpdateUserModel: Bool = false, completeHandler: (()->Void)? = nil,  errHandler: ((APIType) -> Void)? = nil) {
         if let dic = dic as? [String:Any]
         {
             var saveUserDic: [String: Any] = [:]
@@ -66,6 +67,14 @@ class UserInfoViewModel {
                     let encryptStr = RadHelper.AES256Encrypt(WithValue: strVal)
                     saveUserDic[keyValue] = encryptStr
                 }
+            }
+            
+            if isForUpdateUserModel {
+                UserModel.profile_img = saveUserDic["profile_img"] as? String
+                UserModel.profile_into = saveUserDic["profile_into"] as? String
+                UserModel.profile_nm = saveUserDic["profile_nm"] as? String
+                completeHandler?()
+                return
             }
             
             do {
