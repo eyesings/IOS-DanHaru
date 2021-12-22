@@ -37,14 +37,23 @@ extension TodoListDetailViewController: UITableViewDataSource, UITableViewDelega
             cell.weeklyBar.tintColor =  todoListCellBackGroundColor[indexPath.row]
             
         }
-        
+
         cell.personName.text = self.weekleyName[indexPath.row]
         
         if let repost_list = self.detailInfoModel?.report_list_percent {
             let intPercent = repost_list[self.weekleyName[indexPath.row]] ?? 0
-            let intString = "0.\(intPercent)"
-            let floatPercent = Float(intString) ?? 0.0
-            cell.weeklyBar.setProgress(floatPercent, animated: true)
+            
+            if intPercent != 100 {
+                let intString = "0.\(intPercent)"
+                let floatPercent = Float(intString) ?? 0.0
+                cell.weeklyBar.setProgress(floatPercent, animated: true)
+            } else if intPercent == 100 {
+                let intString = "1.0"
+                let floatPercent = Float(intString) ?? 0.0
+                cell.weeklyBar.setProgress(floatPercent, animated: true)
+            }
+            
+            
         }
         
         return cell

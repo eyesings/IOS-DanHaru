@@ -13,7 +13,9 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return 0 }
         if collectionViewType == .imgAuth { return self.selectedImage.count }
-        return self.detailInfoModel?.challenge_user?.count ?? 10
+        else if collectionViewType == .currAuth { return (self.detailInfoModel?.challenge_user?.count ?? 0) + 1}
+        else { return self.detailInfoModel?.challenge_user?.count ?? 0 }
+        
     }
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -28,27 +30,33 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             
             cell.profileImg.image = UIImage(named: "profileNon")
             
+            cell.profileName.text = self.detailInfoModel?.challenge_user?[indexPath.item].mem_id ?? "초대된 유저 이름"
+            
             return cell
             
         } else if collectionViewType == .currAuth {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as! TodoListDetailCollectionViewCell
             
+            cell.personName.text = ""
+            
             if indexPath.item == 0 {
                 // FIXME: 첫번째에 로그인한 유저가 오게끔 이외 순서 상관없음
+                cell.personAuthBtn.tag = indexPath.item
+                cell.personName.text = self.detailInfoModel?.mem_id ?? "로그인한 계정 이름"
+                
+            } else {
+                cell.personAuthBtn.tag = indexPath.item
+                
+                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정들 이름"
+                
             }
             
-            cell.personAuthBtn.tag = indexPath.item
-            
-            cell.personName.text = "이름"
             cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
-            
-            
             
             return cell
         } else if collectionViewType == .imgAuth {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageAuthShowCollectionViewCell", for: indexPath) as? ImageAuthShowCollectionViewCell
             else { return UICollectionViewCell() }
-            
             cell.authImage.image = self.selectedImage[indexPath.item]
             cell.onTapDeleteBtn = {
                 self.selectedImage.remove(at: indexPath.item)
@@ -64,34 +72,6 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
         }
         return UICollectionViewCell()
     }
-    /*
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let layout = self.todayAuthCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        
-        var offset = targetContentOffset.pointee
-        
-        let actualPosition = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-        
-        print("방향 \(actualPosition)")
-        
-        if actualPosition.x < 0 {
-            self.currentIdx += 1
-        } else {
-            if self.currentIdx != 0 {
-                self.currentIdx -= 1
-            }
-        }
-        
-        offset = CGPoint(x: (layout.itemSize.width * 3 * self.currentIdx).rounded(.up) , y: -scrollView.contentInset.top)
-        
-        print("위치 \(layout.itemSize.width * 5 * self.currentIdx)")
-        
-        targetContentOffset.pointee = offset
-        
-        
-    }
-    */
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return .zero }
