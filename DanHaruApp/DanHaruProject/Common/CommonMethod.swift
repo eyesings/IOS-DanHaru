@@ -200,7 +200,7 @@ extension RadServerNetwork {
         if let reqUrl = URL(string: url) {
             
             var request = URLRequest(url: reqUrl)
-
+            
             request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
             request.httpMethod = "post"
             
@@ -431,7 +431,7 @@ extension RadServerNetwork {
     }
     
     //FIXME: 인증 수단 API 호출 함수 수정중
-    static func postDataFromServer(url: String, parameters:[String:Any], isUploadType: String, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
+    static func postMultipartDataFromServer(url: String, parameters:[String:Any], isUploadType: String, successHandler: @escaping (_ resultData: NSDictionary?)-> Void, errorHandler: @escaping (_ error: Error)-> Void) {
         
         guard let reqUrl = URL(string: url) else { return }
         

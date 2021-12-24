@@ -121,7 +121,7 @@ class TodoDetailUpdateViewModel {
                                            todo_status: todoModel.todo_status,
                                            challange_status: todoModel.challange_status,
                                            chaluser_yn: todoModel.chaluser_yn,
-                                           certi_yn: todoModel.certi_yn)
+                                           certi_yn: nil)
         
         let param = self.model.makesToParam()
         

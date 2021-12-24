@@ -133,68 +133,15 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //FIXME: -  UI 변수 값들 - 추후 함수로 정리
-        self.titleText = self.detailInfoModel?.title ?? ""
-        self.startDate = self.detailInfoModel?.fr_date ?? ""
-        self.endDate = self.detailInfoModel?.ed_date ?? ""
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: Date())
-        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : 00"
         
-        // 위클리 포스트
-        if let report_list = self.detailInfoModel?.report_list_percent {
-            self.weeklyCount = report_list.count
-            self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
-            
-            for name in report_list.keys {
-                self.weekleyName.append(name)
-            }
-        }
         
-        self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
+        
+        self.setUIValue()
         
         self.setUI()
         self.safeAreaView(topConst: bottomBtn)
         
-        // 인증한 이미지가 존재시
-        //FIXME: 인증 수단 존재시에 따른 UI 변동 수정중
-        if self.selectedImage.count > 0 {
-            self.regiAuthUpdate(isShow: true)
-            self.authImageCollectionView.reloadData()
-        } else {
-            // 인증 이미지가 없을시 - 단순 체크 또는 오디오 녹음
-            if let list = self.detailInfoModel?.certification_list {
-                
-                for i in 0 ..< list.count {
-                    
-                    if list[i].mem_id == UserModel.memberId {
-                        // 인증 체크 확인
-                        if let certi_check = list[i].certi_check {
-                            // 단순 체크
-                            if certi_check.lowercased().contains("y") || list[i].certi_voice == nil {
-                                self.isRegisterAuth = true
-                                self.isCheckAuth = true
-                                self.regiAuthUpdate(isShow: true)
-                                checkAnimation.isHidden = false
-                                checkAnimation.play()
-                            } else if certi_check.lowercased().contains("y") || list[i].certi_voice != nil {
-                                // 오디오 체크
-                                
-                                
-                                
-                            }
-                            
-                            
-                        }
-                        
-                        
-                    }
-                    
-                }
-                
-            }
-        }
-        
+       
         self.titleTextField.delegate = self
         
         /// 스크롤 뷰는 제스처 추가로 화면 터치시 키보드 숨김 처리를 해결해야 함

@@ -117,11 +117,10 @@ extension ViewModelService {
             param["certi_voice_file"] = certi_voice_file?.url
         } else {
             uploadType = "C"
+            param["certi_check"] = certi_check
         }
         
-        print("파람 확인 :: \(param)")
-        
-        RadServerNetwork.postDataFromServer(url: Configs.API.createCerti, parameters: param, isUploadType: uploadType) { dic in
+        RadServerNetwork.postMultipartDataFromServer(url: Configs.API.createCerti, parameters: param, isUploadType: uploadType) { dic in
             
             print("뭐야 \(dic)")
         
@@ -141,9 +140,23 @@ extension ViewModelService {
             errorHandler(.TodoCreateCertification)
         }
 
+    }
+    
+    static func todoSubjectTokenService(_ token: String, _ todoIdx: Int) {
         
+        let param = [
+            "token":token,
+            "topic":"\(todoIdx)"
+        ]
         
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.subjectTkn, parameters: param) { dic in
+            print("성공인가요? \(dic)")
+        } errorHandler: { error in
+            print("실패인가요? \(error)")
+        }
+
         
     }
+    
     
 }

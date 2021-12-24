@@ -9,6 +9,7 @@ import UIKit
 import Lottie
 import SnapKit
 import SkeletonView
+import FirebaseMessaging
 
 class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
@@ -158,6 +159,9 @@ extension MainViewController: NetworkErrorViewDelegate {
             
             let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
                 detailVC.detailInfoModel = model
+            
+                // 토큰 등록
+                ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", todoModelID)
                 
                 if let list = model.certification_list {
                     if list.count > 0 {
@@ -221,12 +225,21 @@ extension MainViewController: NetworkErrorViewDelegate {
                     
                     
                 } else {
-                    handler(certiImages)
+                    if i + 1 == list.count {
+                        handler(certiImages)
+                    } else {
+                        continue
+                    }
                 }
                 
         
             } else {
-                continue
+                if i + 1 == list.count {
+                    handler(certiImages)
+                } else {
+                    continue
+                }
+                
             }
             
         }
