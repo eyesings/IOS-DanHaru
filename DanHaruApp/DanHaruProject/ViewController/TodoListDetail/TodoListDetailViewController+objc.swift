@@ -106,7 +106,7 @@ extension TodoListDetailViewController {
         self.detailInfoModel?.todo_status = nil
         self.detailInfoModel?.challange_status = nil
         self.detailInfoModel?.chaluser_yn = nil
-        self.detailInfoModel?.certi_yn = self.isCheckAuth ? "Y" : "N"
+        self.detailInfoModel?.certi_yn = nil
         
         guard let todoModel = self.detailInfoModel,
               let mainVC = RadHelper.getMainViewController() as? MainViewController
@@ -119,13 +119,14 @@ extension TodoListDetailViewController {
             self.navigationController?.popViewController()
             mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
         }
+        let isCheck = self.isCheckAuth ? "Y" : "N"
         
         _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: self.detailInfoModel?.noti_cycle, notiTime: self.detailInfoModel?.noti_time) {
             
-            //FIXME: 초대된 사람 - 실제로 테스트를 해봐야함!!!, 테스트를 못함
+            //FIXME: 초대된 사람 - 실제로 테스트를 해봐야함!!!, 테스트를 못해봤음
             if self.isForInviteFriend {
                 // 인증 수단 업로드
-                _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", self.isCheckAuth ? "Y" : "N", self.selectedImage, self.audioRecorder, { handler in
+                _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
                     
                     if handler {
                         // 업로드 성공
@@ -139,23 +140,23 @@ extension TodoListDetailViewController {
                         
                     } else {
                         // 업로드 실패
+                        RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
                     }
                     
                 })
                 
             } else {
                 // 본인 인증
-                
                 // 인증 수단이 체크가 되었는지 확인
                 if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
-                    _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", self.isCheckAuth ? "Y" : "N", self.selectedImage, self.audioRecorder, { handler in
+                    _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
                         
                         if handler {
                             // 업로드 성공
                             reloadMainListView()
                         } else {
                             // 업로드 실패
-                            
+                            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
                         }
                         
                     })
