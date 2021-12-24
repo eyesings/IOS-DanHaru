@@ -155,31 +155,32 @@ extension MainViewController: NetworkErrorViewDelegate {
             
             let detailVC = TodoListDetailViewController()
             detailVC.modalPresentationStyle = .fullScreen
-            /*
-            let _ = TodoDetailViewModel(1, "2021-12-08") { model in
+            
+            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
                 detailVC.detailInfoModel = model
                 
                 if let list = model.certification_list {
-                    self.getCertificateImage(list) { images in
-                        // 인증 이미지가 있으면
-                        detailVC.selectedImage = images
+                    if list.count > 0 {
+                        self.getCertificateImage(list) { images in
+                            // 인증 이미지가 있으면
+                            detailVC.selectedImage = images
+                            DispatchQueue.main.async {
+                                if images.count > 0 { detailVC.isRegisterAuth = true }
+                                self.navigationController?.pushViewController(detailVC)
+                            }
+                        }
+                    } else {
                         DispatchQueue.main.async {
-                            if images.count > 0 { detailVC.isRegisterAuth = true }
                             self.navigationController?.pushViewController(detailVC)
                         }
                     }
+                    
                 } else {
                     DispatchQueue.main.async {
                         self.navigationController?.pushViewController(detailVC)
                     }
                 }
                 
-            } errHandler: { showNetworkErrView(type: $0) }
-            */
-            
-            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
-                detailVC.detailInfoModel = model
-                self.navigationController?.pushViewController(detailVC)
             } errHandler: { showNetworkErrView(type: $0) }
             
         }
@@ -193,15 +194,14 @@ extension MainViewController: NetworkErrorViewDelegate {
         for i in 0 ..< list.count {
             
             // 로그인한 계정 == 인증 리스트에서 자신의 인증만 찾기
-            //if UserModel.mem_id == list[i].mem_id {
-            if "test3" == list[i].mem_id {
+            if UserModel.memberId == list[i].mem_id {
                 
                 if let certiImageString = list[i].certi_img {
                     
                     let certiStrArr = certiImageString.components(separatedBy: ",")
                     for q in 0 ..< certiStrArr.count {
                         
-                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q])") { dic in
+                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
                             if let certiImage = dic?["image"] {
                         
                                 certiImages.append(certiImage as! UIImage)
@@ -225,7 +225,10 @@ extension MainViewController: NetworkErrorViewDelegate {
                 }
                 
         
+            } else {
+                continue
             }
+            
         }
         
     }

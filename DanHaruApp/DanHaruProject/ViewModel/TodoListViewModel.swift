@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFAudio
 
 
 /// Todo List 가져오는 VM
@@ -146,12 +147,12 @@ class TodoCreateChallengeViewModel {
 //FIXME: 인증 서비스 함수 호출후 수정
 class TodoCreateCertificateViewModel {
     
-    init(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: String?) {
+    init(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: AVAudioRecorder?, _ handler: @escaping(Bool) -> Void) {
         
         ViewModelService.TodoCreateCertificateService(todoIdx, memId, certi_check, certi_img_file, certi_voice_file) { check in
-            print("호출 후 \(check)")
+            handler(true)
         } errorHandler: { error in
-            print("에러 타임 \(error)")
+            handler(false)
         }
 
         

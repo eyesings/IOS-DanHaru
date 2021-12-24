@@ -107,8 +107,11 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     var selectedImage: [UIImage] = []
     
-    // 인증 수단 체크
+    // 전체 인증 수단 체크
     var isRegisterAuth = false
+    
+    // 단순 체크 인증 수단 체크
+    var isCheckAuth = false
     
     // 테이블 뷰
     var tableViewHeight = 0
@@ -163,18 +166,14 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
             if let list = self.detailInfoModel?.certification_list {
                 
                 for i in 0 ..< list.count {
-                    /*
-                    if list[i].mem_id == UserModel.mem_id {
                     
-                    }
-                    */
-                    
-                    if list[i].mem_id == "test4" {
+                    if list[i].mem_id == UserModel.memberId {
                         // 인증 체크 확인
                         if let certi_check = list[i].certi_check {
                             // 단순 체크
                             if certi_check.lowercased().contains("y") || list[i].certi_voice == nil {
                                 self.isRegisterAuth = true
+                                self.isCheckAuth = true
                                 self.regiAuthUpdate(isShow: true)
                                 checkAnimation.isHidden = false
                                 checkAnimation.play()

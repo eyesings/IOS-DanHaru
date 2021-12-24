@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import AVFAudio
 
 
 extension ViewModelService {
@@ -28,6 +29,7 @@ extension ViewModelService {
                 completionHandler(detailDataDic)
             } else {
                 print("is error")
+                rootVC.hideLoadingView()
             }
             
         } errorHandler: { err in
@@ -94,7 +96,7 @@ extension ViewModelService {
     
     /// 인증 수단 등록
     //FIXME: 인증 수단 등록 서비스
-    static func TodoCreateCertificateService(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: String?, successHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
+    static func TodoCreateCertificateService(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: AVAudioRecorder?, successHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
         rootVC.showLoadingView()
@@ -106,22 +108,32 @@ extension ViewModelService {
         
         param["todo_id"] = "\(todoIdx)"
         param["mem_id"] = memId
-        param["certi_check"] = certi_check
-        param["certi_img_file"] = certi_img_file
-        param["certi_voice_file"] = certi_voice_file
         
-        if certi_check != nil {
-            uploadType = "C"
-        } else if certi_img_file != nil {
+        if certi_img_file?.count != 0 {
             uploadType = "I"
+            param["certi_img_file"] = certi_img_file
         } else if certi_voice_file != nil {
             uploadType = "V"
+            param["certi_voice_file"] = certi_voice_file?.url
+        } else {
+            uploadType = "C"
         }
         
-    
+        print("파람 확인 :: \(param)")
+        
         RadServerNetwork.postDataFromServer(url: Configs.API.createCerti, parameters: param, isUploadType: uploadType) { dic in
             
-            print("되나? \(dic)")
+            print("뭐야 \(dic)")
+        
+            let detail = dic?["detail"] as? NSDictionary
+            
+            let msg = dic?["msg"] as? String
+            
+            print("디테일 :: \(detail)")
+            print("메시지 :: \(msg)")
+            
+            successHandler(true)
+            
             rootVC.hideLoadingView()
         } errorHandler: { error in
             print("error \(error)")
