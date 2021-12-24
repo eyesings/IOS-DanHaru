@@ -62,6 +62,7 @@ extension RadMessage {
         static let alreadyRegistAuth  = "이미 인증하였어요."
         static let cntAuthBeforInvite = "초대에 수락하기 전에는 인증할 수 없어요."
         static let noRegistAuth       = "인증을 해주세요."
+        static let authUploadFail     = "인증에 실패하였습니다. 다시 시도해주세요."
     }
     
     struct FindUserInfo {

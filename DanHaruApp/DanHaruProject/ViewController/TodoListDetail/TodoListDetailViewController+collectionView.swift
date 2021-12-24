@@ -39,22 +39,15 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             
             cell.personName.text = ""
             
-            if indexPath.item == 0 {
-                // FIXME: 첫번째에 로그인한 유저가 오게끔 이외 순서 상관없음
-                cell.personAuthBtn.tag = indexPath.item
-                cell.personName.text = self.detailInfoModel?.mem_id ?? "로그인한 계정 이름"
-                
-            } else {
-                cell.personAuthBtn.tag = indexPath.item
-                
-                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정들 이름"
-                
+            //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
+            cell.personAuthBtn.tag = indexPath.item
+            // 오늘 인증 현황
+            guard let list = self.detailInfoModel?.certification_list else {
+                print("certification list nil")
+                return cell
             }
             
-            //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
-            cell.authUserChangeUI(self.isRegisterAuth)
-            
-            return cell
+            return self.createCurrAuthCell(list, indexPath, cell)
         } else if collectionViewType == .imgAuth {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageAuthShowCollectionViewCell", for: indexPath) as? ImageAuthShowCollectionViewCell
             else { return UICollectionViewCell() }
@@ -113,4 +106,6 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             return 0
         }
     }
+    
+    
 }

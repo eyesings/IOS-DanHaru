@@ -11,6 +11,31 @@ import AVFoundation
 
 extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProtocol, CheckDateChangeProtocol, CheckTimeChangeProtocol {
     
+    func setUIValue() {
+        
+        //FIXME: -  UI 변수 값들 - 추후 함수로 정리
+        self.titleText = self.detailInfoModel?.encodedTitle ?? ""
+        self.startDate = self.detailInfoModel?.fr_date ?? ""
+        self.endDate = self.detailInfoModel?.ed_date ?? self.startDate
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: Date())
+        let minute = calendar.component(.minute, from: Date())
+        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(round(Double(minute)))"
+        
+        // 위클리 포스트
+        if let report_list = self.detailInfoModel?.report_list_percent {
+            self.weeklyCount = report_list.count
+            self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
+            
+            for name in report_list.keys {
+                self.weekleyName.append(name)
+            }
+        }
+        
+        self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
+        
+    }
+    
     //MARK: - UI 오토레이아웃 지정
     func setUI() {
         self.view.backgroundColor = .backgroundColor
@@ -451,6 +476,59 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         weeklyTableView.backgroundColor = .backgroundColor
         weeklyTableView.separatorStyle = .none
         
+        // 디테일 뷰 작성자가 아니면 수정 못하게 막음
+        if UserModel.memberId != self.detailInfoModel?.created_user {
+            titleTextField.isUserInteractionEnabled = false
+            startDateLabel.isUserInteractionEnabled = false
+            endDateLabel.isUserInteractionEnabled = false
+            for i in 0 ..< self.selectedNotiBtnList.count {
+                self.selectedNotiBtnList[i].isUserInteractionEnabled = false
+            }
+            cycleTimeLabel.isUserInteractionEnabled = false
+        }
+        
+        // 인증한 이미지가 존재시
+        //FIXME: 인증 수단 존재시에 따른 UI 변동 수정중
+        if self.selectedImage.count > 0 {
+            self.regiAuthUpdate(isShow: true)
+            self.authImageCollectionView.reloadData()
+        } else {
+            // 인증 이미지가 없을시 - 단순 체크 또는 오디오 녹음
+            if let list = self.detailInfoModel?.certification_list {
+                
+                for i in 0 ..< list.count {
+                    
+                    if list[i].mem_id == UserModel.memberId {
+                        // 인증 체크 확인
+                        if let certi_check = list[i].certi_check {
+                            // 단순 체크
+                            if certi_check.lowercased().contains("y") || list[i].certi_voice == nil {
+                                self.isRegisterAuth = true
+                                self.isCheckAuth = true
+                                self.regiAuthUpdate(isShow: true)
+                                checkAnimation.isHidden = false
+                                checkAnimation.play()
+                            } else if certi_check.lowercased().contains("y") || list[i].certi_voice != nil {
+                                // 오디오 체크
+                                
+                                
+                                
+                            }
+                            
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        
+        
+        
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -585,6 +663,65 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.width.equalTo(self.view.frame.width * 0.09)
             make.height.equalTo(selfBtn.snp.width)
         }
+    }
+    
+    // 오늘 인증 현황 그리는 함수
+    func createCurrAuthCell(_ list: [ChallengeCertiModel],_ indexPath: IndexPath, _ cell: TodoListDetailCollectionViewCell) -> TodoListDetailCollectionViewCell {
+        
+        if indexPath.item == 0 {
+            // FIXME: 첫번째에 로그인한 유저가 오게끔
+            cell.personName.text = UserModel.memberId ?? "로그인한 계정 이름"
+            cell.authUserChangeUI(self.isRegisterAuth)
+            
+        } else if indexPath.item == 1 {
+            // 로그인한 계정이 생성자가 아닐때, 두 번째 셀에는 생성자가 나올 수 있게
+            if self.detailInfoModel?.created_user != UserModel.memberId {
+                
+                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].created_user ?? "생성자"
+                
+                if list.count > 0 {
+                    
+                    if list[indexPath.item-1].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item - 1].created_user {
+                        if let certi_check = list[indexPath.item-1].certi_check {
+                            certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                        }
+                    }
+                    
+                }
+                
+            } else {
+                // 로그인한 계정이 생성자일시, 두 번째 셀에는 다른 유저들이 나올 수 있게
+                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정"
+                
+                if list.count > 0 {
+                    for i in  0 ..< list.count {
+                        if list[i].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정" {
+                            if let certi_check = list[indexPath.item-1].certi_check {
+                                certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                            }
+                        }
+                    }
+                
+                }
+                
+            }
+            
+        } else {
+            // 다른 유저들
+            cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정들 이름"
+            
+            if list.count > 0 {
+                if list[indexPath.item-2].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item-2].mem_id {
+                    if let certi_check = list[indexPath.item-2].certi_check {
+                        certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                    }
+                }
+                
+            }
+            
+        }
+        
+        return cell
     }
     
 }
