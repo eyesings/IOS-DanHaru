@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseDynamicLinks
+import AVFAudio
 
 /// 개발전용 로그
 /// - Parameters:
@@ -199,7 +200,7 @@ extension RadServerNetwork {
         if let reqUrl = URL(string: url) {
             
             var request = URLRequest(url: reqUrl)
-            
+
             request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
             request.httpMethod = "post"
             
@@ -219,7 +220,9 @@ extension RadServerNetwork {
                 //error 일경우 종료
                 guard error == nil && data != nil else {
                     
-                    if let err = error { Dprint(err.localizedDescription) }
+                    if let err = error {
+                        errorHandler(err)
+                        Dprint(err.localizedDescription) }
                     return
                 }
                 
@@ -260,8 +263,8 @@ extension RadServerNetwork {
             
             var request = URLRequest(url: reqUrl)
             
-            //request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
-            request.setValue("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1faWQiOiJ0ZXN0MiIsIm1lbV9wdyI6IiQyYiQxMiR1WlhHNERyYnh1RW9IOFN4cDBKMHB1aGlwUlNORTlLSzEycGN2VGl6Mi4wcTdUMU82MHFSTyIsIm1lbV9lbWFpbCI6ImVzZXRAZ21haWwuY29tIn0.7vk94g7_bcNQkYVoNpRuGB5e4yBMT_3NtL9BLcPgWIw", forHTTPHeaderField: "Authorization")
+            request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
+            
             request.httpMethod = "get"
             
             let session = URLSession.shared
@@ -434,20 +437,27 @@ extension RadServerNetwork {
         
         let boundary = "Boundary-\(UUID().uuidString)"
         var request = URLRequest(url: reqUrl)
-        request.setValue("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1faWQiOiJ0ZXN0MiIsIm1lbV9wdyI6IiQyYiQxMiR1WlhHNERyYnh1RW9IOFN4cDBKMHB1aGlwUlNORTlLSzEycGN2VGl6Mi4wcTdUMU82MHFSTyIsIm1lbV9lbWFpbCI6ImVzZXRAZ21haWwuY29tIn0.7vk94g7_bcNQkYVoNpRuGB5e4yBMT_3NtL9BLcPgWIw", forHTTPHeaderField: "Authorization")
+        request.setValue(UserModel.authForAPI, forHTTPHeaderField: "Authorization")
         request.httpMethod = "POST"
-        if isUploadType == "I" { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
+        
+        //if isUploadType == "I" { request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type") }
+        
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        let body = NSMutableData()
+        let boundaryPrefix = "--\(boundary)\r\n"
         
         // 이미지 등록
         if isUploadType == "I" {
-            let body = NSMutableData()
-            let boundaryPrefix = "--\(boundary)\r\n"
+            
             
             for (key, value) in parameters {
-                body.appendString(boundaryPrefix)
-                body.appendString("Content-Disposition: form-data; name=\"\(key)\"")
+                
                 if key == "certi_img_file" {
+                    
                     for imageValue in value as! [Any] {
+                        body.appendString(boundaryPrefix)
+                        body.appendString("Content-Disposition: form-data; name=\"\(key)\"")
                         if let fileContent = (imageValue as? UIImage)?.jpegData(compressionQuality: 0.9),
                            let urlStr = (imageValue as? UIImage)?.getImageInfo(type: .url),
                             let url = URL(string: urlStr)
@@ -459,39 +469,66 @@ extension RadServerNetwork {
                             body.append(fileContent)
                             body.appendString("\r\n")
                         }
+                        
                     }
                     
+                } else {
+                    body.appendString(boundaryPrefix)
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                    if let valueStr = value as? String {
+                        body.appendString("\(valueStr)\r\n")
+                    }
                     
                 }
-                /*
-                else {
-                    //if let valueStr = value as? String { body.appendString("\r\n\r\n\(valueStr)\r\n") }
-                    
-                }
-                */
-                
-                
                 
             }
             
             body.appendString("--\(boundary)--\r\n")
-            /*
-            body.appendString(parameters["todo_id"] as! String)
-            body.appendString(parameters["mem_id"] as! String)
-            */
+            request.httpBody = body as Data
             
-            //request.httpBody = param
-            //request.httpBody = body as Data
         } else if isUploadType == "V" {
             // 오디오
+            //FIXME: 오디오 업로드 수정중
+            for (key, value) in parameters {
+                body.appendString(boundaryPrefix)
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"")
+                if key == "certi_voice_file" {
+                    do {
+                        let audioData = try Data(contentsOf: value as! URL)
+                        
+                        body.appendString("; filename=\"\(UUID()).m4a\"\r\n" + "Content-Type: audio/x-m4a\"\r\n\r\n")
+                        body.append(audioData)
+                        body.appendString("\r\n")
+                    } catch {
+                        Dprint("audio Data create failed")
+                    }
+                
+                } else {
+                    
+                    body.appendString(boundaryPrefix)
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                    if let valueStr = value as? String {
+                        body.appendString("\(valueStr)\r\n")
+                    }
+                }
+            }
+            
+            body.appendString("--\(boundary)--\r\n")
+            request.httpBody = body as Data
+            
         } else {
             // 단순체크
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            } catch {
-                successHandler(nil)
+            for (key, value) in parameters {
+                body.appendString(boundaryPrefix)
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                if let valueStr = value as? String {
+                    body.appendString("\(valueStr)\r\n")
+                }
+                
             }
+            
+            body.appendString("--\(boundary)--\r\n")
+            request.httpBody = body as Data
         }
         
         let task = URLSession.shared.dataTask(with: request,
@@ -503,7 +540,6 @@ extension RadServerNetwork {
                 if let err = error { errorHandler(err) }
                 return
             }
-            
             
             //data 가져오기
             if let _data = data, let _ = NSString(data: _data, encoding: String.Encoding.utf8.rawValue) {
@@ -523,5 +559,8 @@ extension RadServerNetwork {
         
         task.resume()
     }
+    
+    
+    
     
 }

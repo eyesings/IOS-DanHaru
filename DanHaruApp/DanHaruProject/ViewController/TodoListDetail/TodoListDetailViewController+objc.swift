@@ -10,6 +10,8 @@ import SnapKit
 import UIKit
 import AVFoundation
 import MessageUI
+import FirebaseMessaging
+
 
 extension TodoListDetailViewController {
     
@@ -94,17 +96,7 @@ extension TodoListDetailViewController {
     
     //FIXME: 디테일 업데이트 함수 수정중
     @objc func onTapSubmitBtn() {
-        /*
-        guard let todoModel = self.detailInfoModel,
-              let inviteMemId = self.invitedMemId,
-              let mainVC = RadHelper.getMainViewController() as? MainViewController
-        else {
-
-            return
-            
-        }
-        */
-        
+       
         // 입력한 값들을 모델에 입력
         self.detailInfoModel?.title = self.titleTextField.text
         self.detailInfoModel?.fr_date = self.startDateLabel.text
@@ -114,7 +106,7 @@ extension TodoListDetailViewController {
         self.detailInfoModel?.todo_status = nil
         self.detailInfoModel?.challange_status = nil
         self.detailInfoModel?.chaluser_yn = nil
-        self.detailInfoModel?.certi_yn = self.isRegisterAuth ? "Y" : "N"
+        self.detailInfoModel?.certi_yn = self.isCheckAuth ? "Y" : "N"
         
         guard let todoModel = self.detailInfoModel,
               let mainVC = RadHelper.getMainViewController() as? MainViewController
@@ -122,28 +114,64 @@ extension TodoListDetailViewController {
             return
         }
         
-        
+        // 메인 화면으로 이동
         func reloadMainListView() {
             self.navigationController?.popViewController()
             mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
         }
-        /*
+        
         _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: self.detailInfoModel?.noti_cycle, notiTime: self.detailInfoModel?.noti_time) {
             
+            //FIXME: 초대된 사람 - 실제로 테스트를 해봐야함!!!, 테스트를 못함
             if self.isForInviteFriend {
-                /*
-                _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId) {
-                    reloadMainListView()
-                } errHandler: { Dprint("error \($0)") }
-                */
+                // 인증 수단 업로드
+                _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", self.isCheckAuth ? "Y" : "N", self.selectedImage, self.audioRecorder, { handler in
+                    
+                    if handler {
+                        // 업로드 성공
+                        // 챌린지 추가 API
+                        /*
+                        _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId) {
+                            reloadMainListView()
+                        } errHandler: { Dprint("error \($0)") }
+                        */
+                        
+                        
+                    } else {
+                        // 업로드 실패
+                    }
+                    
+                })
+                
             } else {
-                reloadMainListView()
+                // 본인 인증
+                
+                // 인증 수단이 체크가 되었는지 확인
+                if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
+                    _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", self.isCheckAuth ? "Y" : "N", self.selectedImage, self.audioRecorder, { handler in
+                        
+                        if handler {
+                            // 업로드 성공
+                            reloadMainListView()
+                        } else {
+                            // 업로드 실패
+                            
+                        }
+                        
+                    })
+                    
+                } else {
+                    reloadMainListView()
+                }
+                
+                
+                
             }
             
         } errHandler: { Dprint("type \($0)") }
-        */
         
-        _ = TodoCreateCertificateViewModel.init(1, "test1", nil, self.selectedImage, nil)
+        
+        
         
     }
     
@@ -204,6 +232,7 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 녹음 파일 삭제
     @objc func audioDeleteButtonAction(_ sender: UIButton) {
         
         RadAlertViewController.alertControllerShow(WithTitle: "알림", message: "정말로 삭제하시겠습니까?", isNeedCancel: true, viewController: self) { check in
@@ -235,6 +264,7 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 녹음파일 재생 및 정지
     @objc func audioPlayStopButtonAction(_ sender: UIButton) {
         
         if sender.imageView?.image == UIImage(named: "btnPlayCircle") {
@@ -271,6 +301,7 @@ extension TodoListDetailViewController {
         
     }
     
+    /// 앱종료시 녹음 파일 삭제
     @objc func applicationWillTerminate(_ notification:UNNotification) {
         
         if let recorder = self.audioRecorder {
@@ -322,6 +353,7 @@ extension TodoListDetailViewController {
             checkAnimation.isHidden = false
             checkAnimation.play()
             self.isRegisterAuth = true
+            self.isCheckAuth = true
         } else {
             RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: "인증을 취소하시겠습니까?", isNeedCancel: true, viewController: self) { check in
                 
@@ -363,18 +395,25 @@ extension TodoListDetailViewController {
         }
     }
     
-    
+    /// 푸시 토큰 허용 및 삭제
+    //FIXME: 토큰 삭제 API 추가시 수정 필요
     @objc func changeNotificationState(_ button: UIButton) {
         let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
                                                         message: msg,
                                                         isNeedCancel: true,
                                                         viewController: self) {
+            
+            
+            
             if $0 {
                 button.isSelected = !button.isSelected
                 let notiImage = button.isSelected ? UIImage(named: "unmute") : UIImage(named: "mute")
                 button.setImage(notiImage, for: .normal)
             }
+            
+            
+            
         }
         
     }

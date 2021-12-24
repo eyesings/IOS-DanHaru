@@ -51,7 +51,8 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
                 
             }
             
-            cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
+            //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
+            cell.authUserChangeUI(self.isRegisterAuth)
             
             return cell
         } else if collectionViewType == .imgAuth {
