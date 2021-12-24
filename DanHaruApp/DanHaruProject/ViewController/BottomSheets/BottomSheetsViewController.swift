@@ -42,11 +42,15 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     /// 바텀 뷰 기본 높이 지정 변수
     internal var defaultHeight: CGFloat = 0
     
+    var networkView: NetworkErrorView!
+    
     /// 바텀 뷰 재사용 판단을 위한 변수
     var bottomViewType: BottomViewCheck = .todoAdd
     
     /// 이전 화면에서 날짜 받는 변수
     var preDate = "";
+    
+    var bottomBtnBottomConst: NSLayoutConstraint!
     
     /// 바텀 뷰 UI 변수
     let bottomTitle = UILabel()
@@ -83,7 +87,7 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.defaultHeight = bottomViewType == .todoAdd ? screenheight * 0.5 : screenheight * 0.35
+        self.defaultHeight = (bottomViewType == .todoAdd ? 350 : screenheight * 0.35) - 60
         
         let dimmedTap = UITapGestureRecognizer(target: self, action: #selector(dimmedViewTapped(_:)))
         dimmedView.addGestureRecognizer(dimmedTap)
@@ -94,6 +98,10 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         viewPan.delaysTouchesEnded = false
         view.addGestureRecognizer(viewPan)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground),
+                                               name: Configs.NotificationName.didEnterBackground, object: nil)
+        
+        self.registerKeyboardNotification()
         
         self.setUI()
     }
@@ -102,7 +110,6 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         super.viewDidAppear(animated)
         
         self.showBottomSheet()
-        self.safeAreaView(topConst: self.bottomTodoAddBtn)
     }
     
     override func viewDidLayoutSubviews() {
@@ -119,11 +126,13 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
             make.top.bottom.leading.trailing.equalTo(self.view)
         }
         
-        let topConstant = view.safeAreaInsets.bottom + view.safeAreaLayoutGuide.layoutFrame.height
+        commonInitBottomBtn(withTitle: self.bottomViewType.bottomBtnName(), isNeedCustomLayout: self.bottomViewType == .audioRecord)
+        self.safeAreaView(topConst: self.bottomTodoAddBtn)
         
         bottomSheetView.snp.makeConstraints { make in
-            make.top.equalTo(self.view).offset(topConstant)
-            make.leading.trailing.height.equalTo(self.view)
+            make.leading.trailing.equalTo(self.view)
+            make.bottom.equalTo(self.bottomTodoAddBtn.snp.top)
+            make.height.equalTo(self.defaultHeight)
         }
         
         switch self.bottomViewType {
@@ -133,9 +142,44 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         case .audioRecord: setAudioRecordLayout(); break
         }
         
+        networkView = NetworkErrorView.shared
+        networkView.delegate = self
+        
     }
 
     
-    
 
+}
+
+
+extension BottomSheetsViewController: NetworkErrorViewDelegate {
+    func isNeedRetryService(_ type: APIType) {
+        self.apiService(withType: type)
+    }
+    
+    func apiService(withType type: APIType) {
+        
+        func showNetworkErrView(type: APIType) {
+            self.networkView.showNetworkView()
+            self.networkView.needRetryType = type
+        }
+        
+        if type == .TodoCreate
+        {
+            let startDate = self.datePicker.date.dateToStr()
+            let randomColor = UIColor().generateRandomBackgroundColor()
+            _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: self.titleTextField.text!, color: randomColor.hexStringFromColor()) { showNetworkErrView(type: $0) }
+        }
+        
+    }
+}
+
+
+// MARK: - Keyboard Protocol
+extension BottomSheetsViewController: keyboardNotiRegistProtocol {
+    func keyboardShowAndHide(_ notification: Notification) {
+        RadHelper.keyboardAnimation(notification, bottomBtnBottomConst) {
+            self.view.layoutIfNeeded()
+        }
+    }
 }

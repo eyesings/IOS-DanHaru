@@ -75,6 +75,13 @@ enum InputType: Int {
 enum MyChallangeBtnTag: Int {
     case todoList = 200
     case myChallange
+    
+    func name() -> String {
+        switch self {
+        case .todoList: return "할 일"
+        case .myChallange: return "도전"
+        }
+    }
 }
 
 /// 툴 바 버튼 태그 값
@@ -156,6 +163,7 @@ enum APIType {
     case UserUpdate
     case UserProfileImg
     case UserTodoCnt
+    case UserAllTodoList
     case TodoList
     case TodoCreate
     case TodoDetail
@@ -174,6 +182,13 @@ enum BottomViewCheck: String {
     case endDate = "endDate"
     case cycleTime = "cycleTime"
     case audioRecord = "audioRecode"
+    
+    func bottomBtnName() -> String {
+        switch self {
+        case .todoAdd: return "등록하기"
+        case .startDate, .endDate, .cycleTime, .audioRecord: return "확인"
+        }
+    }
 }
 
 enum DateLabelTag: Int {
@@ -209,6 +224,7 @@ struct Configs {
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
         static let networkRetryConnect = Notification.Name(rawValue: "NETWORK_RETRY_CONNECT")
+        static let didEnterBackground  = Notification.Name(rawValue: "DID_ENTER_BACKGROUND")
     }
     
     struct API {

@@ -139,3 +139,27 @@ class UserTodoCntViewModel {
 
     }
 }
+
+
+/// 유저 도전 전체보기
+class UserTotalTodoViewModel {
+    private var model: UserTotalModel = UserTotalModel()
+    
+    init(completionHandler: @escaping (UserTotalModel) -> Void, errorHandler: @escaping (APIType) -> Void) {
+        ViewModelService.userTotalTodoListService { resultDic in
+            if let resultDic = resultDic {
+                
+                do {
+                    self.model = try JSONDecoder().decode(UserTotalModel.self,
+                                                          from: JSONSerialization.data(withJSONObject: resultDic))
+                }
+                catch
+                {
+                    Dprint(error)
+                }
+                completionHandler(self.model)
+            }
+        } errHandler: { errorHandler($0) }
+
+    }
+}

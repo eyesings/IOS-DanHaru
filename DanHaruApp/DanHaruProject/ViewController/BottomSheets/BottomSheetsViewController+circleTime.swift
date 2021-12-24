@@ -16,7 +16,6 @@ extension BottomSheetsViewController {
     func setCirCleTimeLayout() {
         
         commonInitTitleLabel(withTitle: "반복주기 시간 선택")
-        commonInitBottomBtn()
         commonInitDatePicker()
         
         bottomTodoAddBtn.addTarget(self, action: #selector(bottomTodoCheckTime(_:)), for: .touchUpInside)

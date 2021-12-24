@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SplashView" customModule="DanHaruProject" customModuleProvider="target">
+            <connections>
+                <outlet property="animationView" destination="izS-ls-UMv" id="U2A-8c-UlW"/>
+                <outlet property="titleLabel" destination="hW9-Tp-ktZ" id="UQE-B7-E0l"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="SplashView" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="izS-ls-UMv" customClass="AnimationView" customModule="Lottie">
+                    <rect key="frame" x="0.0" y="174" width="414" height="414"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="izS-ls-UMv" secondAttribute="height" multiplier="1:1" id="JuP-FC-LZz"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="loginAnimation"/>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hW9-Tp-ktZ">
+                    <rect key="frame" x="41.5" y="192.5" width="331" height="179.5"/>
+                    <string key="text">단 하루,
+나를 바꾸는 습관</string>
+                    <fontDescription key="fontDescription" type="system" weight="black" pointSize="38"/>
+                    <color key="textColor" name="customBlackColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" name="subLightColor"/>
+            <constraints>
+                <constraint firstItem="hW9-Tp-ktZ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.63" id="0Vm-HD-oaZ"/>
+                <constraint firstItem="hW9-Tp-ktZ" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.2" id="0q2-G2-uGZ"/>
+                <constraint firstItem="hW9-Tp-ktZ" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.8" id="6Xj-ot-2Kf"/>
+                <constraint firstItem="hW9-Tp-ktZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="C4b-1v-6NU"/>
+                <constraint firstItem="izS-ls-UMv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" multiplier="0.85" id="aBY-Uj-1Ha"/>
+                <constraint firstItem="izS-ls-UMv" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="eIe-PT-twz"/>
+                <constraint firstItem="izS-ls-UMv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="w9C-aE-ucp"/>
+            </constraints>
+            <point key="canvasLocation" x="137.68115942028987" y="101.78571428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="customBlackColor">
+            <color red="0.14509803921568629" green="0.19215686274509805" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="subLightColor">
+            <color red="0.93725490196078431" green="0.90196078431372551" blue="0.89411764705882357" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

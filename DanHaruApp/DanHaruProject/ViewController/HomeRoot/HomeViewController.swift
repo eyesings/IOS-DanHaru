@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private var btnHeight: CGFloat = 44.0
     private var btnWidth: CGFloat = 0.0
     private var btnSpacing: CGFloat = 8.0
+    private let splashViewDuration: Double = 2.0
     
     private var loginAnimationView: AnimationView!
     private var loginBtn: UIButton!
@@ -26,6 +27,8 @@ class HomeViewController: UIViewController {
     private let nextBtnTitle = "다음에 할래요"
     
     public var needMovePageID: String = ""
+    
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +42,8 @@ class HomeViewController: UIViewController {
         } else if needMovePageID == StoryBoardRef.joinVC {
             onTapJoinBtn()
         }
+        
+        self.perform(#selector(splashViewRemove), with: nil, afterDelay: TimeInterval(splashViewDuration))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +78,17 @@ extension HomeViewController {
             print("has error \(type)")
         }
         RadHelper.rootVcChangeToMain()
+    }
+    
+    @objc
+    func splashViewRemove() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: self.splashViewDuration * 0.5) {
+                self.appDelegate.splashView.alpha = 0.0
+            } completion: { _ in
+                self.appDelegate.splashView.removeFromSuperview()
+            }
+        }
     }
 }
 

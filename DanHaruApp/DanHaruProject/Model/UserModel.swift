@@ -37,11 +37,22 @@ struct UserInfoModel: Codable {
 }
 
 
-
+/// 유저 마이페이지 - 내정보에 보일 데이터
 struct UserTodoCntModel: Codable {
     var todo_complete_count: Int?
     var todo_total_count: Int?
     var challenge_complete_count: Int?
     var challenge_total_count: Int?
     var mem_id: String?
+}
+
+
+/// 유저 마이페이지 - 내 도전 현황 데이터
+struct UserTotalModel: Codable {
+    var todo_progress_count: [TodoModel]?
+    var todo_incomplete_count: [TodoModel]?
+    var todo_complete_count: [TodoModel]?
+    var challenge_progress_count: [TodoModel]?
+    var challenge_incomplete_count: [TodoModel]?
+    var challenge_complete_count: [TodoModel]?
 }

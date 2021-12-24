@@ -119,7 +119,6 @@ extension BottomSheetsViewController {
         playStopBtn.addTarget(self, action: #selector(playStopButtonAction(_:)), for: .touchUpInside)
         playStopBtn.isHidden = true
         
-        self.commonInitBottomBtn(isNeedCustomLayout: true)
         bottomTodoAddBtn.addTarget(self, action: #selector(recordBottomTodoAddButtonAction(_:)), for: .touchUpInside)
         
         self.checkMicrophoneAccess()

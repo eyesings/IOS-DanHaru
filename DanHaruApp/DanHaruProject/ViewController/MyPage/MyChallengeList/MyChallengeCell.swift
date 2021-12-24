@@ -40,8 +40,6 @@ class MyChallengeCell: UICollectionViewCell {
             $0.layer.cornerRadius = $0.frame.height / 2
         }
         
-        cellDateLabel.text = "10.28,2021"
-        
         if let titleStr = cellTitle?.text {
             let attrStr = NSMutableAttributedString(string: titleStr)
             let paragraphStyle = NSMutableParagraphStyle()

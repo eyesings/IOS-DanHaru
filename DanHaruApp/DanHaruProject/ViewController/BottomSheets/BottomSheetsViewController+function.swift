@@ -16,15 +16,6 @@ extension BottomSheetsViewController {
     /// 바텀 뷰 화면 노출
     func showBottomSheet() {
         
-        let safeAreaHeight:CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
-        let bottomPadding:CGFloat = view.safeAreaInsets.bottom
-        
-        let constant = (safeAreaHeight + bottomPadding) - self.defaultHeight
-        self.bottomSheetView.snp.remakeConstraints { make in
-            make.top.equalTo(self.view).offset(constant)
-            make.leading.trailing.height.equalTo(self.view)
-        }
-        
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn) {
             //self.dimmedView.alpha = self.dimAlphaWithBottomSheetTopConstraint(value: constant)
             self.dimmedView.alpha = 0.7

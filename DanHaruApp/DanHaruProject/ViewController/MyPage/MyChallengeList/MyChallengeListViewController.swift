@@ -19,16 +19,14 @@ class MyChallengeListViewController: UIViewController {
     @IBOutlet var labelSkeletonList: [UIView]!
     
     
-    private var challengeCollectVM: ChallengeCollectViewModel = ChallengeCollectViewModel()
+    private var challengeCollectModel: UserTotalModel = UserTotalModel()
     private var collectionviewCategory: MyChallangeBtnTag = .todoList
-    private var dataInfoLabel: UILabel!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         customSegment.delegate = self
-        
         initLayout()
         
     }
@@ -47,7 +45,6 @@ class MyChallengeListViewController: UIViewController {
             }
         }
         
-        challengeCollectVM = ChallengeCollectViewModel.init()
     }
     
     // MARK: - OBJC Method
@@ -65,22 +62,28 @@ class MyChallengeListViewController: UIViewController {
 // MARK: - UI Init
 extension MyChallengeListViewController {
     private func initLayout() {
-        initCollectionSkeletonView()
-        showLabelSkeletonView()
-        initCollectCount()
+        showSkeleton()
         
+        _ = UserTotalTodoViewModel.init {
+            self.challengeCollectModel = $0
+            self.removeSkeleton()
+        } errorHandler: { Dprint("error \($0)") }
     }
     
-    private func initCollectionSkeletonView() {
+    private func showSkeleton() {
         collectionviewList.forEach {
             $0.showAnimatedGradientSkeleton()
-            removeViewSkeleton($0)
+        }
+        labelSkeletonList.forEach {
+            $0.showAnimatedGradientSkeleton()
         }
     }
     
-    private func showLabelSkeletonView() {
+    private func removeSkeleton() {
+        collectionviewList.forEach {
+            removeViewSkeleton($0)
+        }
         labelSkeletonList.forEach {
-            $0.showAnimatedGradientSkeleton()
             removeViewSkeleton($0)
         }
     }
@@ -92,26 +95,28 @@ extension MyChallengeListViewController {
                 label.text = cntText
             }
         }
+        for collection in collectionviewList {
+            if let dataType = CollectionViewTag.init(rawValue: collection.tag), self.getCollectModel(by: dataType).count == 0 {
+                self.createNoneDataInfoView(on: collection, dataType)
+            }
+        }
     }
     
     private func removeViewSkeleton(_ view: UIView) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             view.hideSkeleton()
+            self.initCollectCount()
         }
     }
     
     private func createNoneDataInfoView(on view: UICollectionView, _ type: CollectionViewTag) {
-        
-        let cateTypeText: String = {
-            return self.collectionviewCategory == .myChallange ? "도전" : "할 일"
-        }()
-        
-        dataInfoLabel = UILabel(frame: view.frame)
+        let dataInfoLabel = UILabel(frame: view.frame)
         dataInfoLabel.backgroundColor = .backgroundColor
-        dataInfoLabel.text = "\(type.name()) \(cateTypeText)이 없습니다."
+        dataInfoLabel.text = "\(type.name()) \(self.collectionviewCategory.name())이 없습니다."
         dataInfoLabel.font = .systemFont(ofSize: 18.0)
         dataInfoLabel.textColor = .customBlackColor
         dataInfoLabel.textAlignment = .center
+        dataInfoLabel.tag = CollectionViewTag.none.rawValue
         self.view.addSubview(dataInfoLabel)
     }
 }
@@ -124,7 +129,9 @@ extension MyChallengeListViewController: CustomSegmentedControlDelegate {
         
         self.collectionviewCategory = challangeCate
         collectionviewList.forEach { collection in
-            dataInfoLabel?.removeFromSuperview()
+            for view in self.view.subviews {
+                if view.tag == CollectionViewTag.none.rawValue { view.removeFromSuperview() }
+            }
             self.initCollectCount()
             collection.reloadData()
             collection.performBatchUpdates {
@@ -171,21 +178,46 @@ extension MyChallengeListViewController: SkeletonCollectionViewDataSource {
         for (idx, model) in modelList.enumerated() {
             if idx == indexPath.item {
                 cell.cellTitle.text = model.title
+                cell.cellDateLabel.text = model.fr_date?.stringToDate()?.dateToStr(format: "dd.MM.YYYY")
             }
         }
         
         return cell
     }
     
-    private func getCollectModel(by collectType: CollectionViewTag) -> [TodoCollectModel] {
-        let collectModel = challengeCollectVM.model
-        var modelList: [TodoCollectModel] = []
-        
-        for model in collectModel {
-            if model.modelStateType == collectType && model.modelCategory == self.collectionviewCategory { modelList.append(model) }
+    private func getCollectModel(by collectType: CollectionViewTag) -> [TodoModel] {
+        var modelList: [TodoModel] = []
+
+        func setModelForCollection(_ todoModel: [TodoModel], _ challModel: [TodoModel]) {
+            for model in (self.collectionviewCategory == .todoList ? todoModel : challModel) {
+                if model.use_yn?.lowercased() == "y" {
+                     modelList.append(model)
+                }
+            }
         }
         
-        return modelList
+        switch collectType {
+        case .doing:
+            guard let todoDoingModelList = self.challengeCollectModel.todo_progress_count,
+                  let chalDoingModelList = self.challengeCollectModel.challenge_progress_count
+            else { return [] }
+            setModelForCollection(todoDoingModelList, chalDoingModelList)
+            return modelList
+        case .fail:
+            guard let todoFailModelList = self.challengeCollectModel.todo_incomplete_count,
+                  let chalFailModelList = self.challengeCollectModel.challenge_incomplete_count
+            else { return [] }
+            setModelForCollection(todoFailModelList, chalFailModelList)
+            return modelList
+        case .done:
+            guard let todoDoneModelList = self.challengeCollectModel.todo_complete_count,
+                  let chalDoneModelList = self.challengeCollectModel.challenge_complete_count
+            else { return [] }
+            setModelForCollection(todoDoneModelList, chalDoneModelList)
+            return modelList
+        case .none:
+            return []
+        }
     }
 }
 

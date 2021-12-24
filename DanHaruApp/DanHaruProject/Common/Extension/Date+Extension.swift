@@ -35,10 +35,3 @@ extension Date {
         Int64(Date().timeIntervalSince1970 * 1000)
     }
 }
-
-extension String {
-    func stringToDate(format: String = RadMessage.DateFormattor.apiParamType) -> Date? {
-        return DateFormatter(format: format).date(from: self)
-    }
-    
-}

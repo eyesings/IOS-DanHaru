@@ -15,6 +15,7 @@ import FirebaseDynamicLinks
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var splashView: SplashView!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -28,17 +29,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.saveFirstInstall(false)
         }
         
+        guard let rootVc = self.window?.rootViewController else { return false }
+        
         if !RadReachability.isConnectedToNetwork() {
             RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.Network.networkErr,
                                                             message: RadMessage.Network.networkErrMsg,
                                                             isNeedCancel: false,
-                                                            viewController: self.window?.rootViewController ?? UIViewController()) {
+                                                            viewController: rootVc) {
                 if ($0) { exit(0) }
             }
         }
         
         FirebaseApp.configure()
         Messaging.messaging().delegate = self
+        
+        splashView = SplashView.init(frame: rootVc.view.frame)
+        rootVc.view.addSubview(splashView)
         
         registeredForRemoteNotifications(application: application)
         
@@ -70,6 +76,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
     func applicationWillTerminate(_ application: UIApplication) {
         NotificationCenter.default.post(name: Configs.NotificationName.audioRecordRemove, object: nil, userInfo: nil)
+    }
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        NotificationCenter.default.post(name: Configs.NotificationName.didEnterBackground, object: nil, userInfo: nil)
     }
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {

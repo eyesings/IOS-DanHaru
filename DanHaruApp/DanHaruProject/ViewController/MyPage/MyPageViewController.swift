@@ -157,9 +157,9 @@ extension MyPageViewController {
                 pieChartView.slices = [Slice(percent: 0.9999, color: .subLightColor)]
             } else if pieChartVal == 1.0 {
                 pieChartView.slices = [Slice(percent: 0.9999, color: .subHeavyColor)]
-            } else if pieChartVal == 0.0 {
-                pieChartView.slices = [Slice(percent: pieChartVal, color: .subHeavyColor),
-                                       Slice(percent: 1 - pieChartVal, color: .subLightColor)]
+            } else {
+                pieChartView.slices = [Slice(percent: 1 - pieChartVal, color: .subHeavyColor),
+                                       Slice(percent: pieChartVal, color: .subLightColor)]
             }
             
             onView.addSubview(pieChartView)

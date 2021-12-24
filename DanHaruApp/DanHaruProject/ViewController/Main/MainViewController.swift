@@ -30,6 +30,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     var selectedDate: String = ""
     var selectedIdxPath: IndexPath!
     
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     // 캘린더 화면 노출 여부
     var calendarShowOn = false
     
@@ -88,8 +90,12 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     @objc func requestTodoList(_ noti: NSNotification) {
         guard let isSuccess = noti.object as? Bool else { return }
-        // FIXME: isSuccess 이면 splashImg Dismiss
-        if isSuccess { self.apiService(withType: .TodoList) }
+        if isSuccess {
+            splashViewRemove()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.apiService(withType: .TodoList)
+            }
+        }
     }
     
     @objc func doneSetTodoListModel(_ noti: NSNotification) {
@@ -108,6 +114,17 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     @objc func reloadUserInfo() {
         self.todoListModel = nil
         self.todoListTableView.reloadData()
+    }
+    
+    @objc
+    func splashViewRemove() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1.0) {
+                self.appDelegate.splashView.alpha = 0.0
+            } completion: { _ in
+                self.appDelegate.splashView.removeFromSuperview()
+            }
+        }
     }
 }
 

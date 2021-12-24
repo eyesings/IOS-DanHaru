@@ -83,6 +83,8 @@
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
 		B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682101A2733A5CE001F56DD /* CustomToolBar.swift */; };
 		B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */; };
+		B691EA522773F3F700DB1A79 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B691EA512773F3F700DB1A79 /* SplashView.xib */; };
+		B691EA552773F65800DB1A79 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B691EA542773F65800DB1A79 /* SplashView.swift */; };
 		B69B06B42732196D00E99BB2 /* MyPageNonLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */; };
 		B69B06C127325A6500E99BB2 /* CustomSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */; };
 		B69B06C82732698C00E99BB2 /* MyChallengeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */; };
@@ -242,6 +244,8 @@
 		B64ABEE127424F640058F161 /* CommonMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMessage.swift; sourceTree = "<group>"; };
 		B682101A2733A5CE001F56DD /* CustomToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolBar.swift; sourceTree = "<group>"; };
 		B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableData+Extension.swift"; sourceTree = "<group>"; };
+		B691EA512773F3F700DB1A79 /* SplashView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplashView.xib; sourceTree = "<group>"; };
+		B691EA542773F65800DB1A79 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		B69B06B32732196D00E99BB2 /* MyPageNonLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNonLoginViewController.swift; sourceTree = "<group>"; };
 		B69B06C027325A6500E99BB2 /* CustomSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSegmentedControl.swift; sourceTree = "<group>"; };
 		B69B06C72732698C00E99BB2 /* MyChallengeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChallengeListViewController.swift; sourceTree = "<group>"; };
@@ -573,6 +577,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		B691EA532773F64E00DB1A79 /* SplashView */ = {
+			isa = PBXGroup;
+			children = (
+				B691EA512773F3F700DB1A79 /* SplashView.xib */,
+				B691EA542773F65800DB1A79 /* SplashView.swift */,
+			);
+			path = SplashView;
+			sourceTree = "<group>";
+		};
 		B69B06C427325A6F00E99BB2 /* CustomSegmentControl */ = {
 			isa = PBXGroup;
 			children = (
@@ -756,6 +769,7 @@
 				B6C3FCAF272661570046E35A /* AppDelegate.swift */,
 				B6B2DEAF2756157B001360E7 /* Appdelegate+Notification.swift */,
 				B6C3FCBA272661580046E35A /* LaunchScreen.storyboard */,
+				B691EA532773F64E00DB1A79 /* SplashView */,
 			);
 			path = AppFirst;
 			sourceTree = "<group>";
@@ -892,6 +906,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6C3FCBC272661580046E35A /* LaunchScreen.storyboard in Resources */,
+				B691EA522773F3F700DB1A79 /* SplashView.xib in Resources */,
 				B69CECE8274F63640092F0C5 /* caution_black.json in Resources */,
 				B6A2560127278A0600C3EC14 /* loginAnimation.json in Resources */,
 				B6166BFA274C7EB900C04898 /* FMPhotoPickerImageCollectionViewCell.xib in Resources */,
@@ -1025,6 +1040,7 @@
 				B6A21180276B400F007117D5 /* BottomSheetsViewController+CommonInit.swift in Sources */,
 				B6C3FD4A272666C40046E35A /* ModelExample.swift in Sources */,
 				B6166C01274C7EB900C04898 /* AlbumsTableViewCell.swift in Sources */,
+				B691EA552773F65800DB1A79 /* SplashView.swift in Sources */,
 				B69CECE4274F23890092F0C5 /* InsertableUIView.swift in Sources */,
 				B6C3FD47272666BA0046E35A /* ServiceExample.swift in Sources */,
 				B6166C18274C7EBA00C04898 /* FMCropCell.swift in Sources */,

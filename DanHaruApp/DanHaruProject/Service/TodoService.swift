@@ -49,6 +49,7 @@ extension ViewModelService {
             completionHandler()
         } errorHandler: { err in
             Dprint("error \(err)")
+            rootVC.hideLoadingView()
             errorHandler(.TodoCreate)
         }
     }

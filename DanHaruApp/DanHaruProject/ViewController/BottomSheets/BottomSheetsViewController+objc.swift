@@ -24,15 +24,6 @@ extension BottomSheetsViewController {
         let translation = panGestureRecognizer.translation(in: self.view)
         let velocity = panGestureRecognizer.velocity(in: view)
         
-        //print("유저가 위아래로 : \(translation.y) : 만큼 드래그")
-        //print("속도 \(velocity.y)")
-        /*
-        if velocity.y > 1500 {
-            hideBottomSheetAndGoBack()
-            return
-        }
-        */
-       
         let safeAreaHeight:CGFloat = view.safeAreaLayoutGuide.layoutFrame.height
         let bottomPadding:CGFloat = view.safeAreaInsets.bottom
         
@@ -81,6 +72,10 @@ extension BottomSheetsViewController {
     /// 바텀 뷰 숨김
     @objc func bottomSheetDismiss(_ sender: UIButton) {
         self.hideBottomSheetAndGoBack()
+    }
+    
+    @objc func didEnterBackground() {
+        self.view.endEditing(true)
     }
     
 }
