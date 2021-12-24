@@ -32,4 +32,17 @@ extension MainViewController {
         self.present(bottomVC, animated: true, completion: nil)
     }
     
+    /// 초대 링크 받았을 때
+    @objc func inviteChallFromFriend(_ noti: NSNotification) {
+        
+        guard let notiInfoArr = noti.object as? [String:Any],
+              let custId = notiInfoArr["custid"] as? String,
+              let todoidxStr = notiInfoArr["todoidx"] as? String else { return }
+        
+        self.invitedTodoIdx = Int(todoidxStr)
+        self.invitedFriendId = custId
+        
+        self.apiService(withType: .TodoDetail)
+    }
+    
 }

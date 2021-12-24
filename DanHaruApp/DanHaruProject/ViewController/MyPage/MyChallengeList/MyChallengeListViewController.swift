@@ -177,8 +177,9 @@ extension MyChallengeListViewController: SkeletonCollectionViewDataSource {
         let modelList = getCollectModel(by: collectionViewTag)
         for (idx, model) in modelList.enumerated() {
             if idx == indexPath.item {
-                cell.cellTitle.text = model.title
+                cell.cellTitle.text = model.encodedTitle
                 cell.cellDateLabel.text = model.fr_date?.stringToDate()?.dateToStr(format: "dd.MM.YYYY")
+                cell.changeColorByUse(model.use_yn?.lowercased() == "n")
             }
         }
         
@@ -189,11 +190,7 @@ extension MyChallengeListViewController: SkeletonCollectionViewDataSource {
         var modelList: [TodoModel] = []
 
         func setModelForCollection(_ todoModel: [TodoModel], _ challModel: [TodoModel]) {
-            for model in (self.collectionviewCategory == .todoList ? todoModel : challModel) {
-                if model.use_yn?.lowercased() == "y" {
-                     modelList.append(model)
-                }
-            }
+            modelList = self.collectionviewCategory == .todoList ? todoModel : challModel
         }
         
         switch collectType {

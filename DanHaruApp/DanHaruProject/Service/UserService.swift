@@ -147,7 +147,7 @@ extension ViewModelService {
     static func userTotalTodoListService(completionHandler: @escaping (NSDictionary?) -> Void, errHandler: @escaping (APIType) -> Void) {
         
         var param: [String:Any] = [:]
-        param["mem_id"] = "test2"//UserModel.memberId
+        param["mem_id"] = UserModel.memberId
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.getUsrAll,
                                                        parameters: param) { resultDic in

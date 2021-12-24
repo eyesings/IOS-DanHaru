@@ -12,6 +12,9 @@ struct TodoModel: Codable {
     var todo_id: Int?
     var mem_id: String?
     var title: String?
+    var encodedTitle: String? {
+        get { return title != nil ? title?.decodeEmoji() : nil }
+    }
     var fr_date: String?
     var ed_date: String?
     var noti_cycle: String?

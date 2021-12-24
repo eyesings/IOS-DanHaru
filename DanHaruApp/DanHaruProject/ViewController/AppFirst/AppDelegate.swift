@@ -13,10 +13,10 @@ import FirebaseDynamicLinks
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     var splashView: SplashView!
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //다크모드 막기
@@ -86,9 +86,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //firebase dynamicLink
         let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
-
+            
             if let openLink = dynamiclink?.url {
-               print("openLink:::\(openLink)")
+                print("openLink:::\(openLink)")
+                if openLink.absoluteString.contains(Configs.URL.inviteChall),
+                   let linkQuery = openLink.query {
+                    
+                    var queryDic: [String:Any] = [:]
+                    for (_, arr) in linkQuery.components(separatedBy: "&").enumerated() {
+                        if arr.contains("custid="),
+                           let custId = arr.components(separatedBy: "custid=").last {
+                            queryDic["custid"] = custId
+                        } else if arr.contains("todoidx="),
+                                  let todoidx = arr.components(separatedBy: "todoidx=").last {
+                            queryDic["todoidx"] = todoidx
+                        }
+                    }
+                    
+                    NotificationCenter.default.post(name: Configs.NotificationName.inviteFriendChall, object: queryDic)
+                }
             }
         }
         
@@ -103,11 +119,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /// Notifications 등록
     /// - Parameter application: UIApplication
     func registeredForRemoteNotifications(application: UIApplication) {
-        #if !TARGET_IPHONE_SIMULATOR
+#if !TARGET_IPHONE_SIMULATOR
         //푸시 등록
         let center = UNUserNotificationCenter.current()
         center.delegate = self
-
+        
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
             
             Dprint("granted  \(granted)")
@@ -126,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Dprint("push regiser denied  @!!!!!!")
             }
         }
-        #endif
+#endif
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

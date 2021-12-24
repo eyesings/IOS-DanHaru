@@ -106,18 +106,20 @@ extension MyPageViewController {
             
             self.drawPieChartView(CGFloat(todoCntModel.todo_complete_count ?? 0),
                                   totalCnt: CGFloat(todoCntModel.todo_total_count ?? 0),
-                                  self.toDoScoreView)
+                                  self.toDoScoreView,
+                                  dataType: .todo)
             
             self.drawPieChartView(CGFloat(todoCntModel.challenge_complete_count ?? 0),
                                   totalCnt: CGFloat(todoCntModel.challenge_total_count ?? 0),
                                   self.challengeScoreView,
-                                  isChallenge: true)
+                                  dataType: .challenge)
             
             let totalCompleteCnt = (todoCntModel.todo_complete_count ?? 0) + (todoCntModel.challenge_complete_count ?? 0)
             let totalTotalCnt = (todoCntModel.todo_total_count ?? 0) + (todoCntModel.challenge_total_count ?? 0)
             self.drawPieChartView(CGFloat(totalCompleteCnt),
                                   totalCnt: CGFloat(totalTotalCnt),
-                                  self.totalScoreView)
+                                  self.totalScoreView,
+                                  dataType: .done)
             
             self.hideLoadingView()
         } errHandler: { apitype in
@@ -127,16 +129,23 @@ extension MyPageViewController {
         }
     }
     
-    private func drawPieChartView(_ doneCnt: CGFloat, totalCnt: CGFloat, _ onView: UIView, isChallenge: Bool = false) {
+    private func drawPieChartView(_ doneCnt: CGFloat, totalCnt: CGFloat, _ onView: UIView, dataType: UserTodoType) {
         
         DispatchQueue.main.async {
             if let pieChart = onView.subviews.first {
                 pieChart.removeFromSuperview()
             }
             
-            if totalCnt == 0 && isChallenge {
+            if totalCnt == 0 {
                 let label = UILabel.init(frame: .zero)
-                label.text = "아직 친구와 함께하는 도전이 없어요."
+                switch dataType {
+                case .todo:
+                    label.text = "아직 등록된 할 일 이 없어요."
+                case .challenge:
+                    label.text = "아직 친구와 함께하는 도전이 없어요."
+                case .done:
+                    label.text = "아직 완료된 할 일, 도전이 없어요."
+                }
                 label.font = .systemFont(ofSize: 13.0)
                 label.textAlignment = .center
                 label.center = onView.center

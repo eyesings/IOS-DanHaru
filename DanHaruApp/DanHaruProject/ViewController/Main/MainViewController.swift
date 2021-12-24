@@ -29,6 +29,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     var selectedDate: String = ""
     var selectedIdxPath: IndexPath!
+    var invitedTodoIdx: Int?
+    var invitedFriendId: String?
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -47,6 +49,8 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
                                                name: Configs.NotificationName.todoListCreateNew, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadUserInfo),
                                                name: Configs.NotificationName.reloadAfterLogout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.inviteChallFromFriend(_:)),
+                                               name: Configs.NotificationName.inviteFriendChall, object: nil)
         
         self.setUI()
         networkView = NetworkErrorView.shared
@@ -151,12 +155,33 @@ extension MainViewController: NetworkErrorViewDelegate {
             todoListTableView.reloadData()
         }
         else if type == .TodoDetail {
-            guard let todoModelID = self.todoListModel.model[self.selectedIdxPath.row].todo_id else { return }
+            var todoModelId: Int!
+            
+            if let selectIdx = self.selectedIdxPath,
+               let todoIdxFromIndexPath = self.todoListModel.model[selectIdx.row].todo_id {
+                todoModelId = todoIdxFromIndexPath
+            } else if let todoIdxFromInvite = self.invitedTodoIdx {
+                todoModelId = todoIdxFromInvite
+            } else {
+                Dprint("model get Error")
+                return
+            }
             
             let detailVC = TodoListDetailViewController()
             detailVC.modalPresentationStyle = .fullScreen
             
-            let _ = TodoDetailViewModel(todoModelID, selectedDate) { model in
+            func presentDetailVC() {
+                self.navigationController?.pushViewController(detailVC)
+                self.invitedFriendId = nil
+                self.invitedTodoIdx = nil
+            }
+            
+            if let _ = self.invitedFriendId {
+                detailVC.invitedMemId = self.invitedFriendId
+                detailVC.isForInviteFriend = true
+            }
+            
+            let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
                 detailVC.detailInfoModel = model
                 
                 if let list = model.certification_list {
@@ -166,18 +191,18 @@ extension MainViewController: NetworkErrorViewDelegate {
                             detailVC.selectedImage = images
                             DispatchQueue.main.async {
                                 if images.count > 0 { detailVC.isRegisterAuth = true }
-                                self.navigationController?.pushViewController(detailVC)
+                                presentDetailVC()
                             }
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self.navigationController?.pushViewController(detailVC)
+                            presentDetailVC()
                         }
                     }
                     
                 } else {
                     DispatchQueue.main.async {
-                        self.navigationController?.pushViewController(detailVC)
+                        presentDetailVC()
                     }
                 }
                 

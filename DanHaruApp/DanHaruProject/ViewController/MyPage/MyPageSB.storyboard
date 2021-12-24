@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUf-fm-kgw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUf-fm-kgw">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -1195,10 +1195,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="doingCell" id="gM9-SG-i4x" customClass="MyChallengeCell" customModule="DanHaruProject" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="118.00000000000004"/>
+                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="118.00000000000003"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="RJ7-pJ-NYh">
-                                            <rect key="frame" x="0.0" y="0.0" width="118" height="118.00000000000004"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="118.00000000000003"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dAX-sd-7Nx">
@@ -1245,8 +1245,8 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="cellDateLabel" destination="OSI-d6-l3G" id="e8B-dE-bxZ"/>
+                                            <outlet property="cellDotView" destination="A97-3Z-frl" id="9Zd-H9-byL"/>
                                             <outlet property="cellTitle" destination="dAX-sd-7Nx" id="fsN-e6-5o8"/>
-                                            <outletCollection property="challengeTitleLabelList" destination="dAX-sd-7Nx" collectionClass="NSMutableArray" id="VAO-A2-1kZ"/>
                                             <outletCollection property="dateDotViewList" destination="A97-3Z-frl" collectionClass="NSMutableArray" id="xfa-L9-6kr"/>
                                         </connections>
                                     </collectionViewCell>
@@ -1273,10 +1273,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="failCell" id="Z90-Og-Ueb" customClass="MyChallengeCell" customModule="DanHaruProject" customModuleProvider="target">
-                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="117.99999999999999"/>
+                                        <rect key="frame" x="30" y="25.333333333333332" width="118" height="117.99999999999997"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="BbF-2G-cMN">
-                                            <rect key="frame" x="0.0" y="0.0" width="118" height="117.99999999999999"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="118" height="117.99999999999997"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jM4-3b-h6Q">
@@ -1318,8 +1318,8 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="cellDateLabel" destination="Bdc-g3-vY8" id="PnN-rZ-xqg"/>
+                                            <outlet property="cellDotView" destination="LTk-M9-2Ul" id="bmn-qj-dnv"/>
                                             <outlet property="cellTitle" destination="jM4-3b-h6Q" id="liv-6s-Scj"/>
-                                            <outletCollection property="challengeTitleLabelList" destination="jM4-3b-h6Q" collectionClass="NSMutableArray" id="FD5-iy-6O2"/>
                                             <outletCollection property="dateDotViewList" destination="LTk-M9-2Ul" collectionClass="NSMutableArray" id="VN0-UO-7lW"/>
                                         </connections>
                                     </collectionViewCell>
@@ -1406,8 +1406,8 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="cellDateLabel" destination="1jq-UG-r31" id="4WC-5n-zk6"/>
+                                            <outlet property="cellDotView" destination="54B-rx-udb" id="LGv-aO-OaT"/>
                                             <outlet property="cellTitle" destination="EqA-fO-DTh" id="Ub1-nU-EOp"/>
-                                            <outletCollection property="challengeTitleLabelList" destination="EqA-fO-DTh" collectionClass="NSMutableArray" id="vn0-4R-nFH"/>
                                             <outletCollection property="dateDotViewList" destination="54B-rx-udb" collectionClass="NSMutableArray" id="nN6-yJ-5Xz"/>
                                         </connections>
                                     </collectionViewCell>

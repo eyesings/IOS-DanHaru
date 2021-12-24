@@ -106,10 +106,12 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
         self.setUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        self.showBottomSheet()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            self.showBottomSheet()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -168,7 +170,9 @@ extension BottomSheetsViewController: NetworkErrorViewDelegate {
         {
             let startDate = self.datePicker.date.dateToStr()
             let randomColor = UIColor().generateRandomBackgroundColor()
-            _ = TodoResgisterViewModel(searchDate: startDate, inputTitle: self.titleTextField.text!, color: randomColor.hexStringFromColor()) { showNetworkErrView(type: $0) }
+            _ = TodoResgisterViewModel(searchDate: startDate,
+                                       inputTitle: self.titleTextField.text!.encodeEmoji(),
+                                       color: randomColor.hexStringFromColor()) { showNetworkErrView(type: $0) }
         }
         
     }

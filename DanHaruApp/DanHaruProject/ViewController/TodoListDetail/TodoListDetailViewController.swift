@@ -134,12 +134,13 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         super.viewDidLoad()
         
         //FIXME: -  UI 변수 값들 - 추후 함수로 정리
-        self.titleText = self.detailInfoModel?.title ?? ""
+        self.titleText = self.detailInfoModel?.encodedTitle ?? ""
         self.startDate = self.detailInfoModel?.fr_date ?? ""
-        self.endDate = self.detailInfoModel?.ed_date ?? ""
+        self.endDate = self.detailInfoModel?.ed_date ?? self.startDate
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: Date())
-        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : 00"
+        let minute = calendar.component(.minute, from: Date())
+        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(round(Double(minute)))"
         
         // 위클리 포스트
         if let report_list = self.detailInfoModel?.report_list_percent {
@@ -212,9 +213,10 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         self.titleTextField.makesToCustomField()
         self.startDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
         self.endDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)

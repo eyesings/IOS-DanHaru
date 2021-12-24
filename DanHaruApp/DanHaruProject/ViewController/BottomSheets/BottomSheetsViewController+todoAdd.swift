@@ -71,9 +71,7 @@ extension BottomSheetsViewController {
     @objc func bottomTodoAddAction(_ sender: UIButton) {
         
         self.titleTextField.updateUI()
-        // FIXME: Emoji 포함 확인 필요
-        // 방안 1 ) 이모지 포함 가능 => 인/디코딩 해주기
-        // 방안 2 ) 이모지 불포함
+        
         guard let titleText = self.titleTextField.text,
               titleText.isEmpty != true
         else { self.titleTextField.becomeFirstResponder(); return }

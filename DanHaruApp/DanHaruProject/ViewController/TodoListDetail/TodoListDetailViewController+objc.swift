@@ -98,15 +98,16 @@ extension TodoListDetailViewController {
     @objc func onTapSubmitBtn() {
        
         // 입력한 값들을 모델에 입력
-        self.detailInfoModel?.title = self.titleTextField.text
-        self.detailInfoModel?.fr_date = self.startDateLabel.text
-        self.detailInfoModel?.ed_date = self.endDateLabel.text
-        self.detailInfoModel?.noti_cycle = self.selectedNotiDay.joined(separator: ",")
-        self.detailInfoModel?.noti_time = self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : ""
-        self.detailInfoModel?.todo_status = nil
-        self.detailInfoModel?.challange_status = nil
-        self.detailInfoModel?.chaluser_yn = nil
-        self.detailInfoModel?.certi_yn = nil
+        // FIXME: 모델 입력 부분 .. 수정 필요
+//        self.detailInfoModel?.title = self.titleTextField.text
+//        self.detailInfoModel?.fr_date = self.startDateLabel.text
+//        self.detailInfoModel?.ed_date = self.endDateLabel.text
+//        self.detailInfoModel?.noti_cycle = self.selectedNotiDay.joined(separator: ",")
+//        self.detailInfoModel?.noti_time = self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : ""
+//        self.detailInfoModel?.todo_status = nil
+//        self.detailInfoModel?.challange_status = nil
+//        self.detailInfoModel?.chaluser_yn = nil
+//        self.detailInfoModel?.certi_yn = nil
         
         guard let todoModel = self.detailInfoModel,
               let mainVC = RadHelper.getMainViewController() as? MainViewController
@@ -121,23 +122,38 @@ extension TodoListDetailViewController {
         }
         let isCheck = self.isCheckAuth ? "Y" : "N"
         
+        if self.isForInviteFriend {
+            guard let todoIdx = todoModel.todo_id, let invitedMemId = self.invitedMemId else { Dprint("was fail something"); return }
+            _ = TodoCreateChallengeViewModel.init(todoIdx, invitedMemId) {
+                self.detailInfoModel?.chaluser_yn = "Y"
+                _ = TodoDetailUpdateViewModel.init(todoModel,
+                                                   notiCycle: self.selectedNotiDay.joined(separator: ","),
+                                                   notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "",
+                                                   completionHandler: {
+                    _ = TodoDetailViewModel.init(todoIdx, todoModel.fr_date!, completionHandler: { model in
+                        self.detailInfoModel = model
+                        self.isForInviteFriend = false
+                        self.invitedMemId = nil
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.setUI()
+                        }
+                        
+                    }, errHandler: { Dprint("occur Error \($0)") })
+                }, errHandler: { Dprint("occur Error \($0)") })
+            } errHandler: { Dprint("error \($0)") }
+            return
+        }
+        
         _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: self.detailInfoModel?.noti_cycle, notiTime: self.detailInfoModel?.noti_time) {
             
-            //FIXME: 초대된 사람 - 실제로 테스트를 해봐야함!!!, 테스트를 못해봤음
-            if self.isForInviteFriend {
-                // 인증 수단 업로드
+            // 본인 인증
+            // 인증 수단이 체크가 되었는지 확인
+            if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
                 _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
                     
                     if handler {
                         // 업로드 성공
-                        // 챌린지 추가 API
-                        /*
-                        _ = TodoCreateChallengeViewModel.init(todoModel.todo_id!, inviteMemId) {
-                            reloadMainListView()
-                        } errHandler: { Dprint("error \($0)") }
-                        */
-                        
-                        
+                        reloadMainListView()
                     } else {
                         // 업로드 실패
                         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
@@ -146,27 +162,7 @@ extension TodoListDetailViewController {
                 })
                 
             } else {
-                // 본인 인증
-                // 인증 수단이 체크가 되었는지 확인
-                if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
-                    _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
-                        
-                        if handler {
-                            // 업로드 성공
-                            reloadMainListView()
-                        } else {
-                            // 업로드 실패
-                            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
-                        }
-                        
-                    })
-                    
-                } else {
-                    reloadMainListView()
-                }
-                
-                
-                
+                reloadMainListView()
             }
             
         } errHandler: { Dprint("type \($0)") }
@@ -335,6 +331,12 @@ extension TodoListDetailViewController {
                                                             isNeedCancel: false,
                                                             viewController: self)
             return
+        } else if self.isForInviteFriend {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.cntAuthBeforInvite,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
         }
         switch tappedBtnType {
         case .image:
@@ -379,7 +381,7 @@ extension TodoListDetailViewController {
            let todoIdx = detailInfoModel?.todo_id {
             // https://challinvite?custid=[초대한유저ID]&todoidx=[초대한할일Idx] 링크 형태 참고
             let deeplinkStr = "https://challinvite?custid=\(createUser)&todoidx=\(todoIdx)"
-            RadHelper.createDynamicLink(with: deeplinkStr) { url in
+            RadHelper.createDynamicLink(with: deeplinkStr.encodeUrl() ?? deeplinkStr) { url in
                 Dprint("link \(String(describing: url))")
                 guard let deepLinkUrl = url else { return }
                 let messageComposeViewController = MFMessageComposeViewController()

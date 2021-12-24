@@ -45,6 +45,10 @@ extension UIColor {
         return RadHelper.colorFromHex(hex: "BCBEBF")
     }()
     
+    static var highlightHeavyColor = {
+        return RadHelper.colorFromHex(hex: "7AA394")
+    }()
+    
     static var todoLightBlueColor = {
         return RadHelper.colorFromHex(hex: "A0E7E5")
     }()

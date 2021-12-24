@@ -156,6 +156,14 @@ enum ImageInfo {
     case name
 }
 
+/// 마이페이지 - 현황 데이터 타입
+enum UserTodoType {
+    case todo
+    case challenge
+    case done
+}
+
+/// 통신하는 API 타입
 enum APIType {
     case UserJoin
     case UserLogin
@@ -197,12 +205,6 @@ enum DateLabelTag: Int {
 }
 
 
-enum ImageDeleteBtnTag: Int {
-    case deleteImageView1 = 121
-    case deleteImageView2 = 122
-    case deleteImageView3 = 123
-}
-
 struct Configs {
     
     static var formatter = DateFormatter()
@@ -220,6 +222,7 @@ struct Configs {
         static let userLoginSuccess    = Notification.Name(rawValue: "USER_LOGIN_SUCCESS")
         static let todoListFetchDone   = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
         static let todoListCreateNew   = Notification.Name(rawValue: "TODO_LIST_CREATE_NEW")
+        static let inviteFriendChall   = Notification.Name(rawValue: "INVITE_FRIEND_CHALL")
         static let reloadAfterLogout   = Notification.Name(rawValue: "RELOAD_AFTER_LOGOUT")
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
@@ -257,6 +260,10 @@ struct Configs {
         static let subjectTkn = host + "/todo/detail/subject/token"
         static let sendMsg    = host + "/todo/detail/subject/send/push"
         
+    }
+    
+    struct URL {
+        static let inviteChall = "https://challinvite"
     }
     
 }

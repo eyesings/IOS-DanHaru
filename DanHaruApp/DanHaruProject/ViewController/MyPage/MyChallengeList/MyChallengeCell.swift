@@ -9,23 +9,21 @@ import UIKit
 
 class MyChallengeCell: UICollectionViewCell {
     
-    @IBOutlet var challengeTitleLabelList: [UILabel]!
     @IBOutlet var dateDotViewList: [UIView]!
     
     @IBOutlet var cellTitle: UILabel!
     @IBOutlet var cellDateLabel: UILabel!
+    @IBOutlet weak var cellDotView: UIView!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         if RadHelper.isIphoneSE1st {
-            challengeTitleLabelList.forEach { $0.font = UIFont.systemFont(ofSize: 14.0) }
+            cellTitle.font = .systemFont(ofSize: 14.0)
         }
         
         self.layer.cornerRadius = 20
-        
-        dateDotViewList.forEach { $0.isHidden = true }
         
         // Initialization code
     }
@@ -33,12 +31,7 @@ class MyChallengeCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.backgroundColor = .subLightColor
-        
-        dateDotViewList.forEach {
-            $0.isHidden = false
-            $0.layer.cornerRadius = $0.frame.height / 2
-        }
+        cellDotView.layer.cornerRadius = cellDotView.frame.height / 2
         
         if let titleStr = cellTitle?.text {
             let attrStr = NSMutableAttributedString(string: titleStr)
@@ -47,5 +40,12 @@ class MyChallengeCell: UICollectionViewCell {
             attrStr.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attrStr.length))
             cellTitle?.attributedText = attrStr
         }
+    }
+    
+    func changeColorByUse(_ isUse: Bool) {
+        cellDotView.backgroundColor = isUse ? .heavyGrayColor : .highlightHeavyColor
+        backgroundColor = isUse ? RadHelper.colorFromHex(hex: "dddddd") : .subLightColor
+        cellTitle.textColor = isUse ? .lightGrayColor : .customBlackColor
+        cellDateLabel.textColor = isUse ? .lightGrayColor : .heavyGrayColor
     }
 }

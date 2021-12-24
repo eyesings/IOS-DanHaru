@@ -60,6 +60,7 @@ extension RadMessage {
         static let notiStateChangeOn  = "확인을 누르시면 재촉 수신을 할 수 있어요."
         static let inputImgMaxCount   = "인증 가능한 이미지는 최대 3장이에요."
         static let alreadyRegistAuth  = "이미 인증하였어요."
+        static let cntAuthBeforInvite = "초대에 수락하기 전에는 인증할 수 없어요."
         static let noRegistAuth       = "인증을 해주세요."
     }
     
