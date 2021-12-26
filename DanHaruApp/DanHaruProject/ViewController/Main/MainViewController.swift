@@ -186,7 +186,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                 detailVC.detailInfoModel = model
             
                 // 토큰 등록
-                ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", todoModelID)
+                ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", todoModelId)
                 
                 if let list = model.certification_list {
                     if list.count > 0 {
