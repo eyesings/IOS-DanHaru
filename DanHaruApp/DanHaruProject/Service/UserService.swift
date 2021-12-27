@@ -111,7 +111,6 @@ extension ViewModelService {
         RadServerNetwork.putDataFromServer(url: apiStr,
                                            parameters: param,
                                            isForUploadImg: true) { resultData in
-            print("resultData \(resultData)")
             _ = UserInfoViewModel.init((resultData?["detail"] as? NSDictionary)) {
                 completionHandler()
             } errHandler: { errorHandler($0) }

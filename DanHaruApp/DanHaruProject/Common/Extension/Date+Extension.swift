@@ -35,3 +35,27 @@ extension Date {
         Int64(Date().timeIntervalSince1970 * 1000)
     }
 }
+
+extension Calendar {
+    func makesTimeToString() -> String {
+        var hour = self.component(.hour, from: Date())
+        let minute = self.component(.minute, from: Date()).roundedUp()
+        
+        if minute == 60 {
+            hour += 1
+        }
+        
+        return "\(hour) : " + (minute == 60 ? "00" : "\(minute)")
+    }
+}
+
+
+extension Int {
+    func roundedUp() -> Int {
+        let doubleVal = Double(self)
+        let makesDecimal = doubleVal / 10
+        let roundUp  = makesDecimal.rounded(.up) * 10
+        
+        return Int(roundUp)
+    }
+}

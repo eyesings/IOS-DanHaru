@@ -14,16 +14,16 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     func setUIValue() {
         
         //FIXME: -  UI 변수 값들 - 추후 함수로 정리
-        self.titleText = self.detailInfoModel?.encodedTitle ?? ""
-        self.startDate = self.detailInfoModel?.fr_date ?? ""
-        self.endDate = self.detailInfoModel?.ed_date ?? self.startDate
-        let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: Date())
-        let minute = calendar.component(.minute, from: Date())
-        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(round(Double(minute)))"
+        self.titleText = self.detailInfoModel.encodedTitle ?? ""
+        self.startDate = self.detailInfoModel.fr_date ?? ""
+        self.endDate = self.detailInfoModel.ed_date ?? self.startDate
+        
+        if let detailModel = self.detailInfoModel.noti_time {
+            self.noti_time = detailModel.isEmpty ? self.noti_time : detailModel
+        }
         
         // 위클리 포스트
-        if let report_list = self.detailInfoModel?.report_list_percent {
+        if let report_list = self.detailInfoModel.report_list_percent {
             self.weeklyCount = report_list.count
             self.tableViewHeight = weeklyCount * Int(self.tableCellHeight)
             
@@ -32,8 +32,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             }
         }
         
-        self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
-        
+        self.selectedNotiDay = self.detailInfoModel.noti_cycle?.components(separatedBy: ",") ?? []
+        self.cycleTimeLabel.isEnabled = !self.selectedNotiDay.isEmpty
     }
     
     //MARK: - UI 오토레이아웃 지정
@@ -204,11 +204,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         recordDeleteBtn.addTarget(self, action: #selector(audioDeleteButtonAction(_:)), for: .touchUpInside)
         
         self.authRegiArea.addSubview(authImageCollectionView)
-        if selectedImage.count > 0 {
-            self.authImageCollectionView.isHidden = false
-        } else {
-            self.authImageCollectionView.isHidden = true
-        }
+        self.authImageCollectionView.isHidden = !(selectedImage.count > 0)
         //authImageCollectionView.isHidden = true
         authImageCollectionView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(authRegiArea)
@@ -240,46 +236,51 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.height.equalTo(15)
         }
         
-        let collectionViewHeihgt = 100.0
-        self.mainScrollView.addSubview(togetherFriendCollectionView)
-        togetherFriendCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(togetherExplainLabel.snp.bottom).offset(10)
-            make.leading.equalTo(self.view)
-            make.width.equalTo(screenwidth * 0.75)
-            make.height.equalTo(collectionViewHeihgt)
-        }
-        
-        self.mainScrollView.addSubview(inviteFriendBtn)
-        inviteFriendBtn.snp.makeConstraints { make in
-            make.width.height.equalTo(collectionViewHeihgt * 0.7)
-            make.leading.equalTo(togetherFriendCollectionView.snp.trailing)
-            make.centerY.equalTo(togetherFriendCollectionView)
-        }
-        
-        self.mainScrollView.addSubview(todayAuthTitleLabel)
-        todayAuthTitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(togetherFriendCollectionView.snp.bottom).offset(20)
-            make.height.leading.equalTo(self.togetherFriendTitleLabel)
-        }
-        
-        self.mainScrollView.addSubview(notificationStateBtn)
-        notificationStateBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(todayAuthTitleLabel)
-            make.leading.equalTo(todayAuthTitleLabel.snp.trailing)
-            make.height.equalTo(todayAuthTitleLabel).multipliedBy(0.8)
-            make.width.equalTo(notificationStateBtn.snp.height)
-        }
-        
-        // 친구 명 수대로 imageview 가 생겨야하고.. 버튼도 생겨야하고... 인증 현황에 따라서 버튼을 체크 모양으로 변경해야함...
+        let collectionViewHeihgt = 180.0
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         layout.scrollDirection = .horizontal
         self.todayAuthCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         self.mainScrollView.addSubview(todayAuthCollectionView)
+        
+        self.mainScrollView.addSubview(inviteFriendBtn)
+        inviteFriendBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(collectionViewHeihgt * 0.4)
+            make.leading.equalTo(self.view).offset(20)
+            make.centerY.equalTo(todayAuthCollectionView)
+            make.trailing.equalTo(todayAuthCollectionView.snp.leading).offset(-10)
+        }
+        
         todayAuthCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(self.todayAuthTitleLabel.snp.bottom)
-            make.leading.trailing.equalTo(self.view)
-            make.height.equalTo(180)
+            make.top.equalTo(togetherExplainLabel.snp.bottom)
+            make.trailing.equalTo(self.view)
+            make.height.equalTo(collectionViewHeihgt)
+        }
+        
+        guard let chalYN = self.detailInfoModel.chaluser_yn, chalYN == "Y" else {
+            
+            inviteFriendBtn.snp.remakeConstraints { make in
+                make.width.height.equalTo(collectionViewHeihgt * 0.4)
+                make.centerX.equalTo(self.view)
+                make.centerY.equalTo(todayAuthCollectionView)
+            }
+            
+            todayAuthCollectionView.snp.remakeConstraints { make in
+                make.top.equalTo(togetherExplainLabel.snp.bottom)
+                make.leading.equalTo(self.view.snp.trailing)
+                make.height.equalTo(collectionViewHeihgt)
+            }
+            self.setLayout()
+            return
+        }
+        
+        
+        self.mainScrollView.addSubview(notificationStateBtn)
+        notificationStateBtn.snp.makeConstraints { make in
+            make.centerY.equalTo(togetherFriendTitleLabel)
+            make.leading.equalTo(togetherFriendTitleLabel.snp.trailing)
+            make.height.equalTo(togetherFriendTitleLabel).multipliedBy(0.8)
+            make.width.equalTo(notificationStateBtn.snp.height)
         }
         
         
@@ -431,26 +432,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         togetherExplainLabel.text = "* 친구를 초대 하고 함께 도전을 진행해 보세요!"
         commonInfoLabelConfig(togetherExplainLabel)
         
-        togetherFriendCollectionView.delegate = self
-        togetherFriendCollectionView.dataSource = self
-        togetherFriendCollectionView.showsHorizontalScrollIndicator = false
-        togetherFriendCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        togetherFriendCollectionView.bounces = false
-        
-        inviteFriendBtn.backgroundColor = .subLightColor
-        inviteFriendBtn.setImage(UIImage(named: "btnAdd"), for: .normal)
-        inviteFriendBtn.imageView?.contentMode = .scaleAspectFit
-        inviteFriendBtn.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-        inviteFriendBtn.addTarget(self, action: #selector(inviteFriendWithSendSMS), for: .touchUpInside)
-        
-        // 오늘 인증 라벨
-        todayAuthTitleLabel.text = "오늘 인증 현황"
-        customTitleLabelConfig(todayAuthTitleLabel)
-        
-        notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal)
-        notificationStateBtn.isSelected = true
-        notificationStateBtn.addTarget(self, action: #selector(changeNotificationState), for: .touchUpInside)
-        
         // 오늘 인증 콜렉션 뷰
         todayAuthCollectionView.delegate = self
         todayAuthCollectionView.dataSource = self
@@ -461,6 +442,19 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         todayAuthCollectionView.tag = DetailCollectionViewTag.currAuth.rawValue
         todayAuthCollectionView.bounces = false
         todayAuthCollectionView.decelerationRate = .normal
+        
+        inviteFriendBtn.backgroundColor = .subLightColor
+        inviteFriendBtn.setImage(UIImage(named: "btnAdd"), for: .normal)
+        inviteFriendBtn.imageView?.contentMode = .scaleAspectFit
+        inviteFriendBtn.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        inviteFriendBtn.addTarget(self, action: #selector(inviteFriendWithSendSMS), for: .touchUpInside)
+        
+        guard let chalYN = self.detailInfoModel.chaluser_yn, chalYN == "Y" else { return }
+        
+        
+        notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal)
+        notificationStateBtn.isSelected = true
+        notificationStateBtn.addTarget(self, action: #selector(changeNotificationState), for: .touchUpInside)
         
         // 위클리 리포트 라벨
         weeklyTitleLabel.text = "위클리 리포트"
@@ -477,14 +471,10 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         weeklyTableView.separatorStyle = .none
         
         // 디테일 뷰 작성자가 아니면 수정 못하게 막음
-        if UserModel.memberId != self.detailInfoModel?.created_user {
+        if UserModel.memberId != self.detailInfoModel.created_user {
             titleTextField.isUserInteractionEnabled = false
             startDateLabel.isUserInteractionEnabled = false
             endDateLabel.isUserInteractionEnabled = false
-            for i in 0 ..< self.selectedNotiBtnList.count {
-                self.selectedNotiBtnList[i].isUserInteractionEnabled = false
-            }
-            cycleTimeLabel.isUserInteractionEnabled = false
         }
         
         // 인증한 이미지가 존재시
@@ -494,7 +484,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             self.authImageCollectionView.reloadData()
         } else {
             // 인증 이미지가 없을시 - 단순 체크 또는 오디오 녹음
-            if let list = self.detailInfoModel?.certification_list {
+            if let list = self.detailInfoModel.certification_list {
                 
                 for i in 0 ..< list.count {
                     
@@ -670,18 +660,23 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         if indexPath.item == 0 {
             // FIXME: 첫번째에 로그인한 유저가 오게끔
-            cell.personName.text = UserModel.memberId ?? "로그인한 계정 이름"
+            cell.personName.text = UserModel.profileName ?? (UserModel.memberId ?? "")
+            RadHelper.getProfileImage { img in
+                DispatchQueue.main.async {
+                    cell.personImageView.image = img
+                }
+            }
             cell.authUserChangeUI(self.isRegisterAuth)
-            
+            cell.personAuthBtn.isHidden = true
         } else if indexPath.item == 1 {
             // 로그인한 계정이 생성자가 아닐때, 두 번째 셀에는 생성자가 나올 수 있게
-            if self.detailInfoModel?.created_user != UserModel.memberId {
+            if self.detailInfoModel.created_user != UserModel.memberId {
                 
-                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].created_user ?? "생성자"
+                cell.personName.text = self.detailInfoModel.challenge_user?[indexPath.item - 1].created_user ?? "생성자"
                 
                 if list.count > 0 {
                     
-                    if list[indexPath.item-1].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item - 1].created_user {
+                    if list[indexPath.item-1].mem_id == self.detailInfoModel.challenge_user?[indexPath.item - 1].created_user {
                         if let certi_check = list[indexPath.item-1].certi_check {
                             certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
                         }
@@ -691,11 +686,11 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                 
             } else {
                 // 로그인한 계정이 생성자일시, 두 번째 셀에는 다른 유저들이 나올 수 있게
-                cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정"
+                cell.personName.text = self.detailInfoModel.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정"
                 
                 if list.count > 0 {
                     for i in  0 ..< list.count {
-                        if list[i].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정" {
+                        if list[i].mem_id == self.detailInfoModel.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정" {
                             if let certi_check = list[indexPath.item-1].certi_check {
                                 certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
                             }
@@ -708,10 +703,10 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             
         } else {
             // 다른 유저들
-            cell.personName.text = self.detailInfoModel?.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정들 이름"
+            cell.personName.text = self.detailInfoModel.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정들 이름"
             
             if list.count > 0 {
-                if list[indexPath.item-2].mem_id == self.detailInfoModel?.challenge_user?[indexPath.item-2].mem_id {
+                if list[indexPath.item-2].mem_id == self.detailInfoModel.challenge_user?[indexPath.item-2].mem_id {
                     if let certi_check = list[indexPath.item-2].certi_check {
                         certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
                     }

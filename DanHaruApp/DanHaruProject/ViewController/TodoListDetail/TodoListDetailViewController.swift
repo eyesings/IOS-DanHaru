@@ -59,21 +59,10 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 함께 도전 중인 친구
     let togetherFriendTitleLabel = UILabel()
     let togetherExplainLabel = UILabel()
-    let togetherFriendCollectionView: UICollectionView = {
-        let flowlayout = UICollectionViewFlowLayout()
-        flowlayout.scrollDirection = .horizontal
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowlayout)
-        collectionView.register(UINib(nibName: "ChallengeFriendCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: ChallengeFriendCollectionViewCell.reusableIdentifier)
-        collectionView.tag = DetailCollectionViewTag.challFriend.rawValue
-        collectionView.backgroundColor = .clear
-        return collectionView
-    }()
-    let inviteFriendBtn = UIButton()
-    
-    // 오늘 인증 현황
-    let todayAuthTitleLabel = UILabel()
     var todayAuthCollectionView: UICollectionView!
+    let inviteFriendBtn = UIButton()
     let notificationStateBtn = UIButton()
+    
     
     // 위클리 리포트
     let weeklyTitleLabel = UILabel()
@@ -89,7 +78,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     var isForInviteFriend: Bool = false
     var invitedMemId: String?
-    var detailInfoModel: TodoModel?
+    var detailInfoModel: TodoModel!
     
     // 오디오 재생 관련
     var audioRecorder: AVAudioRecorder?
@@ -125,7 +114,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     var titleText: String = ""
     var startDate: String = ""
     var endDate: String = ""
-    var noti_time: String = ""
+    var noti_time: String = "알림 OFF"
     
     var weekleyName: [String] = []
     var weekleyPercent: [Float] = []
@@ -164,7 +153,14 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         self.startDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
         self.endDateLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
         self.cycleTimeLabel.layer.addBorder([.top,.bottom], color: .lightGrayColor, width: 0.8)
-        self.inviteFriendBtn.layer.cornerRadius = inviteFriendBtn.frame.width / 2
+        self.inviteFriendBtn.layer.cornerRadius = inviteFriendBtn.frame.height / 2
+        
+        var contentRect = CGRect.zero
+        _ = self.mainScrollView.subviews.reduce(into: CGRect.zero) { partialResult, view in
+            contentRect = contentRect.union(view.frame)
+        }
+        mainScrollView.contentSize = CGSize(width: screenwidth, height: contentRect.size.height + 20)
+        mainScrollView.backgroundColor = .backgroundColor
     }
     
     

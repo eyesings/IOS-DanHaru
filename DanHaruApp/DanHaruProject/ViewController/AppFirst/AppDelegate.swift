@@ -127,7 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
             
             Dprint("granted  \(granted)")
-            
+            UserDefaults.standard.initUserPushSetting(granted)
             
             if error != nil {
                 //error 발생시
@@ -147,9 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("didRegisterForRemoteNotificationsWithDeviceToken")
-        
-        let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
-        print("deviceToKenString \(deviceTokenString)")
         
         Messaging.messaging().apnsToken = deviceToken
         

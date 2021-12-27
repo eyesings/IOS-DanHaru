@@ -190,7 +190,8 @@ extension MyChallengeListViewController: SkeletonCollectionViewDataSource {
         var modelList: [TodoModel] = []
 
         func setModelForCollection(_ todoModel: [TodoModel], _ challModel: [TodoModel]) {
-            modelList = self.collectionviewCategory == .todoList ? todoModel : challModel
+            let sortModel = (self.collectionviewCategory == .todoList ? todoModel : challModel).sorted(by: { $0.use_yn! > $1.use_yn! } )
+            modelList = sortModel
         }
         
         switch collectType {

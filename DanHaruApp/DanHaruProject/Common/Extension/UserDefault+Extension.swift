@@ -20,6 +20,15 @@ extension UserDefaults {
         }
     }
     
+    /// 유저 푸시 값 호출
+    static var userPushSetting: Bool? {
+        if let _ = self.standard.value(forKey: Configs.UserDefaultsKey.pushEnable) {
+            return self.standard.bool(forKey: Configs.UserDefaultsKey.pushEnable)
+        } else {
+            return nil
+        }
+    }
+    
     static var userInputId: String {
         return RadHelper.AES256Decrypt(WithValue: self.standard.string(forKey: Configs.UserDefaultsKey.userInputID))
     }
@@ -35,6 +44,19 @@ extension UserDefaults {
     func saveUserInputVal(id: String, pw: String) {
         self.set(RadHelper.AES256Encrypt(WithValue: id), forKey: Configs.UserDefaultsKey.userInputID)
         self.set(RadHelper.AES256Encrypt(WithValue: pw), forKey: Configs.UserDefaultsKey.userInputPW)
+    }
+    
+    /// 유저 푸시 저장
+    /// - Parameter isOn: Push Allow / Disallow
+    func saveUserPushSetting(_ isOn: Bool) {
+        self.set(isOn, forKey: Configs.UserDefaultsKey.pushEnable)
+    }
+    
+    func initUserPushSetting(_ isOn: Bool) {
+        guard let _ = UserDefaults.userPushSetting else {
+            self.saveUserPushSetting(isOn)
+            return
+        }
     }
     
     func rmUserInputVal() {

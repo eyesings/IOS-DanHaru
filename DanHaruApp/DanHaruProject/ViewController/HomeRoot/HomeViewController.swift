@@ -73,8 +73,9 @@ extension HomeViewController {
     
     @objc
     func onTapNextTimeBtn() {
-        UserDefaults.standard.saveUserInputVal(id: RadHelper.tempraryID, pw: "1")
-        let _ = UserJoinViewModel.init("\(RadHelper.tempraryID)@example.com", "\(RadHelper.tempraryID)", "1") { type in
+//        UserDefaults.standard.saveUserInputVal(id: RadHelper.tempraryID, pw: "1")
+        let tempID = RadHelper.tempraryID
+        let _ = UserJoinViewModel.init("\(tempID)@example.com", "\(tempID)", "1") { type in
             print("has error \(type)")
         }
         RadHelper.rootVcChangeToMain()

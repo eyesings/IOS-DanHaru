@@ -133,8 +133,7 @@ enum DetailNotiDayBtnTag: Int {
 }
 
 enum DetailCollectionViewTag: Int {
-    case challFriend = 600
-    case currAuth
+    case currAuth = 600
     case imgAuth
 }
 
@@ -142,6 +141,12 @@ enum DetailAuthBtnTag: Int {
     case image = 700
     case audio
     case check
+}
+
+enum TodoChallStatus: String {
+    case doing = "001"
+    case fail = "002"
+    case done = "003"
 }
 
 /// API 통신 결과 코드
@@ -207,7 +212,6 @@ enum DateLabelTag: Int {
 
 struct Configs {
     
-    static var formatter = DateFormatter()
     static let BASE64Key = "DanHaruoMJVisBbDHcRBJogBtryYmhuk"
     static let dynamicPrefix = "https://danharuproject.page.link/"
     static let appstoreID = "1600367875"
@@ -216,6 +220,7 @@ struct Configs {
         static let isFirstInstall = "IS_FIRST_INSTALL"
         static let userInputID    = "USER_INPUT_ID"
         static let userInputPW    = "USER_INPUT_PW"
+        static let pushEnable     = "PUSH_ENABLE"
     }
     
     struct NotificationName {
@@ -231,7 +236,11 @@ struct Configs {
     }
     
     struct API {
-        static let host       = "http://10.23.81.63:8080/api"
+#if DEBUG
+        static let host       = "http://api-danharu-dev-api.ap-northeast-2.elasticbeanstalk.com/api"
+#else
+        static let host       = "http://api-danharu-dev-api.ap-northeast-2.elasticbeanstalk.com/api"
+#endif
         static let checkValid = host + "/auth/validation/member/"
         static let validEmail = checkValid + "email"
         static let validID    = checkValid + "id"

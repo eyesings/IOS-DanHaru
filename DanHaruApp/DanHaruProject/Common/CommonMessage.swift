@@ -56,11 +56,12 @@ extension RadMessage {
         static let inputPasswordTitle = "새로운 비밀번호를 입력해 주세요."
         static let change             = "변경하기"
         static let disableInvite      = "친구 초대에 실패했어요. 잠시후 다시 시도해 주세요."
+        static let cntAuthBeforInvite = "초대에 수락하기 전에는 인증할 수 없어요."
+        static let cntInviteFriend    = "비회원은 초대할 수 없어요.\n회원가입 후 다시 시도해 주세요."
         static let notiStateChangeOff = "확인을 누르시면 재촉 수신이 불가해요."
         static let notiStateChangeOn  = "확인을 누르시면 재촉 수신을 할 수 있어요."
         static let inputImgMaxCount   = "인증 가능한 이미지는 최대 3장이에요."
         static let alreadyRegistAuth  = "이미 인증하였어요."
-        static let cntAuthBeforInvite = "초대에 수락하기 전에는 인증할 수 없어요."
         static let noRegistAuth       = "인증을 해주세요."
         static let authUploadFail     = "인증에 실패하였습니다. 다시 시도해주세요."
     }

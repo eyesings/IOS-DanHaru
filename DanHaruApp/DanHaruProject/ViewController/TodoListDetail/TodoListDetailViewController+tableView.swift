@@ -40,7 +40,7 @@ extension TodoListDetailViewController: UITableViewDataSource, UITableViewDelega
 
         cell.personName.text = self.weekleyName[indexPath.row]
         
-        if let repost_list = self.detailInfoModel?.report_list_percent {
+        if let repost_list = self.detailInfoModel.report_list_percent {
             let intPercent = repost_list[self.weekleyName[indexPath.row]] ?? 0
             
             if intPercent != 100 {

@@ -42,8 +42,8 @@ class UserInfoViewModel {
     var model: UserInfoModel = UserInfoModel()
     
     init(_ id: String, _ pw: String, errHandler: ((APIType) -> Void)? = nil) {
-        UserDefaults.standard.saveUserInputVal(id: id, pw: pw)
         ViewModelService.userInfoService(id, pw) { infoDic in
+            UserDefaults.standard.saveUserInputVal(id: id, pw: pw)
             self.initUserModel(infoDic) { errHandler?($0) }
 
         }

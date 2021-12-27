@@ -12,16 +12,27 @@ class SettingViewController: UIViewController {
     
     @IBOutlet var updateBtn: UIButton!
     @IBOutlet var userSettingMenuList: [UIView]!
+    @IBOutlet weak var pushSwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let userPushEnable = UserDefaults.userPushSetting {
+            pushSwitch.isOn = userPushEnable
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         initLayout()
+    }
+    
+    @IBAction func onTapPushSwitch(_ sender: UISwitch) {
+        
+        if sender.isOn { UIApplication.shared.registerForRemoteNotifications() }
+        else { UIApplication.shared.unregisterForRemoteNotifications() }
+        UserDefaults.standard.saveUserPushSetting(sender.isOn)
     }
     
     @IBAction func onTapAskBtn(_ sender: UIButton) {

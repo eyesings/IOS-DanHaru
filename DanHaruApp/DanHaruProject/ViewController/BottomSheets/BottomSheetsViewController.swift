@@ -50,6 +50,8 @@ class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudio
     /// 이전 화면에서 날짜 받는 변수
     var preDate = "";
     
+    var selectedTime = ""
+    
     var bottomBtnBottomConst: NSLayoutConstraint!
     
     /// 바텀 뷰 UI 변수

@@ -13,8 +13,8 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return 0 }
         if collectionViewType == .imgAuth { return self.selectedImage.count }
-        else if collectionViewType == .currAuth { return (self.detailInfoModel?.challenge_user?.count ?? 0) + 1}
-        else { return self.detailInfoModel?.challenge_user?.count ?? 0 }
+        else if collectionViewType == .currAuth { return (self.detailInfoModel.challenge_user?.count ?? 0) + 1}
+        else { return self.detailInfoModel.challenge_user?.count ?? 0 }
         
     }
     //FIXME: 콜렉션 뷰 UI 작성중
@@ -22,27 +22,18 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
         
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return UICollectionViewCell() }
         
-        if collectionViewType == .challFriend {
-            
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeFriendCollectionViewCell.reusableIdentifier,
-                                                                for: indexPath) as? ChallengeFriendCollectionViewCell
+        if collectionViewType == .currAuth {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as? TodoListDetailCollectionViewCell
             else { return UICollectionViewCell() }
             
-            cell.profileImg.image = UIImage(named: "profileNon")
-            
-            cell.profileName.text = self.detailInfoModel?.challenge_user?[indexPath.item].mem_id ?? "초대된 유저 이름"
-            
-            return cell
-            
-        } else if collectionViewType == .currAuth {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as! TodoListDetailCollectionViewCell
             
             cell.personName.text = ""
             
             //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
+            
             cell.personAuthBtn.tag = indexPath.item
             // 오늘 인증 현황
-            guard let list = self.detailInfoModel?.certification_list else {
+            guard let list = self.detailInfoModel.certification_list else {
                 print("certification list nil")
                 return cell
             }
@@ -70,9 +61,7 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return .zero }
         let collectionViewHeight = collectionView.frame.height
-        if collectionViewType == .challFriend {
-            return CGSize(width: collectionViewHeight * 0.7, height: collectionViewHeight * 0.7)
-        } else if collectionViewType == .currAuth {
+        if collectionViewType == .currAuth {
             return CGSize(width: screenwidth * 0.4, height: collectionViewHeight * 0.9)
         } else if collectionViewType == .imgAuth {
             return CGSize(width: collectionViewHeight * 0.8, height: collectionViewHeight * 0.8)
@@ -98,9 +87,7 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return 0.0 }
-        if collectionViewType == .challFriend {
-            return screenwidth * 0.06
-        } else if collectionViewType == .imgAuth {
+        if collectionViewType == .imgAuth {
             return screenwidth * 0.01
         } else {
             return 0

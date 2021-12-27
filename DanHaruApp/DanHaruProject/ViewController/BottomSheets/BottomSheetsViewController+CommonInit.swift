@@ -20,6 +20,9 @@ extension BottomSheetsViewController {
             datePicker.preferredDatePickerStyle = .wheels
         }
         datePicker.setDate(preDate.stringToDate() ?? Date(), animated: false)
+        if self.bottomViewType == .cycleTime {
+            datePicker.setDate(selectedTime.stringToDate(format: "HH:mm") ?? Date(), animated: false)
+        }
         
         self.bottomSheetView.addSubview(datePicker)
         datePicker.snp.makeConstraints { make in

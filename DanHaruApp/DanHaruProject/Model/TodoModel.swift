@@ -40,6 +40,8 @@ struct ChallengerUser: Codable {
     var chaluser_id: Int?
     var created_at: String?
     var mem_id: String?
+    var profile_nm: String?
+    var profile_img: String?
     var created_user: String?
     var updated_at: String?
     var todo_id: Int?

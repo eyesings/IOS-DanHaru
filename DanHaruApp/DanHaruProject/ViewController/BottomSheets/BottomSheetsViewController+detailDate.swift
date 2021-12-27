@@ -22,11 +22,7 @@ extension BottomSheetsViewController {
     
     @objc func bottomTodoCheckDate(_ sender: UIButton) {
         
-        Configs.formatter.dateFormat = "yyyy-MM-dd"
-        let changeDate = Configs.formatter.string(from: self.datePicker.date)
-        
-        dateDelegate?.dateChange(self.bottomViewType.rawValue, changeDate)
-        
+        dateDelegate?.dateChange(self.bottomViewType.rawValue, self.datePicker.date.dateToStr())
         self.dismiss(animated: true, completion: nil)
     }
     

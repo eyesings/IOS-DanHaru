@@ -17,33 +17,22 @@ extension TodoListDetailViewController {
     /// 날짜 선택
     @objc func tapDateLabel(_ sender: UITapGestureRecognizer) {
         
-        if let tag = sender.view?.tag {
-            
-            /// 시작 날짜 클릭
-            if tag == DateLabelTag.startDateLabel.rawValue {
-                
-                let bottomVC = BottomSheetsViewController()
-                bottomVC.modalPresentationStyle = .overFullScreen
-                bottomVC.bottomViewType = .startDate
-                if let startDateText = self.startDateLabel.text {
-                    bottomVC.preDate = startDateText
-                }
-                bottomVC.dateDelegate = self
-                self.present(bottomVC, animated: true, completion: nil)
-
-            } else if tag == DateLabelTag.endDateLabel.rawValue {
-                
-                let bottomVC = BottomSheetsViewController()
-                bottomVC.modalPresentationStyle = .overFullScreen
-                bottomVC.bottomViewType = .endDate
-                if let endDateText = self.endDateLabel.text {
-                    bottomVC.preDate = endDateText
-                }
-                bottomVC.dateDelegate = self
-                self.present(bottomVC, animated: true, completion: nil)
-                
-            }
+        guard let tag = sender.view?.tag,
+              let viewTag = DateLabelTag.init(rawValue: tag) else { return }
+        
+        let bottomVC = BottomSheetsViewController()
+        bottomVC.modalPresentationStyle = .overFullScreen
+        bottomVC.bottomViewType = viewTag == .startDateLabel ? .startDate : .endDate
+        if viewTag == .startDateLabel,
+           let startDateText = self.startDateLabel.text {
+            bottomVC.preDate = startDateText
         }
+        if viewTag == .endDateLabel,
+           let endDateText = self.endDateLabel.text {
+            bottomVC.preDate = endDateText
+        }
+        bottomVC.dateDelegate = self
+        self.present(bottomVC, animated: true, completion: nil)
     }
 
     /// 반복주기 클릭 - 클릭시 [String] 에 추가(차후 수정)
@@ -66,7 +55,7 @@ extension TodoListDetailViewController {
                 
                 
             }
-            print("selectedNotiDay \(self.selectedNotiDay)")
+            
             return
         }
         
@@ -89,48 +78,37 @@ extension TodoListDetailViewController {
             
             self.selectedNotiDay = self.selectedNotiDay.filter { $0 != selectedTag.name() }
         }
-        
-        print("selectedNotiDay \(self.selectedNotiDay)")
+        self.cycleTimeLabel.isEnabled = self.selectedNotiDay.count > 0
     }
     
     //FIXME: 디테일 업데이트 함수 수정중
     @objc func onTapSubmitBtn() {
        
         // 입력한 값들을 모델에 입력
-        // FIXME: 모델 입력 부분 .. 수정 필요
-//        self.detailInfoModel?.title = self.titleTextField.text
-//        self.detailInfoModel?.fr_date = self.startDateLabel.text
-//        self.detailInfoModel?.ed_date = self.endDateLabel.text
-//        self.detailInfoModel?.noti_cycle = self.selectedNotiDay.joined(separator: ",")
-//        self.detailInfoModel?.noti_time = self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : ""
-//        self.detailInfoModel?.todo_status = nil
-//        self.detailInfoModel?.challange_status = nil
-//        self.detailInfoModel?.chaluser_yn = nil
-//        self.detailInfoModel?.certi_yn = nil
+        self.detailInfoModel.title = self.titleTextField.text
+        self.detailInfoModel.fr_date = self.startDateLabel.text
+        self.detailInfoModel.ed_date = self.endDateLabel.text
+        let notiCycle = self.selectedNotiDay.joined(separator: ",")
+        self.detailInfoModel.noti_cycle = notiCycle
+        self.detailInfoModel.noti_time = notiCycle.isEmpty ? self.detailInfoModel.noti_time : self.cycleTimeLabel.text
         
-        guard let todoModel = self.detailInfoModel,
-              let mainVC = RadHelper.getMainViewController() as? MainViewController
-        else {
-            return
-        }
-        
-        // 메인 화면으로 이동
-        func reloadMainListView() {
-            self.navigationController?.popViewController()
-            mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
-        }
         let isCheck = self.isCheckAuth ? "Y" : "N"
         
         if self.isForInviteFriend {
-            guard let todoIdx = todoModel.todo_id, let invitedMemId = self.invitedMemId else { Dprint("was fail something"); return }
+            guard let todoIdx = self.detailInfoModel?.todo_id,
+                  let invitedMemId = self.invitedMemId
+            else { Dprint("was fail something"); return }
+            
             _ = TodoCreateChallengeViewModel.init(todoIdx, invitedMemId) {
-                self.detailInfoModel?.chaluser_yn = "Y"
-                _ = TodoDetailUpdateViewModel.init(todoModel,
+                self.detailInfoModel.chaluser_yn = "Y"
+                self.detailInfoModel.challange_status = TodoChallStatus.doing.rawValue
+                _ = TodoDetailUpdateViewModel.init(self.detailInfoModel,
                                                    notiCycle: self.selectedNotiDay.joined(separator: ","),
                                                    notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "",
                                                    completionHandler: {
-                    _ = TodoDetailViewModel.init(todoIdx, todoModel.fr_date!, completionHandler: { model in
+                    _ = TodoDetailViewModel.init(todoIdx, self.detailInfoModel.fr_date!, completionHandler: { model in
                         self.detailInfoModel = model
+                        print("updated model \(model)")
                         self.isForInviteFriend = false
                         self.invitedMemId = nil
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -143,16 +121,16 @@ extension TodoListDetailViewController {
             return
         }
         
-        _ = TodoDetailUpdateViewModel.init(todoModel, notiCycle: self.detailInfoModel?.noti_cycle, notiTime: self.detailInfoModel?.noti_time) {
+        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: self.detailInfoModel.noti_cycle, notiTime: self.detailInfoModel.noti_time) {
             
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
             if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
-                _ = TodoCreateCertificateViewModel.init(todoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
+                _ = TodoCreateCertificateViewModel.init(self.detailInfoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
                     
                     if handler {
                         // 업로드 성공
-                        reloadMainListView()
+                        self.setUI()
                     } else {
                         // 업로드 실패
                         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
@@ -161,7 +139,7 @@ extension TodoListDetailViewController {
                 })
                 
             } else {
-                reloadMainListView()
+                self.setUI()
             }
             
         } errHandler: { Dprint("type \($0)") }
@@ -190,10 +168,12 @@ extension TodoListDetailViewController {
 
     /// 반복주기 시간 선택
     @objc func circleTimeLabelAction(_ tapGesture: UITapGestureRecognizer) {
+        guard self.cycleTimeLabel.isEnabled else { return }
         let bottomVC = BottomSheetsViewController()
         bottomVC.modalPresentationStyle = .overFullScreen
         bottomVC.bottomViewType = .cycleTime
         // 선택한 시간을 넘겨줘야함
+        bottomVC.selectedTime = self.detailInfoModel.noti_time == nil ? Calendar.current.makesTimeToString() : self.noti_time
         bottomVC.timeDelegate = self
         
         self.present(bottomVC, animated: true, completion: nil)
@@ -375,6 +355,15 @@ extension TodoListDetailViewController {
     
     /// 친구 초대위해 초대 링크 전송하는 함수
     @objc func inviteFriendWithSendSMS() {
+        
+        if RadHelper.isLogin() == false {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.cntInviteFriend,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
+        }
+        
         if MFMessageComposeViewController.canSendText(),
            let createUser = detailInfoModel?.created_user,
            let todoIdx = detailInfoModel?.todo_id {
