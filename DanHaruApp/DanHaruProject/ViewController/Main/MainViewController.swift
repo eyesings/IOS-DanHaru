@@ -183,7 +183,7 @@ extension MainViewController: NetworkErrorViewDelegate {
             
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
                 detailVC.detailInfoModel = model
-                
+    
                 if let list = model.certification_list {
                     if list.count > 0 {
                         self.getCertificateImage(list) { images in

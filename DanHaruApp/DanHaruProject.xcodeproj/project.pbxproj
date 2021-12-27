@@ -26,6 +26,7 @@
 		82A261802750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */; };
 		82A261822750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */; };
 		82A63A18275F144F0004E684 /* check_black.json in Resources */ = {isa = PBXBuildFile; fileRef = 82A63A17275F144F0004E684 /* check_black.json */; };
+		82A942A6277A834B005DAB54 /* RadFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; };
 		82C553362742250700F35639 /* audio.json in Resources */ = {isa = PBXBuildFile; fileRef = 82C553352742250700F35639 /* audio.json */; };
 		82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB510E2734C33C009D3170 /* CALayer+Extension.swift */; };
 		B603BC3D27544BCE00994A42 /* idea.json in Resources */ = {isa = PBXBuildFile; fileRef = B603BC3C27544BCE00994A42 /* idea.json */; };
@@ -185,6 +186,7 @@
 		82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BottomSheetsViewController+detailDate.swift"; sourceTree = "<group>"; };
 		82A63A17275F144F0004E684 /* check_black.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = check_black.json; sourceTree = "<group>"; };
 		82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetsViewController.swift; sourceTree = "<group>"; };
+		82A942A5277A834B005DAB54 /* RadFramework.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RadFramework.xcframework; sourceTree = "<group>"; };
 		82C553352742250700F35639 /* audio.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = audio.json; sourceTree = "<group>"; };
 		82CB510E2734C33C009D3170 /* CALayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extension.swift"; sourceTree = "<group>"; };
 		B603BC3C27544BCE00994A42 /* idea.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = idea.json; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
 				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
+				82A942A6277A834B005DAB54 /* RadFramework.xcframework in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
 				B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */,
 			);
@@ -747,6 +750,7 @@
 		B6C3FD1F272664540046E35A /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				82A942A5277A834B005DAB54 /* RadFramework.xcframework */,
 				828648E82726778200EA5CAF /* Lottie */,
 				B6C3FCBD272661580046E35A /* Info.plist */,
 				B6D770DC2766C964001B0566 /* GoogleService-Info.plist */,

@@ -121,7 +121,7 @@ extension TodoListDetailViewController {
             return
         }
         
-        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: self.detailInfoModel.noti_cycle, notiTime: self.detailInfoModel.noti_time) {
+        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: self.selectedNotiDay.joined(separator: ","), notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "") {
             
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
