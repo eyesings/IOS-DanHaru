@@ -13,7 +13,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     
     func setUIValue() {
         
-        //FIXME: -  UI 변수 값들 - 추후 함수로 정리
         self.titleText = self.detailInfoModel.encodedTitle ?? ""
         self.startDate = self.detailInfoModel.fr_date ?? ""
         self.endDate = self.detailInfoModel.ed_date ?? self.startDate
@@ -32,8 +31,23 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             }
         }
         
-        self.selectedNotiDay = self.detailInfoModel.noti_cycle?.components(separatedBy: ",") ?? []
         self.cycleTimeLabel.isEnabled = !self.selectedNotiDay.isEmpty
+        self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
+        
+        if let list = self.detailInfoModel?.certification_list {
+            
+            for i in 0 ..< list.count {
+                /// 오늘 인증 내역 중에 내가 인증한 내역이 있을 때
+                if list[i].mem_id == UserModel.memberId {
+                    
+                    self.isCurrAuth = true
+                    
+                }
+                
+            }
+            
+        }
+        
     }
     
     //MARK: - UI 오토레이아웃 지정
@@ -492,16 +506,13 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                         // 인증 체크 확인
                         if let certi_check = list[i].certi_check {
                             // 단순 체크
-                            if certi_check.lowercased().contains("y") || list[i].certi_voice == nil {
+                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
                                 self.isRegisterAuth = true
                                 self.isCheckAuth = true
                                 self.regiAuthUpdate(isShow: true)
                                 checkAnimation.isHidden = false
                                 checkAnimation.play()
-                            } else if certi_check.lowercased().contains("y") || list[i].certi_voice != nil {
-                                // 오디오 체크
-                                
-                                
+                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
                                 
                             }
                             

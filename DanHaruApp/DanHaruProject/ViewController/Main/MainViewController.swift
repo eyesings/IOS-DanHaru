@@ -9,7 +9,6 @@ import UIKit
 import Lottie
 import SnapKit
 import SkeletonView
-import FirebaseMessaging
 
 class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
@@ -184,9 +183,6 @@ extension MainViewController: NetworkErrorViewDelegate {
             
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
                 detailVC.detailInfoModel = model
-            
-                // 토큰 등록
-                ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", todoModelId)
                 
                 if let list = model.certification_list {
                     if list.count > 0 {
@@ -232,11 +228,17 @@ extension MainViewController: NetworkErrorViewDelegate {
                         
                         RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
                             if let certiImage = dic?["image"] {
-                        
                                 certiImages.append(certiImage as! UIImage)
                                 
                                 if q + 1 == certiStrArr.count {
-                                    handler(certiImages)
+                                    if certiImages.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                            handler(certiImages)
+                                        }
+                                    } else {
+                                        handler(certiImages)
+                                    }
+                                    
                                 }
                                 
                             }

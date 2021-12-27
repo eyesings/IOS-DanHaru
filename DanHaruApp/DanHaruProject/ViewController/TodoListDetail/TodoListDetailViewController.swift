@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Lottie
 import AVFoundation
+import FirebaseMessaging
 
 class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -102,6 +103,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 단순 체크 인증 수단 체크
     var isCheckAuth = false
     
+    // 오늘 인증 여부 확인
+    var isCurrAuth = false
+    
     // 테이블 뷰
     var tableViewHeight = 0
     let tableCellHeight: CGFloat = 40
@@ -141,6 +145,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         mainScrollView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
+        
+        //MARK: 토큰 등록(삭제 X)
+        ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel?.todo_id ?? 0)
         
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()

@@ -142,19 +142,41 @@ extension ViewModelService {
 
     }
     
+    /// 토큰 등록 API
     static func todoSubjectTokenService(_ token: String, _ todoIdx: Int) {
         
-        let param = [
+        let param: [String:Any] = [:]
+        
+        let params = [
             "token":token,
             "topic":"\(todoIdx)"
         ]
         
-        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.subjectTkn, parameters: param) { dic in
-            print("성공인가요? \(dic)")
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.subjectTkn, parameters: params) { dic in
+            print("성공인가요? \(dic?["msg"])")
         } errorHandler: { error in
             print("실패인가요? \(error)")
         }
-
+        
+    }
+    
+    /// 푸시 보내기 API
+    static func todoSubjectSendPush(_ title: String, _ body: String, _ topic: Int) {
+        
+        let param = [
+            "title":title,
+            "body":body,
+            "topic":"\(topic)"
+        ]
+        
+        RadServerNetwork.postDicDataFromServerNeedAuth(url:Configs.API.sendMsg, parameters:param) { dic in
+            print("성공인데요?? \(dic)")
+        } errorHandler: { error in
+            print("실패인데요?? \(error)")
+        }
+        
+        
+        
         
     }
     
