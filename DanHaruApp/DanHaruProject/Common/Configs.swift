@@ -231,7 +231,8 @@ struct Configs {
     }
     
     struct API {
-        static let host       = "http://10.23.81.63:8080/api"
+        //static let host       = "http://10.23.81.63:8080/api"
+        static let host = "http://api-danharu-dev-api.ap-northeast-2.elasticbeanstalk.com/api"
         static let checkValid = host + "/auth/validation/member/"
         static let validEmail = checkValid + "email"
         static let validID    = checkValid + "id"

@@ -13,14 +13,14 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     
     func setUIValue() {
         
-        //FIXME: -  UI 변수 값들 - 추후 함수로 정리
         self.titleText = self.detailInfoModel?.encodedTitle ?? ""
         self.startDate = self.detailInfoModel?.fr_date ?? ""
         self.endDate = self.detailInfoModel?.ed_date ?? self.startDate
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: Date())
         let minute = calendar.component(.minute, from: Date())
-        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(round(Double(minute)))"
+        //self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(round(Double(minute)))"
+        self.noti_time = self.detailInfoModel?.noti_time ?? "\(hour) : \(minute < 10 ? "0\(minute)" : "\(minute)")"
         
         // 위클리 포스트
         if let report_list = self.detailInfoModel?.report_list_percent {
@@ -33,6 +33,20 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         }
         
         self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
+        
+        if let list = self.detailInfoModel?.certification_list {
+            
+            for i in 0 ..< list.count {
+                /// 오늘 인증 내역 중에 내가 인증한 내역이 있을 때
+                if list[i].mem_id == UserModel.memberId {
+                    
+                    self.isCurrAuth = true
+                    
+                }
+                
+            }
+            
+        }
         
     }
     
@@ -502,16 +516,13 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                         // 인증 체크 확인
                         if let certi_check = list[i].certi_check {
                             // 단순 체크
-                            if certi_check.lowercased().contains("y") || list[i].certi_voice == nil {
+                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
                                 self.isRegisterAuth = true
                                 self.isCheckAuth = true
                                 self.regiAuthUpdate(isShow: true)
                                 checkAnimation.isHidden = false
                                 checkAnimation.play()
-                            } else if certi_check.lowercased().contains("y") || list[i].certi_voice != nil {
-                                // 오디오 체크
-                                
-                                
+                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
                                 
                             }
                             

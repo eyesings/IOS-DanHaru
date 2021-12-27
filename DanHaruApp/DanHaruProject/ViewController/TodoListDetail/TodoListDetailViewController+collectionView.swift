@@ -38,7 +38,8 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as! TodoListDetailCollectionViewCell
             
             cell.personName.text = ""
-            
+            cell.todoIdx = self.detailInfoModel?.todo_id ?? 0
+            cell.todoTitle = self.titleTextField.text ?? ""
             //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
             cell.personAuthBtn.tag = indexPath.item
             // 오늘 인증 현황
@@ -52,15 +53,21 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageAuthShowCollectionViewCell", for: indexPath) as? ImageAuthShowCollectionViewCell
             else { return UICollectionViewCell() }
             cell.authImage.image = self.selectedImage[indexPath.item]
-            cell.onTapDeleteBtn = {
-                self.selectedImage.remove(at: indexPath.item)
-                if self.selectedImage.count == 0 {
-                    self.regiAuthUpdate(isShow: false)
-                    self.authImageCollectionView.isHidden = true
-                    self.isRegisterAuth = false
+            //MARK: 오늘 인증 내역 존재시 이미지 삭제 차단
+            if self.isCurrAuth {
+                cell.deleteBtn.isHidden = true
+            } else {
+                cell.onTapDeleteBtn = {
+                    self.selectedImage.remove(at: indexPath.item)
+                    if self.selectedImage.count == 0 {
+                        self.regiAuthUpdate(isShow: false)
+                        self.authImageCollectionView.isHidden = true
+                        self.isRegisterAuth = false
+                    }
+                    collectionView.reloadData()
                 }
-                collectionView.reloadData()
             }
+            
             
             return cell
         }

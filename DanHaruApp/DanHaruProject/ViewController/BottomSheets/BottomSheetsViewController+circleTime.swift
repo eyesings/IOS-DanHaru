@@ -23,7 +23,7 @@ extension BottomSheetsViewController {
     
     
     @objc func bottomTodoCheckTime(_ sender: UIButton) {
-        Configs.formatter.dateFormat = "HH:mm"
+        Configs.formatter.dateFormat = "HH : mm"
         let changeTime = Configs.formatter.string(from: self.datePicker.date)
         
         self.timeDelegate?.timeChange(changeTime)

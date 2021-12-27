@@ -110,5 +110,6 @@ extension MainViewController: CalendarViewDelegate, CalendarViewDataSource {
         selectedDate = DateFormatter().korDateString(date: date)
         self.dateLabel.text = DateFormatter().korDateString(date: date, dateFormatter: RadMessage.DateFormattor.monthDate)
         self.apiService(withType: .TodoList)
+        self.calendarShowHideAction()
     }
 }

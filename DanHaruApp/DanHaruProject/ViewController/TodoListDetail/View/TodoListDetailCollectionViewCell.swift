@@ -13,6 +13,9 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var personName: UILabel!
     @IBOutlet weak var personAuthBtn: UIButton!
     
+    var todoIdx: Int = 0
+    var todoTitle: String = ""
+    
     private var checkImgView: UIImageView = {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "authCheck")
@@ -56,6 +59,33 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
 
     @IBAction func personAuthButtonAction(_ sender: UIButton) {
         print("재촉하기 버튼")
+        /*
+        //FIXME: 텍스트 얼렛 뷰로 푸시 내용을 사용자가 직접 정할 수 있음
+        if let topVC = UIApplication.topViewController() {
+            
+            let alertController = UIAlertController.init(title: "푸시 내용을 입력해주세요.", message: "", preferredStyle: .alert)
+            alertController.addTextField { (txtField) in
+                txtField.text = ""
+            }
+            let cancelAction = UIAlertAction.init(title: RadMessage.buttonFalse, style: .cancel)
+            let defaultAction = UIAlertAction.init(title: RadMessage.buttonTrue, style: .default) { (defaultAciton) in
+                let textFt = alertController.textFields?.first?.text
+                
+                ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, textFt ?? "", self.todoIdx)
+            }
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(defaultAction)
+            
+            DispatchQueue.main.async {
+                topVC.present(alertController, animated: true, completion: nil)
+            }
+            
+            
+        }
+        */
+        
+        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, self.todoTitle + "에 오셔서 인증해주세요.", self.todoIdx)
         
     }
 }
