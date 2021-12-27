@@ -10,6 +10,7 @@ import SnapKit
 import Lottie
 import AVFoundation
 import FirebaseMessaging
+import UserNotifications
 
 class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -20,6 +21,8 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     // 제목
     let titleTextField = UITextField()
+    
+    let userNotificationCenter = UNUserNotificationCenter.current()
     
     // 기간 선택
     let durationTitleLabel = UILabel()
@@ -71,6 +74,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     
     //클릭 요일
     var selectedNotiDay: [String] = []
+    var _selectedNotiDay: [DetailNotiDayBtnTag] = []
     
     // 메인 스크롤 뷰
     let mainScrollView = UIScrollView()

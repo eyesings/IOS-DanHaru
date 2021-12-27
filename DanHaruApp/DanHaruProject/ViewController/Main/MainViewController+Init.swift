@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import SnapKit
 import Lottie
-import UserNotifications
 
 extension MainViewController {
     // MARK: - 메인 뷰 UI 작성 함수
@@ -175,37 +174,5 @@ extension MainViewController {
             make.height.equalTo(addTodoBtn.snp.width).multipliedBy(0.2)
         }
     }
-    
-    /// 푸시 전송 함수
-    func sendNotification() {
-        let notificationContent = UNMutableNotificationContent()
-        
-        notificationContent.title = "알림 테스트"
-        notificationContent.body = "이것은 알림을 테스트 하는 것이다."
-        
-        var dateComponents = DateComponents()
-        dateComponents.calendar = Calendar.current
-        
-        dateComponents.weekday = 2
-        dateComponents.hour = 10
-        dateComponents.minute = 35
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        let request = UNNotificationRequest(identifier: "testNotification",
-                                            content: notificationContent,
-                                            trigger: trigger)
-        
-        let secondRequest = UNNotificationRequest(identifier: "secondRequest",
-                                            content: notificationContent,
-                                            trigger: trigger)
-        
-        userNotificationCenter.add(request) { err in
-            if let error = err { print("Notificaion Error  ", error) }
-        }
-        userNotificationCenter.add(secondRequest) { err in
-            if let error = err { print("Notificaion Error  ", error) }
-        }
-    }
-    
 }
 
