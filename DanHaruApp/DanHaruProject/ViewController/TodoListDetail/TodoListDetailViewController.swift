@@ -66,7 +66,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     var todayAuthCollectionView: UICollectionView!
     let inviteFriendBtn = UIButton()
     let notificationStateBtn = UIButton()
-    
+    let sendPushBtn = UIButton()
     
     // 위클리 리포트
     let weeklyTitleLabel = UILabel()
@@ -134,7 +134,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         self.setUI()
         self.safeAreaView(topConst: bottomBtn)
         
-       
         self.titleTextField.delegate = self
         
         /// 스크롤 뷰는 제스처 추가로 화면 터치시 키보드 숨김 처리를 해결해야 함
@@ -147,14 +146,28 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         /// 스크롤시 키보드 숨김 처리
         mainScrollView.delegate = self
         
+        //토큰 등록(삭제 X)
+        let pushCheck = UserDefaults.standard.string(forKey: "\(self.detailInfoModel?.todo_id ?? 0)")
+        if pushCheck == nil {
+            // 최초 진입 푸시 등록
+            ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel?.todo_id ?? 0)
+            UserDefaults.standard.setValue("Y", forKey: "\(self.detailInfoModel?.todo_id ?? 0)")
+        } else {
+            pushCheck!.lowercased().contains("y") ? notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal) : notificationStateBtn.setImage(UIImage(named: "mute"), for: .normal)
+        }
+        
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
-        //MARK: 토큰 등록(삭제 X)
-        ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel?.todo_id ?? 0)
+        
         
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()
+        
+        
     }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

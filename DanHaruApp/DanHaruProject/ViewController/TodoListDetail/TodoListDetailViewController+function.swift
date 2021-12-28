@@ -302,6 +302,13 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.width.equalTo(notificationStateBtn.snp.height)
         }
         
+        self.mainScrollView.addSubview(sendPushBtn)
+        sendPushBtn.snp.makeConstraints { make in
+            make.centerY.equalTo(notificationStateBtn)
+            make.trailing.equalTo(self.view).offset(-10)
+            make.height.equalTo(notificationStateBtn)
+            make.width.equalTo(self.view).multipliedBy(0.25)
+        }
         
         self.mainScrollView.addSubview(weeklyTitleLabel)
         weeklyTitleLabel.snp.makeConstraints { make in
@@ -327,7 +334,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         // 상단 뒤로가기 버튼
         backBtn.setImage(#imageLiteral(resourceName: "btnArrowLeft"), for: .normal)
         backBtn.addTarget(self, action: #selector(backBtnAction(_:)), for: .touchUpInside)
-        
+
         // 하단 확인 버튼
         bottomBtn.setTitle(self.isForInviteFriend ? "함께하기" : "확인", for: .normal)
         bottomBtn.backgroundColor = .subHeavyColor
@@ -468,12 +475,28 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         inviteFriendBtn.contentEdgeInsets = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         inviteFriendBtn.addTarget(self, action: #selector(inviteFriendWithSendSMS), for: .touchUpInside)
         
-        guard let chalYN = self.detailInfoModel.chaluser_yn, chalYN == "Y" else { return }
+        // 인증한 이미지가 존재시
+        //FIXME: 인증 수단 존재시에 따른 UI 변동 수정중
+        showCertiAuth()
         
+        guard let chalYN = self.detailInfoModel.chaluser_yn, chalYN == "Y" else {return }
         
+        // 푸시 on/off 버튼
         notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal)
         notificationStateBtn.isSelected = true
         notificationStateBtn.addTarget(self, action: #selector(changeNotificationState), for: .touchUpInside)
+        
+        //FIXME: 푸시 보내기 버튼 수정중
+        /*
+        sendPushBtn.setTitle("재촉하기", for: .normal)
+        sendPushBtn.setTitleColor(.black, for: .normal)
+        sendPushBtn.layer.borderColor = UIColor.black.cgColor
+        sendPushBtn.layer.borderWidth = 0.8
+        sendPushBtn.layer.cornerRadius = 10
+        sendPushBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+        */
+        sendPushBtn.setImage(UIImage(named: "btnSendPush"), for: .normal)
+        sendPushBtn.imageView?.contentMode = .scaleAspectFit
         
         // 위클리 리포트 라벨
         weeklyTitleLabel.text = "위클리 리포트"
@@ -499,46 +522,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             selectedNotiBtnList.forEach { $0.isUserInteractionEnabled = false }
             cycleTimeLabel.isUserInteractionEnabled = false
         }
-        
-        // 인증한 이미지가 존재시
-        //FIXME: 인증 수단 존재시에 따른 UI 변동 수정중
-        if self.selectedImage.count > 0 {
-            self.regiAuthUpdate(isShow: true)
-            self.authImageCollectionView.reloadData()
-        } else {
-            // 인증 이미지가 없을시 - 단순 체크 또는 오디오 녹음
-            if let list = self.detailInfoModel.certification_list {
-                
-                for i in 0 ..< list.count {
-                    
-                    if list[i].mem_id == UserModel.memberId {
-                        // 인증 체크 확인
-                        if let certi_check = list[i].certi_check {
-                            // 단순 체크
-                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
-                                self.isRegisterAuth = true
-                                self.isCheckAuth = true
-                                self.regiAuthUpdate(isShow: true)
-                                checkAnimation.isHidden = false
-                                checkAnimation.play()
-                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
-                                
-                            }
-                            
-                            
-                        }
-                        
-                        
-                    }
-                    
-                }
-                
-            }
-        }
-        
-        
-        
-        
+    
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -685,7 +669,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                 }
             }
             cell.authUserChangeUI(self.isRegisterAuth)
-            cell.personAuthBtn.isHidden = true
+            //if self.isRegisterAuth { cell.personAuthBtn.setBackgroundImage(UIImage(named: "authCheck"), for: .normal) }
         } else if indexPath.item == 1 {
             // 로그인한 계정이 생성자가 아닐때, 두 번째 셀에는 생성자가 나올 수 있게
             if self.detailInfoModel.created_user != UserModel.memberId {
@@ -800,4 +784,42 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             }
         }
     }
+    
+    func showCertiAuth() {
+        if self.selectedImage.count > 0 {
+            self.regiAuthUpdate(isShow: true)
+            self.authImageCollectionView.isHidden = false
+            self.authImageCollectionView.reloadData()
+        } else {
+            // 인증 이미지가 없을시 - 단순 체크 또는 오디오 녹음
+            if let list = self.detailInfoModel.certification_list {
+                
+                for i in 0 ..< list.count {
+                    
+                    if list[i].mem_id == UserModel.memberId {
+                        // 인증 체크 확인
+                        if let certi_check = list[i].certi_check {
+                            // 단순 체크
+                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
+                                self.isRegisterAuth = true
+                                self.isCheckAuth = true
+                                self.regiAuthUpdate(isShow: true)
+                                checkAnimation.isHidden = false
+                                checkAnimation.play()
+                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
+                                
+                            }
+                            
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+    
 }
