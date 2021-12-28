@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import FirebaseDynamicLinks
-
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -47,6 +47,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         rootVc.view.addSubview(splashView)
         
         registeredForRemoteNotifications(application: application)
+        
+        // Local Notification Observal 등록
+        let category = UNNotificationCategory(identifier: "dismissCategoryID", actions: [], intentIdentifiers: [], options: .customDismissAction)
+        var setCategory = Set<UNNotificationCategory>()
+        setCategory.insert(category)
+        UNUserNotificationCenter.current().setNotificationCategories(setCategory)
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests { pendingReqList in
+            for pendingReq in pendingReqList {
+                print("pendingReq \(pendingReq)")
+            }
+        }
         
         return true
     }

@@ -130,6 +130,33 @@ enum DetailNotiDayBtnTag: Int {
         case .everyday: return "매일"
         }
     }
+    
+    func calendarWeekVal() -> Int {
+        switch self {
+        case .sunday: return 1
+        case .monday: return 2
+        case .tuesday: return 3
+        case .wednesday: return 4
+        case .thursday: return 5
+        case .friday: return 6
+        case .saturday: return 7
+        case .everyday: return 8
+        }
+    }
+    
+    static func nameToSelf(val: String) -> Self {
+        switch val {
+        case "일": return .sunday
+        case "월": return .monday
+        case "화": return .tuesday
+        case "수": return .wednesday
+        case "목": return .thursday
+        case "금": return .friday
+        case "토": return .saturday
+        case "매일": return .everyday
+        default : return .everyday
+        }
+    }
 }
 
 enum DetailCollectionViewTag: Int {
@@ -221,6 +248,7 @@ struct Configs {
         static let userInputID    = "USER_INPUT_ID"
         static let userInputPW    = "USER_INPUT_PW"
         static let pushEnable     = "PUSH_ENABLE"
+        static let pushPendingDic = "PUSH_PENDING_DIC"
     }
     
     struct NotificationName {
@@ -237,6 +265,7 @@ struct Configs {
     
     struct API {
 #if DEBUG
+        //http://10.23.81.63:8080/
         static let host       = "http://api-danharu-dev-api.ap-northeast-2.elasticbeanstalk.com/api"
 #else
         static let host       = "http://api-danharu-dev-api.ap-northeast-2.elasticbeanstalk.com/api"
@@ -272,7 +301,12 @@ struct Configs {
     }
     
     struct URL {
-        static let inviteChall = "https://challinvite"
+        static let inviteChall  = "https://challinvite"
+        static let deeplinkHost = "danharu://"
+        
+        struct UniversalLink {
+            static let moveToTodoDetail = URL.deeplinkHost + "pushopentodo"
+        }
     }
     
 }

@@ -15,7 +15,6 @@ extension ViewModelService {
     static func userJoinService(_ param: [String:Any], completionHandler: @escaping () -> Void, errorHandler: @escaping (APIType) -> Void) {
         
         guard let rootVC = RadHelper.getRootViewController() else { print("rootVC 없음"); return }
-        
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.join, parameters: param) { resultDic in
             if let dic = resultDic {
                 if let codeStr = dic["status_code"] as? String, codeStr != APIResultCode.success.rawValue,

@@ -17,9 +17,31 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         Dprint("userNotificationCenter push data = \(pushDic)")
         
         if #available(iOS 14.0, *) {
-            completionHandler([.banner])
+            completionHandler([.banner, .list])
         } else {
             completionHandler([.alert])
+        }
+        
+        if let scheduleList = UserDefaults.notiScheduledData {
+            let notificatoinID = notification.request.identifier
+            let today = Date().dateToStr()
+           
+            for key in scheduleList.keys {
+                if notificatoinID.contains("\(key)") && (scheduleList["\(key)"] as? String) == today {
+                    center.getPendingNotificationRequests { pendingReqList in
+                        for pendingReq in pendingReqList {
+                            print("notiID \(notificatoinID) ,, dic key \(key)")
+//                            if pendingReq.identifier.contains(notificatoinID) {
+//                                print("need remove req \(pendingReq)")
+//                                center.removePendingNotificationRequests(withIdentifiers: [notificatoinID])
+//                                UserDefaults.standard.removeObject(forKey: "\(key)")
+//                            }
+                        }
+                    }
+                } else {
+                    print("continue")
+                }
+            }
         }
     }
 
@@ -29,14 +51,45 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         
         let actionId = response.actionIdentifier
         let userInfo = response.notification.request.content.userInfo
+        
+        func updateNotificationSchedule() {
+            if let scheduleList = UserDefaults.notiScheduledData {
+                let notificatoinID = response.notification.request.identifier
+                let today = Date().dateToStr()
+               
+                for key in scheduleList.keys {
+                    if notificatoinID.contains("\(key)") && (scheduleList["\(key)"] as? String) == today {
+                        center.getPendingNotificationRequests { pendingReqList in
+                            for pendingReq in pendingReqList {
+                                print("notiID \(notificatoinID) ,, dic key \(key)")
+                                if pendingReq.identifier.contains(notificatoinID) {
+                                    print("need remove req \(pendingReq)")
+                                    center.removePendingNotificationRequests(withIdentifiers: [notificatoinID])
+                                    UserDefaults.standard.removeObject(forKey: "\(key)")
+                                }
+                            }
+                        }
+                    } else {
+                        print("continue")
+                    }
+                }
+            }
+        }
+        
         if actionId == UNNotificationDismissActionIdentifier {
             //메세지를 열지않고 지웠을때 호출된다.
             Dprint("UNNotificationDismissActionIdentifier")
+            updateNotificationSchedule()
             completionHandler()
         }else if actionId == UNNotificationDefaultActionIdentifier {
             //푸시 메세지를 클릭했을때
             Dprint("UNNotificationDefaultActionIdentifier")
-            
+            updateNotificationSchedule()
+            if let rootVC = RadHelper.getMainViewController() as? RadPushViewModelProtocol {
+                _ = RadPushViewModel.init(WithPushInfo: userInfo as NSDictionary, delegate: rootVC)
+            }else {
+                Dprint("storyboard 못 불러옴")
+            }
             completionHandler()
         }
         Dprint("actionId \(actionId)   userinfo  \(userInfo)")

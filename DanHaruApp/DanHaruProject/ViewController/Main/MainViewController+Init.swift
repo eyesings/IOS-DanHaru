@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 import Lottie
 
+import UserNotifications
+
 extension MainViewController {
     // MARK: - 메인 뷰 UI 작성 함수
     func setUI() {

@@ -64,4 +64,34 @@ extension UserDefaults {
         self.removeObject(forKey: Configs.UserDefaultsKey.userInputPW)
         UserModel = UserInfoModel()
     }
+    
+    
+    
+    // MARK: Local Notification Data
+    static var notiScheduledData: [String:Any]? {
+        return self.standard.value(forKey: Configs.UserDefaultsKey.pushPendingDic) as? [String:Any]
+    }
+    
+    func updateNotiSchedule(endDate ed: String, notiID id: String) {
+        guard let localSchedule = UserDefaults.notiScheduledData
+        else { self.set([id:ed], forKey: Configs.UserDefaultsKey.pushPendingDic); return }
+        
+        var updateSchedule = localSchedule
+        updateSchedule.updateValue(ed, forKey: id)
+        
+        self.set(updateSchedule, forKey: Configs.UserDefaultsKey.pushPendingDic)
+        
+        print("UserDefaults.notiScheduledData \(UserDefaults.notiScheduledData)")
+    }
+    
+    func removeWithKey(key: String) {
+        guard var localSchedule = UserDefaults.notiScheduledData
+        else { return }
+        
+        localSchedule.removeValue(forKey: key)
+        
+        self.set(localSchedule, forKey: Configs.UserDefaultsKey.pushPendingDic)
+        
+        print("UserDefaults.removeSchedule \(UserDefaults.notiScheduledData)")
+    }
 }

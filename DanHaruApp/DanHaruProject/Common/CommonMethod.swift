@@ -100,7 +100,7 @@ extension RadHelper {
     }
     
     static var tempraryID: String = {
-        return "DHR" + "\(Date().timestamp)"
+        return "DHR" + "\(Int(TimeInterval(Date().timeIntervalSince1970)))"
     }()
     
     static var isIphoneSE1st: Bool = {

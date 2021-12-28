@@ -28,7 +28,8 @@ extension ViewModelService {
                 guard let detailDataDic = detailData?["detail"] as? NSDictionary else { return }
                 completionHandler(detailDataDic)
             } else {
-                print("is error \(detailData)")
+                print("is error \(detailData?["msg"])")
+                print("is error \(detailData?["code"])")
                 rootVC.hideLoadingView()
             }
             

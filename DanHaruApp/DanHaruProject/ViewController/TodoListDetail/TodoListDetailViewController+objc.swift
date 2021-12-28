@@ -48,9 +48,9 @@ extension TodoListDetailViewController {
                 btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
                 
                 if btn.isSelected {
-                    self.selectedNotiDay.append(btnTag.name())
+                    self.selectedNotiDay.append(btnTag)
                 } else {
-                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag.name() }
+                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag }
                 }
                 
                 
@@ -64,7 +64,7 @@ extension TodoListDetailViewController {
         sender.backgroundColor = sender.isSelected ? .mainColor : .lightGrayColor
         
         if sender.isSelected {
-            self.selectedNotiDay.append(selectedTag.name())
+            self.selectedNotiDay.append(selectedTag)
         } else {
             
             for btn in self.selectedNotiBtnList {
@@ -72,12 +72,13 @@ extension TodoListDetailViewController {
                 if btnTag == .everyday {
                     btn.isSelected = false
                     btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
-                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag.name()}
+                    self.selectedNotiDay = self.selectedNotiDay.filter { $0 != btnTag }
                 }
             }
             
-            self.selectedNotiDay = self.selectedNotiDay.filter { $0 != selectedTag.name() }
+            self.selectedNotiDay = self.selectedNotiDay.filter { $0 != selectedTag }
         }
+        
         self.cycleTimeLabel.isEnabled = self.selectedNotiDay.count > 0
     }
     
@@ -88,11 +89,18 @@ extension TodoListDetailViewController {
         self.detailInfoModel.title = self.titleTextField.text
         self.detailInfoModel.fr_date = self.startDateLabel.text
         self.detailInfoModel.ed_date = self.endDateLabel.text
-        let notiCycle = self.selectedNotiDay.joined(separator: ",")
+        
+        let notiCycle = self.selectedNotiToStringArr().joined(separator: ",")
         self.detailInfoModel.noti_cycle = notiCycle
-        self.detailInfoModel.noti_time = notiCycle.isEmpty ? self.detailInfoModel.noti_time : self.cycleTimeLabel.text
+        self.detailInfoModel.noti_time = self.cycleTimeLabel.text
         
         let isCheck = self.isCheckAuth ? "Y" : "N"
+        self.appendNotificationSchedule()
+        
+        func updateUI() {
+            self.setUIValue()
+            self.setUI()
+        }
         
         if self.isForInviteFriend {
             guard let todoIdx = self.detailInfoModel?.todo_id,
@@ -103,16 +111,15 @@ extension TodoListDetailViewController {
                 self.detailInfoModel.chaluser_yn = "Y"
                 self.detailInfoModel.challange_status = TodoChallStatus.doing.rawValue
                 _ = TodoDetailUpdateViewModel.init(self.detailInfoModel,
-                                                   notiCycle: self.selectedNotiDay.joined(separator: ","),
-                                                   notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "",
+                                                   notiCycle: notiCycle,
+                                                   notiTime: self.cycleTimeLabel.text,
                                                    completionHandler: {
                     _ = TodoDetailViewModel.init(todoIdx, self.detailInfoModel.fr_date!, completionHandler: { model in
                         self.detailInfoModel = model
-                        print("updated model \(model)")
                         self.isForInviteFriend = false
                         self.invitedMemId = nil
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.setUI()
+                            updateUI()
                         }
                         
                     }, errHandler: { Dprint("occur Error \($0)") })
@@ -121,7 +128,7 @@ extension TodoListDetailViewController {
             return
         }
         
-        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: self.selectedNotiDay.joined(separator: ","), notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "") {
+        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: notiCycle, notiTime: self.cycleTimeLabel.text) {
             
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
@@ -130,7 +137,7 @@ extension TodoListDetailViewController {
                     
                     if handler {
                         // 업로드 성공
-                        self.setUI()
+                        updateUI()
                     } else {
                         // 업로드 실패
                         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
@@ -139,7 +146,14 @@ extension TodoListDetailViewController {
                 })
                 
             } else {
-                self.setUI()
+                print("not needed auth,, update ui!")
+                _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
+                    self.detailInfoModel = model
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        updateUI()
+                    }
+                    
+                }, errHandler: { Dprint("occur Error \($0)") })
             }
             
         } errHandler: { Dprint("type \($0)") }

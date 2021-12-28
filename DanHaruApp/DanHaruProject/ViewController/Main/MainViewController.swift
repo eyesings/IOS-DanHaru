@@ -23,13 +23,12 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
     
     var networkView: NetworkErrorView!
     
-    let userNotificationCenter = UNUserNotificationCenter.current()
-    
     var todoListModel: TodoListViewModel!
     
     var selectedDate: String = ""
     var selectedIdxPath: IndexPath!
     var invitedTodoIdx: Int?
+    var openDetailTotoIdx: Int?
     var invitedFriendId: String?
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -113,11 +112,19 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()
         
+        if let _ = self.openDetailTotoIdx {
+            self.apiService(withType: .TodoDetail)
+            self.openDetailTotoIdx = nil
+        }
+        
+        print("default \(UserDefaults.notiScheduledData)")
     }
     
     @objc func reloadUserInfo() {
         self.todoListModel = nil
         self.todoListTableView.reloadData()
+        let tempID = RadHelper.tempraryID
+        _ = UserJoinViewModel.init("\(tempID)@danharu.com", tempID, "1", errHandler: { print("error Occur \($0)") })
     }
     
     @objc
@@ -162,6 +169,8 @@ extension MainViewController: NetworkErrorViewDelegate {
                 todoModelId = todoIdxFromIndexPath
             } else if let todoIdxFromInvite = self.invitedTodoIdx {
                 todoModelId = todoIdxFromInvite
+            } else if let todoIdxFormNoti = self.openDetailTotoIdx {
+                todoModelId = todoIdxFormNoti
             } else {
                 Dprint("model get Error")
                 return

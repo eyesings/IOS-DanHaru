@@ -32,8 +32,12 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             }
         }
         
+        if let selected = self.detailInfoModel.noti_cycle?.components(separatedBy: ",") {
+            var dayAppend: [DetailNotiDayBtnTag] = []
+            selected.forEach { dayAppend.append(DetailNotiDayBtnTag.nameToSelf(val: $0)) }
+            self.selectedNotiDay = dayAppend
+        }
         self.cycleTimeLabel.isEnabled = !self.selectedNotiDay.isEmpty
-        self.selectedNotiDay = self.detailInfoModel?.noti_cycle?.components(separatedBy: ",") ?? []
         
         if let list = self.detailInfoModel?.certification_list {
             
@@ -259,18 +263,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         self.mainScrollView.addSubview(todayAuthCollectionView)
         
         self.mainScrollView.addSubview(inviteFriendBtn)
-        inviteFriendBtn.snp.makeConstraints { make in
-            make.width.height.equalTo(collectionViewHeihgt * 0.4)
-            make.leading.equalTo(self.view).offset(20)
-            make.centerY.equalTo(todayAuthCollectionView)
-            make.trailing.equalTo(todayAuthCollectionView.snp.leading).offset(-10)
-        }
-        
-        todayAuthCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(togetherExplainLabel.snp.bottom)
-            make.trailing.equalTo(self.view)
-            make.height.equalTo(collectionViewHeihgt)
-        }
         
         guard let chalYN = self.detailInfoModel.chaluser_yn, chalYN == "Y" else {
             
@@ -289,6 +281,18 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             return
         }
         
+        inviteFriendBtn.snp.makeConstraints { make in
+            make.width.height.equalTo(collectionViewHeihgt * 0.4)
+            make.leading.equalTo(self.view).offset(20)
+            make.centerY.equalTo(todayAuthCollectionView)
+            make.trailing.equalTo(todayAuthCollectionView.snp.leading).offset(-10)
+        }
+        
+        todayAuthCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(togetherExplainLabel.snp.bottom)
+            make.trailing.equalTo(self.view)
+            make.height.equalTo(collectionViewHeihgt)
+        }
         
         self.mainScrollView.addSubview(notificationStateBtn)
         notificationStateBtn.snp.makeConstraints { make in
@@ -492,6 +496,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             titleTextField.isUserInteractionEnabled = false
             startDateLabel.isUserInteractionEnabled = false
             endDateLabel.isUserInteractionEnabled = false
+            selectedNotiBtnList.forEach { $0.isUserInteractionEnabled = false }
+            cycleTimeLabel.isUserInteractionEnabled = false
         }
         
         // 인증한 이미지가 존재시
@@ -641,12 +647,10 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         setLayoutNotiCircleBtn(with: btn, to: parent, isFirst: isFirst)
         
         // 선택한 반복주기가 있으면 선택 처리
-        if self.selectedNotiDay.count > 0 {
-            for i in 0 ..< self.selectedNotiDay.count {
-                if btn.titleLabel?.text == self.selectedNotiDay[i] {
-                    btn.isSelected = true
-                    btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
-                }
+        self.selectedNotiDay.forEach { tag in
+            if btn.titleLabel?.text == tag.name() {
+                btn.isSelected = true
+                btn.backgroundColor = btn.isSelected ? .mainColor : .lightGrayColor
             }
         }
         
@@ -733,40 +737,67 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         return cell
     }
     
+    func selectedNotiToStringArr() -> [String] {
+        var strArr: [String] = []
+        self.selectedNotiDay.forEach { daySelected in
+            strArr.append(daySelected.name())
+        }
+        return strArr
+    }
     
     /// 푸시 전송 함수
-    func sendNotification(msg: String) {
+    func appendNotificationSchedule() {
+        
+        func makeNotificationBody() -> String {
+            if self.isForInviteFriend || self.detailInfoModel.chaluser_yn?.lowercased() == "y" {
+                return "목표를 달성해요"
+            } else {
+                return "일정을 관리해요."
+            }
+        }
+        
         let notificationContent = UNMutableNotificationContent()
         
         notificationContent.title = "\(self.detailInfoModel.encodedTitle!)"
-        notificationContent.body = "오늘도 단, 하루와 함께 일정을 관리해요. 혹은 목표를 달성해요."
-        
-        var dateComponents = DateComponents()
-        dateComponents.calendar = Calendar.current
-        
-        dateComponents.weekday = 2
-        dateComponents.hour = 10
-        dateComponents.minute = 35
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-        let request = UNNotificationRequest(identifier: "todoid",
-                                            content: notificationContent,
-                                            trigger: trigger)
+        notificationContent.body = "오늘도 단, 하루와 함께 \(makeNotificationBody())"
+        notificationContent.userInfo = ["weblink":"danharu://pushopentodo?todoidx=\(self.detailInfoModel.todo_id!)"]
+        notificationContent.categoryIdentifier = "dismissCategoryID"
         
         
-        let secondRequest = UNNotificationRequest(identifier: "todoid",
-                                            content: notificationContent,
-                                            trigger: trigger)
+        var notiSchedule: [DateComponents] = []
         
-        
-        userNotificationCenter.add(request) { err in
-            print("has err? \(err)")
-            if let error = err { print("Notificaion Error  ", error) }
+        if let timeArr = self.detailInfoModel.noti_time?.components(separatedBy: ":"),
+           let hour = (timeArr.first as NSString?)?.integerValue,
+           let minute = (timeArr.last as NSString?)?.integerValue {
+            
+            var dateComponent = DateComponents()
+            dateComponent.calendar = Calendar.current
+            
+            if self.selectedNotiDay.contains(.everyday) {
+                dateComponent.hour = hour
+                dateComponent.minute = minute
+                notiSchedule.append(dateComponent)
+            } else {
+                self.selectedNotiDay.forEach { selectedDay in
+                    dateComponent.weekday = selectedDay.calendarWeekVal()
+                    dateComponent.hour = hour
+                    dateComponent.minute = minute
+                    notiSchedule.append(dateComponent)
+                }
+            }
         }
-        userNotificationCenter.add(secondRequest) { err in
-            if let error = err { print("Notificaion Error  ", error) }
+        
+        let notiRequestID = "\(UserModel.memberId!)_\(self.detailInfoModel.todo_id!)"
+        UserDefaults.standard.updateNotiSchedule(endDate: self.endDate, notiID: notiRequestID)
+        
+        for (i, dateComponent) in notiSchedule.enumerated() {
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+            let request = UNNotificationRequest(identifier: notiRequestID+"_\(i)",
+                                                content: notificationContent,
+                                                trigger: trigger)
+            self.userNotificationCenter.add(request) { err in
+                if let error = err { print("Notificaion Error  ", error) }
+            }
         }
-        
-        
     }
 }
