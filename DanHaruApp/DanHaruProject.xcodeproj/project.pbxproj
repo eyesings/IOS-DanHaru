@@ -19,14 +19,14 @@
 		828648ED272678C800EA5CAF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 828648EC272678C800EA5CAF /* SnapKit */; };
 		8293DFB8273206D90053FD41 /* BottomSheetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A8B6AF2732060B0035D6A9 /* BottomSheetsViewController.swift */; };
 		8293DFBF273245870053FD41 /* TodoListDetailViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8293DFBE273245870053FD41 /* TodoListDetailViewController+objc.swift */; };
+		829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */; };
 		82A2617A27505B3500CBA4E3 /* BottomSheetsViewController+objc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617927505B3500CBA4E3 /* BottomSheetsViewController+objc.swift */; };
 		82A2617C27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617B27505F8D00CBA4E3 /* BottomSheetsViewController+audio.swift */; };
 		82A2617E2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617D2750606000CBA4E3 /* BottomSheetsViewController+circleTime.swift */; };
 		82A261802750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A2617F2750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift */; };
 		82A261822750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82A261812750622B00CBA4E3 /* BottomSheetsViewController+detailDate.swift */; };
 		82A63A18275F144F0004E684 /* check_black.json in Resources */ = {isa = PBXBuildFile; fileRef = 82A63A17275F144F0004E684 /* check_black.json */; };
-		82A942A7277A8714005DAB54 /* RadFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; };
-		82A942A8277A8714005DAB54 /* RadFramework.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		82A942A6277A834B005DAB54 /* RadFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; };
 		82C553362742250700F35639 /* audio.json in Resources */ = {isa = PBXBuildFile; fileRef = 82C553352742250700F35639 /* audio.json */; };
 		82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CB510E2734C33C009D3170 /* CALayer+Extension.swift */; };
 		B603BC3D27544BCE00994A42 /* idea.json in Resources */ = {isa = PBXBuildFile; fileRef = B603BC3C27544BCE00994A42 /* idea.json */; };
@@ -162,7 +162,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				82A942A8277A8714005DAB54 /* RadFramework.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,11 +322,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				829EF6CF274721AE00B1A4DA /* RadFrameworkPackage in Frameworks */,
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
 				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
+				82A942A6277A834B005DAB54 /* RadFramework.xcframework in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
-				82A942A7277A8714005DAB54 /* RadFramework.xcframework in Frameworks */,
 				B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -850,6 +850,7 @@
 				B6C3FD26272665200046E35A /* Lottie */,
 				B6C3FD2A272665A60046E35A /* SkeletonView */,
 				828648EC272678C800EA5CAF /* SnapKit */,
+				829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */,
 				B6D770DA2766C955001B0566 /* FirebaseMessaging */,
 				B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */,
 			);
@@ -885,6 +886,7 @@
 				B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
+				829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */,
 				B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
@@ -1281,6 +1283,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://gitlab.ileadon.com/IOSDevApp/RadPKGManager_IOS.git";
+			requirement = {
+				branch = RadSPM_Dependency_ji_young;
+				kind = branch;
+			};
+		};
 		B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -1312,6 +1322,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		829EF6CE274721AE00B1A4DA /* RadFrameworkPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 829EF6CD274721AE00B1A4DA /* XCRemoteSwiftPackageReference "RadPKGManager_IOS" */;
+			productName = RadFrameworkPackage;
 		};
 		B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */ = {
 			isa = XCSwiftPackageProductDependency;
