@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 class ServiceExample {
     static func exampleFunc(completionHandler: @escaping (NSDictionary?) -> Void) {
         // URLSession을 통한 서버 통신 후 dictionary(ViewModel Init 가능한 타입) Return

@@ -183,9 +183,9 @@ extension MainViewController: NetworkErrorViewDelegate {
             
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
                 detailVC.detailInfoModel = model
-    
                 if let list = model.certification_list {
                     if list.count > 0 {
+                        /*
                         self.getCertificateImage(list) { images in
                             // 인증 이미지가 있으면
                             detailVC.selectedImage = images
@@ -194,6 +194,21 @@ extension MainViewController: NetworkErrorViewDelegate {
                                 presentDetailVC()
                             }
                         }
+                        */
+                        
+                        self.getCertiAuthFiles(list) { dic in
+                            
+                            // 이미지가 존재시
+                            if (dic["images"] as? [UIImage])?.count ?? 0 > 0 {
+                                guard let images = dic["images"] as? [UIImage] else { print("image nil"); return }
+                                detailVC.selectedImage = images
+                            } else {
+                                // 보이스 존재시
+                            }
+                            
+                        }
+                        
+                        
                     } else {
                         DispatchQueue.main.async {
                             presentDetailVC()
@@ -209,6 +224,81 @@ extension MainViewController: NetworkErrorViewDelegate {
             } errHandler: { showNetworkErrView(type: $0) }
             
         }
+    }
+    
+    func getCertiAuthFiles(_ list: [ChallengeCertiModel], handler: @escaping(_ dic: NSDictionary) -> Void) {
+        
+        for i in 0 ..< list.count {
+            
+            // 인증 리스트에 자신 내역이 존재 한다면
+            if UserModel.memberId == list[i].mem_id {
+                
+                if list[i].certi_img != "" && list[i].certi_voice == nil {
+                    // 이미지 인증
+                    var certiImages: [UIImage]?
+                    
+                    if let certiImageString = list[i].certi_img {
+                        
+                        let certiStrArr = certiImageString.components(separatedBy: ",")
+                        for q in 0 ..< certiStrArr.count {
+                            
+                            RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
+                                if let certiImage = dic?["image"] {
+                                    certiImages?.append(certiImage as! UIImage)
+                                    // 핸들러
+                                    if q + 1 == certiStrArr.count {
+                                        if certiImages?.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                // 핸들러
+                                                let dic: NSDictionary = [
+                                                    "images":certiImages ?? []
+                                                ]
+                                                handler(dic)
+                                            }
+                                        } else {
+                                            // 핸들러
+                                            let dic: NSDictionary = [
+                                                "images":certiImages ?? []
+                                            ]
+                                            handler(dic)
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            } errorHandler: { error in
+                                print("image called failed")
+                            }
+                            
+                            
+                        }
+                        
+                        
+                    } else {
+                        if i + 1 == list.count {
+                            // 핸들러
+                            let dic: NSDictionary = [
+                                "images":certiImages ?? []
+                            ]
+                            handler(dic)
+                        } else {
+                            continue
+                        }
+                    }
+                    
+                    
+                } else if list[i].certi_voice != "" && list[i].certi_img == nil {
+                    // 오디오 인증
+                    
+                    
+                }
+                
+            }
+            
+            
+        }
+        
     }
     
     //FIXME: 인증 이미지 불러오는 함수 수정중
