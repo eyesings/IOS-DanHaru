@@ -64,6 +64,9 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         selectedDate = DateFormatter().korDateString()
         
+        
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -180,20 +183,55 @@ extension MainViewController: NetworkErrorViewDelegate {
                 detailVC.invitedMemId = self.invitedFriendId
                 detailVC.isForInviteFriend = true
             }
-            
+            //FIXME: - 디테일 뷰 조회 및 인증 파일 함수 구현중
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
                 detailVC.detailInfoModel = model
-    
+                print("투두 아이디 \(todoModelId)")
                 if let list = model.certification_list {
                     if list.count > 0 {
-                        self.getCertificateImage(list) { images in
-                            // 인증 이미지가 있으면
-                            detailVC.selectedImage = images
-                            DispatchQueue.main.async {
+                        
+                        self.getCertificateFiles(list) { dic in
+                            
+                            if let images = dic["images"] as? [UIImage] {
+                                // 이미지 파일이 존재시
                                 if images.count > 0 { detailVC.isRegisterAuth = true }
-                                presentDetailVC()
+                                detailVC.selectedImage = images
+                                DispatchQueue.main.async {
+                                    presentDetailVC()
+                                }
+                                
+                            } else if let voice = dic["voice"] {
+                                // 보이스
+                                
+                                
+                            } else {
+                                // 사진, 보이스 가 아닌 경우
+                                if let check = dic["check"] as? String {
+                                    // 단순 체크
+                                    if check.lowercased().contains("y") {
+                                        detailVC.isRegisterAuth = true
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        presentDetailVC()
+                                    }
+                                    
+                                } else if let certi = dic["certi"] as? String {
+                                    // 인증 내역에 자기꺼가 없을 때
+                                    DispatchQueue.main.async {
+                                        presentDetailVC()
+                                    }
+                                    
+                                }
+                                
                             }
+                            
+                            
+                            
+                            
                         }
+                        
+                        
                     } else {
                         DispatchQueue.main.async {
                             presentDetailVC()
@@ -209,6 +247,83 @@ extension MainViewController: NetworkErrorViewDelegate {
             } errHandler: { showNetworkErrView(type: $0) }
             
         }
+    }
+    
+    func getCertificateFiles(_ list:[ChallengeCertiModel], handler: @escaping(_ dic: NSDictionary) -> Void) {
+        
+        for i in 0 ..< list.count {
+            
+            if UserModel.memberId == list[i].mem_id {
+                
+                if let certiImageString = list[i].certi_img {
+                    // 인증 이미지 존재시
+                    var certiImages: [UIImage] = []
+                    
+                    let certiStrArr = certiImageString.components(separatedBy: ",")
+                    for q in 0 ..< certiStrArr.count {
+                        
+                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
+                            if let certiImage = dic?["image"] {
+                                certiImages.append(certiImage as! UIImage)
+                                
+                                if q + 1 == certiStrArr.count {
+                                    /// 불러온 이미지 갯수랑 이미지 파일 이름 갯수가 같으면
+                                    if certiImages.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                            
+                                            let dic: NSDictionary = [
+                                                "images":certiImages
+                                            ]
+                                            
+                                            handler(dic)
+                                        }
+                                    } else {
+                                        
+                                        let dic: NSDictionary = [
+                                            "images":certiImages
+                                        ]
+                                    
+                                        handler(dic)
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        } errorHandler: { error in
+                            print("image called failed")
+                        }
+                        
+                        
+                    }
+                    
+                    
+                } else if let certiVoiceString = list[i].certi_voice {
+                    // 인증 보이스 파일 이름 존재시
+                    
+                    
+                } else {
+                    let dic: NSDictionary = [
+                        "check":"Y"
+                    ]
+                    handler(dic)
+                }
+                
+                
+                
+                
+            } else {
+                // 인증한 내역이 없을 때
+                let dic: NSDictionary = [
+                    "certi":"N"
+                ]
+                handler(dic)
+            }
+            
+        }
+        
+        
     }
     
     //FIXME: 인증 이미지 불러오는 함수 수정중

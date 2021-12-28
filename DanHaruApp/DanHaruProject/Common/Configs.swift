@@ -268,6 +268,7 @@ struct Configs {
         // Detail - Push
         static let subjectTkn = host + "/todo/detail/subject/token"
         static let sendMsg    = host + "/todo/detail/subject/send/push"
+        static let deleteTkn  = host + "/todo/detail/subject/cancel/push"
         
     }
     

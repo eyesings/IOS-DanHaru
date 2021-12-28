@@ -10,6 +10,7 @@ import SnapKit
 import UIKit
 import AVFoundation
 import MessageUI
+import FirebaseMessaging
 
 
 extension TodoListDetailViewController {
@@ -130,7 +131,11 @@ extension TodoListDetailViewController {
                     
                     if handler {
                         // 업로드 성공
-                        self.setUI()
+                        //self.setUI()
+                        self.navigationController?.popViewController()
+                        if let mainVC = RadHelper.getMainViewController() as? MainViewController {
+                            mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
+                        }
                     } else {
                         // 업로드 실패
                         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
@@ -139,7 +144,11 @@ extension TodoListDetailViewController {
                 })
                 
             } else {
-                self.setUI()
+                //self.setUI()
+                self.navigationController?.popViewController()
+                if let mainVC = RadHelper.getMainViewController() as? MainViewController {
+                    mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
+                }
             }
             
         } errHandler: { Dprint("type \($0)") }
@@ -389,23 +398,54 @@ extension TodoListDetailViewController {
     /// 푸시 토큰 허용 및 삭제
     //FIXME: 토큰 삭제 API 추가시 수정 필요
     @objc func changeNotificationState(_ button: UIButton) {
-        let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
-        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                        message: msg,
-                                                        isNeedCancel: true,
-                                                        viewController: self) {
-            
-            
-            
-            if $0 {
-                button.isSelected = !button.isSelected
-                let notiImage = button.isSelected ? UIImage(named: "unmute") : UIImage(named: "mute")
-                button.setImage(notiImage, for: .normal)
+        //let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
+        
+        let isSelected = button.imageView?.image == UIImage(named: "unmute")
+        
+        let msg = isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
+        
+        if isSelected {
+            // 푸시 토큰 삭제
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: msg,
+                                                            isNeedCancel: true,
+                                                            viewController: self) {
+                
+                if $0 {
+                    
+                    let notiImage = isSelected ? UIImage(named: "mute") : UIImage(named: "unmute")
+                    button.setImage(notiImage, for: .normal)
+                    
+                    /// 토큰 삭제
+                    ViewModelService.todoSubjectTokenDeleteService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel.todo_id ?? 0)
+                    UserDefaults.standard.setValue("N", forKey: "\(self.detailInfoModel.todo_id ?? 0)")
+                }
+                
             }
             
-            
-            
+        } else {
+            // 푸시 토큰 등록
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: msg,
+                                                            isNeedCancel: true,
+                                                            viewController: self) {
+                
+                if $0 {
+                   
+                    let notiImage = isSelected ? UIImage(named: "mute") : UIImage(named: "unmute")
+                    button.setImage(notiImage, for: .normal)
+                    
+                    /// 토큰 등록
+                    ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel.todo_id ?? 0)
+                    UserDefaults.standard.setValue("Y", forKey: "\(self.detailInfoModel.todo_id ?? 0)")
+                }
+                
+                
+                
+            }
         }
+        
+        
         
     }
     

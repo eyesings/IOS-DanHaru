@@ -28,6 +28,7 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
 
         // Initialization code
+        /*
         personAuthBtn.isHidden = false
         personAuthBtn.titleLabel?.font = .systemFont(ofSize: 13.0)
         personAuthBtn.titleLabel?.textColor = .customBlackColor
@@ -37,7 +38,8 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
         personAuthBtn.setTitle("재촉하기", for: .normal)
         
         personName.textColor = .customBlackColor
-        
+        */
+        personAuthBtn.isUserInteractionEnabled = false
         self.addSubview(checkImgView)
         checkImgView.isHidden = true
         checkImgView.snp.makeConstraints { make in
@@ -85,7 +87,7 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
         }
         */
         
-        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, self.todoTitle + "에 오셔서 인증해주세요.", self.todoIdx)
+        //ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, self.todoTitle + "에 오셔서 인증해주세요.", self.todoIdx)
         
     }
 }

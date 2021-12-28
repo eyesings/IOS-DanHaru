@@ -19,15 +19,14 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
     }
     //FIXME: 콜렉션 뷰 UI 작성중
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         guard let collectionViewType = DetailCollectionViewTag.init(rawValue: collectionView.tag) else { return UICollectionViewCell() }
-        
+    
         if collectionViewType == .currAuth {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TodoListDetailCollectionViewCell", for: indexPath) as? TodoListDetailCollectionViewCell
             else { return UICollectionViewCell() }
             
-            
             cell.personName.text = ""
+            cell.personAuthBtn.setTitle("", for: .normal)
             cell.todoIdx = self.detailInfoModel?.todo_id ?? 0
             cell.todoTitle = self.titleTextField.text ?? ""
             //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
@@ -39,7 +38,7 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
                 return cell
             }
             
-            return self.createCurrAuthCell(list, indexPath, cell)
+            return createCurrAuthCell(list, indexPath, cell)
         } else if collectionViewType == .imgAuth {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageAuthShowCollectionViewCell", for: indexPath) as? ImageAuthShowCollectionViewCell
             else { return UICollectionViewCell() }

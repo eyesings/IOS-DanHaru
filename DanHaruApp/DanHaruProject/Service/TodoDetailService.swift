@@ -28,7 +28,7 @@ extension ViewModelService {
                 guard let detailDataDic = detailData?["detail"] as? NSDictionary else { return }
                 completionHandler(detailDataDic)
             } else {
-                print("is error \(detailData)")
+                print("is error \(detailData?["msg"])")
                 rootVC.hideLoadingView()
             }
             
@@ -145,17 +145,15 @@ extension ViewModelService {
     /// 토큰 등록 API
     static func todoSubjectTokenService(_ token: String, _ todoIdx: Int) {
         
-        let param: [String:Any] = [:]
-        
         let params = [
             "token":token,
             "topic":"\(todoIdx)"
         ]
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.subjectTkn, parameters: params) { dic in
-            print("성공인가요? \(dic?["msg"])")
+            print("token subject success \(dic)")
         } errorHandler: { error in
-            print("실패인가요? \(error)")
+            print("token subject failed \(error)")
         }
         
     }
@@ -180,5 +178,21 @@ extension ViewModelService {
         
     }
     
+    
+    // 등록 토큰 삭제
+    static func todoSubjectTokenDeleteService(_ token: String, _ todoIdx: Int) {
+        
+        let params = [
+            "token":token,
+            "topic":"\(todoIdx)"
+        ]
+        
+        RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.deleteTkn, parameters: params) { dic in
+            print("성공인가요? \(dic?["msg"])")
+        } errorHandler: { error in
+            print("실패인가요? \(error)")
+        }
+        
+    }
     
 }
