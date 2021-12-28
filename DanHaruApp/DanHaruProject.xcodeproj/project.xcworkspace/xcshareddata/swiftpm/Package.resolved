@@ -110,24 +110,6 @@
         }
       },
       {
-        "package": "importFramework",
-        "repositoryURL": "http://gitlab.ileadon.com/IOSDevApp/pubBinaryFramework.git",
-        "state": {
-          "branch": "master",
-          "revision": "8c9e4e992fc1fed263805b2ac16587ac74187495",
-          "version": null
-        }
-      },
-      {
-        "package": "RadFrameworkPackage",
-        "repositoryURL": "http://gitlab.ileadon.com/IOSDevApp/RadPKGManager_IOS.git",
-        "state": {
-          "branch": "RadSPM_Dependency_ji_young",
-          "revision": "44976fe63c82699d516a71940749d8a242126f12",
-          "version": null
-        }
-      },
-      {
         "package": "SkeletonView",
         "repositoryURL": "https://github.com/Juanpe/SkeletonView.git",
         "state": {

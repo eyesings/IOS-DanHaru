@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import UserNotifications
 
 extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProtocol, CheckDateChangeProtocol, CheckTimeChangeProtocol {
     
@@ -483,6 +484,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         weeklyTableView.isPagingEnabled = true
         weeklyTableView.backgroundColor = .backgroundColor
         weeklyTableView.separatorStyle = .none
+        weeklyTableView.createShadow(CGSize(width: 2, height: 2), 5)
+        weeklyTableView.layer.masksToBounds = false
         
         // 디테일 뷰 작성자가 아니면 수정 못하게 막음
         if UserModel.memberId != self.detailInfoModel.created_user {
@@ -730,4 +733,40 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         return cell
     }
     
+    
+    /// 푸시 전송 함수
+    func sendNotification(msg: String) {
+        let notificationContent = UNMutableNotificationContent()
+        
+        notificationContent.title = "\(self.detailInfoModel.encodedTitle!)"
+        notificationContent.body = "오늘도 단, 하루와 함께 일정을 관리해요. 혹은 목표를 달성해요."
+        
+        var dateComponents = DateComponents()
+        dateComponents.calendar = Calendar.current
+        
+        dateComponents.weekday = 2
+        dateComponents.hour = 10
+        dateComponents.minute = 35
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        let request = UNNotificationRequest(identifier: "todoid",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        
+        let secondRequest = UNNotificationRequest(identifier: "todoid",
+                                            content: notificationContent,
+                                            trigger: trigger)
+        
+        
+        userNotificationCenter.add(request) { err in
+            print("has err? \(err)")
+            if let error = err { print("Notificaion Error  ", error) }
+        }
+        userNotificationCenter.add(secondRequest) { err in
+            if let error = err { print("Notificaion Error  ", error) }
+        }
+        
+        
+    }
 }

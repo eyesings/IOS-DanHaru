@@ -1,0 +1,364 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name RadFramework
+import Foundation
+import LocalAuthentication
+@_exported import RadFramework
+import Swift
+import SystemConfiguration
+import UIKit
+import WebKit
+extension NSObject {
+  public class var reusableIdentifier: Swift.String {
+    get
+  }
+}
+extension WKProcessPool {
+  public static var shared: WebKit.WKProcessPool
+}
+extension String {
+  public func decodeUrl() -> Swift.String?
+  public func encodeUrl() -> Swift.String?
+  public func encodeKorean() -> Foundation.URL?
+}
+extension UIApplication {
+  public class func topViewController(base: UIKit.UIViewController? = UIApplication.shared.windows.first{ $0.isKeyWindow}?.rootViewController) -> UIKit.UIViewController?
+}
+extension Bundle {
+  public class var applicationVersion: Swift.String {
+    get
+  }
+  public class var displayName: Swift.String {
+    get
+  }
+}
+extension UIColor {
+  public func RGB(r: CoreGraphics.CGFloat, g: CoreGraphics.CGFloat, b: CoreGraphics.CGFloat) -> UIKit.UIColor
+}
+@objc @_hasMissingDesignatedInitializers public class RadNetworkErrorViewController : UIKit.UIViewController {
+  public var onTapRefreshButton: () -> Swift.Void
+  @objc dynamic public init()
+  @objc override dynamic public func viewDidLoad()
+  @objc override dynamic public func didReceiveMemoryWarning()
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc deinit
+}
+public typealias ExecFunc = () -> Swift.Void
+public class RadWebUrlController {
+  public var urlControlModel: RadFramework.UrlControlModel
+  public var exterAppType: RadFramework.ExecFunc?
+  public var safariOpenType: RadFramework.ExecFunc?
+  public var appstoreOpenType: RadFramework.ExecFunc?
+  public var internalExceptType: RadFramework.ExecFunc?
+  public var plistName: Swift.String
+  public init(WithUrl url: Foundation.URL, hostCompare: RadFramework.RadEnum.Relation = .Contained, pathCompare: RadFramework.RadEnum.Relation = .Contained, queryCompare: RadFramework.RadEnum.Relation = .Contained, plistName: Swift.String)
+  public func execUrlController(_ noneLinkTypeExecHandler: RadFramework.ExecFunc? = nil)
+  @objc deinit
+}
+@objc public class LeakAvoider : ObjectiveC.NSObject, WebKit.WKScriptMessageHandler {
+  public init(delegate: WebKit.WKScriptMessageHandler)
+  @objc public func userContentController(_ userContentController: WebKit.WKUserContentController, didReceive message: WebKit.WKScriptMessage)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct RadServerNetwork {
+  public init()
+  public static func HTTPArgumentsString(_ params: [Swift.String : Swift.String]) -> Swift.String
+  public static func postDataFromServer(url: Swift.String, type: RadFramework.RadEnum.DataType, successHandler: @escaping (Foundation.NSDictionary?) -> Swift.Void, errorHandler: @escaping (Swift.Error) -> Swift.Void)
+  public static func postDataFromServer(url: Swift.String, type: RadFramework.RadEnum.DataType, parameters: [Swift.String : Any], successHandler: @escaping (Foundation.NSDictionary?) -> Swift.Void, errorHandler: @escaping (Swift.Error) -> Swift.Void)
+  public static func getDataFromServer(url: Swift.String, type: RadFramework.RadEnum.DataType, successHandler: @escaping (Foundation.NSDictionary?) -> Swift.Void, errorHandler: @escaping (Swift.Error) -> Swift.Void)
+  public static func post(_ url: Swift.String!, params: [Swift.String : Swift.String], isJsonProtocol: Swift.Bool = true, Authorization: Swift.String = "", AccessToken: Swift.String = "", completed: @escaping (Swift.Bool, Swift.String?, Swift.AnyObject?) -> ())
+}
+public struct RadHelper {
+  public init()
+  public static func makeString(With stringArray: [Swift.String]) -> Swift.String
+  public static func AES256Decrypt(WithValue value: Swift.String?, baseKey: Swift.String) -> Swift.String
+  public static func AES256Encrypt(WithValue value: Swift.String?, baseKey: Swift.String) -> Swift.String
+  public static func openIphoneSetting()
+  public static var deviceHasNotch: Swift.Bool {
+    get
+  }
+  public static var kStatusBarHeight: Swift.Int {
+    get
+  }
+  public static var kBottomGap: Swift.Int {
+    get
+  }
+  public static func colorFromHex(hex: Swift.String) -> UIKit.UIColor
+  public static func getMainViewController() -> UIKit.UIViewController?
+  public static func getMainViewController(_ resultHandler: @escaping (UIKit.UIViewController?) -> ())
+  public static func getRootViewController() -> UIKit.UIViewController?
+  public static func getRootViewController(_ resultHandler: @escaping (UIKit.UIViewController?) -> ())
+  public static func modalCheck(navigation: UIKit.UINavigationController?, selfViewController: UIKit.UIViewController, presentViewController: UIKit.UIViewController?, tabController: UIKit.UITabBarController?) -> Swift.Bool
+  public static func jailBreakCheck() -> Swift.Bool
+  public static func addChildViewController(childViewController childVc: UIKit.UIViewController?, parentViewController parentVc: UIKit.UIViewController?)
+  public static func removeChildViewControllerFromParent(childViewControler: UIKit.UIViewController?)
+  public static func initPrivacyViewCOntrollerChecked(_ bool: Swift.Bool)
+  public static func initTutorialViewCOntrollerChecked(_ bool: Swift.Bool)
+  public static func isPrivacyViewControllerChecked() -> Swift.Bool
+  public static func isTutorialViewControllerChecked() -> Swift.Bool
+}
+public struct RadAlertViewController {
+  public init()
+  public static func alertControllerShow(WithTitle titl: Swift.String, message msg: Swift.String, isNeedCancel cancel: Swift.Bool, viewController vc: UIKit.UIViewController, completeHandler complete: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func alertControllerShowWithTextField(WithDefaultTxt defaultText: Swift.String?, viewController vc: UIKit.UIViewController, completeHandler: ((Swift.String?) -> Swift.Void)? = nil)
+  public static func basicAlertControllerShow(WithTitle titl: Swift.String, message msg: Swift.String, isNeedCancel cancel: Swift.Bool, viewController vc: UIKit.UIViewController, completeHandler complete: ((Swift.Bool) -> Swift.Void)? = nil)
+  public static func serverChangeShowAlertWithTextField(withUrl url: Swift.String, viewController vc: UIKit.UIViewController, completionHandler: @escaping RadFramework.ExecFunc)
+}
+public struct RadReachability {
+  public init()
+  public static func isConnectedToNetwork() -> Swift.Bool
+}
+public struct FileDownloader {
+  public init()
+  public static func downloadFile(fromUrl url: Swift.String, fileName name: Swift.String = "", completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+  public static func downloadImage(fromUrl url: Swift.String, completionHandler: @escaping (Swift.Bool, UIKit.UIImage) -> Swift.Void)
+}
+public protocol RadNotificationVMDelegate {
+  func resultNotification(With notificationVMDic: [Swift.String : Any])
+}
+public class RadNotificationViewModel {
+  public var notificationRegisterName: Foundation.Notification.Name {
+    get
+  }
+  public var userInfo: Foundation.NSDictionary? {
+    get
+  }
+  public var notificationRegisterObject: Any? {
+    get
+  }
+  public init(WithPost name: Foundation.Notification.Name, object obj: Any? = nil, userInfo info: Foundation.NSDictionary? = nil, delegate dele: RadFramework.RadNotificationVMDelegate)
+  @objc deinit
+}
+public struct UrlControlModel {
+  public var linkType: RadFramework.RadEnum.OutLinkType?
+  public var goToUrl: Foundation.URL!
+}
+extension WKUserContentController {
+  public func addUserContentController(with nameList: [Swift.String], delegate: WebKit.WKScriptMessageHandler)
+  public func removeUserContentController(with nameList: [Swift.String])
+}
+@objc public protocol RadWebViewDelegate {
+  @objc optional func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: Swift.Error)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: Swift.Error)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+  @objc optional func webView(webView: WebKit.WKWebView, didReceiveAuthenticationChallenge challenge: Foundation.URLAuthenticationChallenge, completionHandler: (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+  @objc optional func webView(_ webView: WebKit.WKWebView, decidePolicyForResponse navigationResponse: WebKit.WKNavigationResponse, decisionHandler: @escaping (WebKit.WKNavigationResponsePolicy) -> Swift.Void)
+  @objc func webView(_ webView: WebKit.WKWebView, decidePolicyForAction navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+  @objc optional func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  @objc optional func webViewWebContentProcessDidTerminate(_ webView: WebKit.WKWebView)
+  @objc optional func webView(_ webView: WebKit.WKWebView, createWebViewWith configuration: WebKit.WKWebViewConfiguration, for navigationAction: WebKit.WKNavigationAction, windowFeatures: WebKit.WKWindowFeatures) -> WebKit.WKWebView?
+  @objc func webView(_ webView: WebKit.WKWebView, runJavaScriptAlertPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping () -> Swift.Void)
+  @objc func webView(_ webView: WebKit.WKWebView, runJavaScriptConfirmPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+  @objc func webView(_ webView: WebKit.WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: Swift.String, defaultText: Swift.String?, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping (Swift.String?) -> Swift.Void)
+}
+@objc @_hasMissingDesignatedInitializers public class RadWebView : WebKit.WKWebView {
+  public var delegate: RadFramework.RadWebViewDelegate?
+  public var currWholeUrl: Foundation.URL!
+  public var urlHost: Swift.String?
+  public var currQuery: Swift.String?
+  public init(with userContentController: [Swift.String] = [], userAgent: Swift.String? = nil, delegate: WebKit.WKScriptMessageHandler? = nil)
+  public init(frame: CoreGraphics.CGFloat, configurate config: WebKit.WKWebViewConfiguration)
+  public func loadTestPage()
+  @objc override dynamic public init(frame: CoreGraphics.CGRect, configuration: WebKit.WKWebViewConfiguration)
+  @objc deinit
+}
+extension RadWebView : WebKit.WKNavigationDelegate {
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didStartProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: Swift.Error)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFailProvisionalNavigation navigation: WebKit.WKNavigation!, withError error: Swift.Error)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didReceive challenge: Foundation.URLAuthenticationChallenge, completionHandler: @escaping (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+  public func webView(webView: WebKit.WKWebView, didReceiveAuthenticationChallenge challenge: Foundation.URLAuthenticationChallenge, completionHandler: (Foundation.URLSession.AuthChallengeDisposition, Foundation.URLCredential?) -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationResponse: WebKit.WKNavigationResponse, decisionHandler: @escaping (WebKit.WKNavigationResponsePolicy) -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webViewWebContentProcessDidTerminate(_ webView: WebKit.WKWebView)
+}
+extension RadWebView : WebKit.WKUIDelegate {
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, createWebViewWith configuration: WebKit.WKWebViewConfiguration, for navigationAction: WebKit.WKNavigationAction, windowFeatures: WebKit.WKWindowFeatures) -> WebKit.WKWebView?
+  @objc dynamic public func webViewDidClose(_ webView: WebKit.WKWebView)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, runJavaScriptAlertPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping () -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, runJavaScriptConfirmPanelWithMessage message: Swift.String, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: Swift.String, defaultText: Swift.String?, initiatedByFrame frame: WebKit.WKFrameInfo, completionHandler: @escaping (Swift.String?) -> Swift.Void)
+}
+public struct PushModel {
+  public var body: Swift.String?
+  public var webLink: Swift.String?
+  public var inApp: Swift.Bool?
+}
+public protocol RadPushViewModelProtocol {
+  func pushReceivedWithPushModel(pushModel: RadFramework.RadPushViewModel)
+}
+public class RadPushViewModel {
+  public var pushModel: RadFramework.PushModel
+  public init(WithPushInfo pushInfo: Foundation.NSDictionary, prefix pre: Swift.String = "", delegate dele: RadFramework.RadPushViewModelProtocol)
+  public func pushReceived(_ execFunc: @escaping (Swift.String?) -> Swift.Void)
+  @objc deinit
+}
+public typealias UpdateMSGInfo = (title: Swift.String?, message: Swift.String?)
+public class RadVersionCheck {
+  public var versionChekRst: RadFramework.RadEnum.VersionCheckResult {
+    get
+  }
+  public init(WithCurrentVersion currentVer: Swift.String?, appUpdate update: Swift.Bool, background mode: Swift.Bool, alertMsgInfo msgInfo: RadFramework.UpdateMSGInfo? = nil)
+  public func versionCheckResultExec(completionHandler: RadFramework.ExecFunc? = nil)
+  @objc deinit
+}
+public typealias BtnPostionInfo = (yPositionRatio: CoreGraphics.CGFloat, widthRatio: CoreGraphics.CGFloat, height: CoreGraphics.CGFloat)
+public enum ButtonType {
+  case Full
+  case Small
+  public static func == (a: RadFramework.ButtonType, b: RadFramework.ButtonType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers public class PrivacyCheckViewModelController : UIKit.UIViewController {
+  public init(contentMode mode: UIKit.UIView.ContentMode = .scaleAspectFit)
+  public init(contentMode mode: UIKit.UIView.ContentMode = .scaleAspectFit, btnTitleColor tColor: UIKit.UIColor, btnBGColor bgColor: UIKit.UIColor, buttonType btnType: RadFramework.ButtonType, isCoverIndicator isCover: Swift.Bool, btnPostionInfo posiInfo: RadFramework.BtnPostionInfo? = nil)
+  @objc override dynamic public func viewDidLoad()
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class RadSplashView : UIKit.UIView {
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  convenience public init(WithFrame frame: CoreGraphics.CGRect, splashImg img: Any?, animationDuration duration: Swift.Double, contentMode mode: UIKit.UIView.ContentMode)
+  public func splashImageViewReset(With splashImage: Any?, withDuration duration: Foundation.TimeInterval = 0)
+  public static func isSplashViewExist(_ splashView: RadFramework.RadSplashView?) -> Swift.Bool
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class WarningView {
+  public var message: Swift.String {
+    get
+    set
+  }
+  public static let shared: RadFramework.WarningView
+  public func showAndAutoHide(_ time: Swift.Double = 2.0)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers public class RadTutorialViewController : UIKit.UIViewController, UIKit.UIScrollViewDelegate {
+  public init(contentMode mode: UIKit.UIView.ContentMode = .scaleAspectFill, tutorialViewCnt cnt: Swift.Int, bg bgColor: UIKit.UIColor, titl titlColor: UIKit.UIColor, cover coverBottom: Swift.Bool, height btnHeight: CoreGraphics.CGFloat = 60.0)
+  @objc override dynamic public func viewWillLayoutSubviews()
+  @objc override dynamic public func viewDidLoad()
+  public func changeStartBtnTitle(withTitle title: Swift.String)
+  @objc public func scrollViewWillEndDragging(_ scrollView: UIKit.UIScrollView, withVelocity velocity: CoreGraphics.CGPoint, targetContentOffset: Swift.UnsafeMutablePointer<CoreGraphics.CGPoint>)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc deinit
+}
+public let screenwidth: (CoreGraphics.CGFloat)
+public let screenheight: (CoreGraphics.CGFloat)
+open class RadMessage {
+  public init()
+  public static let title: Swift.String
+  public static let networkReady: Swift.String
+  public static let networkProgress: Swift.String
+  public static let networkError: Swift.String
+  public static let appInstall: Swift.String
+  public static let moveToAppStore: Swift.String
+  public static let failureMsg: Swift.String
+  public static var jailBreakPhone: Swift.String
+  public static var basicTitle: Swift.String
+  public static var pushTitle: Swift.String
+  public static var buttonFalse: Swift.String
+  public static var buttonTrue: Swift.String
+  public static var buttonAllow: Swift.String
+  public static var buttonSetting: Swift.String
+  public static var buttonSave: Swift.String
+  public static var buttonMove: Swift.String
+  public static var buttonClose: Swift.String
+  public static let updateTitle: Swift.String
+  public static let updateMsg: Swift.String
+  public struct UpdateBtnTitle {
+    public static let update: Swift.String
+    public static let laterUpdate: Swift.String
+    public static let exitUpdate: Swift.String
+  }
+  @objc deinit
+}
+open class RadEnum {
+  public init()
+  public enum OutLinkType {
+    case EXTERNAPP
+    case SAFARIOPEN
+    case APPSTOREOPEN
+    case INTERNALEXCEPT
+    case NONE
+    public static func == (a: RadFramework.RadEnum.OutLinkType, b: RadFramework.RadEnum.OutLinkType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Relation {
+    case Equal
+    case Contained
+    public static func == (a: RadFramework.RadEnum.Relation, b: RadFramework.RadEnum.Relation) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum VersionCheckResult {
+    case ForceUpdate
+    case Update
+    case None
+    public static func == (a: RadFramework.RadEnum.VersionCheckResult, b: RadFramework.RadEnum.VersionCheckResult) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum CurrentActionStatus {
+    case None
+    case Logined
+    case AutoLogined
+    case Logout
+    case Payment
+    public static func == (a: RadFramework.RadEnum.CurrentActionStatus, b: RadFramework.RadEnum.CurrentActionStatus) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum ForeGroundStatus : Swift.Int {
+    case None
+    case ForeGround
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum DataType {
+    case JSON
+    case IMAGE
+    public static func == (a: RadFramework.RadEnum.DataType, b: RadFramework.RadEnum.DataType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  @objc deinit
+}
+extension RadFramework.ButtonType : Swift.Equatable {}
+extension RadFramework.ButtonType : Swift.Hashable {}
+extension RadFramework.RadEnum.OutLinkType : Swift.Equatable {}
+extension RadFramework.RadEnum.OutLinkType : Swift.Hashable {}
+extension RadFramework.RadEnum.Relation : Swift.Equatable {}
+extension RadFramework.RadEnum.Relation : Swift.Hashable {}
+extension RadFramework.RadEnum.VersionCheckResult : Swift.Equatable {}
+extension RadFramework.RadEnum.VersionCheckResult : Swift.Hashable {}
+extension RadFramework.RadEnum.CurrentActionStatus : Swift.Equatable {}
+extension RadFramework.RadEnum.CurrentActionStatus : Swift.Hashable {}
+extension RadFramework.RadEnum.ForeGroundStatus : Swift.Equatable {}
+extension RadFramework.RadEnum.ForeGroundStatus : Swift.Hashable {}
+extension RadFramework.RadEnum.ForeGroundStatus : Swift.RawRepresentable {}
+extension RadFramework.RadEnum.DataType : Swift.Equatable {}
+extension RadFramework.RadEnum.DataType : Swift.Hashable {}

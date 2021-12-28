@@ -19,15 +19,6 @@ extension TodoListDetailViewController: UITableViewDataSource, UITableViewDelega
         
         cell.selectionStyle = .none
         
-        cell.backView.layer.borderColor = UIColor.lightGray.cgColor
-        cell.backView.layer.borderWidth = 1
-        cell.backView.layer.shadowColor = UIColor.black.cgColor
-        cell.backView.layer.shadowOpacity = 0.7
-        cell.backView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        cell.backView.layer.shadowRadius = 5
-        cell.backView.backgroundColor = .white
-        
-        
         if indexPath.row >= todoListCellBackGroundColor.count {
             
             cell.weeklyBar.tintColor = todoListCellBackGroundColor[indexPath.row - todoListCellBackGroundColor.count * (indexPath.row / todoListCellBackGroundColor.count)]
