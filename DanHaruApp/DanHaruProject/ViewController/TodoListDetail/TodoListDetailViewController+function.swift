@@ -732,6 +732,20 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     /// 푸시 전송 함수
     func appendNotificationSchedule() {
         
+        if let endDateStr = self.endDateLabel.text,
+           let selectedTime = self.cycleTimeLabel.text?.stringToDate(format: "hh:mm"),
+           let nowTime = Date().dateToStr(format: "hh:mm").stringToDate(format: "hh:mm"),
+           endDateStr == Date().dateToStr() {
+            
+            if (nowTime > selectedTime) {
+                print("알림 등록되면 안됨")
+                return
+            } else {
+                print("등록 필요")
+                return
+            }
+        }
+        
         func makeNotificationBody() -> String {
             if self.isForInviteFriend || self.detailInfoModel.chaluser_yn?.lowercased() == "y" {
                 return "목표를 달성해요"
@@ -772,7 +786,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         }
         
         let notiRequestID = "\(UserModel.memberId!)_\(self.detailInfoModel.todo_id!)"
-        UserDefaults.standard.updateNotiSchedule(endDate: self.endDate, notiID: notiRequestID)
+        UserDefaults.standard.updateNotiSchedule(endDate: self.endDateLabel.text ?? self.endDate, notiID: notiRequestID)
         
         for (i, dateComponent) in notiSchedule.enumerated() {
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)

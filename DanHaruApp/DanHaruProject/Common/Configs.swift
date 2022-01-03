@@ -306,7 +306,7 @@ struct Configs {
         static let deeplinkHost = "danharu://"
         
         struct UniversalLink {
-            static let moveToTodoDetail = URL.deeplinkHost + "pushopentodo"
+            static let moveToTodoDetail = URL.deeplinkHost + "movetododetail"
         }
     }
     

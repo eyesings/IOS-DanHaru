@@ -21,19 +21,17 @@ extension MainViewController: RadPushViewModelProtocol {
             }
         }
         
-        let status = UIApplication.shared.applicationState
-        Dprint("app status \(status.rawValue)")
         
-        if status == .active {
-            
-            if let navi = RadHelper.getRootViewController() as? UINavigationController,
-               !(navi.visibleViewController is MainViewController) {
-                navi.popToMainViewController()
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                
-            }
+        moveToDetailVC()
+    }
+    
+    func moveToDetailVC() {
+        if let navi = RadHelper.getRootViewController() as? UINavigationController,
+           !(navi.visibleViewController is MainViewController) {
+            navi.popToMainViewController()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.apiService(withType: .TodoDetail)
         }
     }
 }

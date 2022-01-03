@@ -54,12 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setCategory.insert(category)
         UNUserNotificationCenter.current().setNotificationCategories(setCategory)
         
-        UNUserNotificationCenter.current().getPendingNotificationRequests { pendingReqList in
-            for pendingReq in pendingReqList {
-                print("pendingReq \(pendingReq)")
-            }
-        }
-        
         return true
     }
     
@@ -96,8 +90,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
         
+        guard let webUrl = userActivity.webpageURL
+        else { print("can not convert to url \(String(describing: userActivity.webpageURL))"); return true }
+        
         //firebase dynamicLink
-        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(webUrl) { (dynamiclink, error) in
             
             if let openLink = dynamiclink?.url {
                 print("openLink:::\(openLink)")

@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import FirebaseDynamicLinks
 import AVFAudio
+import UserNotifications
 
 /// 개발전용 로그
 /// - Parameters:
@@ -140,6 +141,26 @@ extension RadHelper {
     
         DynamicLinkComponents.shortenURL(linkUrl, options: nil) { url, warnings, err in
             completionHandler(url)
+        }
+    }
+    
+    static func updateNotificationSchedule(_ notificationID: String) {
+        let center = UNUserNotificationCenter.current()
+        if let scheduleList = UserDefaults.notiScheduledData {
+            let today = Date().dateToStr()
+            
+            for key in scheduleList.keys {
+                if notificationID.contains("\(key)") && (scheduleList["\(key)"] as? String) == today {
+                    center.getPendingNotificationRequests { pendingReqList in
+                        for pendingReq in pendingReqList {
+                            if pendingReq.identifier.contains("\(key)") {
+                                center.removePendingNotificationRequests(withIdentifiers: [pendingReq.identifier])
+                                UserDefaults.standard.removeWithKey(key: "\(key)")
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

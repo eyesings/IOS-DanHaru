@@ -96,11 +96,11 @@ extension TodoListDetailViewController {
         self.detailInfoModel.noti_time = self.cycleTimeLabel.text
         
         let isCheck = self.isCheckAuth ? "Y" : "N"
-        self.appendNotificationSchedule()
         
         func updateUI() {
             self.setUIValue()
             self.setUI()
+            self.appendNotificationSchedule()
         }
         
         if self.isForInviteFriend {
@@ -139,12 +139,6 @@ extension TodoListDetailViewController {
                     if handler {
                         // 업로드 성공
                         updateUI()
-                        /*
-                         self.navigationController?.popViewController()
-                         if let mainVC = RadHelper.getMainViewController() as? MainViewController {
-                             mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
-                         }
-                         */
                     } else {
                         // 업로드 실패
                         RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
@@ -153,17 +147,17 @@ extension TodoListDetailViewController {
                 })
                 
             } else {
-                //self.setUI()
-//                self.navigationController?.popViewController()
-//                if let mainVC = RadHelper.getMainViewController() as? MainViewController {
-//                    mainVC.requestTodoList(NSNotification(name: Notification.Name.init(rawValue: ""), object: true))
-//                }
                 _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
                     self.detailInfoModel = model
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                               message: RadMessage.AlertView.successUptDetail,
+                                                               isNeedCancel: false,
+                                                               viewController: self) { _ in
                         updateUI()
                     }
-                    
+                    DispatchQueue.main.async {
+                        RadHelper.getRootViewController()?.hideLoadingView()
+                    }
                 }, errHandler: { Dprint("occur Error \($0)") })
             }
             

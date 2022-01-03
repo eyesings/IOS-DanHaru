@@ -80,6 +80,8 @@
 		B622FBB5274214E2002EC735 /* AskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB4274214E2002EC735 /* AskDetailViewController.swift */; };
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
+		B671C362277D4F7200AD1D80 /* RadFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; };
+		B671C363277D4F7200AD1D80 /* RadFramework.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B682101B2733A5CE001F56DD /* CustomToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682101A2733A5CE001F56DD /* CustomToolBar.swift */; };
 		B689496527604CDC0082E0A5 /* NSMutableData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */; };
 		B691EA522773F3F700DB1A79 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B691EA512773F3F700DB1A79 /* SplashView.xib */; };
@@ -104,6 +106,13 @@
 		B6A686D0277A85D8007AC35A /* RadFramework.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B6A686D3277A9B83007AC35A /* MainViewContoller+Push.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A686D2277A9B83007AC35A /* MainViewContoller+Push.swift */; };
 		B6A7BEEA2761D24200300524 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A7BEE92761D24200300524 /* String+Extension.swift */; };
+		B6A81730277BE85200FAA8B4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A8172F277BE85200FAA8B4 /* WidgetKit.framework */; };
+		B6A81732277BE85200FAA8B4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A81731277BE85200FAA8B4 /* SwiftUI.framework */; };
+		B6A81735277BE85200FAA8B4 /* danharuWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A81734277BE85200FAA8B4 /* danharuWidget.swift */; };
+		B6A81738277BE85200FAA8B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A81737277BE85200FAA8B4 /* Assets.xcassets */; };
+		B6A8173A277BE85200FAA8B4 /* danharuWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B6A81736277BE85200FAA8B4 /* danharuWidget.intentdefinition */; };
+		B6A8173B277BE85200FAA8B4 /* danharuWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = B6A81736277BE85200FAA8B4 /* danharuWidget.intentdefinition */; };
+		B6A8173E277BE85200FAA8B4 /* danharuWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B6A8172E277BE85200FAA8B4 /* danharuWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */ = {isa = PBXBuildFile; productRef = B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */; };
 		B6AEAF2A2734A304004727F6 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */; };
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
@@ -156,7 +165,28 @@
 		B6F6ED292734F9AE00A4C88E /* TodoListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6F6ED282734F9AE00A4C88E /* TodoListTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		B6A8173C277BE85200FAA8B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6C3FCA4272661560046E35A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B6A8172D277BE85200FAA8B4;
+			remoteInfo = danharuWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		B671C364277D4F7200AD1D80 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B671C363277D4F7200AD1D80 /* RadFramework.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6A686D1277A85D8007AC35A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,6 +196,17 @@
 				B6A686D0277A85D8007AC35A /* RadFramework.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6A8173F277BE85200FAA8B4 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B6A8173E277BE85200FAA8B4 /* danharuWidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -266,6 +307,14 @@
 		B6A41CE0273CF6EB007625D6 /* ChallengeCollectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectViewModel.swift; sourceTree = "<group>"; };
 		B6A686D2277A9B83007AC35A /* MainViewContoller+Push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewContoller+Push.swift"; sourceTree = "<group>"; };
 		B6A7BEE92761D24200300524 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		B6A8172E277BE85200FAA8B4 /* danharuWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = danharuWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6A8172F277BE85200FAA8B4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B6A81731277BE85200FAA8B4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B6A81734277BE85200FAA8B4 /* danharuWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = danharuWidget.swift; sourceTree = "<group>"; };
+		B6A81736277BE85200FAA8B4 /* danharuWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = danharuWidget.intentdefinition; sourceTree = "<group>"; };
+		B6A81737277BE85200FAA8B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6A81739277BE85200FAA8B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6A81743277BE9E100FAA8B4 /* danharuWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = danharuWidgetExtension.entitlements; sourceTree = "<group>"; };
 		B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAuthShowCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -321,6 +370,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B6A8172B277BE85200FAA8B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6A81732277BE85200FAA8B4 /* SwiftUI.framework in Frameworks */,
+				B671C362277D4F7200AD1D80 /* RadFramework.xcframework in Frameworks */,
+				B6A81730277BE85200FAA8B4 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6C3FCA9272661570046E35A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -615,10 +674,23 @@
 			path = HomeRoot;
 			sourceTree = "<group>";
 		};
+		B6A81733277BE85200FAA8B4 /* danharuWidget */ = {
+			isa = PBXGroup;
+			children = (
+				B6A81734277BE85200FAA8B4 /* danharuWidget.swift */,
+				B6A81736277BE85200FAA8B4 /* danharuWidget.intentdefinition */,
+				B6A81737277BE85200FAA8B4 /* Assets.xcassets */,
+				B6A81739277BE85200FAA8B4 /* Info.plist */,
+			);
+			path = danharuWidget;
+			sourceTree = "<group>";
+		};
 		B6AAE94F2768863D00B5535A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				82A942A5277A834B005DAB54 /* RadFramework.xcframework */,
+				B6A8172F277BE85200FAA8B4 /* WidgetKit.framework */,
+				B6A81731277BE85200FAA8B4 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -694,7 +766,9 @@
 		B6C3FCA3272661560046E35A = {
 			isa = PBXGroup;
 			children = (
+				B6A81743277BE9E100FAA8B4 /* danharuWidgetExtension.entitlements */,
 				B6C3FCAE272661570046E35A /* DanHaruProject */,
+				B6A81733277BE85200FAA8B4 /* danharuWidget */,
 				B6C3FCAD272661570046E35A /* Products */,
 				B6AAE94F2768863D00B5535A /* Frameworks */,
 			);
@@ -704,6 +778,7 @@
 			isa = PBXGroup;
 			children = (
 				B6C3FCAC272661570046E35A /* DanHaruProject.app */,
+				B6A8172E277BE85200FAA8B4 /* danharuWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -835,6 +910,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B6A8172D277BE85200FAA8B4 /* danharuWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6A81742277BE85200FAA8B4 /* Build configuration list for PBXNativeTarget "danharuWidgetExtension" */;
+			buildPhases = (
+				B6A8172A277BE85200FAA8B4 /* Sources */,
+				B6A8172B277BE85200FAA8B4 /* Frameworks */,
+				B6A8172C277BE85200FAA8B4 /* Resources */,
+				B671C364277D4F7200AD1D80 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = danharuWidgetExtension;
+			productName = danharuWidgetExtension;
+			productReference = B6A8172E277BE85200FAA8B4 /* danharuWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B6C3FCAB272661570046E35A /* DanHaruProject */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6C3FCC0272661580046E35A /* Build configuration list for PBXNativeTarget "DanHaruProject" */;
@@ -843,10 +936,12 @@
 				B6C3FCA9272661570046E35A /* Frameworks */,
 				B6C3FCAA272661570046E35A /* Resources */,
 				B6A686D1277A85D8007AC35A /* Embed Frameworks */,
+				B6A8173F277BE85200FAA8B4 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B6A8173D277BE85200FAA8B4 /* PBXTargetDependency */,
 			);
 			name = DanHaruProject;
 			packageProductDependencies = (
@@ -866,9 +961,12 @@
 		B6C3FCA4272661560046E35A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
+				LastSwiftUpdateCheck = 1320;
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
+					B6A8172D277BE85200FAA8B4 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					B6C3FCAB272661570046E35A = {
 						CreatedOnToolsVersion = 12.3;
 					};
@@ -895,11 +993,20 @@
 			projectRoot = "";
 			targets = (
 				B6C3FCAB272661570046E35A /* DanHaruProject */,
+				B6A8172D277BE85200FAA8B4 /* danharuWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B6A8172C277BE85200FAA8B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6A81738277BE85200FAA8B4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6C3FCAA272661570046E35A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -939,6 +1046,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B6A8172A277BE85200FAA8B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6A8173A277BE85200FAA8B4 /* danharuWidget.intentdefinition in Sources */,
+				B6A81735277BE85200FAA8B4 /* danharuWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6C3FCA8272661570046E35A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1053,11 +1169,20 @@
 				B6B2DEAB2755E506001360E7 /* NetworkErrorView.swift in Sources */,
 				82335D8E272BC5C00004FA51 /* TodoListDetailViewController.swift in Sources */,
 				B6F6ED142734F89D00A4C88E /* TodoListTableViewCell.swift in Sources */,
+				B6A8173B277BE85200FAA8B4 /* danharuWidget.intentdefinition in Sources */,
 				B6166BF6274C7EB900C04898 /* Const.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B6A8173D277BE85200FAA8B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B6A8172D277BE85200FAA8B4 /* danharuWidgetExtension */;
+			targetProxy = B6A8173C277BE85200FAA8B4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		B6C3FCB5272661570046E35A /* MainViewController.storyboard */ = {
@@ -1081,6 +1206,70 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		B6A81740277BE85200FAA8B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = danharuWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69J4V4ULVW;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = danharuWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = danharuWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.radcns.DanHaruProject.danharuWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B6A81741277BE85200FAA8B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = danharuWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 69J4V4ULVW;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = danharuWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = danharuWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.co.radcns.DanHaruProject.danharuWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		B6C3FCBE272661580046E35A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1202,6 +1391,7 @@
 		B6C3FCC1272661580046E35A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DanHaruProject/DanHaruProject.entitlements;
@@ -1231,9 +1421,11 @@
 		B6C3FCC2272661580046E35A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DanHaruProject/DanHaruProject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 69J4V4ULVW;
@@ -1249,6 +1441,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = kr.co.radcns.DanHaruProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/DanHaruProject/Resource/DanHaru-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1258,6 +1451,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B6A81742277BE85200FAA8B4 /* Build configuration list for PBXNativeTarget "danharuWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6A81740277BE85200FAA8B4 /* Debug */,
+				B6A81741277BE85200FAA8B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B6C3FCA7272661560046E35A /* Build configuration list for PBXProject "DanHaruProject" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

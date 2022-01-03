@@ -35,9 +35,6 @@ extension ViewModelService {
             
         } errorHandler: { err in
             Dprint("err \(err)")
-            DispatchQueue.main.async {
-                rootVC.hideLoadingView()
-            }
             errorHandler(.TodoDetail)
         }
 
@@ -58,10 +55,8 @@ extension ViewModelService {
             } else {
                 completionHandler(false)
             }
-            rootVC.hideLoadingView()
         } errorHandler: { error in
             Dprint("error \(error)")
-            rootVC.hideLoadingView()
             errorHandler(.TodoUpdate)
         }
 
@@ -99,10 +94,6 @@ extension ViewModelService {
     //FIXME: 인증 수단 등록 서비스
     static func TodoCreateCertificateService(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: AVAudioRecorder?, successHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
-        guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
-        rootVC.showLoadingView()
-        
-    
         var uploadType = ""
         
         var param: [String:Any] = [:]
@@ -133,11 +124,8 @@ extension ViewModelService {
             print("메시지 :: \(msg)")
             
             successHandler(true)
-            
-            rootVC.hideLoadingView()
         } errorHandler: { error in
             print("error \(error)")
-            rootVC.hideLoadingView()
             errorHandler(.TodoCreateCertification)
         }
 
