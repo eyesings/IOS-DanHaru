@@ -161,8 +161,6 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
         
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
-        
-        
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()
         

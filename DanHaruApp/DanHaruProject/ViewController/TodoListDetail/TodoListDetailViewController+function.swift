@@ -148,7 +148,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.top.equalTo(cycleTimeLabel.snp.bottom).offset(25)
             make.leading.height.equalTo(durationTitleLabel)
         }
-        
+        /*
         let authPadding = screenwidth * 0.08
         self.mainScrollView.addSubview(authAudioBtn)
         authAudioBtn.snp.makeConstraints { make in
@@ -168,6 +168,20 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         authCheckBtn.snp.makeConstraints { make in
             make.top.width.height.equalTo(self.authAudioBtn)
             make.leading.equalTo(self.authAudioBtn.snp.trailing).offset(authPadding)
+        }
+        */
+        let authPadding = screenwidth * 0.08
+        self.mainScrollView.addSubview(authImageBtn)
+        authImageBtn.snp.makeConstraints { make in
+            make.top.equalTo(authTitleLable.snp.bottom).offset(20)
+            make.height.width.equalTo(self.view.frame.width * 0.2)
+            make.leading.equalTo(self.view).offset(self.view.frame.width * 0.26)
+        }
+        
+        self.mainScrollView.addSubview(authCheckBtn)
+        authCheckBtn.snp.makeConstraints { make in
+            make.top.width.height.equalTo(self.authImageBtn)
+            make.leading.equalTo(self.authImageBtn.snp.trailing).offset(authPadding)
         }
         
         self.mainScrollView.addSubview(authRegiArea)
@@ -302,8 +316,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         sendPushBtn.snp.makeConstraints { make in
             make.centerY.equalTo(notificationStateBtn)
             make.trailing.equalTo(self.view).offset(-10)
-            make.height.equalTo(notificationStateBtn)
-            make.width.equalTo(self.view).multipliedBy(0.25)
+            make.height.equalTo(self.view.frame.width * 0.15)
+            make.width.equalTo(self.view).multipliedBy(0.15)
         }
         
         self.mainScrollView.addSubview(weeklyTitleLabel)
@@ -483,16 +497,13 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         notificationStateBtn.addTarget(self, action: #selector(changeNotificationState), for: .touchUpInside)
         
         //FIXME: 푸시 보내기 버튼 수정중
-        /*
-        sendPushBtn.setTitle("재촉하기", for: .normal)
-        sendPushBtn.setTitleColor(.black, for: .normal)
-        sendPushBtn.layer.borderColor = UIColor.black.cgColor
-        sendPushBtn.layer.borderWidth = 0.8
-        sendPushBtn.layer.cornerRadius = 10
-        sendPushBtn.titleLabel?.adjustsFontSizeToFitWidth = true
-        */
+        if self.detailInfoModel.created_user != UserModel.memberId {
+            sendPushBtn.isHidden = true
+        }
         sendPushBtn.setImage(UIImage(named: "btnSendPush"), for: .normal)
         sendPushBtn.imageView?.contentMode = .scaleAspectFit
+        sendPushBtn.addTarget(self, action: #selector(sendPushButtonAction(_:)), for: .touchUpInside)
+        
         
         // 위클리 리포트 라벨
         weeklyTitleLabel.text = "위클리 리포트"
@@ -515,6 +526,10 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             titleTextField.isUserInteractionEnabled = false
             startDateLabel.isUserInteractionEnabled = false
             endDateLabel.isUserInteractionEnabled = false
+            for i in 0 ..< self.selectedNotiBtnList.count {
+                self.selectedNotiBtnList[i].isUserInteractionEnabled = false
+            }
+            cycleTimeLabel.isUserInteractionEnabled = false
         }
     
     }

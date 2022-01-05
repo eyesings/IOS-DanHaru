@@ -123,7 +123,6 @@ extension TodoListDetailViewController {
         }
         
         _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: self.selectedNotiDay.joined(separator: ","), notiTime: self.selectedNotiDay.count > 0 ? self.cycleTimeLabel.text : "") {
-            
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
             if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
@@ -152,9 +151,6 @@ extension TodoListDetailViewController {
             }
             
         } errHandler: { Dprint("type \($0)") }
-        
-        
-        
         
     }
     
@@ -396,7 +392,6 @@ extension TodoListDetailViewController {
     }
     
     /// 푸시 토큰 허용 및 삭제
-    //FIXME: 토큰 삭제 API 추가시 수정 필요
     @objc func changeNotificationState(_ button: UIButton) {
         //let msg = button.isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
         
@@ -444,9 +439,11 @@ extension TodoListDetailViewController {
                 
             }
         }
-        
-        
-        
+
+    }
+    
+    @objc func sendPushButtonAction(_ sender: UIButton) {
+        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(self.titleText)' 에서 인증을 해주세요.", self.detailInfoModel.todo_id ?? 0)
     }
     
 }

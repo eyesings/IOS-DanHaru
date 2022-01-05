@@ -119,19 +119,22 @@ extension ViewModelService {
             uploadType = "C"
             param["certi_check"] = certi_check
         }
-        
+        //FIXME: 성공 여부 체크 로직 추가해야함
         RadServerNetwork.postMultipartDataFromServer(url: Configs.API.createCerti, parameters: param, isUploadType: uploadType) { dic in
             
-            print("뭐야 \(dic)")
-        
-            let detail = dic?["detail"] as? NSDictionary
+            let status_code = dic?["status_code"] as? String
             
-            let msg = dic?["msg"] as? String
+            guard let status_code = status_code else {
+                print("certi create status_code nil error")
+                return
+            }
             
-            print("디테일 :: \(detail)")
-            print("메시지 :: \(msg)")
+            if status_code == APIResultCode.success.rawValue {
+                successHandler(true)
+            } else {
+                errorHandler(.TodoCreateCertification)
+            }
             
-            successHandler(true)
             
             rootVC.hideLoadingView()
         } errorHandler: { error in
@@ -139,7 +142,8 @@ extension ViewModelService {
             rootVC.hideLoadingView()
             errorHandler(.TodoCreateCertification)
         }
-
+        
+        
     }
     
     /// 토큰 등록 API
@@ -168,9 +172,9 @@ extension ViewModelService {
         ]
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url:Configs.API.sendMsg, parameters:param) { dic in
-            print("성공인데요?? \(dic)")
+            print("send Push successed \(dic)")
         } errorHandler: { error in
-            print("실패인데요?? \(error)")
+            print("send Push failed \(error)")
         }
         
         
@@ -188,9 +192,9 @@ extension ViewModelService {
         ]
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.deleteTkn, parameters: params) { dic in
-            print("성공인가요? \(dic?["msg"])")
+            print("push token delete successed \(dic?["msg"])")
         } errorHandler: { error in
-            print("실패인가요? \(error)")
+            print("push token delete failed \(error)")
         }
         
     }

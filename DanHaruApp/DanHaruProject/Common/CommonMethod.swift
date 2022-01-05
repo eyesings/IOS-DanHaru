@@ -273,7 +273,6 @@ extension RadServerNetwork {
                 
                 //error 일경우 종료
                 guard error == nil && data != nil else {
-                    
                     if let err = error { Dprint(err.localizedDescription) }
                     return
                 }
@@ -285,11 +284,11 @@ extension RadServerNetwork {
                         let dic = NSDictionary(dictionary: ["image":image])
                         successHandler(dic)
                     } else {
-                        successHandler(nil)
+                        let dic = NSDictionary(dictionary: ["data":_data])
+                        successHandler(dic)
                     }
                     
-                    
-                }else{
+                } else {
                     Dprint("data nil")
                     successHandler(nil)
                 }
