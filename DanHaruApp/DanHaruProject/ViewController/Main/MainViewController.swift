@@ -203,7 +203,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                         self.getCertificateFiles(list) { dic in
                             if let images = dic["images"] as? [UIImage] {
                                 // 이미지 파일이 존재시
-                                if images.count > 0 { detailVC.isRegisterAuth = true }
+                                if images.count > 0 { detailVC.isRegisterAuth = true; detailVC.aleadyRegisterAuth = true }
                                 detailVC.selectedImage = images
                                 DispatchQueue.main.async {
                                     presentDetailVC()
@@ -221,6 +221,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                                     // 단순 체크
                                     if check.lowercased().contains("y") {
                                         detailVC.isRegisterAuth = true
+                                        detailVC.aleadyRegisterAuth = true
                                     }
                                     
                                     DispatchQueue.main.async {

@@ -103,6 +103,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 전체 인증 수단 체크
     var isRegisterAuth = false
     
+    // 인증 내역 중첩 등록 방지 변수
+    var aleadyRegisterAuth = false
+    
     // 단순 체크 인증 수단 체크
     var isCheckAuth = false
     

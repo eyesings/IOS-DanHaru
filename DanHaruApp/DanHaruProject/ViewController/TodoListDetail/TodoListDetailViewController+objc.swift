@@ -134,19 +134,42 @@ extension TodoListDetailViewController {
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
             if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
-                _ = TodoCreateCertificateViewModel.init(self.detailInfoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
+                // 인증 등록 중첩 방지
+                if !self.aleadyRegisterAuth {
+                    _ = TodoCreateCertificateViewModel.init(self.detailInfoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
+                        
+                        if handler {
+                            // 업로드 성공
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                updateUI()
+                            }
+                        } else {
+                            // 업로드 실패
+                            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
+                        }
+                        
+                    })
                     
-                    if handler {
-                        // 업로드 성공
-                        updateUI()
-                    } else {
-                        // 업로드 실패
-                        RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
-                    }
+                } else {
                     
-                })
+                    _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
+                        self.detailInfoModel = model
+                        RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                                   message: RadMessage.AlertView.successUptDetail,
+                                                                   isNeedCancel: false,
+                                                                   viewController: self) { _ in
+                            updateUI()
+                        }
+                        DispatchQueue.main.async {
+                            RadHelper.getRootViewController()?.hideLoadingView()
+                        }
+                    }, errHandler: { Dprint("occur Error \($0)") })
+                    
+                }
+                
                 
             } else {
+                
                 _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
                     self.detailInfoModel = model
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
@@ -162,9 +185,6 @@ extension TodoListDetailViewController {
             }
             
         } errHandler: { Dprint("type \($0)") }
-        
-        
-        
         
     }
     
@@ -454,8 +474,12 @@ extension TodoListDetailViewController {
                 
             }
         }
+    
+    }
+    
+    @objc func sendPushButtonAction(_ sender: UIButton) {
         
-        
+        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(self.titleText)' 에서 인증을 해주세요.", self.detailInfoModel.todo_id ?? 0)
         
     }
     
