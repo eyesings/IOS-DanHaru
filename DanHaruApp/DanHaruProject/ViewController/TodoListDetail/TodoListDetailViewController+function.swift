@@ -732,16 +732,14 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     /// 푸시 전송 함수
     func appendNotificationSchedule() {
         
+        let timeFormmat = RadMessage.DateFormattor.timeDate
         if let endDateStr = self.endDateLabel.text,
-           let selectedTime = self.cycleTimeLabel.text?.stringToDate(format: "hh:mm"),
-           let nowTime = Date().dateToStr(format: "hh:mm").stringToDate(format: "hh:mm"),
+           let selectedTime = self.cycleTimeLabel.text?.stringToDate(format: timeFormmat),
+           let nowTime = Date().dateToStr(format: timeFormmat).stringToDate(format: timeFormmat),
            endDateStr == Date().dateToStr() {
             
             if (nowTime > selectedTime) {
                 print("알림 등록되면 안됨")
-                return
-            } else {
-                print("등록 필요")
                 return
             }
         }

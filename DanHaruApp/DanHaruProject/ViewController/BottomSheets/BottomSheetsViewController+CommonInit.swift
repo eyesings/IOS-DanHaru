@@ -21,7 +21,7 @@ extension BottomSheetsViewController {
         }
         datePicker.setDate(preDate.stringToDate() ?? Date(), animated: false)
         if self.bottomViewType == .cycleTime {
-            datePicker.setDate(selectedTime.stringToDate(format: "HH:mm") ?? Date(), animated: false)
+            datePicker.setDate(selectedTime.stringToDate(format: RadMessage.DateFormattor.timeDate) ?? Date(), animated: false)
         }
         
         self.bottomSheetView.addSubview(datePicker)
