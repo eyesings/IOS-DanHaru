@@ -40,9 +40,11 @@ extension MainViewController {
               let todoidxStr = notiInfoArr["todoidx"] as? String else { return }
         
         self.invitedTodoIdx = Int(todoidxStr)
-        self.invitedFriendId = custId
+        if let loginId = UserModel.memberId, loginId != custId {
+            self.invitedFriendId = custId
+        }
         
-        self.apiService(withType: .TodoDetail)
+        moveToDetailVC()
     }
     
 }

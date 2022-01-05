@@ -29,14 +29,12 @@ extension ViewModelService {
                 completionHandler(detailDataDic)
             } else {
                 print("is error \(detailData?["msg"])")
+                print("is error \(detailData?["code"])")
                 rootVC.hideLoadingView()
             }
             
         } errorHandler: { err in
             Dprint("err \(err)")
-            DispatchQueue.main.async {
-                rootVC.hideLoadingView()
-            }
             errorHandler(.TodoDetail)
         }
 
@@ -57,10 +55,8 @@ extension ViewModelService {
             } else {
                 completionHandler(false)
             }
-            rootVC.hideLoadingView()
         } errorHandler: { error in
             Dprint("error \(error)")
-            rootVC.hideLoadingView()
             errorHandler(.TodoUpdate)
         }
 
@@ -98,10 +94,6 @@ extension ViewModelService {
     //FIXME: 인증 수단 등록 서비스
     static func TodoCreateCertificateService(_ todoIdx: Int,_ memId: String, _ certi_check: String?, _ certi_img_file: [UIImage]?, _ certi_voice_file: AVAudioRecorder?, successHandler: @escaping (Bool) -> Void, errorHandler: @escaping (APIType) -> Void) {
         
-        guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
-        rootVC.showLoadingView()
-        
-    
         var uploadType = ""
         
         var param: [String:Any] = [:]
@@ -119,31 +111,24 @@ extension ViewModelService {
             uploadType = "C"
             param["certi_check"] = certi_check
         }
-        //FIXME: 성공 여부 체크 로직 추가해야함
+        
         RadServerNetwork.postMultipartDataFromServer(url: Configs.API.createCerti, parameters: param, isUploadType: uploadType) { dic in
             
-            let status_code = dic?["status_code"] as? String
+            print("뭐야 \(dic)")
+        
+            let detail = dic?["detail"] as? NSDictionary
             
-            guard let status_code = status_code else {
-                print("certi create status_code nil error")
-                return
-            }
+            let msg = dic?["msg"] as? String
             
-            if status_code == APIResultCode.success.rawValue {
-                successHandler(true)
-            } else {
-                errorHandler(.TodoCreateCertification)
-            }
+            print("디테일 :: \(detail)")
+            print("메시지 :: \(msg)")
             
-            
-            rootVC.hideLoadingView()
+            successHandler(true)
         } errorHandler: { error in
             print("error \(error)")
-            rootVC.hideLoadingView()
             errorHandler(.TodoCreateCertification)
         }
-        
-        
+
     }
     
     /// 토큰 등록 API
@@ -172,9 +157,9 @@ extension ViewModelService {
         ]
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url:Configs.API.sendMsg, parameters:param) { dic in
-            print("send Push successed \(dic)")
+            print("성공인데요?? \(dic)")
         } errorHandler: { error in
-            print("send Push failed \(error)")
+            print("실패인데요?? \(error)")
         }
         
         
@@ -192,9 +177,9 @@ extension ViewModelService {
         ]
         
         RadServerNetwork.postDicDataFromServerNeedAuth(url: Configs.API.deleteTkn, parameters: params) { dic in
-            print("push token delete successed \(dic?["msg"])")
+            print("성공인가요? \(dic?["msg"])")
         } errorHandler: { error in
-            print("push token delete failed \(error)")
+            print("실패인가요? \(error)")
         }
         
     }

@@ -73,8 +73,7 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     let weeklyTableView = UITableView()
     
     //클릭 요일
-    var selectedNotiDay: [String] = []
-    var _selectedNotiDay: [DetailNotiDayBtnTag] = []
+    var selectedNotiDay: [DetailNotiDayBtnTag] = []
     
     // 메인 스크롤 뷰
     let mainScrollView = UIScrollView()

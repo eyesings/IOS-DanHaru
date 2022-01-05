@@ -25,8 +25,8 @@ extension UINavigationController {
     }
     
     func popToMainViewController() {
-        self.setToolbarHidden(false, animated: true)
         self.popToRootViewController(animated: true)
+        self.setToolbarHidden(false, animated: true)
     }
 }
 
