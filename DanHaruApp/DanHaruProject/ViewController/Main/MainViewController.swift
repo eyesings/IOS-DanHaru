@@ -9,6 +9,8 @@ import UIKit
 import Lottie
 import SnapKit
 import SkeletonView
+import AVFAudio
+import AVFoundation
 
 class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
@@ -210,14 +212,14 @@ extension MainViewController: NetworkErrorViewDelegate {
                         detailVC.invitedMemId = nil
                     }
                 }
+                
                 if let list = model.certification_list {
                     if list.count > 0 {
                         
                         self.getCertificateFiles(list) { dic in
-                            
                             if let images = dic["images"] as? [UIImage] {
                                 // 이미지 파일이 존재시
-                                if images.count > 0 { detailVC.isRegisterAuth = true }
+                                if images.count > 0 { detailVC.isRegisterAuth = true; detailVC.aleadyRegisterAuth = true }
                                 detailVC.selectedImage = images
                                 DispatchQueue.main.async {
                                     presentDetailVC()
@@ -225,7 +227,9 @@ extension MainViewController: NetworkErrorViewDelegate {
                                 
                             } else if let voice = dic["voice"] {
                                 // 보이스
-                                
+                                DispatchQueue.main.async {
+                                    presentDetailVC()
+                                }
                                 
                             } else {
                                 // 사진, 보이스 가 아닌 경우
@@ -233,6 +237,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                                     // 단순 체크
                                     if check.lowercased().contains("y") {
                                         detailVC.isRegisterAuth = true
+                                        detailVC.aleadyRegisterAuth = true
                                     }
                                     
                                     DispatchQueue.main.async {
@@ -248,9 +253,6 @@ extension MainViewController: NetworkErrorViewDelegate {
                                 }
                                 
                             }
-                            
-                            
-                            
                             
                         }
                         
@@ -272,12 +274,12 @@ extension MainViewController: NetworkErrorViewDelegate {
         }
     }
     
+    /// 인증 파일 가져오는 함수
     func getCertificateFiles(_ list:[ChallengeCertiModel], handler: @escaping(_ dic: NSDictionary) -> Void) {
-        
+        var checkArray: Array<Int> = []
         for i in 0 ..< list.count {
             
             if UserModel.memberId == list[i].mem_id {
-                
                 if let certiImageString = list[i].certi_img {
                     // 인증 이미지 존재시
                     var certiImages: [UIImage] = []
@@ -324,9 +326,32 @@ extension MainViewController: NetworkErrorViewDelegate {
                     
                 } else if let certiVoiceString = list[i].certi_voice {
                     // 인증 보이스 파일 이름 존재시
+                    /*
+                    RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiVoiceString)") { dic in
+                        
+                        if let data = dic?["data"] as? Data {
+                            do {
+                                
+                                let player = try AVAudioPlayer(data: data)
+                                player.prepareToPlay()
+                                player.volume = 1.0
+                                player.play()
+                                
+                            } catch {
+                                print("failed to player create \(error)")
+                            }
+                            
+                        }
+                        
+                        
+                    } errorHandler: { error in
+                        print("audio api called failed \(error)")
+                    }
+                    */
                     
                     
                 } else {
+                    // 단순인증
                     let dic: NSDictionary = [
                         "check":"Y"
                     ]
@@ -338,78 +363,21 @@ extension MainViewController: NetworkErrorViewDelegate {
                 
             } else {
                 // 인증한 내역이 없을 때
-                let dic: NSDictionary = [
-                    "certi":"N"
-                ]
-                handler(dic)
-            }
-            
-        }
-        
-        
-    }
-    
-    //FIXME: 인증 이미지 불러오는 함수 수정중
-    func getCertificateImage(_ list: [ChallengeCertiModel], handler: @escaping(_ dic: [UIImage]) -> Void) {
-        
-        var certiImages: [UIImage] = []
-        
-        for i in 0 ..< list.count {
-            
-            // 로그인한 계정 == 인증 리스트에서 자신의 인증만 찾기
-            if UserModel.memberId == list[i].mem_id {
+                checkArray.append(i)
                 
-                if let certiImageString = list[i].certi_img {
+                if checkArray.count == list.count {
+                    let dic: NSDictionary = [
+                        "certi":"N"
+                    ]
                     
-                    let certiStrArr = certiImageString.components(separatedBy: ",")
-                    for q in 0 ..< certiStrArr.count {
-                        
-                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
-                            if let certiImage = dic?["image"] {
-                                certiImages.append(certiImage as! UIImage)
-                                
-                                if q + 1 == certiStrArr.count {
-                                    if certiImages.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                            handler(certiImages)
-                                        }
-                                    } else {
-                                        handler(certiImages)
-                                    }
-                                    
-                                }
-                                
-                            }
-                            
-                        } errorHandler: { error in
-                            print("image called failed")
-                        }
-                        
-                        
-                    }
-                    
-                    
-                } else {
-                    if i + 1 == list.count {
-                        handler(certiImages)
-                    } else {
-                        continue
-                    }
-                }
-                
-        
-            } else {
-                if i + 1 == list.count {
-                    handler(certiImages)
-                } else {
-                    continue
+                    handler(dic)
                 }
                 
             }
             
         }
         
+        
     }
-    
     
 }
