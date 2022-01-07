@@ -194,7 +194,6 @@ extension MainViewController: NetworkErrorViewDelegate {
             }
             //FIXME: - 디테일 뷰 조회 및 인증 파일 함수 구현중
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
-                
                 if model.use_yn?.lowercased() == "n" {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
                                                                message: RadMessage.AlertView.useNTodoChallenge,
@@ -205,7 +204,8 @@ extension MainViewController: NetworkErrorViewDelegate {
                 }
                 // FIXME: 오늘이, EndDate보다 뒤 인 경우에만 등록 가능
                 detailVC.detailInfoModel = model
-                
+                detailVC.selectedDay = self.selectedDate
+
                 for model in model.challenge_user! {
                     if model.mem_id == UserModel.memberId {
                         detailVC.isForInviteFriend = false

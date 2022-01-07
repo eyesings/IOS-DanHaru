@@ -140,9 +140,30 @@ extension TodoListDetailViewController {
                         
                         if handler {
                             // 업로드 성공
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            
+                            let _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id ?? 0 , self.selectedDay) { model in
+                                self.detailInfoModel = model
                                 updateUI()
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                                               message: RadMessage.AlertView.successUptDetail,
+                                                                               isNeedCancel: false,
+                                                                               viewController: self) { _ in
+                                        
+                                        
+                                        
+                                    }
+                                    guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
+                                    rootVC.hideLoadingView()
+                                }
+                                
+                                
+                            } errHandler: { type in
+                                print("error Type :: \(type)")
                             }
+                            
+                            
                         } else {
                             // 업로드 실패
                             RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)

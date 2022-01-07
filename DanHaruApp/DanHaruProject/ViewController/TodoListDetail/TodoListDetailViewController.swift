@@ -112,6 +112,9 @@ class TodoListDetailViewController: UIViewController, UIImagePickerControllerDel
     // 오늘 인증 여부 확인
     var isCurrAuth = false
     
+    // 조회 날짜
+    var selectedDay = ""
+    
     // 테이블 뷰
     var tableViewHeight = 0
     let tableCellHeight: CGFloat = 40
