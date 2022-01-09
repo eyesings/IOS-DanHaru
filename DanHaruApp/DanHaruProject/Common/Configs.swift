@@ -117,6 +117,7 @@ enum DetailNotiDayBtnTag: Int {
     case friday
     case saturday
     case everyday
+    case none //디폴트가 everyday로 되어 있어서 수정할 때마다 매일 버튼 활성화, 선택안했다는 값 추가로 수정
     
     func name() -> String {
         switch self {
@@ -128,6 +129,7 @@ enum DetailNotiDayBtnTag: Int {
         case .friday: return "금"
         case .saturday: return "토"
         case .everyday: return "매일"
+        case .none: return "없음"
         }
     }
     
@@ -141,6 +143,7 @@ enum DetailNotiDayBtnTag: Int {
         case .friday: return 6
         case .saturday: return 7
         case .everyday: return 8
+        case .none: return 0
         }
     }
     
@@ -154,7 +157,7 @@ enum DetailNotiDayBtnTag: Int {
         case "금": return .friday
         case "토": return .saturday
         case "매일": return .everyday
-        default : return .everyday
+        default : return .none
         }
     }
 }
