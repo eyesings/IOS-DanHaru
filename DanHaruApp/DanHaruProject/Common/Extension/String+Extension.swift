@@ -21,7 +21,7 @@ extension String {
         return String(data: data, encoding: .utf8) ?? self
     }
     
-    func stringToDate(format: String = RadMessage.DateFormattor.apiParamType) -> Date? {
+    func stringToDate(format: String = "yyyy-MM-dd") -> Date? {
         return DateFormatter(format: format).date(from: self)
     }
 }

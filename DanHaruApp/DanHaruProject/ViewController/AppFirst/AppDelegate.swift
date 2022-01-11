@@ -122,6 +122,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         print("url! \(url.absoluteString)")
+        
+        var queryDic: [String:Any] = [:]
+        let urlStr = url.absoluteString
+        
+        if urlStr.contains(Configs.URL.UniversalLink.moveToTodoDetail) {
+            if urlStr.contains("todoidx="),
+               let todoIdx = urlStr.components(separatedBy: "todoidx=").last {
+                queryDic["todoidx"] = todoIdx
+            }
+            NotificationCenter.default.post(name: Configs.NotificationName.openAppFromWidget, object: queryDic)
+        }
         return true
     }
     
@@ -159,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Messaging.messaging().apnsToken = deviceToken
         
-        print("messaging fcm token \(Messaging.messaging().fcmToken)")
+        print("messaging fcm token \(String(describing: Messaging.messaging().fcmToken))")
     }
 }
 

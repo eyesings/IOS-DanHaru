@@ -155,7 +155,7 @@ extension RadHelper {
                         for pendingReq in pendingReqList {
                             if pendingReq.identifier.contains("\(key)") {
                                 center.removePendingNotificationRequests(withIdentifiers: [pendingReq.identifier])
-                                UserDefaults.standard.removeWithKey(key: "\(key)")
+                                UserDefaults.shared.removeWithKey(key: "\(key)")
                             }
                         }
                     }

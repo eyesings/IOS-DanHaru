@@ -8,7 +8,16 @@
 import Foundation
 
 
-struct TodoModel: Codable {
+struct TodoModel: Codable, Hashable {
+    
+    var hashValue: Int {
+        return 0
+    }
+    
+    static func == (lhs: TodoModel, rhs: TodoModel) -> Bool {
+        return true
+    }
+    
     var todo_id: Int?
     var mem_id: String?
     var title: String?

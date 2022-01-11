@@ -52,13 +52,15 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
                                                name: Configs.NotificationName.reloadAfterLogout, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.inviteChallFromFriend(_:)),
                                                name: Configs.NotificationName.inviteFriendChall, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openAppFromWidget(_:)),
+                                               name: Configs.NotificationName.openAppFromWidget, object: nil)
         
         self.setUI()
         networkView = NetworkErrorView.shared
         networkView.delegate = self
         
-        if let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputID),
-           let _ = UserDefaults.standard.string(forKey: Configs.UserDefaultsKey.userInputPW) {
+        if let _ = UserDefaults.shared.string(forKey: Configs.UserDefaultsKey.userInputID),
+           let _ = UserDefaults.shared.string(forKey: Configs.UserDefaultsKey.userInputPW) {
             self.apiService(withType: .UserLogin)
             todoListTableView.showAnimatedGradientSkeleton()
         }
@@ -112,6 +114,10 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
         
         if let isSuccess = noti.object as? Bool {
             self.showNoneListView(isSuccess)
+        }
+        
+        if let encodeData = try? JSONEncoder().encode(todoListModel.model) {
+            UserDefaults.shared.set(encodeData, forKey: Configs.UserDefaultsKey.listForWidget)
         }
         
         guard let rootVC = RadHelper.getRootViewController() else { return }

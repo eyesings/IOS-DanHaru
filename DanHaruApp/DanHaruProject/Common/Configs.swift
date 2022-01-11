@@ -252,6 +252,7 @@ struct Configs {
         static let userInputPW    = "USER_INPUT_PW"
         static let pushEnable     = "PUSH_ENABLE"
         static let pushPendingDic = "PUSH_PENDING_DIC"
+        static let listForWidget  = "TODO_LIST_FOR_WIDGET"
     }
     
     struct NotificationName {
@@ -259,6 +260,7 @@ struct Configs {
         static let todoListFetchDone   = Notification.Name(rawValue: "TODO_LIST_FETCH_DONE")
         static let todoListCreateNew   = Notification.Name(rawValue: "TODO_LIST_CREATE_NEW")
         static let inviteFriendChall   = Notification.Name(rawValue: "INVITE_FRIEND_CHALL")
+        static let openAppFromWidget   = Notification.Name(rawValue: "OPEN_APP_FROM_WIDGET")
         static let reloadAfterLogout   = Notification.Name(rawValue: "RELOAD_AFTER_LOGOUT")
         static let audioRecordContinue = Notification.Name(rawValue: "AUDIO_RECORD_CONTINUE")
         static let audioRecordRemove   = Notification.Name(rawValue: "AUDIO_RECORD_REMOVE")
@@ -315,5 +317,4 @@ struct Configs {
     
 }
 
-var UserModel: UserInfoModel = UserInfoModel()
 var keyboardH: CGFloat = 0

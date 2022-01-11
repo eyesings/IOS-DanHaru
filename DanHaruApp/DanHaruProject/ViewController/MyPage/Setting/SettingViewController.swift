@@ -54,9 +54,9 @@ class SettingViewController: UIViewController {
     @IBAction func onTapLogout(_ sender: UIButton) {
         RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title, message: RadMessage.Setting.logoutMsg, isNeedCancel: true, viewController: self) { isCheck in
             if isCheck {
-                UserDefaults.standard.removeObject(forKey: Configs.UserDefaultsKey.pushPendingDic)
-                UserDefaults.standard.removeObject(forKey: Configs.UserDefaultsKey.userInputID)
-                UserDefaults.standard.removeObject(forKey: Configs.UserDefaultsKey.userInputPW)
+                UserDefaults.shared.removeObject(forKey: Configs.UserDefaultsKey.pushPendingDic)
+                UserDefaults.shared.removeObject(forKey: Configs.UserDefaultsKey.userInputID)
+                UserDefaults.shared.removeObject(forKey: Configs.UserDefaultsKey.userInputPW)
                 UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 UNUserNotificationCenter.current().removeAllDeliveredNotifications()
                 UserModel = UserInfoModel()

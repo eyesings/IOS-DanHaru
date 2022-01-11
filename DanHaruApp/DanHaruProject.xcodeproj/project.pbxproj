@@ -118,6 +118,13 @@
 		B6AEAF322734AD45004727F6 /* UserDefault+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */; };
 		B6AFFF3F2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */; };
 		B6AFFF402770010600222CB6 /* ImageAuthShowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6AFFF3E2770010600222CB6 /* ImageAuthShowCollectionViewCell.xib */; };
+		B6B11634278CF3960074B616 /* UserDefaults+Extension+Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B11633278CF3960074B616 /* UserDefaults+Extension+Widget.swift */; };
+		B6B11635278CF3960074B616 /* UserDefaults+Extension+Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B11633278CF3960074B616 /* UserDefaults+Extension+Widget.swift */; };
+		B6B11636278CF3CA0074B616 /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
+		B6B11638278CFCC10074B616 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F6ED1E2734F93500A4C88E /* TodoModel.swift */; };
+		B6B11639278CFCD10074B616 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A7BEE92761D24200300524 /* String+Extension.swift */; };
+		B6B1163C278CFD9E0074B616 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B1163B278CFD9E0074B616 /* DateFormatter+Extension.swift */; };
+		B6B1163D278CFD9E0074B616 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B1163B278CFD9E0074B616 /* DateFormatter+Extension.swift */; };
 		B6B2DEA22755BA4A001360E7 /* CalendarFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */; };
 		B6B2DEA32755BA4A001360E7 /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */; };
 		B6B2DEA52755BA4A001360E7 /* CalendarDayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */; };
@@ -319,6 +326,8 @@
 		B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Extension.swift"; sourceTree = "<group>"; };
 		B6AFFF3D2770010600222CB6 /* ImageAuthShowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAuthShowCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6AFFF3E2770010600222CB6 /* ImageAuthShowCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageAuthShowCollectionViewCell.xib; sourceTree = "<group>"; };
+		B6B11633278CF3960074B616 /* UserDefaults+Extension+Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension+Widget.swift"; sourceTree = "<group>"; };
+		B6B1163B278CFD9E0074B616 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		B6B2DE9A2755BA4A001360E7 /* CalendarFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarFlowLayout.swift; sourceTree = "<group>"; };
 		B6B2DE9B2755BA4A001360E7 /* CalendarHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		B6B2DE9D2755BA4A001360E7 /* CalendarDayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayCell.swift; sourceTree = "<group>"; };
@@ -628,9 +637,11 @@
 				B6E815AE2731232800809530 /* UIView+Extension.swift */,
 				B6AEAF292734A304004727F6 /* UINavigationController+Extension.swift */,
 				B6AEAF312734AD45004727F6 /* UserDefault+Extension.swift */,
+				B6B11633278CF3960074B616 /* UserDefaults+Extension+Widget.swift */,
 				82CB510E2734C33C009D3170 /* CALayer+Extension.swift */,
 				B6166B9C274C7EB900C04898 /* UIImage+Extensions.swift */,
 				B603BC3E2754648500994A42 /* Date+Extension.swift */,
+				B6B1163B278CFD9E0074B616 /* DateFormatter+Extension.swift */,
 				B689496427604CDC0082E0A5 /* NSMutableData+Extension.swift */,
 				B6A7BEE92761D24200300524 /* String+Extension.swift */,
 			);
@@ -1050,7 +1061,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6B11635278CF3960074B616 /* UserDefaults+Extension+Widget.swift in Sources */,
+				B6B11636278CF3CA0074B616 /* Configs.swift in Sources */,
 				B6A8173A277BE85200FAA8B4 /* danharuWidget.intentdefinition in Sources */,
+				B6B1163D278CFD9E0074B616 /* DateFormatter+Extension.swift in Sources */,
+				B6B11638278CFCC10074B616 /* TodoModel.swift in Sources */,
+				B6B11639278CFCD10074B616 /* String+Extension.swift in Sources */,
 				B6A81735277BE85200FAA8B4 /* danharuWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1073,6 +1089,7 @@
 				82CB510F2734C33C009D3170 /* CALayer+Extension.swift in Sources */,
 				B60F0BB7275888D700942C75 /* TodoService.swift in Sources */,
 				B6166BE9274C7EB900C04898 /* FMZoomInAnimationController.swift in Sources */,
+				B6B1163C278CFD9E0074B616 /* DateFormatter+Extension.swift in Sources */,
 				B6A2560927279ED200C3EC14 /* LoginViewController.swift in Sources */,
 				B6166C1D274C7EBA00C04898 /* FMCropScrollView.swift in Sources */,
 				B6166C23274C7EBA00C04898 /* FMImageEditorViewController.swift in Sources */,
@@ -1141,6 +1158,7 @@
 				B6166C26274C7EBA00C04898 /* FMImageEditor.swift in Sources */,
 				B60F0BB5275888A800942C75 /* UserService.swift in Sources */,
 				B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */,
+				B6B11634278CF3960074B616 /* UserDefaults+Extension+Widget.swift in Sources */,
 				B6C3FD7627266BD00046E35A /* CommonMethod.swift in Sources */,
 				B6166C27274C7EBA00C04898 /* FMCrop.swift in Sources */,
 				82A261802750612F00CBA4E3 /* BottomSheetsViewController+todoAdd.swift in Sources */,

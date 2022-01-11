@@ -8,6 +8,7 @@
 import WidgetKit
 import SwiftUI
 import Intents
+import RadFramework
 
 struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
@@ -44,18 +45,48 @@ struct SimpleEntry: TimelineEntry {
 struct danharuWidgetEntryView : View {
     var entry: Provider.Entry
     
-    let data = Array(1...6).map { "\($0)" }
+    var todoData: [TodoModel] = {
+        return savedTodoListFromUserDefaults()!
+    }()
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     var body: some View {
         
-        LazyVGrid(columns: columns, spacing: 20) {
-            ForEach(data, id: \.self) { i in
-                Link(destination: URL(string: "danharu://movetododetail?todoidx=\(i)")!) {
-                    Text(i)
+        GeometryReader { geo in
+            let widgetWidth = (geo.size.width/2) * 0.9
+            let widgetHeight = geo.size.height/CGFloat(todoData.count/2) * 0.8
+            ZStack {
+                HStack(alignment: .center, spacing: nil) {
+                    LazyVGrid(columns: columns, spacing: 3) {
+                        ForEach(0..<todoData.count, id: \.self) { idx in
+                            let todoModel = todoData[idx]
+                            if let todoIdx = todoModel.todo_id,
+                               let todoTitle = todoModel.title,
+                               let todoColor = todoModel.color {
+                                Link(destination: URL(string: "danharu://movetododetail?todoidx=\(todoIdx)")!) {
+                                    Text(todoTitle.decodeEmoji())
+                                        .frame(width: widgetWidth,
+                                               height: widgetHeight)
+                                        .background(Color.colorFromHex(hex: todoColor))
+                                        .cornerRadius(10)
+                                        .font(.system(size: 15.0))
+                                }
+                            } else {
+                                Text("")
+                                    .frame(width: widgetWidth,
+                                           height: widgetHeight)
+                                    .background(Color.colorFromHex(hex: "BCBEBF"))
+                                    .cornerRadius(10)
+                            }
+                                
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical)
                 }
             }
+            .background(Color.colorFromHex(hex: "FFFCFC"))
+            
         }
-        .padding(.horizontal)
     }
 }
 
@@ -112,3 +143,57 @@ struct GridView<Content: View>: View {
         self.content = content
     }
 }
+
+func savedTodoListFromUserDefaults() -> [TodoModel]? {
+    var needModelCnt = 6
+    if let savedData = UserDefaults.shared.value(forKey: Configs.UserDefaultsKey.listForWidget) as? Data {
+        do {
+            let jsonRst = try JSONSerialization.jsonObject(with: savedData, options: JSONSerialization.ReadingOptions.allowFragments) as! NSArray
+            var dataDic: [TodoModel] = []
+            jsonRst.forEach {
+                if let dic = $0 as? NSDictionary {
+                    let todoModel = try? JSONDecoder().decode(TodoModel.self,
+                                                              from: JSONSerialization.data(withJSONObject: dic))
+                    dataDic.append(todoModel!)
+                    needModelCnt -= 1
+                }
+            }
+            
+            let emptyModel = TodoModel(todo_id: nil, mem_id: nil, title: nil, fr_date: nil, ed_date: nil, noti_cycle: nil, noti_time: nil, todo_status: nil, challange_status: nil, chaluser_yn: nil, certi_yn: nil, use_yn: nil, color: nil, created_at: nil, created_user: nil, updated_at: nil, updated_user: nil, certification_list: nil, challenge_user: nil, report_list_percent: nil)
+            for _ in 0..<needModelCnt {
+                dataDic.append(emptyModel)
+            }
+            
+            return dataDic
+        }
+        catch {
+            print("occur error \(error)")
+        }
+    }
+    return nil
+}
+
+extension Color {
+    static public func colorFromHex(hex: String) -> Color {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.count) != 6) {
+            return .gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return Color(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            opacity: CGFloat(0.9)
+        )
+    }
+}
+

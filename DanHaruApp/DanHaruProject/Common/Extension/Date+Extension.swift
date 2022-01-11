@@ -9,13 +9,6 @@ import Foundation
 
 extension DateFormatter {
     
-    convenience init(format: String) {
-        self.init()
-        dateFormat = format
-        locale = Locale(identifier: "ko_KR")
-        timeZone = TimeZone(abbreviation: "KST")
-    }
-    
     func korDateString(date: Date = Date(), dateFormatter format: String = RadMessage.DateFormattor.apiParamType) -> String {
         return DateFormatter(format: format).string(from: date)
     }

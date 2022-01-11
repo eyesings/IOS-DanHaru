@@ -47,4 +47,14 @@ extension MainViewController {
         moveToDetailVC()
     }
     
+    /// 위젯에서 앱 오픈할 때
+    @objc func openAppFromWidget(_ noti: NSNotification) {
+        
+        guard let notiInfoArr = noti.object as? [String:Any],
+              let todoidxStr = notiInfoArr["todoidx"] as? String else { return }
+        
+        self.invitedTodoIdx = Int(todoidxStr)
+        
+        moveToDetailVC()
+    }
 }

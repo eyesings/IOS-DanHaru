@@ -8,6 +8,8 @@
 import Foundation
 
 
+var UserModel: UserInfoModel = UserInfoModel()
+
 /// 유저 정보 모델
 struct UserInfoModel: Codable {
     var mem_id: String?
