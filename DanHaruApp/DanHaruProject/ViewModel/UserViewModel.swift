@@ -80,6 +80,8 @@ class UserInfoViewModel {
             do {
                 self.model = try JSONDecoder().decode(UserInfoModel.self,
                                                       from: JSONSerialization.data(withJSONObject: saveUserDic))
+                
+                UserDefaults.shared.set(self.model.authForAPI, forKey: Configs.UserDefaultsKey.authForWidget)
             }
             catch {
                 Dprint(error)

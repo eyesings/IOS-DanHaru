@@ -253,6 +253,7 @@ struct Configs {
         static let pushEnable     = "PUSH_ENABLE"
         static let pushPendingDic = "PUSH_PENDING_DIC"
         static let listForWidget  = "TODO_LIST_FOR_WIDGET"
+        static let authForWidget  = "AUTH_FOR_WIDGET"
     }
     
     struct NotificationName {
