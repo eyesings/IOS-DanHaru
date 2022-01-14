@@ -10,6 +10,7 @@ import UIKit
 import FirebaseDynamicLinks
 import AVFAudio
 import UserNotifications
+import WidgetKit
 
 /// 개발전용 로그
 /// - Parameters:
@@ -163,6 +164,14 @@ extension RadHelper {
             }
         }
     }
+    
+    /// 위젯 동기화
+    static func widgetReload() {
+        if #available(iOS 14.0, *) {
+            WidgetCenter.shared.reloadAllTimelines()
+        }
+    }
+    
 }
 
 extension RadServerNetwork {

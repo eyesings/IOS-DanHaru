@@ -10,17 +10,18 @@ import SwiftUI
 import Intents
 import RadFramework
 
-struct Provider: IntentTimelineProvider {
+struct Provider: TimelineProvider {
+    
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date())
     }
-
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
+    
+    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
         let entry = SimpleEntry(date: Date())
         completion(entry)
     }
-
-    func getTimeline(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         var entries: [SimpleEntry] = []
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
@@ -38,8 +39,6 @@ struct Provider: IntentTimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let color: String = ""
-    let title: String = ""
 }
 
 struct danharuWidgetEntryView : View {
@@ -56,38 +55,55 @@ struct danharuWidgetEntryView : View {
             let widgetHeight = geo.size.height/CGFloat(todoData.count/2) * 0.8
             ZStack {
                 HStack(alignment: .center, spacing: nil) {
-                    LazyVGrid(columns: columns, spacing: 3) {
+                    LazyVGrid(columns: columns, spacing: 5) {
                         ForEach(0..<todoData.count, id: \.self) { idx in
                             let todoModel = todoData[idx]
                             if let todoIdx = todoModel.todo_id,
                                let todoTitle = todoModel.title,
                                let todoColor = todoModel.color {
                                 Link(destination: URL(string: "danharu://movetododetail?todoidx=\(todoIdx)")!) {
-                                    Text(todoTitle.decodeEmoji())
-                                        .frame(width: widgetWidth,
-                                               height: widgetHeight)
-                                        .background(Color.colorFromHex(hex: todoColor))
-                                        .cornerRadius(10)
-                                        .font(.system(size: 15.0))
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .frame(width: widgetWidth,
+                                                   height: widgetHeight)
+                                            .foregroundColor(Color.colorFromHex(hex: todoColor))
+                                        Text(todoTitle.decodeEmoji())
+                                            .font(.system(size: 15.0))
+                                            .foregroundColor(Color.colorFromHex(hex: "253138"))
+                                            .frame(width: widgetWidth * 0.8, height: widgetHeight * 0.5)
+                                        if let todoChall = todoModel.chaluser_yn, todoChall.lowercased() == "y" {
+                                            HStack {
+                                                Rectangle().foregroundColor(.clear)
+                                                Spacer()
+                                                let imageSize = widgetHeight * 0.8
+                                                Image(uiImage: UIImage(named: "personFill")!)
+                                                    .resizable(capInsets: EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0))
+                                                    .frame(width: imageSize, height: imageSize)
+                                                    .opacity(0.1)
+                                                Spacer()
+                                            }
+                                        }
+                                    }
                                 }
                             } else {
-                                Text("")
+                                RoundedRectangle(cornerRadius: 10)
                                     .frame(width: widgetWidth,
                                            height: widgetHeight)
-                                    .background(Color.colorFromHex(hex: "BCBEBF"))
-                                    .cornerRadius(10)
+                                    .foregroundColor(Color.colorFromHex(hex: "f4f4f4"))
                             }
                                 
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.vertical)
+                    .frame(width: geo.size.width,
+                           height: geo.size.height)
                 }
             }
             .background(Color.colorFromHex(hex: "FFFCFC"))
             
         }
     }
+     
 }
 
 @main
@@ -95,7 +111,7 @@ struct danharuWidget: Widget {
     let kind: String = "단, 하루 위젯"
 
     var body: some WidgetConfiguration {
-        IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             danharuWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("단, 하루 위젯")
@@ -113,36 +129,6 @@ struct danharuWidget_Previews: PreviewProvider {
     }
 }
 
-
-class NetworkManager {
-    func fetchData(completion: @escaping (NSDictionary?) -> Void) {
-        
-    }
-}
-
-struct GridView<Content: View>: View {
-    let rows: Int
-    let columns: Int
-    let content: (Int, Int) -> Content
-    
-    var body: some View {
-        VStack {
-            ForEach(0..<rows, id: \.self) { row in
-                HStack {
-                    ForEach(0..<self.columns, id: \.self) { column in
-                        self.content(row, column)
-                    }
-                }
-            }
-        }
-    }
-    
-    init(rows: Int, columns: Int, @ViewBuilder content: @escaping (Int, Int) -> Content) {
-        self.rows = rows
-        self.columns = columns
-        self.content = content
-    }
-}
 
 func savedTodoListFromUserDefaults() -> [TodoModel]? {
     var needModelCnt = 6
@@ -192,7 +178,7 @@ extension Color {
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            opacity: CGFloat(0.9)
+            opacity: CGFloat(1.0)
         )
     }
 }

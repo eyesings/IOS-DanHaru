@@ -116,9 +116,6 @@ class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDel
             self.showNoneListView(isSuccess)
         }
         
-        if let encodeData = try? JSONEncoder().encode(todoListModel.model) {
-            UserDefaults.shared.set(encodeData, forKey: Configs.UserDefaultsKey.listForWidget)
-        }
         
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()

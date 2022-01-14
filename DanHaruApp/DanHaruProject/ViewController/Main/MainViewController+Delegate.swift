@@ -36,7 +36,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         }
         
         cell.titleLabel.text = todoTitle
-        cell.subLabel.text = "오늘, 인증 없음"
+        cell.subLabel.text = "인증 \(todoModel.certi_yn?.lowercased() == "y" ? "완료" : "없음")"
         cell.challengeTodoImgView.isHidden = todoModel.chaluser_yn?.lowercased() == "y" ? false : true
         
         return cell

@@ -52,6 +52,11 @@ class TodoListViewModel {
                     
                 }
                 self.model.append(self.todoModel)
+                
+                if let encodeData = try? JSONEncoder().encode(self.model) {
+                    UserDefaults.shared.set(encodeData, forKey: Configs.UserDefaultsKey.listForWidget)
+                    RadHelper.widgetReload()
+                }
             }
             NotificationCenter.default.post(name: Configs.NotificationName.todoListFetchDone, object: true)
         } errorHandler: { errHandler($0) }
