@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ProfileEditViewController: UIViewController {
+final class ProfileEditViewController: UIViewController {
     
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var profileImgSelectBtn: UIButton!

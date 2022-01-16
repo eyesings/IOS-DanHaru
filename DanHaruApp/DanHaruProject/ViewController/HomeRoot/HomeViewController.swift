@@ -10,7 +10,7 @@ import UIKit
 import Lottie
 import SnapKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     private var btnHeight: CGFloat = 44.0
     private var btnWidth: CGFloat = 0.0

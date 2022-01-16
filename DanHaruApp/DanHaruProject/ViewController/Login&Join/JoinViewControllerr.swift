@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class JoinViewController: UIViewController {
+final class JoinViewController: UIViewController {
     
     @IBOutlet var preBtn: UIButton!
     @IBOutlet var closeBtn: UIButton!

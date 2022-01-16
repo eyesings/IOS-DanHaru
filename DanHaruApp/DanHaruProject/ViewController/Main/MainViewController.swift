@@ -12,7 +12,7 @@ import SkeletonView
 import AVFAudio
 import AVFoundation
 
-class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
+final class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
     var dateLabel = UILabel()
     let calendarAnimation = AnimationView()

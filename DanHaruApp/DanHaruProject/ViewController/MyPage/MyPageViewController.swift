@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class MyPageViewController: UIViewController {
+final class MyPageViewController: UIViewController {
     
     @IBOutlet var scrollTopViewHeightConst: NSLayoutConstraint!
     @IBOutlet var scrollView: UIScrollView!

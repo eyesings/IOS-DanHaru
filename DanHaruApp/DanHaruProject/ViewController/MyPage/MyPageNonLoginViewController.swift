@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class MyPageNonLoginViewController: UIViewController {
+final class MyPageNonLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -9,7 +9,7 @@ import UIKit
 import SkeletonView
 
 
-class MyChallengeListViewController: UIViewController {
+final class MyChallengeListViewController: UIViewController {
     
     @IBOutlet var customSegment: CustomSegmentedControl!
     @IBOutlet var needUpdateUIComponentList: [Any]!

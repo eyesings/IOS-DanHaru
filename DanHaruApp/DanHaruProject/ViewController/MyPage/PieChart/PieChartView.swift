@@ -14,7 +14,7 @@ struct Slice {
     var color: UIColor
 }
 
-class PieChartView: UIView {
+final class PieChartView: UIView {
     
     private let animationDuration: CGFloat = 1
     private var sliceIndex: Int = 0

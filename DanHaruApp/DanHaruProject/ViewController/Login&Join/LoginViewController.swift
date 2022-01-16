@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     @IBOutlet var textFields: [UITextField]!
     @IBOutlet var idInputTextField: UITextField!

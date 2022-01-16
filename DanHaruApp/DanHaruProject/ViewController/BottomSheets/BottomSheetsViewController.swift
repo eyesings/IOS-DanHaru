@@ -22,7 +22,7 @@ protocol CheckTimeChangeProtocol {
     func timeChange(_ text:String)
 }
 
-class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+final class BottomSheetsViewController: UIViewController, UITextFieldDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     /// 화면 딤 처리 부분
     let dimmedView: UIView = {
         let view = UIView()

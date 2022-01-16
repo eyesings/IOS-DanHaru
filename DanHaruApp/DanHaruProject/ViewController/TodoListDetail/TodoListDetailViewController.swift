@@ -12,7 +12,7 @@ import AVFoundation
 import FirebaseMessaging
 import UserNotifications
 
-class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate, UITextFieldDelegate {
+final class TodoListDetailViewController: UIViewController, UIImagePickerControllerDelegate , UINavigationControllerDelegate, UITextFieldDelegate {
     
     
     // 상단, 하단 버튼

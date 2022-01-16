@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class FindUserInfoViewController: UIViewController {
+final class FindUserInfoViewController: UIViewController {
     
     @IBOutlet var idFindView: UIView!
     @IBOutlet var pwFindView: UIView!
