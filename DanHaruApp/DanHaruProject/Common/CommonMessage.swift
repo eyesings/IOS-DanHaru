@@ -43,6 +43,7 @@ extension RadMessage {
     
     struct ProfileEdit {
         static let saveProfile = "프로필 정보가 변경되었습니다."
+        static let detectEmpty = "공백은 사용할 수 없어요."
     }
     
     struct UserJoin {

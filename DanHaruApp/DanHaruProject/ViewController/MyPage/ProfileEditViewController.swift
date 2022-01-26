@@ -52,23 +52,34 @@ final class ProfileEditViewController: UIViewController {
     
     @IBAction func onTapSaveBtn(_ sender: UIButton) {
         
-        _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text?.encodeEmoji() ?? "",
-                                            editedIntro: introduceField.text?.encodeEmoji() ?? "",
-                                            editedImg: selectedImage) {
-            
-            self.navigationController?.popViewController()
+        func showPopupWithMessage(_ msg: String, exec: (() -> ())? = nil) {
             RadHelper.getRootViewController { vc in
-                if let rootVc = vc
-                {
-                    RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                                    message: RadMessage.ProfileEdit.saveProfile,
-                                                                    isNeedCancel: false,
-                                                                    viewController: rootVc)
+                guard let rootVc = vc else { return }
+                RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                                message: msg,
+                                                                isNeedCancel: false,
+                                                                viewController: rootVc) { _ in
+                    exec?()
                 }
             }
-        } errHandler: { Dprint("error \($0)") }
+            
+        }
         
+        func becomFisrstResponder() {
+            self.nickNameField.becomeFirstResponder()
+        }
         
+        if nickNameField.text?.trimmingCharacters(in: .whitespaces).isEmpty == true {
+            _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text?.encodeEmoji() ?? "",
+                                                editedIntro: introduceField.text?.encodeEmoji() ?? "",
+                                                editedImg: selectedImage) {
+                
+                self.navigationController?.popViewController()
+                showPopupWithMessage(RadMessage.ProfileEdit.saveProfile, exec: nil)
+            } errHandler: { Dprint("error \($0)") }
+        } else {
+            showPopupWithMessage(RadMessage.ProfileEdit.detectEmpty, exec: becomFisrstResponder)
+        }
     }
     
     @IBAction func panEdgeSwipeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {
