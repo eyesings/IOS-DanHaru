@@ -103,8 +103,10 @@ extension TodoListDetailViewController {
         self.detailInfoModel.ed_date = self.endDateLabel.text
         
         let notiCycle = self.selectedNotiToStringArr().joined(separator: ",")
-        self.detailInfoModel.noti_cycle = notiCycle
-        self.detailInfoModel.noti_time = self.cycleTimeLabel.text
+        if !notiCycle.isEmpty {
+            self.detailInfoModel.noti_cycle = notiCycle
+            self.detailInfoModel.noti_time = self.cycleTimeLabel.text
+        }
         
         let isCheck = self.isCheckAuth ? "Y" : "N"
         
@@ -123,8 +125,8 @@ extension TodoListDetailViewController {
                 self.detailInfoModel.chaluser_yn = "Y"
                 self.detailInfoModel.challange_status = TodoChallStatus.doing.rawValue
                 _ = TodoDetailUpdateViewModel.init(self.detailInfoModel,
-                                                   notiCycle: notiCycle,
-                                                   notiTime: self.cycleTimeLabel.text,
+                                                   notiCycle: notiCycle.isEmpty ? nil : notiCycle,
+                                                   notiTime: notiCycle.isEmpty ? nil : self.cycleTimeLabel.text,
                                                    completionHandler: {
                     _ = TodoDetailViewModel.init(todoIdx, self.detailInfoModel.fr_date!, completionHandler: { model in
                         self.detailInfoModel = model
@@ -140,7 +142,9 @@ extension TodoListDetailViewController {
             return
         }
         
-        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel, notiCycle: notiCycle, notiTime: self.cycleTimeLabel.text) {
+        _ = TodoDetailUpdateViewModel.init(self.detailInfoModel,
+                                           notiCycle: notiCycle.isEmpty ? nil : notiCycle,
+                                           notiTime: notiCycle.isEmpty ? nil : self.cycleTimeLabel.text) {
             
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
@@ -160,11 +164,7 @@ extension TodoListDetailViewController {
                                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
                                                                                message: RadMessage.AlertView.successUptDetail,
                                                                                isNeedCancel: false,
-                                                                               viewController: self) { _ in
-                                        
-                                        
-                                        
-                                    }
+                                                                               viewController: self)
                                     guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
                                     rootVC.hideLoadingView()
                                 }
@@ -427,11 +427,14 @@ extension TodoListDetailViewController {
     /// 친구 초대위해 초대 링크 전송하는 함수
     @objc func inviteFriendWithSendSMS() {
         
+        self.showLoadingView()
+        
         if RadHelper.isLogin() == false {
-            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                            message: RadMessage.AlertView.cntInviteFriend,
-                                                            isNeedCancel: false,
-                                                            viewController: self)
+            self.hideLoadingView()
+            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                       message: RadMessage.AlertView.cntInviteFriend,
+                                                       isNeedCancel: false,
+                                                       viewController: self)
             return
         }
         
@@ -450,10 +453,11 @@ extension TodoListDetailViewController {
             }
             
         } else {
-            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                            message: RadMessage.AlertView.disableInvite,
-                                                            isNeedCancel: false,
-                                                            viewController: self)
+            self.hideLoadingView()
+            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                       message: RadMessage.AlertView.disableInvite,
+                                                       isNeedCancel: false,
+                                                       viewController: self)
         }
     }
     
@@ -466,52 +470,33 @@ extension TodoListDetailViewController {
         
         let msg = isSelected ? RadMessage.AlertView.notiStateChangeOff : RadMessage.AlertView.notiStateChangeOn
         
-        if isSelected {
-            // 푸시 토큰 삭제
-            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                            message: msg,
-                                                            isNeedCancel: true,
-                                                            viewController: self) {
+        // 푸시 토큰 등록 및 삭제
+        RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                        message: msg,
+                                                        isNeedCancel: true,
+                                                        viewController: self) {
+            
+            if $0 {
                 
-                if $0 {
-                    
-                    let notiImage = isSelected ? UIImage(named: "mute") : UIImage(named: "unmute")
-                    button.setImage(notiImage, for: .normal)
-                    
-                    /// 토큰 삭제
-                    ViewModelService.todoSubjectTokenDeleteService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel.todo_id ?? 0)
-                    UserDefaults.standard.setValue("N", forKey: "\(self.detailInfoModel.todo_id ?? 0)")
-                }
+                guard let fcmToken = Messaging.messaging().fcmToken,
+                      let todoIdx = self.detailInfoModel.todo_id
+                else { return }
                 
+                let notiImage = isSelected ? UIImage(named: "mute") : UIImage(named: "unmute")
+                button.setImage(notiImage, for: .normal)
+                
+                ViewModelService.todoSubjectTokenDeleteService(fcmToken, todoIdx)
+                UserDefaults.standard.setValue(isSelected ? "N" : "Y", forKey: "\(todoIdx)")
             }
             
-        } else {
-            // 푸시 토큰 등록
-            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
-                                                            message: msg,
-                                                            isNeedCancel: true,
-                                                            viewController: self) {
-                
-                if $0 {
-                   
-                    let notiImage = isSelected ? UIImage(named: "mute") : UIImage(named: "unmute")
-                    button.setImage(notiImage, for: .normal)
-                    
-                    /// 토큰 등록
-                    ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel.todo_id ?? 0)
-                    UserDefaults.standard.setValue("Y", forKey: "\(self.detailInfoModel.todo_id ?? 0)")
-                }
-                
-                
-                
-            }
         }
     
     }
     
     @objc func sendPushButtonAction(_ sender: UIButton) {
         
-        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(self.titleText)' 에서 인증을 해주세요.", self.detailInfoModel.todo_id ?? 0)
+        guard let todoIdx = self.detailInfoModel.todo_id else { return }
+        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(self.titleText)' 에서 인증을 해주세요.", todoIdx)
         
     }
     

@@ -37,15 +37,9 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
         cell.titleLabel.text = todoTitle
         
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "yyyy-MM-dd"
-        let startDate = dateFormat.date(from: todoModel.fr_date!)!
-        let edDate = dateFormat.date(from: todoModel.ed_date ?? todoModel.fr_date!)!
+        let userNotiTimeText = todoModel.noti_cycle == nil && todoModel.noti_time == nil ? "알림 없음" : RadHelper.makeString(With: ["\(todoModel.noti_cycle!)", " ", "\(todoModel.noti_time!)", " 알림"])
+        cell.subLabel.text = userNotiTimeText.contains("OFF") ? "알림 없음" : userNotiTimeText
         
-        let intVal = edDate.timeIntervalSince(startDate)
-        let days = Int(intVal / 86400)
-        
-        cell.subLabel.text = "\(days == 0 ? "D-Day" : "D-\(days)")"
         cell.challengeTodoImgView.isHidden = todoModel.chaluser_yn?.lowercased() == "y" ? false : true
         
         return cell
