@@ -742,6 +742,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
     /// 푸시 전송 함수
     func appendNotificationSchedule() {
         
+        guard self.noti_time != "알림 OFF" else { return }
+        
         let timeFormmat = RadMessage.DateFormattor.timeDate
         if let endDateStr = self.endDateLabel.text,
            let selectedTime = self.cycleTimeLabel.text?.stringToDate(format: timeFormmat),
@@ -821,6 +823,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                     if list[i].mem_id == UserModel.memberId {
                         // 인증 체크 확인
                         if let certi_check = list[i].certi_check {
+                            print("certiCheck \(certi_check)")
                             // 단순 체크
                             if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
                                 self.isRegisterAuth = true

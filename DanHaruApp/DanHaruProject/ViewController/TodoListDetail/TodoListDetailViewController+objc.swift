@@ -86,6 +86,17 @@ extension TodoListDetailViewController {
     //FIXME: 디테일 업데이트 함수 수정중
     @objc func onTapSubmitBtn() {
        
+        guard let startDate = self.startDateLabel.text?.stringToDate(),
+              let endDate = self.endDateLabel.text?.stringToDate(),
+              startDate <= endDate
+        else {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.compareDateError,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
+        }
+        
         // 입력한 값들을 모델에 입력
         self.detailInfoModel.title = self.titleTextField.text
         self.detailInfoModel.fr_date = self.startDateLabel.text

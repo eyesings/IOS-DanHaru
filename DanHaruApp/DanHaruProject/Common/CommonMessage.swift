@@ -67,6 +67,7 @@ extension RadMessage {
         static let authUploadFail     = "인증에 실패하였습니다. 다시 시도해주세요."
         static let successUptDetail   = "저장했어요."
         static let useNTodoChallenge  = "삭제된 챌린지에요."
+        static let compareDateError   = "시작 날짜가 종료 날짜보다 늦을 순 없어요."
     }
     
     struct FindUserInfo {

@@ -36,7 +36,16 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         }
         
         cell.titleLabel.text = todoTitle
-        cell.subLabel.text = "인증 \(todoModel.certi_yn?.lowercased() == "y" ? "완료" : "없음")"
+        
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd"
+        let startDate = dateFormat.date(from: todoModel.fr_date!)!
+        let edDate = dateFormat.date(from: todoModel.ed_date ?? todoModel.fr_date!)!
+        
+        let intVal = edDate.timeIntervalSince(startDate)
+        let days = Int(intVal / 86400)
+        
+        cell.subLabel.text = "\(days == 0 ? "D-Day" : "D-\(days)")"
         cell.challengeTodoImgView.isHidden = todoModel.chaluser_yn?.lowercased() == "y" ? false : true
         
         return cell
