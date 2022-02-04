@@ -62,7 +62,7 @@ final class MainViewController: UIViewController, UITextFieldDelegate,CustomTool
         if let _ = UserDefaults.shared.string(forKey: Configs.UserDefaultsKey.userInputID),
            let _ = UserDefaults.shared.string(forKey: Configs.UserDefaultsKey.userInputPW) {
             self.apiService(withType: .UserLogin)
-            todoListTableView.showAnimatedGradientSkeleton()
+            todoListTableView.showAnimatedSkeleton()
         }
         
         selectedDate = DateFormatter().korDateString()
@@ -168,6 +168,7 @@ extension MainViewController: NetworkErrorViewDelegate {
         {
             todoListModel = TodoListViewModel.init(searchDate: selectedDate) { showNetworkErrView(type: $0) }
             todoListTableView.reloadData()
+            todoListTableView.refreshControl?.endRefreshing()
         }
         else if type == .TodoDetail {
             var todoModelId: Int!

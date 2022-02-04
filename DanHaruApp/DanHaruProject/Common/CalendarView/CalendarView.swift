@@ -66,6 +66,8 @@ public class CalendarView: UIView {
     var headerView: CalendarHeaderView!
     var collectionView: UICollectionView!
     
+    internal var selectedDate: Date?
+    
     public var forceLtr: Bool = true {
         didSet {
             updateLayoutDirections()
@@ -239,14 +241,17 @@ public class CalendarView: UIView {
     
     @objc
     internal func resetDisplayDate(_ sender: UIButton = UIButton()) {
+        let date = sender.tag == resetToTdayBtnTag ? Date() : self.selectedDate ?? Date()
         self.collectionView.setContentOffset(
-            self.scrollViewOffset(for: Date()),
+            self.scrollViewOffset(for: date),
             animated: sender.tag == resetToTdayBtnTag
         )
         let distpatchTime: DispatchTime = sender.tag == resetToTdayBtnTag ? .now() : .now() + 0.5
         DispatchQueue.main.asyncAfter(deadline: distpatchTime) {
-            self.displayDateOnHeader(Date())
+            self.displayDateOnHeader(date)
         }
+        
+        if sender.tag == resetToTdayBtnTag { selectDate(Date()) }
     }
     
     internal func updateStyle() {
@@ -317,6 +322,9 @@ extension CalendarView {
             dformatter.timeZone = TimeZone(abbreviation: "UTC")
             date = dformatter.date(from: selectDate)
         }
+        
+        self.selectedDate = date
+        
         return date
     }
 }

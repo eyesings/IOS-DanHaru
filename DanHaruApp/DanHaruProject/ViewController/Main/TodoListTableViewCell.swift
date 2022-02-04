@@ -25,4 +25,14 @@ class TodoListTableViewCell: UITableViewCell {
         self.challengeTodoImgView.isHidden = true
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        backgroundColor = .clear
+        rounderView.backgroundColor = .clear
+        challengeTodoImgView.isHidden = true
+        titleLabel.text = nil
+        subLabel.text = nil
+    }
+    
 }

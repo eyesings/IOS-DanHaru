@@ -43,7 +43,7 @@ class TodoListDetailCollectionViewCell: UICollectionViewCell {
         self.addSubview(checkImgView)
         checkImgView.isHidden = true
         checkImgView.snp.makeConstraints { make in
-            make.width.equalTo(self).multipliedBy(0.25)
+            make.width.equalTo(self).multipliedBy(0.2)
             make.height.equalTo(checkImgView.snp.width)
             make.centerX.equalTo(self)
             make.top.equalTo(personName.snp.bottom).offset(10)

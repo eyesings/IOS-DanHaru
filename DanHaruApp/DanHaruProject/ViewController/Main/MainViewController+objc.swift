@@ -57,4 +57,9 @@ extension MainViewController {
         
         moveToDetailVC()
     }
+    
+    @objc func pullToRefreshTableView(_ sender: Any) {
+        self.todoListTableView.showAnimatedSkeleton()
+        self.apiService(withType: .TodoList)
+    }
 }

@@ -318,10 +318,10 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         self.mainScrollView.addSubview(sendPushBtn)
         sendPushBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(notificationStateBtn)
             make.trailing.equalTo(self.view).offset(-10)
-            make.height.equalTo(self.view.frame.width * 0.15)
-            make.width.equalTo(self.view).multipliedBy(0.15)
+            make.top.equalTo(togetherFriendTitleLabel)
+            make.bottom.equalTo(togetherExplainLabel)
+            make.height.equalTo(sendPushBtn.snp.width)
         }
         
         self.mainScrollView.addSubview(weeklyTitleLabel)
@@ -336,7 +336,6 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             make.width.equalTo(self.view).multipliedBy(0.9)
             make.height.equalTo(self.tableViewHeight)
             make.centerX.equalTo(self.view)
-            make.bottom.equalTo(self.mainScrollView).offset(-20)
         }
         
         self.setLayout()

@@ -88,6 +88,8 @@ extension MainViewController {
         todoListTableView.delegate = self
         todoListTableView.register(UINib(nibName: TodoListTableViewCell.reusableIdentifier, bundle: nil),
                                    forCellReuseIdentifier: TodoListTableViewCell.reusableIdentifier)
+        todoListTableView.refreshControl = UIRefreshControl()
+        todoListTableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshTableView(_:)), for: .valueChanged)
         todoListTableView.showsVerticalScrollIndicator = false
         todoListTableView.isSkeletonable = true
         todoListTableView.rowHeight = 90
