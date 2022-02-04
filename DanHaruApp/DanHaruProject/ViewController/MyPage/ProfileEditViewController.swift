@@ -69,7 +69,9 @@ final class ProfileEditViewController: UIViewController {
             self.nickNameField.becomeFirstResponder()
         }
         
-        if nickNameField.text?.trimmingCharacters(in: .whitespaces).isEmpty == true {
+        if nickNameField.text?.contains(" ") == true {
+            showPopupWithMessage(RadMessage.ProfileEdit.detectEmpty, exec: becomFisrstResponder)
+        } else {
             _ = UserProfileUpdateViewModel.init(editedName: nickNameField.text?.encodeEmoji() ?? "",
                                                 editedIntro: introduceField.text?.encodeEmoji() ?? "",
                                                 editedImg: selectedImage) {
@@ -77,8 +79,6 @@ final class ProfileEditViewController: UIViewController {
                 self.navigationController?.popViewController()
                 showPopupWithMessage(RadMessage.ProfileEdit.saveProfile, exec: nil)
             } errHandler: { Dprint("error \($0)") }
-        } else {
-            showPopupWithMessage(RadMessage.ProfileEdit.detectEmpty, exec: becomFisrstResponder)
         }
     }
     

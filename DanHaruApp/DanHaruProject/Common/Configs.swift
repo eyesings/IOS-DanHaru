@@ -245,6 +245,7 @@ struct Configs {
     static let BASE64Key = "DanHaruoMJVisBbDHcRBJogBtryYmhuk"
     static let dynamicPrefix = "https://danharuproject.page.link/"
     static let appstoreID = "1600367875"
+    static let appStoreAddress = "https://itunes.apple.com/app/\(appstoreID)"
     
     struct UserDefaultsKey {
         static let isFirstInstall = "IS_FIRST_INSTALL"

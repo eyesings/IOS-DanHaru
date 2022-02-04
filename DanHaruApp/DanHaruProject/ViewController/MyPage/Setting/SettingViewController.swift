@@ -14,6 +14,9 @@ class SettingViewController: UIViewController {
     @IBOutlet var updateBtn: UIButton!
     @IBOutlet var userSettingMenuList: [UIView]!
     @IBOutlet weak var pushSwitch: UISwitch!
+    @IBOutlet weak var versionInfoStr: UILabel!
+    
+    let versionInfo = "버전 정보 v"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +24,9 @@ class SettingViewController: UIViewController {
         if let userPushEnable = UserDefaults.userPushSetting {
             pushSwitch.isOn = userPushEnable
         }
+        
+        let deviceVer = Bundle.applicationVersion
+        versionInfoStr.text = versionInfo + deviceVer
     }
     
     override func viewWillLayoutSubviews() {
@@ -45,6 +51,10 @@ class SettingViewController: UIViewController {
     
     @IBAction func onTapUpdateBtn(_ sender: UIButton) {
         print("open appstore! if need Update")
+        if let appstoreUrl = URL(string: Configs.appStoreAddress),
+           UIApplication.shared.canOpenURL(appstoreUrl) {
+            UIApplication.shared.open(appstoreUrl, options: [:], completionHandler: nil)
+        }
     }
     
     @IBAction func onTapCloseBtn(_ sender: UIButton) {
