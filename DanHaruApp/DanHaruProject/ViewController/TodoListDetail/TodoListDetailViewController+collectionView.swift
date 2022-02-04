@@ -28,7 +28,7 @@ extension TodoListDetailViewController:  UICollectionViewDelegate, UICollectionV
             cell.personName.text = ""
             cell.personAuthBtn.setTitle("", for: .normal)
             cell.todoIdx = self.detailInfoModel?.todo_id ?? 0
-            cell.todoTitle = self.titleTextField.text ?? ""
+            cell.todoTitle = self.titleTextField.text?.decodeEmoji() ?? ""
             //cell.authUserChangeUI(cell.personAuthBtn.tag == 0)
             
             cell.personAuthBtn.tag = indexPath.item

@@ -80,6 +80,8 @@ final class MainViewController: UIViewController, UITextFieldDelegate,CustomTool
             toolBar.setSelectMenu(.home)
         }
         
+        apiService(withType: .TodoList)
+        
         calendarAnimation.animation = .named(calendarShowOn ? "up-arrows" : "down-arrows")
         calendarAnimation.play()
     }
@@ -186,9 +188,11 @@ extension MainViewController: NetworkErrorViewDelegate {
             detailVC.modalPresentationStyle = .fullScreen
             
             func presentDetailVC() {
-                self.navigationController?.pushViewController(detailVC)
-                self.invitedFriendId = nil
-                self.invitedTodoIdx = nil
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(detailVC)
+                    self.invitedFriendId = nil
+                    self.invitedTodoIdx = nil
+                }
             }
             
             if let _ = self.invitedFriendId {
@@ -216,60 +220,40 @@ extension MainViewController: NetworkErrorViewDelegate {
                     }
                 }
                 
-                if let list = model.certification_list {
-                    if list.count > 0 {
-                        
-                        self.getCertificateFiles(list) { dic in
-                            if let images = dic["images"] as? [UIImage] {
-                                // 이미지 파일이 존재시
-                                if images.count > 0 { detailVC.isRegisterAuth = true; detailVC.aleadyRegisterAuth = true }
-                                detailVC.selectedImage = images
-                                DispatchQueue.main.async {
-                                    presentDetailVC()
+                if let list = model.certification_list, list.count > 0 {
+                    
+                    self.getCertificateFiles(list) { dic in
+                        if let images = dic["images"] as? [UIImage] {
+                            // 이미지 파일이 존재시
+                            if images.count > 0 { detailVC.isRegisterAuth = true; detailVC.aleadyRegisterAuth = true }
+                            detailVC.selectedImage = images
+                            presentDetailVC()
+                            return
+                        } else if let voice = dic["voice"] {
+                            // 보이스
+                            
+                        } else {
+                            // 사진, 보이스 가 아닌 경우
+                            if let check = dic["check"] as? String {
+                                // 단순 체크
+                                //                                    if check.lowercased().contains("y") {
+                                if check.containsTrue {
+                                    detailVC.isRegisterAuth = true
+                                    detailVC.aleadyRegisterAuth = true
                                 }
                                 
-                            } else if let voice = dic["voice"] {
-                                // 보이스
-                                DispatchQueue.main.async {
-                                    presentDetailVC()
-                                }
-                                
-                            } else {
-                                // 사진, 보이스 가 아닌 경우
-                                if let check = dic["check"] as? String {
-                                    // 단순 체크
-                                    if check.lowercased().contains("y") {
-                                        detailVC.isRegisterAuth = true
-                                        detailVC.aleadyRegisterAuth = true
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        presentDetailVC()
-                                    }
-                                    
-                                } else if let certi = dic["certi"] as? String {
-                                    // 인증 내역에 자기꺼가 없을 때
-                                    DispatchQueue.main.async {
-                                        presentDetailVC()
-                                    }
-                                    
-                                }
+                                presentDetailVC()
+                                return
+                            } else if let certi = dic["certi"] as? String {
+                                // 인증 내역에 자기꺼가 없을 때
                                 
                             }
-                            
-                        }
-                        
-                        
-                    } else {
-                        DispatchQueue.main.async {
-                            presentDetailVC()
                         }
                     }
                     
+                    
                 } else {
-                    DispatchQueue.main.async {
-                        presentDetailVC()
-                    }
+                    presentDetailVC()
                 }
                 
             } errHandler: { showNetworkErrView(type: $0) }
@@ -290,31 +274,18 @@ extension MainViewController: NetworkErrorViewDelegate {
                     let certiStrArr = certiImageString.components(separatedBy: ",")
                     for q in 0 ..< certiStrArr.count {
                         
-                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/\(certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines))") { dic in
-                            if let certiImage = dic?["image"] {
-                                certiImages.append(certiImage as! UIImage)
-                                
-                                if q + 1 == certiStrArr.count {
-                                    /// 불러온 이미지 갯수랑 이미지 파일 이름 갯수가 같으면
-                                    if certiImages.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                            
-                                            let dic: NSDictionary = [
-                                                "images":certiImages
-                                            ]
-                                            
-                                            handler(dic)
-                                        }
-                                    } else {
-                                        
-                                        let dic: NSDictionary = [
-                                            "images":certiImages
-                                        ]
-                                    
-                                        handler(dic)
-                                        
+                        RadServerNetwork.getFromServerNeedAuth(url: Configs.API.getCertiImg + "/" + certiStrArr[q].trimmingCharacters(in: .whitespacesAndNewlines)) { dic in
+                            guard let certiImage = dic?["image"] as? UIImage else { return }
+                            certiImages.append(certiImage)
+                            
+                            if q + 1 == certiStrArr.count {
+                                /// 불러온 이미지 갯수랑 이미지 파일 이름 갯수가 같으면
+                                if certiImages.count != q + 1 { // 이미지 불러오기 딜레이 되는 경우
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        handler(["images":certiImages])
                                     }
-                                    
+                                } else {
+                                    handler(["images":certiImages])
                                 }
                                 
                             }
@@ -355,10 +326,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                     
                 } else {
                     // 단순인증
-                    let dic: NSDictionary = [
-                        "check":"Y"
-                    ]
-                    handler(dic)
+                    handler(["check":"Y"])
                 }
                 
                 
@@ -369,11 +337,7 @@ extension MainViewController: NetworkErrorViewDelegate {
                 checkArray.append(i)
                 
                 if checkArray.count == list.count {
-                    let dic: NSDictionary = [
-                        "certi":"N"
-                    ]
-                    
-                    handler(dic)
+                    handler(["certi":"N"])
                 }
                 
             }

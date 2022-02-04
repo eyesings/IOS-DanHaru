@@ -13,8 +13,6 @@ import UserNotifications
 extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProtocol, CheckDateChangeProtocol, CheckTimeChangeProtocol {
     
     func setUIValue() {
-        
-        self.titleText = self.detailInfoModel.encodedTitle ?? ""
         self.startDate = self.detailInfoModel.fr_date ?? ""
         self.endDate = self.detailInfoModel.ed_date ?? self.startDate
         
@@ -361,7 +359,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         mainScrollView.showsVerticalScrollIndicator = false
         
         // 제목 수정
-        titleTextField.text = titleText;
+        titleTextField.text = self.detailInfoModel.decodedTitle
         titleTextField.adjustsFontSizeToFitWidth = true
         titleTextField.textAlignment = .left
         titleTextField.font = UIFont.boldSystemFont(ofSize: 25)
@@ -690,7 +688,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                     
                     if list[indexPath.item-1].mem_id == self.detailInfoModel.challenge_user?[indexPath.item - 1].created_user {
                         if let certi_check = list[indexPath.item-1].certi_check {
-                            certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+//                            certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                            cell.authUserChangeUI(certi_check.containsTrue)
                         }
                     }
                     
@@ -704,7 +703,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                     for i in  0 ..< list.count {
                         if list[i].mem_id == self.detailInfoModel.challenge_user?[indexPath.item - 1].mem_id ?? "추가된 계정" {
                             if let certi_check = list[indexPath.item-1].certi_check {
-                                certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+//                                certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                                cell.authUserChangeUI(certi_check.containsTrue)
                             }
                         }
                     }
@@ -720,7 +720,8 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
             if list.count > 0 {
                 if list[indexPath.item-2].mem_id == self.detailInfoModel.challenge_user?[indexPath.item-2].mem_id {
                     if let certi_check = list[indexPath.item-2].certi_check {
-                        certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+//                        certi_check.lowercased().contains("y") ? cell.authUserChangeUI(true) : cell.authUserChangeUI(false)
+                        cell.authUserChangeUI(certi_check.containsTrue)
                     }
                 }
                 
@@ -766,7 +767,7 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
         
         let notificationContent = UNMutableNotificationContent()
         
-        notificationContent.title = "\(self.detailInfoModel.encodedTitle!)"
+        notificationContent.title = "\(self.detailInfoModel.decodedTitle!)"
         notificationContent.body = "오늘도 단, 하루와 함께 \(makeNotificationBody())"
         notificationContent.userInfo = ["weblink":"danharu://pushopentodo?todoidx=\(self.detailInfoModel.todo_id!)"]
         notificationContent.categoryIdentifier = "dismissCategoryID"
@@ -825,13 +826,15 @@ extension TodoListDetailViewController: AVAudioPlayerDelegate, AudioUIChangeProt
                         if let certi_check = list[i].certi_check {
                             print("certiCheck \(certi_check)")
                             // 단순 체크
-                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
+//                            if certi_check.lowercased().contains("y") && list[i].certi_voice == nil {
+                            if certi_check.containsTrue && list[i].certi_voice == nil {
                                 self.isRegisterAuth = true
                                 self.isCheckAuth = true
                                 self.regiAuthUpdate(isShow: true)
                                 checkAnimation.isHidden = false
                                 checkAnimation.play()
-                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
+//                            } else if certi_check.lowercased().contains("y") && list[i].certi_voice != nil {
+                            } else if certi_check.containsTrue && list[i].certi_voice != nil {
                                 
                             }
                             

@@ -177,7 +177,7 @@ extension MyChallengeListViewController: SkeletonCollectionViewDataSource {
         let modelList = getCollectModel(by: collectionViewTag)
         for (idx, model) in modelList.enumerated() {
             if idx == indexPath.item {
-                cell.cellTitle.text = model.encodedTitle
+                cell.cellTitle.text = model.decodedTitle
                 cell.cellDateLabel.text = model.fr_date?.stringToDate()?.dateToStr(format: "dd.MM.YYYY")
                 cell.changeColorByUse(model.use_yn?.lowercased() == "n")
             }

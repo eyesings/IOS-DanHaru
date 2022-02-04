@@ -24,6 +24,18 @@ extension String {
     func stringToDate(format: String = "yyyy-MM-dd") -> Date? {
         return DateFormatter(format: format).date(from: self)
     }
+    
+    func isTrue() -> Bool {
+        return self.lowercased() == "y"
+    }
+    
+    func stringContainsValue(_ val: String = "y") -> Bool {
+        return self.lowercased().contains(val)
+    }
+    
+    var containsTrue: Bool {
+        return self.stringContainsValue()
+    }
 }
 
 

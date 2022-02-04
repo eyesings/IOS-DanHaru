@@ -21,7 +21,7 @@ struct TodoModel: Codable, Hashable {
     var todo_id: Int?
     var mem_id: String?
     var title: String?
-    var encodedTitle: String? {
+    var decodedTitle: String? {
         get { return title != nil ? title?.decodeEmoji() : nil }
     }
     var fr_date: String?

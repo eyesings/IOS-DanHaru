@@ -23,7 +23,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate,Skeleto
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoListTableViewCell.reusableIdentifier,
                                                        for: indexPath) as? TodoListTableViewCell,
-              let todoTitle = self.todoListModel.model[indexPath.row].encodedTitle
+              let todoTitle = self.todoListModel.model[indexPath.row].decodedTitle
         else { return UITableViewCell() }
         
         let todoModel = self.todoListModel.model[indexPath.row]

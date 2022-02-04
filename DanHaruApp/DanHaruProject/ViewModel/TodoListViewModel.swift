@@ -118,7 +118,8 @@ class TodoDetailUpdateViewModel {
     private var model: TodoDetailUpdateModel = TodoDetailUpdateModel()
     /// 인증 수단 여부 값(certi_yn : nil -> todoModel.certi_yn 으로 변경)
     init(_ todoModel: TodoModel, notiCycle: String?, notiTime: String?, completionHandler: @escaping () -> Void, errHandler: @escaping (APIType) -> Void) {
-        self.model = TodoDetailUpdateModel(title: todoModel.encodedTitle,
+        
+        self.model = TodoDetailUpdateModel(title: todoModel.title,
                                            fr_date: todoModel.fr_date,
                                            ed_date: todoModel.ed_date,
                                            noti_cycle: notiCycle,

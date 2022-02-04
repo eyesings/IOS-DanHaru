@@ -124,7 +124,6 @@ final class TodoListDetailViewController: UIViewController, UIImagePickerControl
     let checkAnimation = AnimationView()
     
     // 화면 UI 변수
-    var titleText: String = ""
     var startDate: String = ""
     var endDate: String = ""
     var noti_time: String = "알림 OFF"
@@ -152,23 +151,22 @@ final class TodoListDetailViewController: UIViewController, UIImagePickerControl
         /// 스크롤시 키보드 숨김 처리
         mainScrollView.delegate = self
         
-        //토큰 등록(삭제 X)
-        let pushCheck = UserDefaults.standard.string(forKey: "\(self.detailInfoModel?.todo_id ?? 0)")
-        if pushCheck == nil {
-            // 최초 진입 푸시 등록
-            ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", self.detailInfoModel?.todo_id ?? 0)
-            UserDefaults.standard.setValue("Y", forKey: "\(self.detailInfoModel?.todo_id ?? 0)")
-        } else {
-            pushCheck!.lowercased().contains("y") ? notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal) : notificationStateBtn.setImage(UIImage(named: "mute"), for: .normal)
-        }
-        
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillTerminate(_:)), name: Configs.NotificationName.audioRecordRemove, object: nil)
         
         guard let rootVC = RadHelper.getRootViewController() else { return }
         rootVC.hideLoadingView()
         
+        guard let todoIdx = self.detailInfoModel.todo_id else { return }
+        //토큰 등록(삭제 X)
+        let pushCheck = UserDefaults.standard.string(forKey: "\(todoIdx)")
+        if pushCheck == nil {
+            // 최초 진입 푸시 등록
+            ViewModelService.todoSubjectTokenService(Messaging.messaging().fcmToken ?? "", todoIdx)
+            UserDefaults.standard.setValue("Y", forKey: "\(self.detailInfoModel?.todo_id ?? 0)")
+        } else {
+            pushCheck!.lowercased().contains("y") ? notificationStateBtn.setImage(UIImage(named: "unmute"), for: .normal) : notificationStateBtn.setImage(UIImage(named: "mute"), for: .normal)
+        }
         
     }
     

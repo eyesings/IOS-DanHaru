@@ -97,16 +97,15 @@ extension TodoListDetailViewController {
             return
         }
         
+        guard let todoIdx = self.detailInfoModel.todo_id else { return }
+        
         // 입력한 값들을 모델에 입력
-        self.detailInfoModel.title = self.titleTextField.text
+        self.detailInfoModel.title = self.titleTextField.text?.encodeEmoji()
+        
         self.detailInfoModel.fr_date = self.startDateLabel.text
         self.detailInfoModel.ed_date = self.endDateLabel.text
         
         let notiCycle = self.selectedNotiToStringArr().joined(separator: ",")
-        if !notiCycle.isEmpty {
-            self.detailInfoModel.noti_cycle = notiCycle
-            self.detailInfoModel.noti_time = self.cycleTimeLabel.text
-        }
         
         let isCheck = self.isCheckAuth ? "Y" : "N"
         
@@ -116,9 +115,31 @@ extension TodoListDetailViewController {
             self.appendNotificationSchedule()
         }
         
+        func reDetectDetailVM(_frDate: String?) {
+            guard let frDate = self.detailInfoModel.fr_date
+            else { return }
+            _ = TodoDetailViewModel.init(todoIdx, _frDate ?? frDate) { model in
+                self.detailInfoModel = model
+                if self.isForInviteFriend {
+                    self.isForInviteFriend = false
+                    self.invitedMemId = nil
+                }
+                updateUI()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
+                                                               message: RadMessage.AlertView.successUptDetail,
+                                                               isNeedCancel: false,
+                                                               viewController: self)
+                    
+                    guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
+                    rootVC.hideLoadingView()
+                }
+            } errHandler: { Dprint("occur Error \($0)") }
+        }
+        
         if self.isForInviteFriend {
-            guard let todoIdx = self.detailInfoModel?.todo_id,
-                  let invitedMemId = self.invitedMemId
+            guard let invitedMemId = self.invitedMemId
             else { Dprint("was fail something"); return }
             
             _ = TodoCreateChallengeViewModel.init(todoIdx, invitedMemId) {
@@ -126,18 +147,10 @@ extension TodoListDetailViewController {
                 self.detailInfoModel.challange_status = TodoChallStatus.doing.rawValue
                 _ = TodoDetailUpdateViewModel.init(self.detailInfoModel,
                                                    notiCycle: notiCycle.isEmpty ? nil : notiCycle,
-                                                   notiTime: notiCycle.isEmpty ? nil : self.cycleTimeLabel.text,
-                                                   completionHandler: {
-                    _ = TodoDetailViewModel.init(todoIdx, self.detailInfoModel.fr_date!, completionHandler: { model in
-                        self.detailInfoModel = model
-                        self.isForInviteFriend = false
-                        self.invitedMemId = nil
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            updateUI()
-                        }
-                        
-                    }, errHandler: { Dprint("occur Error \($0)") })
-                }, errHandler: { Dprint("occur Error \($0)") })
+                                                   notiTime: notiCycle.isEmpty ? nil : self.cycleTimeLabel.text) {
+                    reDetectDetailVM(_frDate: nil)
+                    
+                } errHandler: { Dprint("occur Error \($0)") }
             } errHandler: { Dprint("error \($0)") }
             return
         }
@@ -149,71 +162,27 @@ extension TodoListDetailViewController {
             // 본인 인증
             // 인증 수단이 체크가 되었는지 확인
             if self.isCheckAuth != false || self.selectedImage.count > 0 || self.audioRecorder != nil {
-                // 인증 등록 중첩 방지
-                if !self.aleadyRegisterAuth {
-                    _ = TodoCreateCertificateViewModel.init(self.detailInfoModel.todo_id ?? 0, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
+                
+                func createCertificateVM() {
+                    _ = TodoCreateCertificateViewModel.init(todoIdx, UserModel.memberId ?? "", isCheck, self.selectedImage, self.audioRecorder, { handler in
                         
                         if handler {
                             // 업로드 성공
-                            
-                            let _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id ?? 0 , self.selectedDay) { model in
-                                self.detailInfoModel = model
-                                updateUI()
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                    RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
-                                                                               message: RadMessage.AlertView.successUptDetail,
-                                                                               isNeedCancel: false,
-                                                                               viewController: self)
-                                    guard let rootVC = RadHelper.getRootViewController() else { Dprint("rootVC 없음"); return }
-                                    rootVC.hideLoadingView()
-                                }
-                                
-                                
-                            } errHandler: { type in
-                                print("error Type :: \(type)")
-                            }
-                            
-                            
+                            reDetectDetailVM(_frDate: self.selectedDay)
                         } else {
                             // 업로드 실패
-                            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle, message: RadMessage.AlertView.authUploadFail, isNeedCancel: false, viewController: self, completeHandler: nil)
+                            RadAlertViewController.alertControllerShow(WithTitle: RadMessage.basicTitle,
+                                                                       message: RadMessage.AlertView.authUploadFail,
+                                                                       isNeedCancel: false,
+                                                                       viewController: self)
                         }
-                        
                     })
-                    
-                } else {
-                    
-                    _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
-                        self.detailInfoModel = model
-                        RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
-                                                                   message: RadMessage.AlertView.successUptDetail,
-                                                                   isNeedCancel: false,
-                                                                   viewController: self) { _ in
-                            updateUI()
-                        }
-                        DispatchQueue.main.async {
-                            RadHelper.getRootViewController()?.hideLoadingView()
-                        }
-                    }, errHandler: { Dprint("occur Error \($0)") })
-                    
                 }
                 
+                self.aleadyRegisterAuth ? reDetectDetailVM(_frDate: nil) : createCertificateVM()
                 
             } else {
-                
-                _ = TodoDetailViewModel.init(self.detailInfoModel.todo_id!, self.detailInfoModel.fr_date!, completionHandler: { model in
-                    self.detailInfoModel = model
-                    RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
-                                                               message: RadMessage.AlertView.successUptDetail,
-                                                               isNeedCancel: false,
-                                                               viewController: self) { _ in
-                        updateUI()
-                    }
-                    DispatchQueue.main.async {
-                        RadHelper.getRootViewController()?.hideLoadingView()
-                    }
-                }, errHandler: { Dprint("occur Error \($0)") })
+                reDetectDetailVM(_frDate: nil)
             }
             
         } errHandler: { Dprint("type \($0)") }
@@ -284,23 +253,21 @@ extension TodoListDetailViewController {
         
         RadAlertViewController.alertControllerShow(WithTitle: "알림", message: "정말로 삭제하시겠습니까?", isNeedCancel: true, viewController: self) { check in
             
-            if check {
+            if check, let deleteUrl = self.audioRecorder?.url {
                 
-                if let deleteUrl = self.audioRecorder?.url {
-                    do {
-                        try FileManager.default.removeItem(at: deleteUrl)
-                        
-                        self.audioPlayArea.isHidden = true
-                        self.regiAuthUpdate(isShow: false)
-                        self.isRegisterAuth = false
-                        
-                    } catch _ {
-                        print("audioFile remove failed")
-                    }
-                } else {
-                    print("audioRecorder url nil")
+                do {
+                    try FileManager.default.removeItem(at: deleteUrl)
+                    
+                    self.audioPlayArea.isHidden = true
+                    self.regiAuthUpdate(isShow: false)
+                    self.isRegisterAuth = false
+                    
+                } catch _ {
+                    print("audioFile remove failed")
                 }
                 
+            } else {
+                print("audioRecorder url nil")
             }
             
         }
@@ -314,36 +281,26 @@ extension TodoListDetailViewController {
     /// 녹음파일 재생 및 정지
     @objc func audioPlayStopButtonAction(_ sender: UIButton) {
         
-        if sender.imageView?.image == UIImage(named: "btnPlayCircle") {
+        guard let recorder = self.audioRecorder else { return }
+        
+        self.audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
+        if let player = self.audioPlayer {
+            player.delegate = self
             
-            if let recorder = self.audioRecorder {
-                
-                self.audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
-                
-                if let player = self.audioPlayer {
-                    player.delegate = self
-                    player.play()
-                    progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: timeRecordSelector, userInfo: nil, repeats: true)
-                    sender.setImage(UIImage(named: "btnPauseCircle"), for: .normal)
-                    
-                } else {
-                    print("player nil error")
-                }
-                
+            if sender.imageView?.image == UIImage(named: "btnPlayCircle") {
+                player.play()
+                sender.setImage(UIImage(named: "btnPauseCircle"), for: .normal)
+                progressTimer = Timer.scheduledTimer(timeInterval: 0.1,
+                                                     target: self,
+                                                     selector: timeRecordSelector,
+                                                     userInfo: nil,
+                                                     repeats: true)
+            } else {
+                player.pause()
+                sender.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
             }
-            
-            
         } else {
-            if let recorder = self.audioRecorder {
-                self.audioPlayer = try? AVAudioPlayer(contentsOf: recorder.url)
-                if let player = self.audioPlayer {
-                    player.delegate = self
-                    player.pause()
-                    sender.setImage(UIImage(named: "btnPlayCircle"), for: .normal)
-                }
-                
-            }
-            
+            print("player nil error")
         }
         
     }
@@ -495,8 +452,10 @@ extension TodoListDetailViewController {
     
     @objc func sendPushButtonAction(_ sender: UIButton) {
         
-        guard let todoIdx = self.detailInfoModel.todo_id else { return }
-        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(self.titleText)' 에서 인증을 해주세요.", todoIdx)
+        guard let todoIdx = self.detailInfoModel.todo_id,
+              let todoTitle = self.detailInfoModel.decodedTitle
+        else { return }
+        ViewModelService.todoSubjectSendPush(RadMessage.basicTitle, "오늘도 단,하루와 함께 일정을 관리해요. \n'\(todoTitle)' 에서 인증을 해주세요.", todoIdx)
         
     }
     
