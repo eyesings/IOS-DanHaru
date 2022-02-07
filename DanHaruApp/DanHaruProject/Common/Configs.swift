@@ -29,6 +29,7 @@ struct StoryBoardRef {
     static let settingVC         = "SETTING_VC"
     static let myChallangeVC     = "CHALLENGE_VC"
     static let askVC             = "ASK_VC"
+    static let askDetailVC       = "ASK_DETAIL_VC"
 }
 
 /// CollectionView ID 모음

@@ -106,7 +106,13 @@ extension TodoListDetailViewController {
         self.detailInfoModel.ed_date = self.endDateLabel.text
         
         let notiCycle = self.selectedNotiToStringArr().joined(separator: ",")
-        
+        if notiCycle.count > 0, self.cycleTimeLabel.text == "알림 OFF" {
+            RadAlertViewController.basicAlertControllerShow(WithTitle: RadMessage.title,
+                                                            message: RadMessage.AlertView.doNotSetNotiTime,
+                                                            isNeedCancel: false,
+                                                            viewController: self)
+            return
+        }
         let isCheck = self.isCheckAuth ? "Y" : "N"
         
         func updateUI() {
@@ -406,7 +412,9 @@ extension TodoListDetailViewController {
                 let messageComposeViewController = MFMessageComposeViewController()
                 messageComposeViewController.body = "[단,하루 초대장]\n단,하루 앱에 초대 받았어요! 친구와 함께 목표를 달성해 보세요!\n 👉🏼 \(deepLinkUrl)"
                 messageComposeViewController.messageComposeDelegate = self
-                self.present(messageComposeViewController, animated: true, completion: nil)
+                self.present(messageComposeViewController, animated: true) {
+                    self.hideLoadingView()
+                }
             }
             
         } else {

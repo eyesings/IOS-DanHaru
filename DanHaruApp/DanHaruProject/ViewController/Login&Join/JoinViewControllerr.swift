@@ -100,6 +100,7 @@ final class JoinViewController: UIViewController {
     
     @IBAction func onTapCloseBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func panEdgeSwipeGesture(_ sender: UIScreenEdgePanGestureRecognizer) {

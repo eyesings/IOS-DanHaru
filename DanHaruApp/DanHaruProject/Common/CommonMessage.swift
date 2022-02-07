@@ -16,9 +16,9 @@ extension RadMessage {
     }
     
     struct Main {
-        static let noneTodoListInfo    = "오늘의 목표가 없어요!"
+        static let noneTodoListInfo    = "등록된 목표가 없어요!"
         static let noneTodoListSubInfo = "일정을 등록하여 손쉽게 관리하여 보세요.\n친구를 초대하여 같은 목표를 향해 함께 도전해 보세요."
-        static let noneTodoListAddTodo = "오늘 할 일 등록하러 가기"
+        static let noneTodoListAddTodo = "할 일 등록하러 가기"
     }
     
     struct ASK {
@@ -68,6 +68,7 @@ extension RadMessage {
         static let successUptDetail   = "저장했어요."
         static let useNTodoChallenge  = "삭제된 챌린지에요."
         static let compareDateError   = "시작 날짜가 종료 날짜보다 늦을 순 없어요."
+        static let doNotSetNotiTime   = "알림 받을 시간을 설정해주세요."
     }
     
     struct FindUserInfo {

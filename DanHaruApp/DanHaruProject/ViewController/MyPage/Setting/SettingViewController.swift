@@ -44,8 +44,11 @@ class SettingViewController: UIViewController {
     
     @IBAction func onTapAskBtn(_ sender: UIButton) {
         
-        if let askVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.askVC) as? AskViewController {
-            self.navigationController?.pushViewController(askVC)
+        if let askDetailVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.askDetailVC) as? AskDetailViewController {
+//        if let askVC = RadHelper.getVCFromMyPageSB(withID: StoryBoardRef.askVC) as? AskViewController {
+//            self.navigationController?.pushViewController(askVC)
+            askDetailVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(askDetailVC, animated: true, completion: nil)
         }
     }
     
@@ -76,8 +79,13 @@ class SettingViewController: UIViewController {
                                                                 isNeedCancel: true,
                                                                 viewController: self) { isCheck in
                     if isCheck {
-                        if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
-                            appdelegate.switchToHome(needMovePageRef: StoryBoardRef.loginVC)
+//                        if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
+//                            appdelegate.switchToHome(needMovePageRef: StoryBoardRef.loginVC)
+//                        }
+                        let loginVC = RadHelper.getVCFromUserJoinSB(withID: StoryBoardRef.loginVC)
+                        loginVC.modalPresentationStyle = .fullScreen
+                        self.present(loginVC, animated: true) {
+                            self.navigationController?.popToMainViewController()
                         }
                     } else {
                         NotificationCenter.default.post(name: Configs.NotificationName.reloadAfterLogout, object: nil)

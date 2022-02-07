@@ -73,7 +73,14 @@ final class LoginViewController: UIViewController {
     @IBAction func onTapJoinBtn(_ sender: UIButton) {
         if let joinVC = RadHelper.getVCFromUserJoinSB(withID: StoryBoardRef.joinVC) as? JoinViewController {
             joinVC.isFromLoginVC = true
-            self.navigationController?.pushViewController(joinVC, animated: true)
+            
+            guard let naviVC = self.navigationController
+            else {
+                joinVC.modalPresentationStyle = .fullScreen
+                self.present(joinVC, animated: true, completion: nil)
+                return
+            }
+            naviVC.pushViewController(joinVC, animated: true)
         }
     }
     
