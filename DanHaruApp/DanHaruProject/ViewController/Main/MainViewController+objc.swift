@@ -41,7 +41,7 @@ extension MainViewController {
         
         self.invitedTodoIdx = Int(todoidxStr)
         if let loginId = UserModel.memberId, loginId != custId {
-            self.invitedFriendId = custId
+            self.invitedFriendID = custId
         }
         
         moveToDetailVC()

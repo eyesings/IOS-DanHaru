@@ -6,21 +6,55 @@
 //
 
 import UIKit
-import Lottie
-import SnapKit
-import SkeletonView
 import AVFAudio
 import AVFoundation
 
+import Lottie
+import SnapKit
+import SkeletonView
+import Then
+
 final class MainViewController: UIViewController, UITextFieldDelegate,CustomToolBarDelegate {
     
-    var dateLabel = UILabel()
-    let calendarAnimation = AnimationView()
+    let dateLabel = UILabel().then {
+        $0.text = DateFormatter().korDateString(dateFormatter: RadMessage.DateFormattor.monthDate)
+        $0.adjustsFontSizeToFitWidth = true
+        $0.font = .boldSystemFont(ofSize: screenwidth * 0.08)
+        $0.minimumScaleFactor = screenwidth * 0.05
+    }
     
-    let calendarShowHideBtn = UIButton()
+    let calendarAnimation = AnimationView().then {
+        $0.contentMode = .scaleAspectFill
+        $0.loopMode = .loop
+    }
+    
+    lazy var calendarShowHideBtn = UIButton().then {
+        $0.addTarget(self, action: #selector(calendarShowHideAction(_:)), for: .touchUpInside)
+    }
+    
     let calendarView = UIView()
-    var calendar = CalendarView()
-    let todoListTableView = UITableView()
+    
+    lazy var calendar = CalendarView().then {
+        $0.frame = calendarView.frame
+        $0.delegate = self
+        $0.dataSource = self
+    }
+    
+    lazy var todoListTableView = UITableView().then {
+        $0.backgroundColor = .backgroundColor
+        $0.dataSource = self
+        $0.delegate = self
+        let reusableID = TodoListTableViewCell.reusableIdentifier
+        let nibName = UINib(nibName: reusableID, bundle: nil)
+        $0.register(nibName,
+                    forCellReuseIdentifier: reusableID)
+        $0.refreshControl = .init()
+        $0.refreshControl?.addTarget(self, action: #selector(pullToRefreshTableView(_:)), for: .valueChanged)
+        $0.showsVerticalScrollIndicator = false
+        $0.isSkeletonable = true
+        $0.rowHeight = 90
+        $0.separatorStyle = .none
+    }
     var cautionView = UIView()
     
     var networkView: NetworkErrorView!
@@ -31,7 +65,7 @@ final class MainViewController: UIViewController, UITextFieldDelegate,CustomTool
     var selectedIdxPath: IndexPath!
     var invitedTodoIdx: Int?
     var openDetailTotoIdx: Int?
-    var invitedFriendId: String?
+    var invitedFriendID: String?
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -191,18 +225,18 @@ extension MainViewController: NetworkErrorViewDelegate {
             func presentDetailVC() {
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(detailVC)
-                    self.invitedFriendId = nil
+                    self.invitedFriendID = nil
                     self.invitedTodoIdx = nil
                 }
             }
             
-            if let _ = self.invitedFriendId {
-                detailVC.invitedMemId = self.invitedFriendId
+            if let _ = self.invitedFriendID {
+                detailVC.invitedMemId = self.invitedFriendID
                 detailVC.isForInviteFriend = true
             }
             //FIXME: - 디테일 뷰 조회 및 인증 파일 함수 구현중
             let _ = TodoDetailViewModel(todoModelId, selectedDate) { model in
-                if model.use_yn?.lowercased() == "n" {
+                if model.use_yn?.isTrue() == false {
                     RadAlertViewController.alertControllerShow(WithTitle: RadMessage.title,
                                                                message: RadMessage.AlertView.useNTodoChallenge,
                                                                isNeedCancel: false,

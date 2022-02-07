@@ -79,6 +79,7 @@
 		B622FBB1274214C0002EC735 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB0274214C0002EC735 /* SettingViewController.swift */; };
 		B622FBB5274214E2002EC735 /* AskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B622FBB4274214E2002EC735 /* AskDetailViewController.swift */; };
 		B62C2EE8272A1FCD00D8FF8B /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62C2EE7272A1FCD00D8FF8B /* Configs.swift */; };
+		B64A2F5A27B0932A00697E76 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = B64A2F5927B0932A00697E76 /* Then */; };
 		B64ABEE227424F640058F161 /* CommonMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64ABEE127424F640058F161 /* CommonMessage.swift */; };
 		B671C362277D4F7200AD1D80 /* RadFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; };
 		B671C363277D4F7200AD1D80 /* RadFramework.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82A942A5277A834B005DAB54 /* RadFramework.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -396,6 +397,7 @@
 				B6C3FD2B272665A60046E35A /* SkeletonView in Frameworks */,
 				B6D770DB2766C955001B0566 /* FirebaseMessaging in Frameworks */,
 				828648ED272678C800EA5CAF /* SnapKit in Frameworks */,
+				B64A2F5A27B0932A00697E76 /* Then in Frameworks */,
 				B6C3FD27272665200046E35A /* Lottie in Frameworks */,
 				B6A686CF277A85D8007AC35A /* RadFramework.xcframework in Frameworks */,
 				B6AAE9512768863D00B5535A /* FirebaseDynamicLinks in Frameworks */,
@@ -961,6 +963,7 @@
 				828648EC272678C800EA5CAF /* SnapKit */,
 				B6D770DA2766C955001B0566 /* FirebaseMessaging */,
 				B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */,
+				B64A2F5927B0932A00697E76 /* Then */,
 			);
 			productName = DanHaruProject;
 			productReference = B6C3FCAC272661570046E35A /* DanHaruProject.app */;
@@ -998,6 +1001,7 @@
 				B6C3FD29272665A60046E35A /* XCRemoteSwiftPackageReference "SkeletonView" */,
 				828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				B6D770D92766C955001B0566 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				B64A2F5827B0932A00697E76 /* XCRemoteSwiftPackageReference "Then" */,
 			);
 			productRefGroup = B6C3FCAD272661570046E35A /* Products */;
 			projectDirPath = "";
@@ -1509,6 +1513,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		B64A2F5827B0932A00697E76 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		B6C3FD25272665200046E35A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios";
@@ -1540,6 +1552,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 828648EB272678C800EA5CAF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		B64A2F5927B0932A00697E76 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B64A2F5827B0932A00697E76 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
 		};
 		B6AAE9502768863D00B5535A /* FirebaseDynamicLinks */ = {
 			isa = XCSwiftPackageProductDependency;

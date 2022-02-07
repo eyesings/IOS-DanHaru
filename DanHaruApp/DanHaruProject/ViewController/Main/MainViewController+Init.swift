@@ -19,10 +19,6 @@ extension MainViewController {
         let pagePadding = screenwidth * 0.05
         
         self.view.addSubview(dateLabel)
-        dateLabel.text = DateFormatter().korDateString(dateFormatter: RadMessage.DateFormattor.monthDate)
-        dateLabel.adjustsFontSizeToFitWidth = true
-        dateLabel.font = .boldSystemFont(ofSize: screenwidth * 0.08)
-        dateLabel.minimumScaleFactor = pagePadding
         dateLabel.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).offset(screenwidth * 0.1)
             make.leading.equalTo(self.view).offset(screenwidth * 0.08)
@@ -37,8 +33,6 @@ extension MainViewController {
             make.leading.equalTo(dateLabel.snp.trailing)
             make.width.equalTo(screenwidth * 0.08)
         }
-        calendarAnimation.contentMode = .scaleAspectFill
-        calendarAnimation.loopMode = .loop
         
         /// 캘린더 노출, 숨김 버튼
         self.view.addSubview(calendarShowHideBtn)
@@ -46,18 +40,18 @@ extension MainViewController {
             make.trailing.equalTo(calendarAnimation)
             make.leading.top.bottom.equalTo(dateLabel)
         }
-        calendarShowHideBtn.addTarget(self, action: #selector(calendarShowHideAction(_:)), for: .touchUpInside)
         
         /// 할일 추가
-        let todoAddBtn = UIButton()
+        let todoAddBtn = UIButton().then {
+            $0.setImage(UIImage(named: "btnAdd"), for: .normal)
+            $0.addTarget(self, action: #selector(addAction(_:)), for: .touchUpInside)
+        }
         self.view.addSubview(todoAddBtn)
         todoAddBtn.snp.makeConstraints { make in
             make.trailing.equalTo(self.view).offset(-pagePadding)
             make.top.bottom.equalTo(dateLabel)
             make.width.equalTo(todoAddBtn.snp.height)
         }
-        todoAddBtn.setImage(UIImage(named: "btnAdd"), for: .normal)
-        todoAddBtn.addTarget(self, action: #selector(addAction(_:)), for: .touchUpInside)
         
         /// 캘린더 뷰
         self.view.addSubview(calendarView)
@@ -68,11 +62,7 @@ extension MainViewController {
             make.height.equalTo(0)
         }
         
-        calendar = CalendarView(frame: calendarView.frame)
-        calendar.delegate = self
-        calendar.dataSource = self
         calendarView.addSubview(calendar)
-        
         calendar.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(calendarView)
         }
@@ -83,18 +73,6 @@ extension MainViewController {
             make.top.equalTo(self.calendarView.snp.bottom).offset(10)
             make.bottom.leading.trailing.equalTo(self.view)
         }
-        todoListTableView.backgroundColor = .backgroundColor
-        todoListTableView.dataSource = self
-        todoListTableView.delegate = self
-        todoListTableView.register(UINib(nibName: TodoListTableViewCell.reusableIdentifier, bundle: nil),
-                                   forCellReuseIdentifier: TodoListTableViewCell.reusableIdentifier)
-        todoListTableView.refreshControl = UIRefreshControl()
-        todoListTableView.refreshControl?.addTarget(self, action: #selector(pullToRefreshTableView(_:)), for: .valueChanged)
-        todoListTableView.showsVerticalScrollIndicator = false
-        todoListTableView.isSkeletonable = true
-        todoListTableView.rowHeight = 90
-        todoListTableView.separatorStyle = .none
-        
         todoListTableView.addSubview(cautionView)
     }
     

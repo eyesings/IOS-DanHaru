@@ -21,9 +21,9 @@ final class MyPageNonLoginViewController: UIViewController {
     }
     
     @IBAction func onTapMoveToLogin(_ sender: UIButton) {
-        if let appdelegate = UIApplication.shared.delegate as? AppDelegate {
-            appdelegate.switchToHome(needMovePageRef: StoryBoardRef.loginVC)
-        }
+        let loginVC = RadHelper.getVCFromUserJoinSB(withID: StoryBoardRef.loginVC)
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true, completion: nil)
     }
     
     @IBAction func onTapMoveSetting(_ sender: UIButton) {

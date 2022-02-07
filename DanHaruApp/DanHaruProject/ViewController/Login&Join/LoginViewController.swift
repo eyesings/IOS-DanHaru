@@ -51,6 +51,7 @@ final class LoginViewController: UIViewController {
     // MARK: - OBJC Method
     @IBAction func onTapBackBtn(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func onTapStartBtn(_ sender: UIButton) {
